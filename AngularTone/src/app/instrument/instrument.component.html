@@ -1,58 +1,72 @@
-<mat-card>
-  <mat-card-title class="title">The Instrument</mat-card-title>
-</mat-card>
-<mat-grid-list cols="1" rowHeight="3.5:1">
-  <mat-grid-tile>
-    <button *ngFor="let note of notes"
+<div class="centered">
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleSnare()"
+          [ngClass]="{ 'currently-playing': snareTrack && !snareTrack.mute }">
+  Play Snare
+</button>
+
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleKick()"
+          [ngClass]="{ 'currently-playing': kickTrack && !kickTrack.mute }">          
+  Play Kick
+</button>
+
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleHiHat()"
+          [ngClass]="{ 'currently-playing': hiHatTrack && !hiHatTrack.mute }">
+  Play HiHat
+</button>
+
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleClap()"
+          [ngClass]="{ 'currently-playing': clapTrack && !clapTrack.mute }">          
+  Play Clap
+</button>
+</div>
+
+<mat-grid-list cols="4" rowHeight="400px">
+
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button class="pad"
             mat-stroked-button
             color="primary"
-            (click)="playNote(note)">
-      ♪ {{ note }}
+            (click)="playKick()">
+      Kick 
     </button>
   </mat-grid-tile>
-</mat-grid-list>
 
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button class="pad"
+            mat-stroked-button
+            color="primary"
+            (click)="playSnare()">
+      Snare 
+    </button>
+  </mat-grid-tile>
 
-<mat-grid-list cols="6" rowHeight="10:2">
-  <mat-grid-tile>
-    <button mat-stroked-button
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button class="pad" 
+            mat-stroked-button
             color="primary"
-            (click)="toggleMelody()"
-            [ngClass]="{ 'currently-playing': melodyPart && !melodyPart.mute }">
-      🎹 Melody
+            (click)="playClosedHat()">
+      HiHat 
     </button>
   </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
+
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button class="pad"
+            mat-stroked-button
             color="primary"
-            (click)="toggleBass()"
-            [ngClass]="{ 'currently-playing': bassPart && !bassPart.mute }">
-      🎸 Bass
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="toggleNoise()"
-            [ngClass]="{ 'currently-playing': noise && !noise.mute }">
-      💨 Noise
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="playRandomDrumSample()">
-      🍄 Mario
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button color="primary" (click)="speedUpBpm()">
-      👟 Speed up
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button color="primary" (click)="stopInstruments()">
-      ⏹ Stop
+            (click)="playClap()">
+      Clap 
     </button>
   </mat-grid-tile>
 </mat-grid-list>
