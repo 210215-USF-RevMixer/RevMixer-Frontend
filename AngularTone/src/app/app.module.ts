@@ -7,15 +7,18 @@ import { AppComponent } from './app.component';
 import { InstrumentComponent } from './instrument/instrument.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 
+import { NavbarComponent } from './Components/shared/navbar/navbar.component';
+import { FooterComponent } from './Components/shared/footer/footer.component';
+import { HubComponent } from './Components/pages/hub/hub.component';
+
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
