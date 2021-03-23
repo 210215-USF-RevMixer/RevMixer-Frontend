@@ -22,4 +22,5 @@ describe('HubComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
