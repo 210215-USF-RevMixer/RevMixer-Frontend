@@ -16,9 +16,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { NavbarComponent } from './Components/shared/navbar/navbar.component';
 import { FooterComponent } from './Components/shared/footer/footer.component';
 import { HubComponent } from './Components/pages/hub/hub.component';
+import { ProfileComponent } from './Components/pages/profile/profile.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
