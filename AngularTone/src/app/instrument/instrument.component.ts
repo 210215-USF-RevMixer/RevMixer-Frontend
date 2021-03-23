@@ -31,24 +31,27 @@ export class InstrumentComponent implements OnInit {
     this.notes = ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'];
     this.minVolume = new Tone.Volume(-30);
     this.mediumVolume = new Tone.Volume(-15);
-    this.initializeBrassInstrument();
+    this.initializeDrumMachine();
   }
 
-  private initializeBrassInstrument() {
+  private initializeDrumMachine() {
     this.sampler = new Tone.Sampler({
-      G2: '../../assets/TR-808Clap01.wav'
+      C3: '../../assets/Kick.wav',
+      D3: '../../assets/Snare.wav',
+      E3: '../../assets/ClosedHat.wav',
+      F3: '../../assets/Clap.wav'
     }).chain(this.mediumVolume, Tone.Master);
 
-    this.polySynthSquare = new Tone.MonoSynth({
-      oscillator: {
-        type: 'square'
-      }
-    }).chain(new Tone.Volume(-25), Tone.Master);
+    // this.polySynthSquare = new Tone.MonoSynth({
+    //   oscillator: {
+    //     type: 'square'
+    //   }
+    // }).chain(new Tone.Volume(-25), Tone.Master);
   }
 
   playNote(note: string) {
     this.sampler.triggerAttack(note);
-    this.polySynthSquare.triggerAttackRelease(note, '4n'); 
+    // this.polySynthSquare.triggerAttackRelease(note, '4n'); 
   }
 
   toggleMelody() {
@@ -67,11 +70,11 @@ export class InstrumentComponent implements OnInit {
 
       this.melodyPart = new Tone.Part((time, chord) => {
         this.sampler.triggerAttackRelease(chord.note, chord.duration, time);
-        this.polySynthSaw.triggerAttackRelease(
-          chord.note,
-          chord.duration,
-          time
-        );
+        // this.polySynthSaw.triggerAttackRelease(
+        //   chord.note,
+        //   chord.duration,
+        //   time
+        // );
       }, melodyChords);
 
       this.playPart(this.melodyPart);
@@ -87,7 +90,7 @@ export class InstrumentComponent implements OnInit {
 
     part.start(0);
     part.loop = true;
-    part.loopEnd = '4m';
+    part.loopEnd = '400i';
   }
 
   toggleBass() {

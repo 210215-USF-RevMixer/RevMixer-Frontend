@@ -5,7 +5,16 @@ mat-card-title {text-align: center;}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-button {
+.centered {
+  text-align: center;
+}
+
+.playButton {
+  height: 50px;
+  width: 100px;
+}
+
+.pad {
   height: 400px;
   width: 800px;
 }

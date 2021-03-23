@@ -1,6 +1,18 @@
+<div class="centered">
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleMelody()"
+          [ngClass]="{ 'currently-playing': melodyPart && !melodyPart.mute }">
+  Play Rhythm
+</button>
+</div>
+
 <mat-grid-list cols="4" rowHeight="400px">
+
   <mat-grid-tile [colspan] = "2" [rowspan] = "1">
-    <button mat-stroked-button
+    <button class="pad"
+            mat-stroked-button
             color="primary"
             (click)="playKick()">
       Kick 
@@ -8,7 +20,8 @@
   </mat-grid-tile>
 
   <mat-grid-tile [colspan] = "2" [rowspan] = "1">
-    <button mat-stroked-button
+    <button class="pad"
+            mat-stroked-button
             color="primary"
             (click)="playSnare()">
       Snare 
@@ -16,7 +29,8 @@
   </mat-grid-tile>
 
   <mat-grid-tile [colspan] = "2" [rowspan] = "1">
-    <button mat-stroked-button
+    <button class="pad" 
+            mat-stroked-button
             color="primary"
             (click)="playClosedHat()">
       HiHat 
@@ -24,10 +38,15 @@
   </mat-grid-tile>
 
   <mat-grid-tile [colspan] = "2" [rowspan] = "1">
-    <button mat-stroked-button
+    <button class="pad"
+            mat-stroked-button
             color="primary"
             (click)="playClap()">
       Clap 
     </button>
   </mat-grid-tile>
 </mat-grid-list>
+
+
+
+
