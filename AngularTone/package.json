@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~11.2.6",
     "@angular/platform-browser-dynamic": "~11.2.6",
     "@angular/router": "~11.2.6",
+    "@material/mwc-icon-button": "^0.20.0",
     "rxjs": "~6.6.0",
     "tone": "^14.7.77",
     "tslib": "^2.0.0",

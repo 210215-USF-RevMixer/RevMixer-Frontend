@@ -1,4 +1,4 @@
-<mat-grid-list cols="1" rowHeight="3.5:1">
+<!-- <mat-grid-list cols="1" rowHeight="3.5:1">
   <mat-grid-tile>
     <button *ngFor="let note of notes"
             mat-stroked-button
@@ -7,49 +7,177 @@
       ♪ {{ note }}
     </button>
   </mat-grid-tile>
+</mat-grid-list> -->
+
+
+<mat-grid-list cols="4" rowHeight="400px">
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button mat-stroked-button
+            color="primary"
+            (click)="playKick()">
+      Kick 
+    </button>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button mat-stroked-button
+            color="primary"
+            (click)="playSnare()">
+      Snare 
+    </button>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button mat-stroked-button
+            color="primary"
+            (click)="playClosedHat()">
+      HiHat 
+    </button>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button mat-stroked-button
+            color="primary"
+            (click)="playClap()">
+      Clap 
+    </button>
+  </mat-grid-tile>
 </mat-grid-list>
 
 
-<mat-grid-list cols="6" rowHeight="10:2">
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="toggleMelody()"
-            [ngClass]="{ 'currently-playing': melodyPart && !melodyPart.mute }">
-      🎹 Melody
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="toggleBass()"
-            [ngClass]="{ 'currently-playing': bassPart && !bassPart.mute }">
-      🎸 Bass
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="toggleNoise()"
-            [ngClass]="{ 'currently-playing': noise && !noise.mute }">
-      💨 Noise
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="playRandomMarioSample()">
-      🍄 Mario
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button color="primary" (click)="speedUpBpm()">
-      👟 Speed up
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button color="primary" (click)="stopInstruments()">
-      ⏹ Stop
-    </button>
-  </mat-grid-tile>
-</mat-grid-list>
+
+
+<!-- <button aria-label="Trigger">
+  <mwc-icon>
+    "play_arrow"
+  </mwc-icon>
+  </button>
+  
+  <div id="container">
+    <div id="label">
+      <label for="slider">
+        "tempo"
+      </label>
+      <span class="value">
+        "120"
+        <span class="units">
+          "bpm"
+        </span>
+      </span>
+    </div>
+  
+    <div tabindex="0" role="slider" class="mdc-slider mdc-slider--disable-touch-action" aria-valumin="60" aria-valuemax="240" aria-valuenow="120" data-step="0">
+      <div class="mdc-slider_track-container">
+        <div class="mdc-slider_track" style="transform: scaleX(0.333333);">
+                  </div>
+        ::after
+      </div>
+      <div class="mdc-slider_thumb-container" style="transform: translateX(40px) translateX(-50%);">
+        <svg class="mdc-slider_thumb" width="21" height="21">
+          <circle cx="10.5" cy="10.5" r="7.875"></circle>
+        </svg>
+        <div class="mdc-slider_focus-ring"></div>
+      </div>
+    </div>
+  
+
+<div class="sequencer-grid">
+  <div id="container" style="height: 150px;">
+    <div class="column">
+      <button mat-stroked-button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <div class="column">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+  </div>  
+</div> -->

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {
   melodyChords,
   bassChords,
-  marioSamples
+  marioSamples,
+  drumSamples
 } from './notes.const';
 import * as Tone from 'tone';
-
 
 @Component({
   selector: 'app-instrument',
@@ -120,9 +120,9 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  playRandomMarioSample() {
+  playRandomDrumSample() {
     this.playSample(
-      marioSamples[Math.floor(Math.random() * marioSamples.length)]
+      drumSamples[Math.floor(Math.random() * drumSamples.length)]
     );
   }
 
@@ -135,6 +135,22 @@ export class InstrumentComponent implements OnInit {
 
   speedUpBpm() {
     Tone.Transport.bpm.value += 20;
+  }
+
+  playKick() {
+    this.playSample('Kick');
+  }
+
+  playSnare() {
+    this.playSample('Snare');
+  }
+
+  playClosedHat() {
+    this.playSample('ClosedHat');
+  }
+
+  playClap() {
+    this.playSample('Clap');
   }
 
   stopInstruments() {
@@ -151,6 +167,12 @@ export class InstrumentComponent implements OnInit {
       instrument.stop();
     }
   }
+
+index = 0;
+
+   
+
+
 
 
 }

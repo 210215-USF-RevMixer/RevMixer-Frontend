@@ -208,3 +208,11 @@ export const marioSamples: string[] = [
   'jump',
   'powerup'
 ];
+
+export const drumSamples: string[] = [
+  'Kick',
+  'Snare',
+  'ClosedHat',
+  'Clap'
+];
+
