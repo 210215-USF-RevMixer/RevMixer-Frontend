@@ -15,9 +15,10 @@ import { NavbarComponent } from './Components/shared/navbar/navbar.component';
 import { FooterComponent } from './Components/shared/footer/footer.component';
 import { HubComponent } from './Components/pages/hub/hub.component';
 import { ProfileComponent } from './Components/pages/profile/profile.component';
+import { ChatroomComponent } from './Components/pages/chatroom/chatroom.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
