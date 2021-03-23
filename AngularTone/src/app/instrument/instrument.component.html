@@ -2,9 +2,33 @@
 <button class="playButton"
           mat-stroked-button
           color="primary"
-          (click)="toggleMelody()"
-          [ngClass]="{ 'currently-playing': melodyPart && !melodyPart.mute }">
-  Play Rhythm
+          (click)="toggleSnare()"
+          [ngClass]="{ 'currently-playing': snareTrack && !snareTrack.mute }">
+  Play Snare
+</button>
+
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleKick()"
+          [ngClass]="{ 'currently-playing': kickTrack && !kickTrack.mute }">          
+  Play Kick
+</button>
+
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleHiHat()"
+          [ngClass]="{ 'currently-playing': hiHatTrack && !hiHatTrack.mute }">
+  Play HiHat
+</button>
+
+<button class="playButton"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleClap()"
+          [ngClass]="{ 'currently-playing': clapTrack && !clapTrack.mute }">          
+  Play Clap
 </button>
 </div>
 
@@ -46,7 +70,3 @@
     </button>
   </mat-grid-tile>
 </mat-grid-list>
-
-
-
-

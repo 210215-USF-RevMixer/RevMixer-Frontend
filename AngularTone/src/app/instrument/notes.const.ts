@@ -4,6 +4,99 @@ interface Chord {
   duration: string | number;
 }
 
+interface Note {
+  note: string;
+  time: string | number;
+  velocity: string;
+}
+
+export const DrumPatternn: Note[] = [
+  {
+    note: 'C3',
+    time: '0:0',
+    velocity: '1'
+  },
+  {
+    note: 'C3',
+    time: '0:0:2',
+    velocity: '1'
+  },
+  {
+    note: 'E3',
+    time: '0:1',
+    velocity: '1'
+  },
+  {
+    note: 'E3',
+    time: '0:1:2',
+    velocity: '1'
+  },
+  {
+    note: 'D3',
+    time: '0:2',
+    velocity: '1'
+  },
+  {
+    note: 'D3',
+    time: '0:2:2',
+    velocity: '1'
+  },
+  {
+    note: 'E3',
+    time: '0:3',
+    velocity: '1'
+  },
+  {
+    note: 'E3',
+    time: '0:3:2',
+    velocity: '1'
+  }
+]
+
+
+export const DrumPattern: Chord[] = [
+  {
+    time: '0:0',
+    note: 'C3',
+    duration: '1'
+  },
+  {
+    time: '0:0:2',
+    note: 'C3',
+    duration: '1'
+  },
+  {
+    time: '0:1',
+    note: 'E3',
+    duration: '1'
+  },
+  {
+    time: '0:1:2',
+    note: 'E3',
+    duration: '1'
+  },
+  {
+    time: '0:2',
+    note: 'D3',
+    duration: '1'
+  },
+  {
+    time: '0:2:2',
+    note: 'D3',
+    duration: '1'
+  },
+  {
+    time: '0:3',
+    note: 'E3',
+    duration: '1'
+  },
+  {
+    time: '0:3:2',
+    note: 'E3',
+    duration: '1'
+  }
+];
+
 export const melodyChords: Chord[] = [
   {
     time: '100i',
