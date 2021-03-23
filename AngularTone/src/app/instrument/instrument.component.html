@@ -1,58 +1,33 @@
-<mat-card>
-  <mat-card-title class="title">The Instrument</mat-card-title>
-</mat-card>
-<mat-grid-list cols="1" rowHeight="3.5:1">
-  <mat-grid-tile>
-    <button *ngFor="let note of notes"
-            mat-stroked-button
+<mat-grid-list cols="4" rowHeight="400px">
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button mat-stroked-button
             color="primary"
-            (click)="playNote(note)">
-      ♪ {{ note }}
+            (click)="playKick()">
+      Kick 
     </button>
   </mat-grid-tile>
-</mat-grid-list>
 
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+    <button mat-stroked-button
+            color="primary"
+            (click)="playSnare()">
+      Snare 
+    </button>
+  </mat-grid-tile>
 
-<mat-grid-list cols="6" rowHeight="10:2">
-  <mat-grid-tile>
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
     <button mat-stroked-button
             color="primary"
-            (click)="toggleMelody()"
-            [ngClass]="{ 'currently-playing': melodyPart && !melodyPart.mute }">
-      🎹 Melody
+            (click)="playClosedHat()">
+      HiHat 
     </button>
   </mat-grid-tile>
-  <mat-grid-tile>
+
+  <mat-grid-tile [colspan] = "2" [rowspan] = "1">
     <button mat-stroked-button
             color="primary"
-            (click)="toggleBass()"
-            [ngClass]="{ 'currently-playing': bassPart && !bassPart.mute }">
-      🎸 Bass
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="toggleNoise()"
-            [ngClass]="{ 'currently-playing': noise && !noise.mute }">
-      💨 Noise
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button
-            color="primary"
-            (click)="playRandomDrumSample()">
-      🍄 Mario
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button color="primary" (click)="speedUpBpm()">
-      👟 Speed up
-    </button>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <button mat-stroked-button color="primary" (click)="stopInstruments()">
-      ⏹ Stop
+            (click)="playClap()">
+      Clap 
     </button>
   </mat-grid-tile>
 </mat-grid-list>
