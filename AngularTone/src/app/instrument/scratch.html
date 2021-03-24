@@ -54,3 +54,41 @@
 
  
 
+  <mat-grid-list cols="4" rowHeight="400px">
+
+    <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+      <button class="pad"
+              mat-stroked-button
+              color="primary"
+              (click)="playKick()">
+        Kick 
+      </button>
+    </mat-grid-tile>
+  
+    <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+      <button class="pad"
+              mat-stroked-button
+              color="primary"
+              (click)="playSnare()">
+        Snare 
+      </button>
+    </mat-grid-tile>
+  
+    <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+      <button class="pad" 
+              mat-stroked-button
+              color="primary"
+              (click)="playClosedHat()">
+        HiHat 
+      </button>
+    </mat-grid-tile>
+  
+    <mat-grid-tile [colspan] = "2" [rowspan] = "1">
+      <button class="pad"
+              mat-stroked-button
+              color="primary"
+              (click)="playClap()">
+        Clap 
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>

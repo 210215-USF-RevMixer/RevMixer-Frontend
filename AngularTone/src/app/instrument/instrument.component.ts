@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  melodyChords,
-  bassChords,
   marioSamples,
   drumSamples,
-  DrumPattern
+  DrumPattern,
+  ClapPattern
 } from './notes.const';
 import * as Tone from 'tone';
 
@@ -15,8 +14,8 @@ import * as Tone from 'tone';
 })
 export class InstrumentComponent implements OnInit {
   notes: string[] = [];
+  pattern: string[] = [];
   isTransportStarted: boolean = false;
-  minVolume: any;
   volume: any;
   drumMachine: any;
   bassPart: any;
@@ -30,19 +29,42 @@ export class InstrumentComponent implements OnInit {
   hiHatTrack: any;
   clapSample: any;
   clapTrack: any;
+  step: any;
+  vel: any;
+  blocks: { color: string, state: boolean }[] = [];
+  blockSize = 16;
 
   constructor() { }
 
   ngOnInit(): void {
     //this.synth = new Tone.Synth().toDestination();
-    this.notes = ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2', 'C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'];
-    this.minVolume = new Tone.Volume(-30);
+    this.notes = ['C3'];
     this.volume = new Tone.Volume(-10);
+    this.pattern = [];
     this.initializeDrumMachine();
     this.initializeSnareSample();
     this.initializeKickSample();
     this.initializeHiHatSample();
     this.initializeClapSample();
+    for (let index = 0; index < this.blockSize; index++) {
+      this.blocks.push({
+        color: 'grey',
+        state: true
+      });
+    }
+  }
+
+  
+
+  public changeState(index: number) {
+    this.blocks[index] = (this.blocks[index].color === 'grey') ?
+    {
+      color: 'tomato',
+      state: false
+    } : {
+      color: 'grey',
+      state: true
+    };
   }
 
   private initializeDrumMachine() {
@@ -108,19 +130,18 @@ export class InstrumentComponent implements OnInit {
     this.playPart(this.hiHatTrack);
    }
   }
+
   toggleClap() {
     if (this.clapTrack) {
       this.clapTrack.mute = !this.clapTrack.mute;
     } else {
       this.clapTrack = this.clapSample;
-    this.clapTrack = new Tone.Part((time, chord) => {
-      this.clapSample.triggerAttackRelease(chord.note, chord.duration, time);
-    }, DrumPattern);
+    this.clapTrack = new Tone.Part((time, note) => {
+      this.clapSample.triggerAttackRelease("C3", "16n", time, note.velocity );
+    }, ClapPattern);
     this.playPart(this.clapTrack);
    }
-  }
-  
-
+ }
 
 
   playNote(note: string) {
@@ -136,7 +157,7 @@ export class InstrumentComponent implements OnInit {
 
     part.start(0);
     part.loop = true;
-    part.loopEnd = '1m';
+    part.loopEnd = '2m';
   }
 
   private playSample(sampleName: string) {
@@ -159,5 +180,4 @@ export class InstrumentComponent implements OnInit {
     this.playSample('Clap');
   }
 }
-
 
