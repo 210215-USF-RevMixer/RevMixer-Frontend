@@ -7,113 +7,34 @@
   Play Snare
 </button>
 
-<button class="playButton"
-          mat-button-toggle
-          color="primary"
-          (click)="toggleKick()"
-          [ngClass]="{ 'currently-playing': kickTrack && !kickTrack.mute }">          
-  Play Kick
-</button>
-
-<button class="playButton"
-          mat-button-toggle
-          color="primary"
-          (click)="toggleHiHat()"
-          [ngClass]="{ 'currently-playing': hiHatTrack && !hiHatTrack.mute }">
-  Play HiHat
-</button>
-
-<button class="playButton"
-          mat-button-toggle
-          color="primary"
-          (click)="toggleClap()"
-          [ngClass]="{ 'currently-playing': clapTrack && !clapTrack.mute }">          
-  Play Clap
-</button>
-</div>
-
-<div class="centered">
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-  <button class="step" mat-button-toggle color="primary" (click)="toggleClap()"></button>
-</div>
-
-<div class="centered">
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-</div>
-
-<div class="centered">
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-</div>
-
-<div class="centered">
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-  <input type="checkbox" class="cell" >
-</div>
-
-
-<span>
 <div class="pad">
-  <div *ngFor="let block of blocks;let i = index" class="block">
+  <div *ngFor="let block of kickBlocks;let i = index" class="block">
     <div class="single-block" 
-    [ngStyle]="{'background-color': block.color}" (click)="changeState(i);">
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateKick(i);" (click)="updateKick(i)">
+    </div>
+  </div>
+</div>
+
+<div class="pad">
+  <div *ngFor="let block of snareBlocks;let i = index" class="block">
+    <div class="single-block" 
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateSnare(i);" (click)="updateSnare(i)">
+    </div>
+  </div>
+</div>
+
+<div class="pad">
+  <div *ngFor="let block of hiHatBlocks;let i = index" class="block">
+    <div class="single-block" 
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateHiHat(i);" (click)="updateHiHat(i)">
+    </div>
+  </div>
+</div>
+
+<div class="pad">
+  <div *ngFor="let block of clapBlocks;let i = index" class="block">
+    <div class="single-block" 
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateClap(i);" (click)="updateClap(i)">
     </div>
   </div>
 </div>

@@ -15,8 +15,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .pad {
-  height: 400px;
-  width: 800px;
+  height: 25px;
+  width: 50px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
 }
 
 .step {
@@ -30,12 +34,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 50px;
   color: white;
   background: black;
-}
-
-.pad {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
 }
 
 .single-block {

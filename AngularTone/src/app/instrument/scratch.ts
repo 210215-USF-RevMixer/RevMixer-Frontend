@@ -1,3 +1,38 @@
+
+
+this.snareBlocks[1].onOff , this.snareBlocks[2].onOff, this.snareBlocks[3].onOff, this.snareBlocks[4].onOff,
+this.snareBlocks[5].onOff, this.snareBlocks[6].onOff, this.snareBlocks[7].onOff, this.snareBlocks[8].onOff,
+this.snareBlocks[9].onOff, this.snareBlocks[10].onOff, this.snareBlocks[11].onOff, this.snareBlocks[12].onOff,
+this.snareBlocks[13].onOff, this.snareBlocks[14].onOff, this.snareBlocks[15].onOff, this.snareBlocks[16].onOff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 toggleRhythm() {
     if (this.drumMachine) {
       this.drumMachine.mute = !this.drumMachine.mute;
