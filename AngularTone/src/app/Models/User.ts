@@ -13,7 +13,7 @@ export interface User
     isAdmin: boolean,
 
     userProjects: UserProject[],
-    samples: Sample[],
+    sample: Sample[],
     comments: Comment[],
     uploadMusics: UploadMusic[],
     playlists: PlayList[]
