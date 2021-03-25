@@ -6,12 +6,12 @@
   Play/Stop
 </button>
 
+<mat-slider (input)="tempoChange($event)" step="1" min="40" max="300" value="190"></mat-slider>
 
-<!-- <input type="range" min="60" max="250" value="190" id="bpm"> -->
 <div class="pad">
   <div *ngFor="let block of kickBlocks;let i = index" class="block">
     <div class="single-block" 
-    [ngStyle]="{'background-color': block.color}" (click)="changeStateKick(i);" (click)="updateKick(i)">
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateKick(i);">
     </div>
   </div>
 </div>
@@ -19,7 +19,7 @@
 <div class="pad">
   <div *ngFor="let block of snareBlocks;let i = index" class="block">
     <div class="single-block" 
-    [ngStyle]="{'background-color': block.color}" (click)="changeStateSnare(i);" (click)="updateSnare(i)">
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateSnare(i);">
     </div>
   </div>
 </div>
@@ -27,7 +27,7 @@
 <div class="pad">
   <div *ngFor="let block of hiHatBlocks;let i = index" class="block">
     <div class="single-block" 
-    [ngStyle]="{'background-color': block.color}" (click)="changeStateHiHat(i);" (click)="updateHiHat(i)">
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateHiHat(i);">
     </div>
   </div>
 </div>
@@ -35,7 +35,7 @@
 <div class="pad">
   <div *ngFor="let block of clapBlocks;let i = index" class="block">
     <div class="single-block" 
-    [ngStyle]="{'background-color': block.color}" (click)="changeStateClap(i);" (click)="updateClap(i)">
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateClap(i);">
     </div>
   </div>
 </div>

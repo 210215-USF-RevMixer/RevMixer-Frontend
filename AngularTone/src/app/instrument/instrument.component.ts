@@ -11,6 +11,7 @@ export class InstrumentComponent implements OnInit {
   pattern: string[] = [];
   isTransportStarted: boolean = false;
   volume: any;
+  clapVolume: any;
   sampler: any;
   snareSample: any;
   snareTrack: any;
@@ -29,6 +30,7 @@ export class InstrumentComponent implements OnInit {
   snareLoopTrack: any;
   hiHatLoopTrack: any;
   clapLoopTrack: any;
+  tempo: number = 190;
 
   
   constructor() { }
@@ -61,6 +63,7 @@ export class InstrumentComponent implements OnInit {
         color: 'grey', 
         state: true, 
         onOff: 0 }); }
+    Tone.Transport.bpm.value = 190;
   }
 
   playStop() {
@@ -71,6 +74,14 @@ export class InstrumentComponent implements OnInit {
       Tone.Transport.toggle();
       this.isTransportStarted = false;
     }
+  }
+
+  
+
+  tempoChange(event: any) {
+    
+    Tone.Transport.bpm.value = event.value;
+    
   }
 
   private initializeSnareSample() {
@@ -91,7 +102,7 @@ export class InstrumentComponent implements OnInit {
   private initializeClapSample() {
     this.clapSample = new Tone.Sampler({
       C3: '../../assets/Clap.wav'
-    }).chain(this.volume, Tone.Destination);
+    }).chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
 
   public changeStateKick(index: number) {
@@ -103,6 +114,8 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
+
+    this.updateKick(index);
 }
   public changeStateSnare(index: number) {
     this.snareBlocks[index] = (this.snareBlocks[index].color === 'grey') ?
@@ -113,6 +126,8 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
+
+    this.updateSnare(index);
   }
   public changeStateHiHat(index: number) {
     this.hiHatBlocks[index] = (this.hiHatBlocks[index].color === 'grey') ?
@@ -123,6 +138,8 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
+
+    this.updateHiHat(index);
   }
   public changeStateClap(index: number) {
     this.clapBlocks[index] = (this.clapBlocks[index].color === 'grey') ?
@@ -133,7 +150,17 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
+
+    this.updateClap(index);
   }
+
+  //load sequence
+  //an instrument array -> loader  should change button color too
+  //lets start with a turn on all hihat button/ function
+  //make sure they're all off
+  //turn them all on
+  //update
+
 
   updateKick(index: number) {
     this.kickTrack = this.kickSample;
@@ -179,7 +206,7 @@ export class InstrumentComponent implements OnInit {
     //   Tone.Transport.bpm.value = 190;
     // }
    
-    Tone.Transport.bpm.value = 190;
+    //Tone.Transport.bpm.value = 190;
 
     part.start(0);
     part.loop = true;
