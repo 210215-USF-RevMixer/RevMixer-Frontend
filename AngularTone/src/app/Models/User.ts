@@ -1,5 +1,8 @@
 //needs to be finished -Tate
 
+import { PlayList } from "./PlayList";
+import { Sample } from "./Sample";
+import { UploadMusic } from "./UploadMusic";
 import { UserProject } from "./UserProject";
 
 export interface User
@@ -8,5 +11,5 @@ export interface User
     userName: string,
     email: string,
     isAdmin: boolean,
-    userProject: UserProject[]
+    userProjects: UserProject[]
 }
