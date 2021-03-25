@@ -18,9 +18,10 @@ import { FooterComponent } from './Components/shared/footer/footer.component';
 import { HubComponent } from './Components/pages/hub/hub.component';
 import { ProfileComponent } from './Components/pages/profile/profile.component';
 import { ChatroomComponent } from './Components/pages/chatroom/chatroom.component';
+import { UsersTestComponent } from './Components/pages/users-test/users-test.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, UsersTestComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
