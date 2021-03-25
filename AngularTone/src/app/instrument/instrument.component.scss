@@ -3,7 +3,10 @@
 }
 mat-card-title {text-align: center;}
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+  padding-top: 56px;
+}
 
 .centered {
   text-align: center;
@@ -13,9 +16,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 50px;
   width: 100px;
 }
-.container {
-  
-}
+
 .pad {
   height: 25px;
   width: 50px;
