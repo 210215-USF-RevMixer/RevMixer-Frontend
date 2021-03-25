@@ -2,10 +2,12 @@
 <button class="playButton"
           mat-button-toggle
           color="primary"
-          [ngClass]="{ 'currently-playing': snareTrack && !snareTrack.mute }">
-  Play Snare
+          (click)="playStop()">
+  Play/Stop
 </button>
 
+
+<!-- <input type="range" min="60" max="250" value="190" id="bpm"> -->
 <div class="pad">
   <div *ngFor="let block of kickBlocks;let i = index" class="block">
     <div class="single-block" 

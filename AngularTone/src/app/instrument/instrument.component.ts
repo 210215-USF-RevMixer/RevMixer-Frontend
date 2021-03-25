@@ -61,7 +61,38 @@ export class InstrumentComponent implements OnInit {
         color: 'grey', 
         state: true, 
         onOff: 0 }); }
-  } 
+  }
+
+  playStop() {
+    if (!this.isTransportStarted) {
+      Tone.Transport.toggle();
+      this.isTransportStarted = true;
+    } else {
+      Tone.Transport.toggle();
+      this.isTransportStarted = false;
+    }
+  }
+
+  private initializeSnareSample() {
+    this.snareSample = new Tone.Sampler({
+      C3: '../../assets/Snare.wav'
+    }).chain(this.volume, Tone.Destination);
+  }
+  private initializeKickSample() {
+    this.kickSample = new Tone.Sampler({
+      C3: '../../assets/Kick.wav'
+    }).chain(this.volume, Tone.Destination);
+  }
+  private initializeHiHatSample() {
+    this.hiHatSample = new Tone.Sampler({
+      C3: '../../assets/ClosedHat.wav'
+    }).chain(this.volume, Tone.Destination);
+  }
+  private initializeClapSample() {
+    this.clapSample = new Tone.Sampler({
+      C3: '../../assets/Clap.wav'
+    }).chain(this.volume, Tone.Destination);
+  }
 
   public changeStateKick(index: number) {
     this.kickBlocks[index] = (this.kickBlocks[index].color === 'grey') ?
@@ -72,7 +103,6 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
-      Tone.start();
 }
   public changeStateSnare(index: number) {
     this.snareBlocks[index] = (this.snareBlocks[index].color === 'grey') ?
@@ -83,7 +113,6 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
-      Tone.start();
   }
   public changeStateHiHat(index: number) {
     this.hiHatBlocks[index] = (this.hiHatBlocks[index].color === 'grey') ?
@@ -94,7 +123,6 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
-      Tone.start();
   }
   public changeStateClap(index: number) {
     this.clapBlocks[index] = (this.clapBlocks[index].color === 'grey') ?
@@ -105,7 +133,6 @@ export class InstrumentComponent implements OnInit {
       color: 'grey',
       state: false,
       onOff: 0 };
-      Tone.start();
   }
 
   updateKick(index: number) {
@@ -145,33 +172,14 @@ export class InstrumentComponent implements OnInit {
     this.playPart(this.clapTrack);
   }
 
-  private initializeSnareSample() {
-    this.snareSample = new Tone.Sampler({
-      C3: '../../assets/Snare.wav'
-    }).chain(this.volume, Tone.Destination);
-  }
-  private initializeKickSample() {
-    this.kickSample = new Tone.Sampler({
-      C3: '../../assets/Kick.wav'
-    }).chain(this.volume, Tone.Destination);
-  }
-  private initializeHiHatSample() {
-    this.hiHatSample = new Tone.Sampler({
-      C3: '../../assets/ClosedHat.wav'
-    }).chain(this.volume, Tone.Destination);
-  }
-  private initializeClapSample() {
-    this.clapSample = new Tone.Sampler({
-      C3: '../../assets/Clap.wav'
-    }).chain(this.volume, Tone.Destination);
-  }
-
   private playPart(part: { start: (arg0: number) => void; loop: boolean; loopEnd: string; }) {
-    if (!this.isTransportStarted) {
-      Tone.Transport.toggle();
-      this.isTransportStarted = true;
-      Tone.Transport.bpm.value = 190;
-    }
+    // if (!this.isTransportStarted) {
+    //   Tone.Transport.toggle();
+    //   this.isTransportStarted = true;
+    //   Tone.Transport.bpm.value = 190;
+    // }
+   
+    Tone.Transport.bpm.value = 190;
 
     part.start(0);
     part.loop = true;
