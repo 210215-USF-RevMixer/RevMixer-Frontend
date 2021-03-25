@@ -13,14 +13,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 50px;
   width: 100px;
 }
-
+.container {
+  
+}
 .pad {
   height: 25px;
   width: 50px;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
-  text-align: center;
+  margin-left: 200px;
+  margin-right: auto;
 }
 
 .step {
