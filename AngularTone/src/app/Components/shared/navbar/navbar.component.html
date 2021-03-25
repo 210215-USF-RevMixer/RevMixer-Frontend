@@ -23,4 +23,6 @@
         </ul>
       </div>
     </div>
+    <span *ngIf="auth.user$ | async as user" class="nav-link d-flex">Welcome {{user.name}}! </span>
+    <app-auth-button></app-auth-button>
   </nav>
