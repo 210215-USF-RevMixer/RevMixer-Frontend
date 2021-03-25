@@ -1,4 +1,5 @@
 //needs to be finished -Tate
+import { MusicPlaylist } from "./MusicPlaylist";
 import { User } from "./User";
 
 export interface UploadMusic
@@ -11,5 +12,8 @@ export interface UploadMusic
     likes: number,
     plays: number,
 
-    user: User 
+    user: User,
+
+    musicPlaylists: MusicPlaylist[],
+    comments: Comment[]
 }
