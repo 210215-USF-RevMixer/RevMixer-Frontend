@@ -3,7 +3,7 @@ import { UploadMusic } from "./UploadMusic";
 
 export interface MusicPlaylist
 {
-    ID: number,
+    id: number,
     playlistId: number,
     musicId: number,
 
