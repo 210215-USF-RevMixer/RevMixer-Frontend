@@ -21,10 +21,13 @@ import { FooterComponent } from './Components/shared/footer/footer.component';
 import { HubComponent } from './Components/pages/hub/hub.component';
 import { ProfileComponent } from './Components/pages/profile/profile.component';
 import { ChatroomComponent } from './Components/pages/chatroom/chatroom.component';
+import { AuthModule } from '@auth0/auth0-angular';
+import { AuthButtonComponent } from './Components/auth-button/auth-button.component';
 import { AudioPlayerComponent } from './Components/audio/audio-player/audio-player.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -35,7 +38,13 @@ import { AudioPlayerComponent } from './Components/audio/audio-player/audio-play
     MatIconModule,
     MatSliderModule,
     HttpClientModule,
-    NgxAudioPlayerModule
+    NgxAudioPlayerModule,
+    AuthModule.forRoot(
+      {
+        domain: 'dev-vymugu6z.us.auth0.com',
+        clientId: 'XK3HVI5aAOQMHCNQL5MYtvIgOCg02uKD'
+      }
+    )
   ],
   providers: [],
   bootstrap: [AppComponent],
