@@ -1,3 +1,4 @@
+import { Track } from "./Track";
 import { User } from "./User";
 
 //needs to be finished -Tate
@@ -8,5 +9,6 @@ export interface Sample
     sampleName: string,
     sampleLink: string,
 
-    user: User
+    user: User,
+    tracks: Track[]
 }

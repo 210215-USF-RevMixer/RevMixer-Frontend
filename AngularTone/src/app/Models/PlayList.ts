@@ -1,3 +1,4 @@
+import { MusicPlaylist } from "./MusicPlaylist";
 import { User } from "./User";
 
 //needs to be finished -Tate
@@ -7,5 +8,7 @@ export interface PlayList
     userId: number,
     name: string,
 
-    user: User
+    user: User,
+
+    musicPlaylists: MusicPlaylist[]
 }
