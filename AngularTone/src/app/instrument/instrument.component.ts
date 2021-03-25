@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  DrumPattern,
-  ClapPattern
-} from './notes.const';
 import * as Tone from 'tone';
 
 @Component({
@@ -15,9 +11,6 @@ export class InstrumentComponent implements OnInit {
   pattern: string[] = [];
   isTransportStarted: boolean = false;
   volume: any;
-  drumMachine: any;
-  bassPart: any;
-  noise: any;
   sampler: any;
   snareSample: any;
   snareTrack: any;
@@ -27,8 +20,6 @@ export class InstrumentComponent implements OnInit {
   hiHatTrack: any;
   clapSample: any;
   clapTrack: any;
-  step: any;
-  vel: any;
   kickBlocks: { color: string, state: boolean, onOff: number }[] = [];
   snareBlocks: { color: string, state: boolean, onOff: number }[] = [];
   hiHatBlocks: { color: string, state: boolean, onOff: number }[] = [];
@@ -38,47 +29,38 @@ export class InstrumentComponent implements OnInit {
   snareLoopTrack: any;
   hiHatLoopTrack: any;
   clapLoopTrack: any;
+
   
   constructor() { }
 
   ngOnInit(): void {
-    //this.synth = new Tone.Synth().toDestination();
     this.notes = ['C3'];
     this.volume = new Tone.Volume(-10);
     this.pattern = [];
-    this.initializeDrumMachine();
     this.initializeSnareSample();
     this.initializeKickSample();
     this.initializeHiHatSample();
     this.initializeClapSample();
     for (let index = 0; index < this.blockSize; index++) {
-      this.kickBlocks.push({
-        color: 'grey',
-        state: true,
-        onOff: 0
-      });
-    }
+      this.kickBlocks.push({ 
+        color: 'grey', 
+        state: true, 
+        onOff: 0 }); }
     for (let index = 0; index < this.blockSize; index++) {
-      this.snareBlocks.push({
-        color: 'grey',
-        state: true,
-        onOff: 0
-      });
-    }
+      this.snareBlocks.push({ 
+        color: 'grey', 
+        state: true, 
+        onOff: 0 }); }
     for (let index = 0; index < this.blockSize; index++) {
-      this.hiHatBlocks.push({
-        color: 'grey',
-        state: true,
-        onOff: 0
-      });
-    }
+      this.hiHatBlocks.push({ 
+        color: 'grey', 
+        state: true, 
+        onOff: 0 }); }
     for (let index = 0; index < this.blockSize; index++) {
-      this.clapBlocks.push({
-        color: 'grey',
-        state: true,
-        onOff: 0
-      });
-    }
+      this.clapBlocks.push({ 
+        color: 'grey', 
+        state: true, 
+        onOff: 0 }); }
   } 
 
   public changeStateKick(index: number) {
@@ -86,92 +68,83 @@ export class InstrumentComponent implements OnInit {
     {
       color: 'tomato',
       state: true,
-      onOff: 1
-    } : {
+      onOff: 1 } : {
       color: 'grey',
       state: false,
-      onOff: 0
-    };
-  }
+      onOff: 0 };
+      Tone.start();
+}
   public changeStateSnare(index: number) {
     this.snareBlocks[index] = (this.snareBlocks[index].color === 'grey') ?
     {
       color: 'tomato',
       state: true,
-      onOff: 1
-    } : {
+      onOff: 1 } : {
       color: 'grey',
       state: false,
-      onOff: 0
-    };
+      onOff: 0 };
+      Tone.start();
   }
   public changeStateHiHat(index: number) {
     this.hiHatBlocks[index] = (this.hiHatBlocks[index].color === 'grey') ?
     {
       color: 'tomato',
       state: true,
-      onOff: 1
-    } : {
+      onOff: 1 } : {
       color: 'grey',
       state: false,
-      onOff: 0
-    };
+      onOff: 0 };
+      Tone.start();
   }
   public changeStateClap(index: number) {
     this.clapBlocks[index] = (this.clapBlocks[index].color === 'grey') ?
     {
       color: 'tomato',
       state: true,
-      onOff: 1
-    } : {
+      onOff: 1 } : {
       color: 'grey',
       state: false,
-      onOff: 0
-    };
+      onOff: 0 };
+      Tone.start();
   }
 
   updateKick(index: number) {
-    this.kickLoopTrack = this.kickSample;
+    this.kickTrack = this.kickSample;
     var times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2"];
-    this.kickLoopTrack = new Tone.Part(((time, velocity) => {
+    this.kickTrack = new Tone.Part(((time, velocity) => {
       this.kickSample.triggerAttackRelease('C3', '16n', time, this.kickBlocks[index].onOff);
-    }), [{time: times[index - 1], velocity: this.kickBlocks[index].onOff}]);
-    this.playPart(this.kickLoopTrack);
+    }), [{time: times[index], velocity: this.kickBlocks[index].onOff}]);
+    console.log("drum: kick   time: " + times[index] + "  velocity: " + this.kickBlocks[index].onOff );
+    this.playPart(this.kickTrack);
   }
   updateSnare(index: number) {
-    this.snareLoopTrack = this.snareSample;
+    this.snareTrack = this.snareSample;
     var times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2"];
-    this.snareLoopTrack = new Tone.Part(((time, velocity) => {
+    this.snareTrack = new Tone.Part(((time, velocity) => {
       this.snareSample.triggerAttackRelease('C3', '16n', time, this.snareBlocks[index].onOff);
-    }), [{time: times[index - 1], velocity: this.snareBlocks[index].onOff}]);
-    this.playPart(this.snareLoopTrack);
+    }), [{time: times[index], velocity: this.snareBlocks[index].onOff}]);
+    console.log("drum: snare   time: " + times[index] + "  velocity: " + this.snareBlocks[index].onOff );
+    this.playPart(this.snareTrack);
   }
   updateHiHat(index: number) {
-    this.hiHatLoopTrack = this.snareSample;
+    this.hiHatTrack = this.hiHatSample;
     var times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2"];
-    this.hiHatLoopTrack = new Tone.Part(((time, velocity) => {
+    this.hiHatTrack = new Tone.Part(((time, velocity) => {
       this.hiHatSample.triggerAttackRelease('C3', '16n', time, this.hiHatBlocks[index].onOff);
-    }), [{time: times[index - 1], velocity: this.hiHatBlocks[index].onOff}]);
-    this.playPart(this.hiHatLoopTrack);
+    }), [{time: times[index], velocity: this.hiHatBlocks[index].onOff}]);
+    console.log("drum: hiHat   time: " + times[index] + "  velocity: " + this.hiHatBlocks[index].onOff );
+    this.playPart(this.hiHatTrack);
   }
   updateClap(index: number) {
-    this.clapLoopTrack = this.snareSample;
+    this.clapTrack = this.clapSample;
     var times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2"];
-    this.clapLoopTrack = new Tone.Part(((time, velocity) => {
+    this.clapTrack = new Tone.Part(((time, velocity) => {
       this.clapSample.triggerAttackRelease('C3', '16n', time, this.clapBlocks[index].onOff);
-    }), [{time: times[index - 1], velocity: this.clapBlocks[index].onOff}]);
-    this.playPart(this.clapLoopTrack);
+    }), [{time: times[index], velocity: this.clapBlocks[index].onOff}]);
+    console.log("drum: clap   time: " + times[index] + "  velocity: " + this.clapBlocks[index].onOff );
+    this.playPart(this.clapTrack);
   }
 
-    
-  private initializeDrumMachine() {
-    this.sampler = new Tone.Sampler({
-      C3: '../../assets/Kick.wav',
-      D3: '../../assets/Snare.wav',
-      E3: '../../assets/ClosedHat.wav',
-      F3: '../../assets/Clap.wav'
-    }).chain(this.volume, Tone.Destination);
-  }
   private initializeSnareSample() {
     this.snareSample = new Tone.Sampler({
       C3: '../../assets/Snare.wav'
@@ -193,97 +166,16 @@ export class InstrumentComponent implements OnInit {
     }).chain(this.volume, Tone.Destination);
   }
 
-  toggleSnare() {
-    if (this.snareTrack) {
-      this.snareTrack.mute = !this.snareTrack.mute;
-    } else {
-      this.snareTrack = this.snareSample;
-    this.snareTrack = new Tone.Part((time, chord) => {
-      this.snareSample.triggerAttackRelease(chord.note, chord.duration, time);
-    }, DrumPattern);
-    this.playPart(this.snareTrack);
-   }
-  }
-  toggleKick() {
-    if (this.kickTrack) {
-      this.kickTrack.mute = !this.kickTrack.mute;
-    } else {
-      this.kickTrack = this.kickSample;
-    this.kickTrack = new Tone.Part((time, chord) => {
-      this.kickSample.triggerAttackRelease(chord.note, chord.duration, time);
-    }, DrumPattern);
-    this.playPart(this.kickTrack);
-   }
-  }
-  toggleHiHat() {
-    if (this.hiHatTrack) {
-      this.hiHatTrack.mute = !this.hiHatTrack.mute;
-    } else {
-      this.hiHatTrack = this.hiHatSample;
-    this.hiHatTrack = new Tone.Part((time, chord) => {
-      this.hiHatSample.triggerAttackRelease(chord.note, chord.duration, time);
-    }, DrumPattern);
-    this.playPart(this.hiHatTrack);
-   }
-  }
-
-  toggleClap() {
-    if (this.clapTrack) {
-      this.clapTrack.mute = !this.clapTrack.mute;
-    } else {
-      this.clapTrack = this.clapSample;
-    this.clapTrack = new Tone.Part((time, note) => {
-      this.clapSample.triggerAttackRelease("C3", "16n", time, note.velocity );
-    }, ClapPattern);
-    this.playPart(this.clapTrack);
-   }
- }
-
-
-  playNote(note: string) {
-    this.sampler.triggerAttack(note);
-  }
-
-  toggleEverything() {
-    this.toggleClap();
-    this.toggleHiHat();
-    this.toggleKick();
-    this.toggleSnare();
-  }
-
   private playPart(part: { start: (arg0: number) => void; loop: boolean; loopEnd: string; }) {
     if (!this.isTransportStarted) {
       Tone.Transport.toggle();
       this.isTransportStarted = true;
       Tone.Transport.bpm.value = 190;
-      //Tone.Transport.scheduleRepeat(this.test2, '2m');
     }
 
     part.start(0);
     part.loop = true;
-    part.loopEnd = '2m';
-
-    
-  }
-
-  private playSample(sampleName: string) {
-    new Tone.Player({
-      url: `../../assets/${sampleName}.wav`,
-      autostart: true
-    }).chain(this.volume, Tone.Destination);
-  }
-
-  playKick() {
-    this.playSample('Kick');
-  }
-  playSnare() {
-    this.playSample('Snare');
-  }
-  playClosedHat() {
-    this.playSample('ClosedHat');
-  }
-  playClap() {
-    this.playSample('Clap');
+    part.loopEnd = '2m'; 
   }
 }
 

@@ -2,7 +2,6 @@
 <button class="playButton"
           mat-button-toggle
           color="primary"
-          (click)="toggleSnare()"
           [ngClass]="{ 'currently-playing': snareTrack && !snareTrack.mute }">
   Play Snare
 </button>
