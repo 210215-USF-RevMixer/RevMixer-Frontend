@@ -4,14 +4,22 @@
   <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">
     Play/Stop
   </button>
-  <mat-slider (input)="tempoChange($event)" step="1" min="40" max="300" value="190"></mat-slider>
+  Tempo<mat-slider (input)="tempoChange($event)" step="1" min="40" max="300" value="190"></mat-slider>
+
 
 
 
   <button (click)="loadPattern(0);">Load Pattern 1</button>
   <button (click)="loadPattern(1);">Load Pattern 2</button>
   <button (click)="Clear();">Clear</button>
-
+  Distortion<mat-slider (input)="changeDistortionAmount($event)" step="0.01" min="0" max="1" value="0"></mat-slider>
+  <!-- <div class="container">
+  <p>AutoWah</p>
+  Sensitivity: <mat-slider (input)="changeAutoWahSensitivity($event)" step="1" min="-40" max="0" value="-40"></mat-slider>
+  Time: <mat-slider (input)="changeAutoWahTime($event)" step="1" min="-40" max="0" value="-40"></mat-slider>
+  Q: <mat-slider (input)="changeAutoWahQ($event)" step="1" min="-40" max="0" value="-40"></mat-slider>
+  Level: <mat-slider (input)="changeAutoWahLevel($event)" step="0.01" min="0" max="1" value="0"></mat-slider>
+  </div> -->
 
 
 

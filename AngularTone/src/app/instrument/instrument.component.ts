@@ -32,6 +32,10 @@ export class InstrumentComponent implements OnInit {
   hiHatLoopTrack: any;
   clapLoopTrack: any;
   tempo: number = 190;
+  dist = new Tone.Distortion(0).toDestination();
+  bitdepth = 16;
+  crusher = new Tone.BitCrusher(16).toDestination();
+  autoWah = new Tone.AutoWah(50, 6, -30).toDestination();
 
   
   constructor() { }
@@ -60,13 +64,14 @@ export class InstrumentComponent implements OnInit {
         color: 'grey', 
         onOff: 0 }); }
     Tone.Transport.bpm.value = 190;
-    this.kickTrack = this.kickSample;
-    this.kickTrack = new Tone.Part();
-    this.kickTrack.add("1m", "C3")
-    //Tone.Transport.start();
   }
 
-  
+  //part.remove("0:1"); ///////////////////////////////////////////////////////////////////////////////////////
+
+//  // create an autofilter and start it's LFO
+// const autoFilter = new Tone.AutoFilter("4n").toDestination().start();
+// // route an oscillator through the filter and start it
+// const oscillator = new Tone.Oscillator().connect(autoFilter).start();
 
   playStop() {
     if (!this.isTransportStarted) {
@@ -82,26 +87,49 @@ export class InstrumentComponent implements OnInit {
     Tone.Transport.bpm.value = event.value;
   }
 
+  changeDistortionAmount(event: any) {
+    this.dist.distortion = event.value;
+  }
+
+  // changeAutoWahSensitivity(event: any) {
+  //   this.autoWah.sensitivity = event.value;
+  // }
+
   private initializeSnareSample() {
+    
     this.snareSample = new Tone.Sampler({
       C3: '../../assets/Snare.wav'
-    }).chain(this.volume, Tone.Destination);
+    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.volume, Tone.Destination);
   }
   private initializeKickSample() {
     this.kickSample = new Tone.Sampler({
       C3: '../../assets/Kick.wav'
-    }).chain(this.volume, Tone.Destination);
+    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.volume, Tone.Destination);
   }
   private initializeHiHatSample() {
     this.hiHatSample = new Tone.Sampler({
       C3: '../../assets/ClosedHat.wav'
-    }).chain(this.volume, Tone.Destination);
+    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.volume, Tone.Destination);
   }
   private initializeClapSample() {
     this.clapSample = new Tone.Sampler({
       C3: '../../assets/Clap.wav'
-    }).chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
+
+
+  // const sampler = new Tone.Sampler({
+  //   urls: {
+  //     A1: "A1.mp3",
+  //     A2: "A2.mp3",
+  //   },
+  //   baseUrl: "https://tonejs.github.io/audio/casio/",
+  //   onload: () => {
+  //     sampler.triggerAttackRelease(["C1", "E1", "G1", "B1"], 0.5);
+  //   }
+  // }).toDestination(); 
+
+
 
   public changeStateKick(index: number) {
     this.kickBlocks[index] = (this.kickBlocks[index].color === 'grey') ?
@@ -143,9 +171,7 @@ export class InstrumentComponent implements OnInit {
 
     this.updateClap(index);
   }
-  //load sequence
-  //an instrument array -> loader  should change button color too
-  //lets start with a clear all claps
+  
   Clear() {
     for(let i = 0; i < 16; i++) {
       this.kickBlocks[i].color = 'grey';
@@ -161,7 +187,6 @@ export class InstrumentComponent implements OnInit {
       this.updateHiHat(i);
       this.updateClap(i);
     }
-    
   }
 
   loadPattern(x: number) {
