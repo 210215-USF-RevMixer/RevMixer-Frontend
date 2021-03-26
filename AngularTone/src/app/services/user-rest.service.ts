@@ -28,4 +28,9 @@ export class UserRestService {
   {
     return this.http.get<User>(`${this.url}/${userid}`, this.httpOptions)
   }
+
+  GetUserByEmail(email:string) : Observable<any>
+  {
+    return this.http.get<User>(`${this.url}/${email}`, this.httpOptions)
+  }
 }
