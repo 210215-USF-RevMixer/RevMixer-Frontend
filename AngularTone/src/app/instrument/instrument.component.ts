@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Tone from 'tone';
+import {kickPattern, snarePattern, hiHatPattern, clapPattern, uniPattern} from './patterns.const';
 
 @Component({
   selector: 'app-instrument',
@@ -7,7 +8,7 @@ import * as Tone from 'tone';
   styleUrls: ['./instrument.component.scss']
 })
 export class InstrumentComponent implements OnInit {
-  notes: string[] = [];
+  notes: number[] = [];
   pattern: string[] = [];
   isTransportStarted: boolean = false;
   volume: any;
@@ -21,10 +22,10 @@ export class InstrumentComponent implements OnInit {
   hiHatTrack: any;
   clapSample: any;
   clapTrack: any;
-  kickBlocks: { color: string, state: boolean, onOff: number }[] = [];
-  snareBlocks: { color: string, state: boolean, onOff: number }[] = [];
-  hiHatBlocks: { color: string, state: boolean, onOff: number }[] = [];
-  clapBlocks: { color: string, state: boolean, onOff: number }[] = [];
+  kickBlocks: { color: string, onOff: number }[] = [];
+  snareBlocks: { color: string, onOff: number }[] = [];
+  hiHatBlocks: { color: string, onOff: number }[] = [];
+  clapBlocks: { color: string, onOff: number }[] = [];
   blockSize = 16;
   kickLoopTrack: any;
   snareLoopTrack: any;
@@ -36,7 +37,6 @@ export class InstrumentComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.notes = ['C3'];
     this.volume = new Tone.Volume(-10);
     this.pattern = [];
     this.initializeSnareSample();
@@ -46,25 +46,27 @@ export class InstrumentComponent implements OnInit {
     for (let index = 0; index < this.blockSize; index++) {
       this.kickBlocks.push({ 
         color: 'grey', 
-        state: true, 
         onOff: 0 }); }
     for (let index = 0; index < this.blockSize; index++) {
       this.snareBlocks.push({ 
         color: 'grey', 
-        state: true, 
         onOff: 0 }); }
     for (let index = 0; index < this.blockSize; index++) {
       this.hiHatBlocks.push({ 
         color: 'grey', 
-        state: true, 
         onOff: 0 }); }
     for (let index = 0; index < this.blockSize; index++) {
       this.clapBlocks.push({ 
         color: 'grey', 
-        state: true, 
         onOff: 0 }); }
     Tone.Transport.bpm.value = 190;
+    this.kickTrack = this.kickSample;
+    this.kickTrack = new Tone.Part();
+    this.kickTrack.add("1m", "C3")
+    //Tone.Transport.start();
   }
+
+  
 
   playStop() {
     if (!this.isTransportStarted) {
@@ -76,12 +78,8 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  
-
   tempoChange(event: any) {
-    
     Tone.Transport.bpm.value = event.value;
-    
   }
 
   private initializeSnareSample() {
@@ -109,10 +107,8 @@ export class InstrumentComponent implements OnInit {
     this.kickBlocks[index] = (this.kickBlocks[index].color === 'grey') ?
     {
       color: 'tomato',
-      state: true,
       onOff: 1 } : {
       color: 'grey',
-      state: false,
       onOff: 0 };
 
     this.updateKick(index);
@@ -121,10 +117,8 @@ export class InstrumentComponent implements OnInit {
     this.snareBlocks[index] = (this.snareBlocks[index].color === 'grey') ?
     {
       color: 'tomato',
-      state: true,
       onOff: 1 } : {
       color: 'grey',
-      state: false,
       onOff: 0 };
 
     this.updateSnare(index);
@@ -133,10 +127,8 @@ export class InstrumentComponent implements OnInit {
     this.hiHatBlocks[index] = (this.hiHatBlocks[index].color === 'grey') ?
     {
       color: 'tomato',
-      state: true,
       onOff: 1 } : {
       color: 'grey',
-      state: false,
       onOff: 0 };
 
     this.updateHiHat(index);
@@ -145,22 +137,109 @@ export class InstrumentComponent implements OnInit {
     this.clapBlocks[index] = (this.clapBlocks[index].color === 'grey') ?
     {
       color: 'tomato',
-      state: true,
       onOff: 1 } : {
       color: 'grey',
-      state: false,
       onOff: 0 };
 
     this.updateClap(index);
   }
-
   //load sequence
   //an instrument array -> loader  should change button color too
-  //lets start with a turn on all hihat button/ function
-  //make sure they're all off
-  //turn them all on
-  //update
+  //lets start with a clear all claps
+  Clear() {
+    for(let i = 0; i < 16; i++) {
+      this.kickBlocks[i].color = 'grey';
+      this.kickBlocks[i].onOff = 0;
+      this.snareBlocks[i].color = 'grey';
+      this.snareBlocks[i].onOff = 0;
+      this.hiHatBlocks[i].color = 'grey';
+      this.hiHatBlocks[i].onOff = 0;
+      this.clapBlocks[i].color = 'grey';
+      this.clapBlocks[i].onOff = 0;
+      this.updateKick(i);
+      this.updateSnare(i);
+      this.updateHiHat(i);
+      this.updateClap(i);
+    }
+    
+  }
 
+  loadPattern(x: number) {
+    this.Clear();
+    for(let i = 0; i < 16; i++) {
+      if(uniPattern[x][0][i]) {
+        this.kickBlocks[i].color = 'tomato';
+        this.kickBlocks[i].onOff = 1;
+        this.updateKick(i);
+      }
+      if(uniPattern[x][1][i]) {
+        this.snareBlocks[i].color = 'tomato';
+        this.snareBlocks[i].onOff = 1;
+        this.updateSnare(i);
+      }
+      if(uniPattern[x][2][i]) {
+        this.hiHatBlocks[i].color = 'tomato';
+        this.hiHatBlocks[i].onOff = 1;
+        this.updateHiHat(i);
+      }
+      if(uniPattern[x][3][i]) {
+        this.clapBlocks[i].color = 'tomato';
+        this.clapBlocks[i].onOff = 1;
+        this.updateClap(i);
+      }
+    }
+  }
+
+  loadKick() { 
+    for(let i = 0; i < 16; i++) {
+      if(kickPattern[i] == 1) {
+      this.kickBlocks[i].color = 'tomato';
+      this.kickBlocks[i].onOff = 1;
+      } else {
+      this.kickBlocks[i].color = 'grey';
+      this.kickBlocks[i].onOff = 0;
+      }
+      this.updateKick(i);
+      }
+    }
+    loadSnare() {
+    for(let i = 0; i < 16; i++) {
+      if(snarePattern[i] == 1) {
+      this.snareBlocks[i].color = 'tomato';
+      this.snareBlocks[i].onOff = 1;
+      } else {
+      this.snareBlocks[i].color = 'grey';
+      this.snareBlocks[i].onOff = 0;
+      }
+      this.updateSnare(i);
+      }
+    }
+    loadHiHat() {
+    for(let i = 0; i < 16; i++) {
+      if(hiHatPattern[i] == 1) {
+      this.hiHatBlocks[i].color = 'tomato';
+      this.hiHatBlocks[i].onOff = 1;
+      } else {
+      this.hiHatBlocks[i].color = 'grey';
+      this.hiHatBlocks[i].onOff = 0;
+      }
+      this.updateHiHat(i);
+      }
+    }
+    loadClap() {
+    for(let i = 0; i < 16; i++) {
+      if(clapPattern[i] == 1) {
+      this.clapBlocks[i].color = 'tomato';
+      this.clapBlocks[i].onOff = 1;
+      } else {
+      this.clapBlocks[i].color = 'grey';
+      this.clapBlocks[i].onOff = 0;
+      }
+      this.updateClap(i);
+      }
+    }
+
+  
 
   updateKick(index: number) {
     this.kickTrack = this.kickSample;

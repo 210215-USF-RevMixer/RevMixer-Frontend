@@ -5,6 +5,18 @@
     Play/Stop
   </button>
   <mat-slider (input)="tempoChange($event)" step="1" min="40" max="300" value="190"></mat-slider>
+
+
+
+  <button (click)="loadPattern(0);">Load Pattern 1</button>
+  <button (click)="loadPattern(1);">Load Pattern 2</button>
+  <button (click)="Clear();">Clear</button>
+
+
+
+
+
+
 <div class="container">
 <div class="pad">
   <div *ngFor="let block of kickBlocks;let i = index" class="block">
