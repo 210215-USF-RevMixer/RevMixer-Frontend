@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   USERS_REST: 'https://revmixerapi.azurewebsites.net/api/User',
+  SAVED_PROJECTS_REST: 'https://revmixerapi.azurewebsites.net/api/SavedProjects',
 };
 
 /*
