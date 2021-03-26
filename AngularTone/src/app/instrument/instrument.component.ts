@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Tone from 'tone';
-import {kickPattern, snarePattern, hiHatPattern, clapPattern, uniPattern} from './patterns.const';
+import {uniPattern} from './patterns.const';
 
 @Component({
   selector: 'app-instrument',
@@ -33,9 +33,10 @@ export class InstrumentComponent implements OnInit {
   clapLoopTrack: any;
   tempo: number = 190;
   dist = new Tone.Distortion(0).toDestination();
-  bitdepth = 16;
-  crusher = new Tone.BitCrusher(16).toDestination();
-  autoWah = new Tone.AutoWah(50, 6, -30).toDestination();
+  reverb = new Tone.Reverb(0).toDestination();
+  // bitdepth = 16;
+  // crusher = new Tone.BitCrusher(16).toDestination();
+  // autoWah = new Tone.AutoWah(50, 6, -30).toDestination();
 
   
   constructor() { }
@@ -91,30 +92,32 @@ export class InstrumentComponent implements OnInit {
     this.dist.distortion = event.value;
   }
 
-  // changeAutoWahSensitivity(event: any) {
-  //   this.autoWah.sensitivity = event.value;
-  // }
+   changeReverbDecay(event: any) {
+     this.reverb.decay = event.value;
+   }
+
+  
 
   private initializeSnareSample() {
     
     this.snareSample = new Tone.Sampler({
       C3: '../../assets/Snare.wav'
-    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).connect(this.reverb);//.chain(this.volume, Tone.Destination);
   }
   private initializeKickSample() {
     this.kickSample = new Tone.Sampler({
       C3: '../../assets/Kick.wav'
-    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).connect(this.reverb);//.chain(this.volume, Tone.Destination);
   }
   private initializeHiHatSample() {
     this.hiHatSample = new Tone.Sampler({
       C3: '../../assets/ClosedHat.wav'
-    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).connect(this.reverb);//.chain(this.volume, Tone.Destination);
   }
   private initializeClapSample() {
     this.clapSample = new Tone.Sampler({
       C3: '../../assets/Clap.wav'
-    }).connect(this.dist);//.connect(this.autoWah);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).connect(this.reverb);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
 
 
@@ -215,54 +218,54 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  loadKick() { 
-    for(let i = 0; i < 16; i++) {
-      if(kickPattern[i] == 1) {
-      this.kickBlocks[i].color = 'tomato';
-      this.kickBlocks[i].onOff = 1;
-      } else {
-      this.kickBlocks[i].color = 'grey';
-      this.kickBlocks[i].onOff = 0;
-      }
-      this.updateKick(i);
-      }
-    }
-    loadSnare() {
-    for(let i = 0; i < 16; i++) {
-      if(snarePattern[i] == 1) {
-      this.snareBlocks[i].color = 'tomato';
-      this.snareBlocks[i].onOff = 1;
-      } else {
-      this.snareBlocks[i].color = 'grey';
-      this.snareBlocks[i].onOff = 0;
-      }
-      this.updateSnare(i);
-      }
-    }
-    loadHiHat() {
-    for(let i = 0; i < 16; i++) {
-      if(hiHatPattern[i] == 1) {
-      this.hiHatBlocks[i].color = 'tomato';
-      this.hiHatBlocks[i].onOff = 1;
-      } else {
-      this.hiHatBlocks[i].color = 'grey';
-      this.hiHatBlocks[i].onOff = 0;
-      }
-      this.updateHiHat(i);
-      }
-    }
-    loadClap() {
-    for(let i = 0; i < 16; i++) {
-      if(clapPattern[i] == 1) {
-      this.clapBlocks[i].color = 'tomato';
-      this.clapBlocks[i].onOff = 1;
-      } else {
-      this.clapBlocks[i].color = 'grey';
-      this.clapBlocks[i].onOff = 0;
-      }
-      this.updateClap(i);
-      }
-    }
+  // loadKick() { 
+  //   for(let i = 0; i < 16; i++) {
+  //     if(kickPattern[i] == 1) {
+  //     this.kickBlocks[i].color = 'tomato';
+  //     this.kickBlocks[i].onOff = 1;
+  //     } else {
+  //     this.kickBlocks[i].color = 'grey';
+  //     this.kickBlocks[i].onOff = 0;
+  //     }
+  //     this.updateKick(i);
+  //     }
+  //   }
+  //   loadSnare() {
+  //   for(let i = 0; i < 16; i++) {
+  //     if(snarePattern[i] == 1) {
+  //     this.snareBlocks[i].color = 'tomato';
+  //     this.snareBlocks[i].onOff = 1;
+  //     } else {
+  //     this.snareBlocks[i].color = 'grey';
+  //     this.snareBlocks[i].onOff = 0;
+  //     }
+  //     this.updateSnare(i);
+  //     }
+  //   }
+  //   loadHiHat() {
+  //   for(let i = 0; i < 16; i++) {
+  //     if(hiHatPattern[i] == 1) {
+  //     this.hiHatBlocks[i].color = 'tomato';
+  //     this.hiHatBlocks[i].onOff = 1;
+  //     } else {
+  //     this.hiHatBlocks[i].color = 'grey';
+  //     this.hiHatBlocks[i].onOff = 0;
+  //     }
+  //     this.updateHiHat(i);
+  //     }
+  //   }
+  //   loadClap() {
+  //   for(let i = 0; i < 16; i++) {
+  //     if(clapPattern[i] == 1) {
+  //     this.clapBlocks[i].color = 'tomato';
+  //     this.clapBlocks[i].onOff = 1;
+  //     } else {
+  //     this.clapBlocks[i].color = 'grey';
+  //     this.clapBlocks[i].onOff = 0;
+  //     }
+  //     this.updateClap(i);
+  //     }
+  //   }
 
   
 
