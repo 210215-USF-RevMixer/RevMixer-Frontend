@@ -24,9 +24,10 @@ import { ChatroomComponent } from './Components/pages/chatroom/chatroom.componen
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './Components/auth-button/auth-button.component';
 import { AudioPlayerComponent } from './Components/audio/audio-player/audio-player.component';
+import { UploadComponent } from './Components/pages/upload/upload.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent],
 
   imports: [
     BrowserModule,

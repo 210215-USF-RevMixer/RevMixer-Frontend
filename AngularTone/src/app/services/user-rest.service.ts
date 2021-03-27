@@ -31,6 +31,6 @@ export class UserRestService {
 
   GetUserByEmail(email:string) : Observable<any>
   {
-    return this.http.get<User>(`${this.url}/${email}`, this.httpOptions)
+    return this.http.get<User>(`${this.url}/email/${email}`, this.httpOptions)
   }
 }
