@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   USERS_REST: 'https://revmixerapi.azurewebsites.net/api/User',
+  UPLOAD_MUSIC_REST: 'https://revmixerapi.azurewebsites.net/api/UploadedMusic'
 };
 
 /*
