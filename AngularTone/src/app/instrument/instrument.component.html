@@ -19,14 +19,14 @@
 
   
   
-  Reverb: <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0" max="4" value="0"></mat-slider>
+  Reverb: <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0" max="5" value="0"></mat-slider>
  
 
 
 
 
 
-<div class="container">
+<!-- <div class="container"> -->
 <div class="pad">
   <div *ngFor="let block of kickBlocks;let i = index" class="block">
     <div class="single-block" 
@@ -57,4 +57,36 @@
     </div>
   </div>
 </div>
+
+<div class="pad">
+  <div *ngFor="let block of shakerBlocks;let i = index" class="block">
+    <div class="single-block" 
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateShaker(i);">
+    </div>
+  </div>
 </div>
+
+<div class="pad">
+  <div *ngFor="let block of cowbellBlocks;let i = index" class="block">
+    <div class="single-block" 
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateCowbell(i);">
+    </div>
+  </div>
+</div>
+
+<div class="pad">
+  <div *ngFor="let block of claveBlocks;let i = index" class="block">
+    <div class="single-block" 
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateClave(i);">
+    </div>
+  </div>
+</div>
+
+<div class="pad">
+  <div *ngFor="let block of cymbalBlocks;let i = index" class="block">
+    <div class="single-block" 
+    [ngStyle]="{'background-color': block.color}" (click)="changeStateCymbal(i);">
+    </div>
+  </div>
+</div>
+<!-- </div> -->
