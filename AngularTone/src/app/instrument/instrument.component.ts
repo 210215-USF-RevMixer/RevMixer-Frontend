@@ -38,10 +38,12 @@ export class InstrumentComponent implements OnInit {
   cowbellBlocks: { color: string, onOff: number }[] = [];
   claveBlocks: { color: string, onOff: number }[] = [];
   cymbalBlocks: { color: string, onOff: number }[] = [];
+  //How many steps we have in the sequencer
   blockSize = 32;
   tempo: number = 190;
   dist = new Tone.Distortion(0).toDestination();
   reverb = new Tone.Reverb(0).toDestination();
+  //Time that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
   "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"];
   newKickNote: any;
@@ -66,6 +68,8 @@ export class InstrumentComponent implements OnInit {
     this.initializeCowbellSample();
     this.initializeClaveSample();
     this.initializeCymbalSample();
+
+    //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
     for (let index = 0; index < this.blockSize; index++) {
       this.kickBlocks.push({ 
         color: 'grey', 
@@ -98,8 +102,11 @@ export class InstrumentComponent implements OnInit {
       this.cymbalBlocks.push({ 
         color: 'grey', 
         onOff: 0 }); }
+
+    //Initial Tempo
     Tone.Transport.bpm.value = 190;
 
+    //Initialize every HTML block to a note, sets the length of the tracks loop, (blocksize = 32 blocks) = (4m = 4 measures)
     for (let i = 0; i < this.blockSize; i++) {
       this.kickTrack = new Tone.Part(((time, velocity) => {
       this.kickSample.triggerAttackRelease('C3', '16n', time, this.kickBlocks[i].onOff);
@@ -164,12 +171,7 @@ export class InstrumentComponent implements OnInit {
       this.cymbalTrack.loop = true;
       this.cymbalTrack.loopEnd = '4m';
       }
-
-
-
   }
-
-  //part.remove("0:1"); ///////////////////////////////////////////////////////////////////////////////////////
 
   playStop() {
     if (!this.isTransportStarted) {
@@ -181,6 +183,7 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
+  //From  HTML sliders
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
   }
@@ -189,11 +192,9 @@ export class InstrumentComponent implements OnInit {
     this.dist.distortion = event.value;
   }
 
-   changeReverbDecay(event: any) {
-     this.reverb.decay = event.value;
-   }
-
-  
+  changeReverbDecay(event: any) {
+    this.reverb.decay = event.value;
+  }
 
   private initializeSnareSample() {
     this.snareSample = new Tone.Sampler({
@@ -236,7 +237,6 @@ export class InstrumentComponent implements OnInit {
     }).connect(this.dist).connect(this.reverb);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
 
-
   // const sampler = new Tone.Sampler({
   //   urls: {
   //     A1: "A1.mp3",
@@ -248,8 +248,7 @@ export class InstrumentComponent implements OnInit {
   //   }
   // }).toDestination(); 
 
-
-
+//Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from the (Sample)Track
   public changeStateKick(index: number) {
     this.kickBlocks[index] = (this.kickBlocks[index].color === 'grey') ?
     {
@@ -267,7 +266,6 @@ export class InstrumentComponent implements OnInit {
       onOff: 1 } : {
       color: 'grey',
       onOff: 0 };
-
       this.updateSnare(index);
   }
   public changeStateHiHat(index: number) {
@@ -277,7 +275,6 @@ export class InstrumentComponent implements OnInit {
       onOff: 1 } : {
       color: 'grey',
       onOff: 0 };
-
       this.updateHiHat(index);
   }
   public changeStateClap(index: number) {
@@ -287,7 +284,6 @@ export class InstrumentComponent implements OnInit {
       onOff: 1 } : {
       color: 'grey',
       onOff: 0 };
-
       this.updateClap(index);
   }
   public changeStateShaker(index: number) {
@@ -297,7 +293,6 @@ export class InstrumentComponent implements OnInit {
       onOff: 1 } : {
       color: 'grey',
       onOff: 0 };
-
       this.updateShaker(index);
   }
   public changeStateCowbell(index: number) {
@@ -307,7 +302,6 @@ export class InstrumentComponent implements OnInit {
       onOff: 1 } : {
       color: 'grey',
       onOff: 0 };
-
       this.updateCowbell(index);
   }
   public changeStateClave(index: number) {
@@ -317,7 +311,6 @@ export class InstrumentComponent implements OnInit {
       onOff: 1 } : {
       color: 'grey',
       onOff: 0 };
-
       this.updateClave(index);
   }
   public changeStateCymbal(index: number) {
@@ -327,11 +320,10 @@ export class InstrumentComponent implements OnInit {
       onOff: 1 } : {
       color: 'grey',
       onOff: 0 };
-
       this.updateCymbal(index);
   }
   
-
+//Turns all HTML blocks off/grey, remove all notes from all patterns
   Clear() {
     for(let m = 0; m < this.blockSize; m++) {
       this.kickBlocks[m].color = 'grey';
@@ -350,7 +342,6 @@ export class InstrumentComponent implements OnInit {
       this.claveBlocks[m].onOff = 0;
       this.cymbalBlocks[m].color = 'grey';
       this.cymbalBlocks[m].onOff = 0;
-    
       this.updateKick(m);
       this.updateSnare(m);
       this.updateHiHat(m);
@@ -362,67 +353,43 @@ export class InstrumentComponent implements OnInit {
     }
   }
   
+  //Preset patterns are in pattern.const.ts 
+  //uniPattern[pattern number selected by HTML][sample instrument track/vertical line position][time/horizontal block position]
   loadPattern(x: number) {
         this.Clear();
         for (let i = 0; i < this.blockSize; i++) {
           if(uniPattern[x][0][i] == 1) {
             this.changeStateKick(i);
-            // this.kickBlocks[i].color = 'tomato';
-            // this.kickBlocks[i].onOff = 1;
-            // this.updateKick(i);
           }
           if(uniPattern[x][1][i] == 1) {
             this.changeStateSnare(i);
-            // this.snareBlocks[i].color = 'tomato';
-            // this.snareBlocks[i].onOff = 1;
-            // this.updateSnare(i);
           }
           if(uniPattern[x][2][i] == 1 ) {
             this.changeStateHiHat(i);
-            // this.hiHatBlocks[i].color = 'tomato';
-            // this.hiHatBlocks[i].onOff = 1;
-            // this.updateHiHat(i);
           }
           if(uniPattern[x][3][i] == 1) {
             this.changeStateClap(i);
-            // this.clapBlocks[i].color = 'tomato';
-            // this.clapBlocks[i].onOff = 1;
-            // this.updateClap(i);
           }
           if(uniPattern[x][4][i] == 1) {
             this.changeStateShaker(i);
-            // this.clapBlocks[i].color = 'tomato';
-            // this.clapBlocks[i].onOff = 1;
-            // this.updateClap(i);
           }
           if(uniPattern[x][5][i] == 1) {
             this.changeStateCowbell(i);
-            // this.clapBlocks[i].color = 'tomato';
-            // this.clapBlocks[i].onOff = 1;
-            // this.updateClap(i);
           }
           if(uniPattern[x][6][i] == 1) {
             this.changeStateClave(i);
-            // this.clapBlocks[i].color = 'tomato';
-            // this.clapBlocks[i].onOff = 1;
-            // this.updateClap(i);
           }
           if(uniPattern[x][7][i] == 1) {
             this.changeStateCymbal(i);
-            // this.clapBlocks[i].color = 'tomato';
-            // this.clapBlocks[i].onOff = 1;
-            // this.updateClap(i);
           }
         }
       }
-  
+//Adds or removes note from/to the SampleTrack. index is the horizontal position/time
 //triggerAttackRelease(note, duration, time, velocity)
   updateKick(index: number) {
     if(this.kickBlocks[index].onOff == 0) {
       this.kickTrack.remove(this.times[index]);
     } else {
-    // this.newKick = new Tone.ToneEvent(this.kickSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.kickBlocks[index].onOff));
-    // this.kickTrack.add(this.newKick);
     this.newKickNote = new Tone.ToneEvent(this.kickSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.kickBlocks[index].onOff));
     this.kickTrack.add(this.times[index], this.newKickNote);
     }
@@ -431,8 +398,6 @@ export class InstrumentComponent implements OnInit {
     if(this.snareBlocks[index].onOff == 0) {
       this.snareTrack.remove(this.times[index]);
     } else {
-    // this.newSnare = new Tone.ToneEvent(this.snareSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.snareBlocks[index].onOff));
-    // this.snareTrack.add(this.newSnare);
     this.newSnareNote = new Tone.ToneEvent(this.snareSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.snareBlocks[index].onOff));
     this.snareTrack.add(this.times[index], this.newSnareNote);
     }
@@ -441,8 +406,6 @@ export class InstrumentComponent implements OnInit {
     if(this.hiHatBlocks[index].onOff == 0) {
       this.hiHatTrack.remove(this.times[index]);
     } else {
-    // this.newHiHat = new Tone.ToneEvent(this.hiHatSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.hiHatBlocks[index].onOff));
-    // this.hiHatTrack.add(this.newHiHat);
     this.newHiHatNote = new Tone.ToneEvent(this.hiHatSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.hiHatBlocks[index].onOff));
     this.hiHatTrack.add(this.times[index], this.newHiHatNote);
     }
@@ -451,8 +414,6 @@ export class InstrumentComponent implements OnInit {
     if(this.clapBlocks[index].onOff == 0) {
       this.clapTrack.remove(this.times[index]);
     } else {
-    // this.newClap = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.clapBlocks[index].onOff));
-    // this.clapTrack.add(this.newClap);
     this.newClapNote = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.clapBlocks[index].onOff));
     this.clapTrack.add(this.times[index], this.newClapNote);
     }
@@ -461,8 +422,6 @@ export class InstrumentComponent implements OnInit {
     if(this.shakerBlocks[index].onOff == 0) {
       this.shakerTrack.remove(this.times[index]);
     } else {
-    // this.newClap = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.clapBlocks[index].onOff));
-    // this.clapTrack.add(this.newClap);
     this.newShakerNote = new Tone.ToneEvent(this.shakerSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.clapBlocks[index].onOff));
     this.shakerTrack.add(this.times[index], this.newShakerNote);
     }
@@ -471,8 +430,6 @@ export class InstrumentComponent implements OnInit {
     if(this.cowbellBlocks[index].onOff == 0) {
       this.cowbellTrack.remove(this.times[index]);
     } else {
-    // this.newClap = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.clapBlocks[index].onOff));
-    // this.clapTrack.add(this.newClap);
     this.newCowbellNote = new Tone.ToneEvent(this.cowbellSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.clapBlocks[index].onOff));
     this.cowbellTrack.add(this.times[index], this.newCowbellNote);
     }
@@ -481,8 +438,6 @@ export class InstrumentComponent implements OnInit {
     if(this.claveBlocks[index].onOff == 0) {
       this.claveTrack.remove(this.times[index]);
     } else {
-    // this.newClap = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.clapBlocks[index].onOff));
-    // this.clapTrack.add(this.newClap);
     this.newClaveNote = new Tone.ToneEvent(this.claveSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.clapBlocks[index].onOff));
     this.claveTrack.add(this.times[index], this.newClaveNote);
     }
@@ -491,8 +446,6 @@ export class InstrumentComponent implements OnInit {
     if(this.cymbalBlocks[index].onOff == 0) {
       this.cymbalTrack.remove(this.times[index]);
     } else {
-    // this.newClap = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '16n', this.times[index]));//, this.clapBlocks[index].onOff));
-    // this.clapTrack.add(this.newClap);
     this.newCymbalNote = new Tone.ToneEvent(this.cymbalSample.triggerAttackRelease('C3', '16n'));//, this.times[index]));//, this.clapBlocks[index].onOff));
     this.cymbalTrack.add(this.times[index], this.newCymbalNote);
     }
