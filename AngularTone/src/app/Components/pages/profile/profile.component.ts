@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/Models/User';
 import { UserRestService } from 'src/app/services/user-rest.service';
-
+import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'ngx-audio-player';
+import { Console } from 'node:console';
 
 
 
@@ -15,6 +16,7 @@ import { Track } from 'ngx-audio-player';
 })
 export class ProfileComponent implements OnInit {
   user: User;
+  authUser: any;
 
   audioPlayer: Track;
 
@@ -30,7 +32,7 @@ export class ProfileComponent implements OnInit {
   msaapDisplayDuration = true;
   msaapDisablePositionSlider = false;
 
-  constructor(private userService: UserRestService) {
+  constructor(private userService: UserRestService, private authService: AuthService) {
     this.user = 
     {
       userName: '',
@@ -63,13 +65,31 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.GetUser(1).subscribe
-    (
-      foundUser =>
-      {
-        this.user = foundUser;
-      }
+    this.authService.user$.subscribe(
+      au =>
+      this.authUser = au
     )
+    this.authService.user$.subscribe(
+      authUser =>
+
+      this.userService.GetUserByEmail(authUser.email).subscribe
+      (
+        foundUser =>
+        {
+          this.user = foundUser;
+        }
+      )
+
+    
+    )
+
+    // this.userService.GetUser(this.user.ID).subscribe
+    // (
+    //   foundUser =>
+    //   {
+    //     this.user = foundUser;
+    //   }
+    // )
 
   }
 

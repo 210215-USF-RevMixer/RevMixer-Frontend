@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { InstrumentComponent } from './instrument/instrument.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
+import { FormsModule } from '@angular/forms';
 
 
 import { MatButtonModule } from '@angular/material/button';
@@ -40,6 +41,7 @@ import { UploadComponent } from './Components/pages/upload/upload.component';
     MatSliderModule,
     HttpClientModule,
     NgxAudioPlayerModule,
+    FormsModule,
     AuthModule.forRoot(
       {
         domain: 'dev-vymugu6z.us.auth0.com',

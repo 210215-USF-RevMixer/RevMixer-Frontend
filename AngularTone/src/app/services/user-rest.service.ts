@@ -9,6 +9,9 @@ import { User } from '../Models/User';
 })
 export class UserRestService {
 
+responseValue: any;
+
+
 
   httpOptions = {
     headers: new HttpHeaders(
@@ -21,7 +24,8 @@ export class UserRestService {
 
   url : string = environment.USERS_REST;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
+   }
 
 
   GetUser(userid:number ) : Observable<any>
@@ -31,6 +35,9 @@ export class UserRestService {
 
   GetUserByEmail(email:string) : Observable<any>
   {
-    return this.http.get<User>(`${this.url}/email/${email}`, this.httpOptions)
+    return this.http.get<User>(`${this.url}/email/${email}`, this.httpOptions);
+    
   }
+
+
 }
