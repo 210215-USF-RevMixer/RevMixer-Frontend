@@ -101,12 +101,11 @@ ngOnInit(): void {
 
 PopulateAudioPlayer(foundDbMusic: UploadMusic[])
 {
-  for (let counter = 0; counter < foundDbMusic.length; counter++) {
+  var counter=0;
+  foundDbMusic.forEach(songFound => {
     this.playlist[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
     this.playlist[counter].title = songFound.name;
-  }
-  foundDbMusic.forEach(songFound => {
-    
+    counter ++;
   });
 }
 }
