@@ -3,15 +3,15 @@ import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { HubRestService } from 'src/app/services/hub-rest.service';
 
 @Component({
-  selector: 'app-hub',
-  templateUrl: './hub.component.html',
-  styleUrls: ['./hub.component.scss']
+  selector: 'app-likebtn',
+  templateUrl: './likebtn.component.html',
+  styleUrls: ['./likebtn.component.scss']
 })
-export class HubComponent implements OnInit {
-  upload: UploadMusic[];
+export class LikebtnComponent implements OnInit {
+  like: UploadMusic;
   constructor(private hubService: HubRestService) { 
   
-    this.upload =[
+    this.like =
     {
       ID: 0,
       userId: 0,
@@ -35,31 +35,23 @@ export class HubComponent implements OnInit {
       comments: [],
       uploadDate: new Date
     }
-  ]
 }
-    
 
+ngOnInit(): void {
+  this.hubService.GetAllUpload().subscribe
+  (
+    foundUser =>
+    {
+      this.like = foundUser;
+    }
+  )
+}
 
-  ngOnInit(): void {
-    this.hubService.GetAllUpload().subscribe
-    (
-      foundUser =>
-      {
-        this.upload = foundUser;
-      }
-    )
-  }
-  
-  AddLike(likes: UploadMusic)
-  {
-    // this.upload.likes++;
-    // this.hubService.AddLike(this.upload)
-    // console.log('button pressed');
-  }
+AddLike(likes: UploadMusic)
+{
+  this.like.likes++;
+  this.hubService.AddLike(this.like)
+  console.log('button pressed');
+}
 
-  // convertToSingleSong(song: UploadMusic[]){
-  //   // this.upload[] = this.upload2;
-  //   this.AddLike(this.upload2);
-  // }
-  
 }
