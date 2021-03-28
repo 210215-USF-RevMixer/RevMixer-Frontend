@@ -27,10 +27,10 @@ export class ProfileComponent implements OnInit {
   audioPlayer: Track;
 
   audioCollection: Track[];
-
+  
   //audio player settings
   msaapDisplayTitle = true;
-  msaapDisplayPlayList = false;
+  msaapDisplayPlayList = true;
   msaapPageSizeOptions = [2,4,6];
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
@@ -39,6 +39,8 @@ export class ProfileComponent implements OnInit {
   msaapDisablePositionSlider = false;
 
   constructor(private userService: UserRestService, private musicService: UploadedMusicRestService, private authService: AuthService) {
+
+    
     this.user = 
     {
       userName: '',
@@ -94,6 +96,7 @@ export class ProfileComponent implements OnInit {
 
 
 
+
   }
 
   ngOnInit(): void {
@@ -128,13 +131,24 @@ export class ProfileComponent implements OnInit {
 
   PopulateAudioPlayer(foundDbMusic: UploadMusic[])
   {
-    let counter = 0;
+    var counter = 0;
     foundDbMusic.forEach(songFound => {
-      debugger;
-      this.audioCollection[counter].artist = songFound.user.email;
-      this.audioCollection[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
-      this.audioCollection[counter].title = songFound.name;
-      
+      if(counter == 0){
+        this.audioCollection[counter].artist = songFound.user.email;
+        this.audioCollection[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
+        this.audioCollection[counter].title = songFound.name;
+        counter++;
+      }
+      else {
+        var fileToAddToPlaylist = new Track;
+
+        fileToAddToPlaylist.artist = songFound.user.email;
+        fileToAddToPlaylist.link = this.S3Bucket + "/" + songFound.musicFilePath;
+        fileToAddToPlaylist.title = songFound.name;
+        this.audioCollection.push(fileToAddToPlaylist);
+      }
+
+
     });
   }
 

@@ -32,7 +32,7 @@
                 <h1>Uploaded Music</h1>
 
 
-                <div class="row" *ngFor="let uploadedSongs of user.uploadMusics">
+                <div class="row">
                     <div class="col-sm-5">
 
                     </div>
@@ -40,9 +40,10 @@
                         <div class="well">
                             <ngx-audio-player [playlist]="audioCollection" [displayTitle]="msaapDisplayTitle" [autoPlay]="false"
                             muted="muted" [displayPlaylist]="msaapDisplayPlayList" [pageSizeOptions]="msaapPageSizeOptions" 
+                            [displayVolumeControls]="msaapDisplayVolumeControls"
                             [displayArtist]="msaapDisplayArtist" [displayDuration]="msaapDisplayDuration"
                             [expanded]="true" [displayVolumeControls]="msaapDisplayVolumeControls" [displayRepeatControls]="msaapDisplayRepeatControls" 
-                            [disablePositionSlider]="msaapDisablePositionSlider"></ngx-audio-player>   
+                            [disablePositionSlider]="msaapDisablePositionSlider" [expanded]="true"></ngx-audio-player>   
 
                         </div>
                     </div>
