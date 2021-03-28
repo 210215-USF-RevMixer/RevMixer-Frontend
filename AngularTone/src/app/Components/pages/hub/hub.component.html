@@ -1,26 +1,20 @@
 <div class="container mt-5 mb-5">
     <div class="d-flex justify-content-center row">
-        <div class="d-flex flex-column col-md-8">
+        <div class="d-flex flex-column col-md-8"*ngFor="let UploadMusic of upload;">
             <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
                 <div class="profile-image"><img class="rounded-circle" src="./assets/images/DefaulProFilePic.png"
                         width="70"></div>
-                <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1">
-                    <a>{{upload.likes}}</a>
-                    <button id="likebtn" (click)="AddLike(upload)">
-                    <i class="fa fa-sort-up fa-2x hit-voting"></i>
-                    </button>
-                </div>
+               <app-likebtn></app-likebtn>
                 <div class="d-flex flex-column ml-3">
                     <div class="d-flex flex-row post-title">
-                        <h4>"{{upload.name}}"</h4><span class="ml-2">{{upload.user.userName}}</span>
+                        <h4>"{{UploadMusic.name}}"</h4><span class="ml-2">{{UploadMusic.user.userName}}</span>
                     </div>
                     <app-audio-player></app-audio-player>
                     <div class="d-flex flex-row align-items-center align-content-center post-title">
-                        <span class="mr-2 dot"></span><span>{{upload.uploadDate}}</span>
+                        <span class="mr-2 dot"></span><span>{{UploadMusic.uploadDate}}</span>
                     </div>
                 </div>
             </div>
-            <app-comment></app-comment>
         </div>
     </div>
 </div>
