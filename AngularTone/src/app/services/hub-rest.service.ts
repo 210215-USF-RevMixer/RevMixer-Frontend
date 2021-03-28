@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Comments } from '../Models/Comments';
 import { UploadMusic } from '../Models/UploadMusic';
 
 
@@ -22,13 +23,17 @@ export class HubRestService {
 
   constructor(private http:HttpClient) { }
 
-  GetUpload(uploadid: number ) : Observable<any>
+  GetAllUpload() : Observable<any>
   {
-    return this.http.get<UploadMusic>(`${this.url}/${uploadid}`, this.httpOptions);
+    return this.http.get<UploadMusic>(this.url, this.httpOptions);
   }
 
   AddLike(upload: UploadMusic) : Observable<UploadMusic>
   {
     return this.http.put<any>(`${this.url}/${upload.likes}`, upload, this.httpOptions);
+  }
+
+  GetAllComments(): Observable<Comments[]> {
+    return this.http.get<Comments[]>(this.url, this.httpOptions);
   }
 }

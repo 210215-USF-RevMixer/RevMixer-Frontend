@@ -17,12 +17,15 @@ export class CommentRestService {
     )
   }
 
-  url : string = environment.UPLOAD_MUSIC_REST;
+  url : string = environment.COMMENT_REST;
 
   constructor(private http:HttpClient) { }
 
-  GetUser(userid:number ) : Observable<any>
+  GetAllComment() : Observable<any>
   {
-    return this.http.get<Comments>(`${this.url}/${userid}`, this.httpOptions)
+    return this.http.get<Comments>(this.url, this.httpOptions)
+  }
+  AddComment(Comment2Add: Comments) : Observable<Comments>{
+    return this.http.post<Comments>(this.url, Comment2Add, this.httpOptions);
   }
 }
