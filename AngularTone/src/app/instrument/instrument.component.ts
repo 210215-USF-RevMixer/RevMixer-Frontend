@@ -54,6 +54,9 @@ export class InstrumentComponent implements OnInit {
   newCowbellNote: any;
   newClaveNote: any;
   newCymbalNote: any;
+  //recordign objects 
+  recorder = new Tone.Recorder();
+  audio: any;
   
   constructor() { }
 
@@ -171,8 +174,25 @@ export class InstrumentComponent implements OnInit {
       this.cymbalTrack.loop = true;
       this.cymbalTrack.loopEnd = '4m';
       }
+      //Initialize audio 
+      this.audio = document.querySelector('audio');
   }
 
+  //Record songs to audio component and allows song to be downloaded
+  record() {
+    if (!this.isTransportStarted) {
+      this.recorder.start();
+      Tone.Transport.toggle()
+      this.isTransportStarted = true;
+    } else {
+      setTimeout(async () => {
+        const recording = await this.recorder.stop();
+        this.audio.src = URL.createObjectURL(recording);
+      }, 2000);
+      Tone.Transport.toggle();
+      this.isTransportStarted = false;
+    }
+  }
   playStop() {
     if (!this.isTransportStarted) {
       Tone.Transport.toggle();
@@ -199,42 +219,42 @@ export class InstrumentComponent implements OnInit {
   private initializeSnareSample() {
     this.snareSample = new Tone.Sampler({
       C3: '../../assets/Snare.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
   }
   private initializeKickSample() {
     this.kickSample = new Tone.Sampler({
       C3: '../../assets/Kick.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
   }
   private initializeHiHatSample() {
     this.hiHatSample = new Tone.Sampler({
       C3: '../../assets/ClosedHat.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
   }
   private initializeClapSample() {
     this.clapSample = new Tone.Sampler({
       C3: '../../assets/Clap.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeShakerSample() {
     this.shakerSample = new Tone.Sampler({
       C3: '../../assets/Shaker.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeCowbellSample() {
     this.cowbellSample = new Tone.Sampler({
       C3: '../../assets/Cowbell.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeClaveSample() {
     this.claveSample = new Tone.Sampler({
       C3: '../../assets/Clave.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeCymbalSample() {
     this.cymbalSample = new Tone.Sampler({
       C3: '../../assets/Cymbal.wav'
-    }).connect(this.dist).connect(this.reverb);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
 
   // const sampler = new Tone.Sampler({
