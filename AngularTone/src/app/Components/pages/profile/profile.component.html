@@ -13,8 +13,8 @@
         <div class="row">
             <div class="col-sm-3 well">
                 <div class="well">
-                    <p><a href="#">{{user.userName}}</a></p>
-                    <img src=".\assets\images\DefaulProFilePic.png" class="img-circle" height="65" width="65"
+                    <p>{{user.email}}</p>
+                    <img src="{{authUser.picture}}" class="img-circle" height="65" width="65"
                         alt="Avatar">
                         
                 </div>
@@ -23,7 +23,7 @@
                     <li class="list-group-item">Has Uploaded {{user.uploadMusics.length}} Song<span *ngIf="user.uploadMusics.length > 1">s</span> </li>
                     <!--NEED TO FIX THIS, NAMING CONVENTION IN MODEL IS SLIGHTLY WRONG FOR SAMPLE TO BE ABLE TO PULL FROM API-->
                     <li class="list-group-item">Has Uploaded {{user.sample.length}} Sample<span *ngIf="user.sample.length > 1">s</span> </li>
-                    <li class="list-group-item">Has Left {{user.uploadMusics.length}} <span *ngIf="user.comments.length == 0">no</span> <span *ngIf="user.comments.length > 1">comments</span> <span *ngIf="user.comments.length == 1">comment</span> on songs/samples </li>
+                    <li class="list-group-item">Has Left {{user.uploadMusics.length}} <span *ngIf="user.comments.length == 0">Comments</span> <span *ngIf="user.comments.length > 1">comments</span> <span *ngIf="user.comments.length == 1">comment</span> on songs/samples </li>
                 </ul>
             </div>
 
@@ -39,6 +39,12 @@
                     <div class="col-sm-12">
                         <div class="well">
                             <p>{{uploadedSongs.name}}</p>
+                            <ngx-audio-player [displayTitle]="msaapDisplayTitle" [autoPlay]="false"
+                            muted="muted" [displayPlaylist]="msaapDisplayPlayList" [pageSizeOptions]="msaapPageSizeOptions" 
+                            [displayArtist]="msaapDisplayArtist" [displayDuration]="msaapDisplayDuration"
+                            [expanded]="true" [displayVolumeControls]="msaapDisplayVolumeControls" [displayRepeatControls]="msaapDisplayRepeatControls" 
+                            [disablePositionSlider]="msaapDisablePositionSlider"></ngx-audio-player>   
+
                         </div>
                     </div>
                 </div>

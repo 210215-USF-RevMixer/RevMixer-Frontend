@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { InstrumentComponent } from './instrument/instrument.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
+import { FormsModule } from '@angular/forms';
 
 
 import { MatButtonModule } from '@angular/material/button';
@@ -24,12 +25,14 @@ import { ChatroomComponent } from './Components/pages/chatroom/chatroom.componen
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './Components/auth-button/auth-button.component';
 import { AudioPlayerComponent } from './Components/audio/audio-player/audio-player.component';
+import { UploadComponent } from './Components/pages/upload/upload.component';
 import { CommentComponent } from './Components/comment/comment.component';
 import { LikebtnComponent } from './Components/likebtn/likebtn.component';
 
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, CommentComponent, LikebtnComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent],
+
 
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { LikebtnComponent } from './Components/likebtn/likebtn.component';
     MatSliderModule,
     HttpClientModule,
     NgxAudioPlayerModule,
+    FormsModule,
     AuthModule.forRoot(
       {
         domain: 'dev-vymugu6z.us.auth0.com',
