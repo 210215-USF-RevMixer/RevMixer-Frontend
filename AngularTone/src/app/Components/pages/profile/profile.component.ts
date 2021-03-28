@@ -4,6 +4,10 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'ngx-audio-player';
 import { Console } from 'node:console';
+import { environment } from 'src/environments/environment';
+import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
+import { UploadMusic } from 'src/app/Models/UploadMusic';
+import { debug } from 'tone';
 
 
 
@@ -17,7 +21,9 @@ import { Console } from 'node:console';
 export class ProfileComponent implements OnInit {
   user: User;
   authUser: any;
+  S3Bucket: string = environment.AMAZON_S3;
 
+  userMusic: UploadMusic[];
   audioPlayer: Track;
 
   audioCollection: Track[];
@@ -29,10 +35,10 @@ export class ProfileComponent implements OnInit {
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
   msaapDisplayArtist = true;
-  msaapDisplayDuration = true;
+  msaapDisplayDuration = false;
   msaapDisablePositionSlider = false;
 
-  constructor(private userService: UserRestService, private authService: AuthService) {
+  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService, private authService: AuthService) {
     this.user = 
     {
       userName: '',
@@ -45,6 +51,32 @@ export class ProfileComponent implements OnInit {
       uploadMusics: [],
       playlists: []
     }
+
+    this.userMusic = [{
+      ID: 0,
+      userId: 0,
+      musicFilePath: '',
+      name: '',
+      uploadDate: new Date,
+      likes: 0,
+      plays: 0,
+  
+      user: {
+        userName: '',
+        ID: 0,
+        email: '',
+        isAdmin: false,
+        userProjects: [],
+        sample: [],
+        comments: [],
+        uploadMusics: [],
+        playlists: []
+      },
+
+  
+      musicPlaylists: [],
+      comments: []
+    }]
 
     this.audioPlayer = 
     {
@@ -77,20 +109,33 @@ export class ProfileComponent implements OnInit {
         foundUser =>
         {
           this.user = foundUser;
+
+          this.musicService.GetSongsByUserId(foundUser.id).subscribe
+          (
+            foundsongs =>
+            {
+              this.userMusic = foundsongs;
+              this.PopulateAudioPlayer(foundsongs);
+
+            }
+          )
+
         }
       )
-
-    
     )
+    
+  }
 
-    // this.userService.GetUser(this.user.ID).subscribe
-    // (
-    //   foundUser =>
-    //   {
-    //     this.user = foundUser;
-    //   }
-    // )
-
+  PopulateAudioPlayer(foundDbMusic: UploadMusic[])
+  {
+    let counter = 0;
+    foundDbMusic.forEach(songFound => {
+      debugger;
+      this.audioCollection[counter].artist = songFound.user.email;
+      this.audioCollection[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
+      this.audioCollection[counter].title = songFound.name;
+      
+    });
   }
 
 }

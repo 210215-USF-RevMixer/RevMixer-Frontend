@@ -38,8 +38,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="well">
-                            <p>{{uploadedSongs.name}}</p>
-                            <ngx-audio-player [displayTitle]="msaapDisplayTitle" [autoPlay]="false"
+                            <ngx-audio-player [playlist]="audioCollection" [displayTitle]="msaapDisplayTitle" [autoPlay]="false"
                             muted="muted" [displayPlaylist]="msaapDisplayPlayList" [pageSizeOptions]="msaapPageSizeOptions" 
                             [displayArtist]="msaapDisplayArtist" [displayDuration]="msaapDisplayDuration"
                             [expanded]="true" [displayVolumeControls]="msaapDisplayVolumeControls" [displayRepeatControls]="msaapDisplayRepeatControls" 
