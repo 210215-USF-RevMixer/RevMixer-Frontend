@@ -59,8 +59,6 @@ export class InstrumentComponent implements OnInit {
   //How many steps we have in the sequencer
   blockSize = 32;
   tempo: number = 190;
-  dist = new Tone.Distortion(0).toDestination();
-  reverb = new Tone.Reverb(0).toDestination();
   //Time in the loop that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
   "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"];
@@ -80,7 +78,9 @@ export class InstrumentComponent implements OnInit {
                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
-  
+  //effects objects
+  dist = new Tone.Distortion(0).toDestination();
+  reverb = new Tone.Reverb(0).toDestination();
   //recording objects 
   recorder = new Tone.Recorder();
   audio: any;
@@ -240,45 +240,263 @@ export class InstrumentComponent implements OnInit {
     this.reverb.decay = event.value;
   }
 
-  private initializeSnareSample() {
+  changeSample1() {
+    this.kickSample.dispose();
+    this.snareSample.dispose();
+    this.hiHatSample.dispose();
+    this.clapSample.dispose();
+    this.shakerSample.dispose();
+    this.cowbellSample.dispose();
+    this.claveSample.dispose();
+    this.cymbalSample.dispose();
+    this.kickSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/Kick.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.snareSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/Snare.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.hiHatSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/Hat_closed.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.clapSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/Claps.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.shakerSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/woodblock.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cowbellSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/Tom1.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.claveSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/Tom2.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cymbalSample = new Tone.Sampler({
+      C3: '../../assets/MxrDrumComputer185/Tom3.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+  }
+
+  changeSample2() {
+    this.kickSample.dispose();
+    this.snareSample.dispose();
+    this.hiHatSample.dispose();
+    this.clapSample.dispose();
+    this.shakerSample.dispose();
+    this.cowbellSample.dispose();
+    this.claveSample.dispose();
+    this.cymbalSample.dispose();
+    this.kickSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/kick.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.snareSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/sd.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.hiHatSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/chh.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.clapSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/clap.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.shakerSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/cabasa.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cowbellSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/cowb.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.claveSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/tamb.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cymbalSample = new Tone.Sampler({
+      C3: '../../assets/Linndrum/conga.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+  }
+
+  changeSample3() {
+    this.kickSample.dispose();
+    this.snareSample.dispose();
+    this.hiHatSample.dispose();
+    this.clapSample.dispose();
+    this.shakerSample.dispose();
+    this.cowbellSample.dispose();
+    this.claveSample.dispose();
+    this.cymbalSample.dispose();
+    this.kickSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/skkick.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.snareSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/sksnare.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.hiHatSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/skclhat.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.clapSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/skophat.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.shakerSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/skhitom.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cowbellSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/sklotom.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.claveSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/skclhat.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cymbalSample = new Tone.Sampler({
+      C3: '../../assets/CasioSk-1/skophat.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+  }
+
+  changeSample4() {
+    this.kickSample.dispose();
+    this.snareSample.dispose();
+    this.hiHatSample.dispose();
+    this.clapSample.dispose();
+    this.shakerSample.dispose();
+    this.cowbellSample.dispose();
+    this.claveSample.dispose();
+    this.cymbalSample.dispose();
+    this.kickSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeZBass.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.snareSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeClaves.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.hiHatSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeClick1.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.clapSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeClick2.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.shakerSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeClick3.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cowbellSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeClick4.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.claveSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeClink1.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cymbalSample = new Tone.Sampler({
+      C3: '../../assets/SergeModular/SergeWhoomp.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+  }
+
+  changeSample5() {
+    this.kickSample.dispose();
+    this.snareSample.dispose();
+    this.hiHatSample.dispose();
+    this.clapSample.dispose();
+    this.shakerSample.dispose();
+    this.cowbellSample.dispose();
+    this.claveSample.dispose();
+    this.cymbalSample.dispose();
+    this.kickSample = new Tone.Sampler({
+      C3: '../../assets/Kick.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
     this.snareSample = new Tone.Sampler({
       C3: '../../assets/Snare.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.hiHatSample = new Tone.Sampler({
+      C3: '../../assets/ClosedHat.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.clapSample = new Tone.Sampler({
+      C3: '../../assets/Clap.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.shakerSample = new Tone.Sampler({
+      C3: '../../assets/Shaker.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cowbellSample = new Tone.Sampler({
+      C3: '../../assets/Cowbell.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.claveSample = new Tone.Sampler({
+      C3: '../../assets/Clave.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cymbalSample = new Tone.Sampler({
+      C3: '../../assets/Cymbal.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
   }
+
+  changeSample6() {
+    this.kickSample.dispose();
+    this.snareSample.dispose();
+    this.hiHatSample.dispose();
+    this.clapSample.dispose();
+    this.shakerSample.dispose();
+    this.cowbellSample.dispose();
+    this.claveSample.dispose();
+    this.cymbalSample.dispose();
+    this.kickSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10bd01.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.snareSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10sd08.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.hiHatSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10rim1.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.clapSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10clap.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.shakerSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10tamb.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cowbellSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10choke.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.claveSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10ophat.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    this.cymbalSample = new Tone.Sampler({
+      C3: '../../assets/AlesisXR-10/XR10hiq1.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+  }
+
   private initializeKickSample() {
     this.kickSample = new Tone.Sampler({
       C3: '../../assets/Kick.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+    //}).connect(this.dist).connect(this.reverb).connect(this.recorder).connect(Tone.Destination);//.chain(this.volume, Tone.Destination);
+  }
+  private initializeSnareSample() {
+    this.snareSample = new Tone.Sampler({
+      C3: '../../assets/Snare.wav'
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+      //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
   }
   private initializeHiHatSample() {
     this.hiHatSample = new Tone.Sampler({
       C3: '../../assets/ClosedHat.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+      //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
   }
   private initializeClapSample() {
     this.clapSample = new Tone.Sampler({
       C3: '../../assets/Clap.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+      //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeShakerSample() {
     this.shakerSample = new Tone.Sampler({
       C3: '../../assets/Shaker.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+      //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeCowbellSample() {
     this.cowbellSample = new Tone.Sampler({
       C3: '../../assets/Cowbell.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+      //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeClaveSample() {
     this.claveSample = new Tone.Sampler({
       C3: '../../assets/Clave.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+      //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeCymbalSample() {
     this.cymbalSample = new Tone.Sampler({
       C3: '../../assets/Cymbal.wav'
-    }).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
+    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
+      //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
 
   // const sampler = new Tone.Sampler({
