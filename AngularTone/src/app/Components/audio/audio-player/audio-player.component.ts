@@ -118,11 +118,6 @@ PopulateAudioPlayer(foundDbMusic: UploadMusic[])
         fileToAddToPlaylist.title = songFound.name;
         this.playlist.push(fileToAddToPlaylist);
       }
-         });
+      });
 }
 }
-     
-
-
-      
- 

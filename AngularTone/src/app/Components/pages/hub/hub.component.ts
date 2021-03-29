@@ -50,16 +50,22 @@ export class HubComponent implements OnInit {
     )
   }
   
-  AddLike(likes: UploadMusic)
+  GetComments()
   {
-    // this.upload.likes++;
-    // this.hubService.AddLike(this.upload)
-    // console.log('button pressed');
-  }
+    var counter = 0;
+    // foundDbComment.forEach(songFound => {
+    //   if(counter == 0){
+    //     this.audioCollection[counter].artist = songFound.user.email;
+    //     this.audioCollection[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
+    //     this.audioCollection[counter].title = songFound.name;
+    //     counter++;
+    //   }
+    //   else {
+    //     var fileToAddToPlaylist = new Track;
 
-  // convertToSingleSong(song: UploadMusic[]){
-  //   // this.upload[] = this.upload2;
-  //   this.AddLike(this.upload2);
-  // }
-  
-}
+    //     fileToAddToPlaylist.artist = songFound.user.email;
+    //     fileToAddToPlaylist.link = this.S3Bucket + "/" + songFound.musicFilePath;
+    //     fileToAddToPlaylist.title = songFound.name;
+    //     this.audioCollection.push(fileToAddToPlaylist);
+      }
+  }

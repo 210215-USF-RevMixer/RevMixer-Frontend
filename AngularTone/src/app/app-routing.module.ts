@@ -9,11 +9,12 @@ import { UploadComponent } from './Components/pages/upload/upload.component';
 
 
 const routes: Routes = [
-  {path: '', component: InstrumentComponent, data: { title: 'Home' }},
+  {path: '', component: InstrumentComponent},
   {path: 'hub', component: HubComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'test', component: AudioPlayerComponent, canActivate: [AuthGuard]},
-  {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]}
+  {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]},
+  {path: '**', component: InstrumentComponent}
 ];
 
 @NgModule({
