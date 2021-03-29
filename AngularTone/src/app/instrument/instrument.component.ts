@@ -138,7 +138,7 @@ export class InstrumentComponent implements OnInit {
     //Initialize every HTML grid square to a note, sets the length of the tracks loop, (blocksize = 32 blocks) = (4m = 4 measures)
     for (let i = 0; i < this.blockSize; i++) {
       this.kickTrack = new Tone.Part(((time, velocity) => {
-      this.kickSample.triggerAttackRelease('C3', '16n', time, this.kickBlocks[i].onOff);
+      this.kickSample.triggerAttackRelease('C3', '8n', time, this.kickBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.kickTrack.start(0);
       this.kickTrack.loop = true;
@@ -146,7 +146,7 @@ export class InstrumentComponent implements OnInit {
       }
     for (let i = 0; i < this.blockSize; i++) {
       this.snareTrack = new Tone.Part(((time) => {
-      this.snareSample.triggerAttackRelease('C3', '16n', time, this.snareBlocks[i].onOff);
+      this.snareSample.triggerAttackRelease('C3', '8n', time, this.snareBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.snareTrack.start(0);
       this.snareTrack.loop = true;
@@ -154,7 +154,7 @@ export class InstrumentComponent implements OnInit {
       }
     for (let i = 0; i < this.blockSize; i++) {
       this.hiHatTrack = new Tone.Part(((time) => {
-      this.hiHatSample.triggerAttackRelease('C3', '16n', time, this.hiHatBlocks[i].onOff);
+      this.hiHatSample.triggerAttackRelease('C3', '8n', time, this.hiHatBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.hiHatTrack.start(0);
       this.hiHatTrack.loop = true;
@@ -162,7 +162,7 @@ export class InstrumentComponent implements OnInit {
       }
     for (let i = 0; i < this.blockSize; i++) {
       this.clapTrack = new Tone.Part(((time) => {
-      this.clapSample.triggerAttackRelease('C3', '16n', time, this.clapBlocks[i].onOff);
+      this.clapSample.triggerAttackRelease('C3', '8n', time, this.clapBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.clapTrack.start(0);
       this.clapTrack.loop = true;
@@ -170,7 +170,7 @@ export class InstrumentComponent implements OnInit {
       }
     for (let i = 0; i < this.blockSize; i++) {
       this.shakerTrack = new Tone.Part(((time) => {
-      this.shakerSample.triggerAttackRelease('C3', '16n', time, this.shakerBlocks[i].onOff);
+      this.shakerSample.triggerAttackRelease('C3', '8n', time, this.shakerBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.shakerTrack.start(0);
       this.shakerTrack.loop = true;
@@ -178,7 +178,7 @@ export class InstrumentComponent implements OnInit {
       }
     for (let i = 0; i < this.blockSize; i++) {
       this.cowbellTrack = new Tone.Part(((time) => {
-      this.cowbellSample.triggerAttackRelease('C3', '16n', time, this.cowbellBlocks[i].onOff);
+      this.cowbellSample.triggerAttackRelease('C3', '8n', time, this.cowbellBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.cowbellTrack.start(0);
       this.cowbellTrack.loop = true;
@@ -186,7 +186,7 @@ export class InstrumentComponent implements OnInit {
       }
     for (let i = 0; i < this.blockSize; i++) {
       this.claveTrack = new Tone.Part(((time) => {
-      this.claveSample.triggerAttackRelease('C3', '16n', time, this.claveBlocks[i].onOff);
+      this.claveSample.triggerAttackRelease('C3', '8n', time, this.claveBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.claveTrack.start(0);
       this.claveTrack.loop = true;
@@ -194,7 +194,7 @@ export class InstrumentComponent implements OnInit {
       }
     for (let i = 0; i < this.blockSize; i++) {
       this.cymbalTrack = new Tone.Part(((time) => {
-      this.cymbalSample.triggerAttackRelease('C3', '16n', time, this.cymbalBlocks[i].onOff);
+      this.cymbalSample.triggerAttackRelease('C3', '8n', time, this.cymbalBlocks[i].onOff);
       }), [{time: this.times[i], velocity: '1'}]);
       this.cymbalTrack.start(0);
       this.cymbalTrack.loop = true;
@@ -407,7 +407,86 @@ export class InstrumentComponent implements OnInit {
         C3: '../../assets/AlesisXR-10/XR10hiq1.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
     }
+    if (x == 6) {//Alesis HR-16
+      this.kickSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/Kick.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.snareSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/Snaredrum.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.hiHatSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/ClosedHat.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.clapSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/Clap.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.shakerSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/Triangle.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.cowbellSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/Timbale.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.claveSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/CongaH.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.cymbalSample = new Tone.Sampler({
+        C3: '../../assets/AlesisHR-16/CongaL.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    }
+    if (x == 7) {//Eli CompuRhythm
+      this.kickSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/kick.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.snareSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/snare.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.hiHatSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/closedHat.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.clapSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/openHat.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.shakerSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/guiro.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.cowbellSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/bongo.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.claveSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/clave.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.cymbalSample = new Tone.Sampler({
+        C3: '../../assets/Eli-CompuRhythm/tom.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    }
+    if (x == 8) {//NES
+      this.kickSample = new Tone.Sampler({
+        C3: '../../assets/NES/Kick.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.snareSample = new Tone.Sampler({
+        C3: '../../assets/NES/Snare.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.hiHatSample = new Tone.Sampler({
+        C3: '../../assets/NES/ClosedHat.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.clapSample = new Tone.Sampler({
+        C3: '../../assets/NES/Clap.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.shakerSample = new Tone.Sampler({
+        C3: '../../assets/NES/Shaker.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.cowbellSample = new Tone.Sampler({
+        C3: '../../assets/NES/Cowbell.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.claveSample = new Tone.Sampler({
+        C3: '../../assets/NES/Clave.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+      this.cymbalSample = new Tone.Sampler({
+        C3: '../../assets/NES/Timbale.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
+    }
   }
+  
 
   private initializeKickSample() {
     this.kickSample = new Tone.Sampler({
@@ -722,7 +801,7 @@ export class InstrumentComponent implements OnInit {
     if(this.kickBlocks[index].onOff == 0) {
       this.kickTrack.remove(this.times[index]);
     } else {
-      this.newKickNote = new Tone.ToneEvent(this.kickSample.triggerAttackRelease('C3', '16n'));
+      this.newKickNote = new Tone.ToneEvent(this.kickSample.triggerAttackRelease('C3', '8n'));
       this.kickTrack.add(this.times[index], this.newKickNote);
     }
   }
@@ -730,7 +809,7 @@ export class InstrumentComponent implements OnInit {
     if(this.snareBlocks[index].onOff == 0) {
       this.snareTrack.remove(this.times[index]);
     } else {
-    this.newSnareNote = new Tone.ToneEvent(this.snareSample.triggerAttackRelease('C3', '16n'));;
+    this.newSnareNote = new Tone.ToneEvent(this.snareSample.triggerAttackRelease('C3', '8n'));;
     this.snareTrack.add(this.times[index], this.newSnareNote);
     }
   }
@@ -738,7 +817,7 @@ export class InstrumentComponent implements OnInit {
     if(this.hiHatBlocks[index].onOff == 0) {
       this.hiHatTrack.remove(this.times[index]);
     } else {
-    this.newHiHatNote = new Tone.ToneEvent(this.hiHatSample.triggerAttackRelease('C3', '16n'));;
+    this.newHiHatNote = new Tone.ToneEvent(this.hiHatSample.triggerAttackRelease('C3', '8n'));;
     this.hiHatTrack.add(this.times[index], this.newHiHatNote);
     }
   }
@@ -746,7 +825,7 @@ export class InstrumentComponent implements OnInit {
     if(this.clapBlocks[index].onOff == 0) {
       this.clapTrack.remove(this.times[index]);
     } else {
-    this.newClapNote = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '16n'));
+    this.newClapNote = new Tone.ToneEvent(this.clapSample.triggerAttackRelease('C3', '8n'));
     this.clapTrack.add(this.times[index], this.newClapNote);
     }
   }
@@ -754,7 +833,7 @@ export class InstrumentComponent implements OnInit {
     if(this.shakerBlocks[index].onOff == 0) {
       this.shakerTrack.remove(this.times[index]);
     } else {
-    this.newShakerNote = new Tone.ToneEvent(this.shakerSample.triggerAttackRelease('C3', '16n'));
+    this.newShakerNote = new Tone.ToneEvent(this.shakerSample.triggerAttackRelease('C3', '8n'));
     this.shakerTrack.add(this.times[index], this.newShakerNote);
     }
   }
@@ -762,7 +841,7 @@ export class InstrumentComponent implements OnInit {
     if(this.cowbellBlocks[index].onOff == 0) {
       this.cowbellTrack.remove(this.times[index]);
     } else {
-    this.newCowbellNote = new Tone.ToneEvent(this.cowbellSample.triggerAttackRelease('C3', '16n'));
+    this.newCowbellNote = new Tone.ToneEvent(this.cowbellSample.triggerAttackRelease('C3', '8n'));
     this.cowbellTrack.add(this.times[index], this.newCowbellNote);
     }
   }
@@ -770,7 +849,7 @@ export class InstrumentComponent implements OnInit {
     if(this.claveBlocks[index].onOff == 0) {
       this.claveTrack.remove(this.times[index]);
     } else {
-    this.newClaveNote = new Tone.ToneEvent(this.claveSample.triggerAttackRelease('C3', '16n'));
+    this.newClaveNote = new Tone.ToneEvent(this.claveSample.triggerAttackRelease('C3', '8n'));
     this.claveTrack.add(this.times[index], this.newClaveNote);
     }
   }
@@ -778,7 +857,7 @@ export class InstrumentComponent implements OnInit {
     if(this.cymbalBlocks[index].onOff == 0) {
       this.cymbalTrack.remove(this.times[index]);
     } else {
-    this.newCymbalNote = new Tone.ToneEvent(this.cymbalSample.triggerAttackRelease('C3', '16n'));
+    this.newCymbalNote = new Tone.ToneEvent(this.cymbalSample.triggerAttackRelease('C3', '8n'));
     this.cymbalTrack.add(this.times[index], this.newCymbalNote);
     }
   }
@@ -790,6 +869,7 @@ export class InstrumentComponent implements OnInit {
     { name: 'Two', number: '1' },
     { name: 'Three', number: '2' },
     { name: 'Joaquin', number: '3' },
+    { name: 'Four', number: '4' }
 ];
 
   sampleSets: any[] = [
@@ -798,7 +878,10 @@ export class InstrumentComponent implements OnInit {
     { name: 'LinnDrum', number: '2' },
     { name: 'Casio SK-1', number: '3' },
     { name: 'Serge Modular', number: '4' },
-    { name: 'Alesis XR-10', number: '5' }
+    { name: 'Alesis XR-10', number: '5' },
+    { name: 'Alesis HR-16', number: '6' },
+    { name: 'Eli CompuRhythm', number: '7' },
+    { name: 'Nintendo Entertainment System', number: '8' }
   ]
 }
 
