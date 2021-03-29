@@ -27,10 +27,10 @@ export class ProfileComponent implements OnInit {
   audioPlayer: Track;
 
   audioCollection: Track[];
-
+  
   //audio player settings
   msaapDisplayTitle = true;
-  msaapDisplayPlayList = false;
+  msaapDisplayPlayList = true;
   msaapPageSizeOptions = [2,4,6];
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
@@ -39,6 +39,8 @@ export class ProfileComponent implements OnInit {
   msaapDisablePositionSlider = false;
 
   constructor(private userService: UserRestService, private musicService: UploadedMusicRestService, private authService: AuthService) {
+
+    
     this.user = 
     {
       userName: '',
@@ -89,6 +91,7 @@ export class ProfileComponent implements OnInit {
     this.audioCollection = [
       this.audioPlayer
     ]
+
 
 
 

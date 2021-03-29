@@ -1,4 +1,8 @@
-
+<!-- Wishlist
+Light grey background color, lighter than the blocks
+Labels for sample tracks
+Visual grouping of each measure/4 horizontal blocks
+Dropdown for load pattern selection -->
 
 <div class="centered">
   <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">
@@ -8,7 +12,8 @@
 
 
 
-
+  <button (click)="savePattern();">Save Pattern</button>
+  <button (click)="loadSavedPattern();">Load Saved Pattern</button>
   <button (click)="loadPattern(0);">Load Pattern 1</button>
   <button (click)="loadPattern(1);">Load Pattern 2</button>
   <button (click)="loadPattern(2);">Load Pattern 3</button>
@@ -88,5 +93,16 @@
     [ngStyle]="{'background-color': block.color}" (click)="changeStateCymbal(i);">
     </div>
   </div>
+</div>
+<!-- </div> -->
+
+
+<br/>
+<br/>
+
+<div class="container">
+  <audio controls></audio>
+  <br/>
+  <button (click)="record();" class="btn btn-primary">Record/Stop Record</button>
 </div>
 <!-- </div> -->
