@@ -16,10 +16,13 @@ import { environment } from 'src/environments/environment';
 export class AudioPlayerComponent implements OnInit {
   
   S3Bucket: string = environment.AMAZON_S3;
-  authUser: any;
+  
   userMusic: UploadMusic[];
   playlist: Track[];
+
   audioPlayer: Track;
+
+  authUser: any;
   user: User;
 
   msaapDisplayTitle = true;
@@ -80,7 +83,7 @@ export class AudioPlayerComponent implements OnInit {
       title: '',
       link: '',
       artist: '',
-      duration: 0
+      duration: 1
     },
 
   this.playlist = [
@@ -100,12 +103,25 @@ ngOnInit(): void {
 }
 
 PopulateAudioPlayer(foundDbMusic: UploadMusic[])
-{
-  var counter=0;
-  foundDbMusic.forEach(songFound => {
-    this.playlist[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
-    this.playlist[counter].title = songFound.name;
-    counter ++;
-  });
-}
+  {
+    var counter = 0;
+    foundDbMusic.forEach(songFound => {
+      if(counter == 0){
+        this.playlist[counter].artist = songFound.user.email;
+        this.playlist[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
+        this.playlist[counter].title = songFound.name;
+        counter++;
+      }
+      else {
+        var fileToAddToPlaylist = new Track;
+
+        fileToAddToPlaylist.artist = songFound.user.email;
+        fileToAddToPlaylist.link = this.S3Bucket + "/" + songFound.musicFilePath;
+        fileToAddToPlaylist.title = songFound.name;
+        this.playlist.push(fileToAddToPlaylist);
+      }
+
+
+    });
+  }
 }
