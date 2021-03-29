@@ -4,9 +4,8 @@
 //-Sometimes when you turn the effects sliders all the way down, some effect is still heard
 //
 //To do
-//-Save Patterns
 //-Abiltiy to swap samples
-//-Load bpm along with pattern, adjust slider to new value
+//-Save/Load patterns with effects settings and bpm, adjust sliders to new value
 //
 //Wishlist
 //-Master volume
@@ -14,6 +13,7 @@
 //-Adjust volume of each track
 //-Highlight current playing step column
 //-Synth sections, SOUNDFONTS
+//-More effects and parameter sliders!
 //-Filter with cutoff slider, Tonejs only has filters with fixed cutoff frequency :<
 //-Timer that shows how long you've been recording for
 //-change note of drum samples, they sound cool repitched
@@ -72,6 +72,15 @@ export class InstrumentComponent implements OnInit {
   newCowbellNote: any;
   newClaveNote: any;
   newCymbalNote: any;
+  savedPattern = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+  
   
   constructor() { }
 
@@ -367,7 +376,57 @@ export class InstrumentComponent implements OnInit {
       this.updateCymbal(m);
     }
   }
-  
+
+  savePattern() { 
+    for (let i = 0; i < this. blockSize; i++) {
+      this.savedPattern[0][i] = this.kickBlocks[i].onOff;
+      this.savedPattern[1][i] = this.snareBlocks[i].onOff;
+      this.savedPattern[2][i] = this.hiHatBlocks[i].onOff;
+      this.savedPattern[3][i] = this.clapBlocks[i].onOff;
+      this.savedPattern[4][i] = this.shakerBlocks[i].onOff;
+      this.savedPattern[5][i] = this.cowbellBlocks[i].onOff;
+      this.savedPattern[6][i] = this.claveBlocks[i].onOff;
+      this.savedPattern[7][i] = this.cymbalBlocks[i].onOff;
+    }
+      // console.log("Kick" + this.savedPattern[0][0]+this.savedPattern[0][1]+this.savedPattern[0][2]+this.savedPattern[0][3]+
+      // this.savedPattern[0][4]+this.savedPattern[0][5]+this.savedPattern[0][6]+this.savedPattern[0][7]+
+      // this.savedPattern[0][8]+this.savedPattern[0][9]+this.savedPattern[0][10]+this.savedPattern[0][11]+
+      // this.savedPattern[0][12]+this.savedPattern[0][13]+this.savedPattern[0][14]+this.savedPattern[0][15]+
+      // this.savedPattern[0][16]+this.savedPattern[0][17]+this.savedPattern[0][18]+this.savedPattern[0][19]+
+      // this.savedPattern[0][20]+this.savedPattern[0][21]+this.savedPattern[0][22]+this.savedPattern[0][23]+
+      // this.savedPattern[0][24]+this.savedPattern[0][25]+this.savedPattern[0][26]+this.savedPattern[0][27]+
+      // this.savedPattern[0][28]+this.savedPattern[0][29]+this.savedPattern[0][30]+this.savedPattern[0][31]);
+  }
+
+  loadSavedPattern() {
+    this.Clear();
+    for (let i = 0; i < this. blockSize; i++) {
+      if (this.savedPattern[0][i] == 1) {
+        this.changeStateKick(i);
+      }
+      if (this.savedPattern[1][i] == 1) {
+        this.changeStateSnare(i);
+      }
+      if (this.savedPattern[2][i] == 1) {
+        this.changeStateHiHat(i);
+      }
+      if (this.savedPattern[3][i] == 1) {
+        this.changeStateClap(i);
+      }
+      if (this.savedPattern[4][i] == 1) {
+        this.changeStateShaker(i);
+      }
+      if (this.savedPattern[5][i] == 1) {
+        this.changeStateCowbell(i);
+      }
+      if (this.savedPattern[6][i] == 1) {
+        this.changeStateClave(i);
+      }
+      if (this.savedPattern[7][i] == 1) {
+        this.changeStateCymbal(i);
+      }
+    }
+  }
   //Preset patterns are in pattern.const.ts 
   //uniPattern[pattern number selected by HTML][sample instrument track/vertical line position][time/horizontal block position]
   loadPattern(x: number) {
