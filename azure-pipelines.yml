@@ -1,0 +1,52 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'RevMixer'
+    organization: '210215-usf-net'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '210215-USF-NET_Sequencer-By-TeamTemp-Angular'
+    cliProjectName: 'Sequencer-By-TeamTemp-Angular'
+    cliSources: '.'
+    extraProperties: |
+      sonar.coverage.exclusions=**/*.spec.ts
+      sonar.typescript.lcov.reportPaths= coverage/Sequencer-By-TeamTemp-Angular/lcov.info
+
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --prod
+  displayName: 'npm install and build'
+
+- script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
+
+  displayName: ng test
+
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  displayName: 'Publish code analysis'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(26bcf05b-8068-44d1-bf29-71fd533849a4)'
+    appType: 'webApp'
+    WebAppName: 'RevMixer'
+    package: 'dist/Sequencer-By-TeamTemp-Angular'
