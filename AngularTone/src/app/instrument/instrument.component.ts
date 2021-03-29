@@ -626,14 +626,70 @@ export class InstrumentComponent implements OnInit {
       this.savedPattern[6][i] = this.claveBlocks[i].onOff;
       this.savedPattern[7][i] = this.cymbalBlocks[i].onOff;
     }
-      // console.log("Kick" + this.savedPattern[0][0]+this.savedPattern[0][1]+this.savedPattern[0][2]+this.savedPattern[0][3]+
-      // this.savedPattern[0][4]+this.savedPattern[0][5]+this.savedPattern[0][6]+this.savedPattern[0][7]+
-      // this.savedPattern[0][8]+this.savedPattern[0][9]+this.savedPattern[0][10]+this.savedPattern[0][11]+
-      // this.savedPattern[0][12]+this.savedPattern[0][13]+this.savedPattern[0][14]+this.savedPattern[0][15]+
-      // this.savedPattern[0][16]+this.savedPattern[0][17]+this.savedPattern[0][18]+this.savedPattern[0][19]+
-      // this.savedPattern[0][20]+this.savedPattern[0][21]+this.savedPattern[0][22]+this.savedPattern[0][23]+
-      // this.savedPattern[0][24]+this.savedPattern[0][25]+this.savedPattern[0][26]+this.savedPattern[0][27]+
-      // this.savedPattern[0][28]+this.savedPattern[0][29]+this.savedPattern[0][30]+this.savedPattern[0][31]);
+      console.log(this.savedPattern[0][0] + " " + this.savedPattern[0][1] + " " + this.savedPattern[0][2] + " " + this.savedPattern[0][3] + " " + 
+       this.savedPattern[0][4] + " " + this.savedPattern[0][5] + " " + this.savedPattern[0][6] + " " + this.savedPattern[0][7] + " " + 
+       this.savedPattern[0][8] + " " + this.savedPattern[0][9] + " " + this.savedPattern[0][10] + " " + this.savedPattern[0][11] + " " + 
+       this.savedPattern[0][12] + " " + this.savedPattern[0][13] + " " + this.savedPattern[0][14] + " " + this.savedPattern[0][15] + " " + 
+       this.savedPattern[0][16] + " " + this.savedPattern[0][17] + " " + this.savedPattern[0][18] + " " + this.savedPattern[0][19] + " " + 
+       this.savedPattern[0][20] + " " + this.savedPattern[0][21] + " " + this.savedPattern[0][22] + " " + this.savedPattern[0][23] + " " + 
+       this.savedPattern[0][24] + " " + this.savedPattern[0][25] + " " + this.savedPattern[0][26] + " " + this.savedPattern[0][27] + " " + 
+       this.savedPattern[0][28] + " " + this.savedPattern[0][29] + " " + this.savedPattern[0][30] + " " + this.savedPattern[0][31]);
+      console.log(this.savedPattern[1][0] + " " + this.savedPattern[1][1] + " " + this.savedPattern[1][2] + " " + this.savedPattern[1][3] + " " + 
+        this.savedPattern[1][4] + " " + this.savedPattern[1][5] + " " + this.savedPattern[1][6] + " " + this.savedPattern[1][7] + " " + 
+        this.savedPattern[1][8] + " " + this.savedPattern[1][9] + " " + this.savedPattern[1][10] + " " + this.savedPattern[1][11] + " " + 
+        this.savedPattern[1][12] + " " + this.savedPattern[1][13] + " " + this.savedPattern[1][14] + " " + this.savedPattern[1][15] + " " + 
+        this.savedPattern[1][16] + " " + this.savedPattern[1][17] + " " + this.savedPattern[1][18] + " " + this.savedPattern[1][19] + " " + 
+        this.savedPattern[1][20] + " " + this.savedPattern[1][21] + " " + this.savedPattern[1][22] + " " + this.savedPattern[1][23] + " " + 
+        this.savedPattern[1][24] + " " + this.savedPattern[1][25] + " " + this.savedPattern[1][26] + " " + this.savedPattern[1][27] + " " + 
+        this.savedPattern[1][28] + " " + this.savedPattern[1][29] + " " + this.savedPattern[1][30] + " " + this.savedPattern[1][31]);
+        console.log(this.savedPattern[2][2] + " " + this.savedPattern[2][1] + " " + this.savedPattern[2][2] + " " + this.savedPattern[2][3] + " " + 
+          this.savedPattern[2][4] + " " + this.savedPattern[2][5] + " " + this.savedPattern[2][6] + " " + this.savedPattern[2][7] + " " + 
+          this.savedPattern[2][8] + " " + this.savedPattern[2][9] + " " + this.savedPattern[2][10] + " " + this.savedPattern[2][11] + " " + 
+          this.savedPattern[2][12] + " " + this.savedPattern[2][13] + " " + this.savedPattern[2][14] + " " + this.savedPattern[2][15] + " " + 
+          this.savedPattern[2][16] + " " + this.savedPattern[2][17] + " " + this.savedPattern[2][18] + " " + this.savedPattern[2][19] + " " + 
+          this.savedPattern[2][20] + " " + this.savedPattern[2][21] + " " + this.savedPattern[2][22] + " " + this.savedPattern[2][23] + " " + 
+          this.savedPattern[2][24] + " " + this.savedPattern[2][25] + " " + this.savedPattern[2][26] + " " + this.savedPattern[2][27] + " " + 
+          this.savedPattern[2][28] + " " + this.savedPattern[2][29] + " " + this.savedPattern[2][30] + " " + this.savedPattern[2][31]);
+          console.log(this.savedPattern[3][3] + " " + this.savedPattern[3][1] + " " + this.savedPattern[3][2] + " " + this.savedPattern[3][3] + " " + 
+       this.savedPattern[3][4] + " " + this.savedPattern[3][5] + " " + this.savedPattern[3][6] + " " + this.savedPattern[3][7] + " " + 
+       this.savedPattern[3][8] + " " + this.savedPattern[3][9] + " " + this.savedPattern[3][10] + " " + this.savedPattern[3][11] + " " + 
+       this.savedPattern[3][12] + " " + this.savedPattern[3][13] + " " + this.savedPattern[3][14] + " " + this.savedPattern[3][15] + " " + 
+       this.savedPattern[3][16] + " " + this.savedPattern[3][17] + " " + this.savedPattern[3][18] + " " + this.savedPattern[3][19] + " " + 
+       this.savedPattern[3][20] + " " + this.savedPattern[3][21] + " " + this.savedPattern[3][22] + " " + this.savedPattern[3][23] + " " + 
+       this.savedPattern[3][24] + " " + this.savedPattern[3][25] + " " + this.savedPattern[3][26] + " " + this.savedPattern[3][27] + " " + 
+       this.savedPattern[3][28] + " " + this.savedPattern[3][29] + " " + this.savedPattern[3][30] + " " + this.savedPattern[3][31]);
+      console.log(this.savedPattern[4][4] + " " + this.savedPattern[4][1] + " " + this.savedPattern[4][2] + " " + this.savedPattern[4][3] + " " + 
+        this.savedPattern[4][4] + " " + this.savedPattern[4][5] + " " + this.savedPattern[4][6] + " " + this.savedPattern[4][7] + " " + 
+        this.savedPattern[4][8] + " " + this.savedPattern[4][9] + " " + this.savedPattern[4][10] + " " + this.savedPattern[4][11] + " " + 
+        this.savedPattern[4][12] + " " + this.savedPattern[4][13] + " " + this.savedPattern[4][14] + " " + this.savedPattern[4][15] + " " + 
+        this.savedPattern[4][16] + " " + this.savedPattern[4][17] + " " + this.savedPattern[4][18] + " " + this.savedPattern[4][19] + " " + 
+        this.savedPattern[4][20] + " " + this.savedPattern[4][21] + " " + this.savedPattern[4][22] + " " + this.savedPattern[4][23] + " " + 
+        this.savedPattern[4][24] + " " + this.savedPattern[4][25] + " " + this.savedPattern[4][26] + " " + this.savedPattern[4][27] + " " + 
+        this.savedPattern[4][28] + " " + this.savedPattern[4][29] + " " + this.savedPattern[4][30] + " " + this.savedPattern[4][31]);
+      console.log(this.savedPattern[5][5] + " " + this.savedPattern[5][1] + " " + this.savedPattern[5][2] + " " + this.savedPattern[5][3] + " " + 
+          this.savedPattern[5][4] + " " + this.savedPattern[5][5] + " " + this.savedPattern[5][6] + " " + this.savedPattern[5][7] + " " + 
+          this.savedPattern[5][8] + " " + this.savedPattern[5][9] + " " + this.savedPattern[5][10] + " " + this.savedPattern[5][11] + " " + 
+          this.savedPattern[5][12] + " " + this.savedPattern[5][13] + " " + this.savedPattern[5][14] + " " + this.savedPattern[5][15] + " " + 
+          this.savedPattern[5][16] + " " + this.savedPattern[5][17] + " " + this.savedPattern[5][18] + " " + this.savedPattern[5][19] + " " + 
+          this.savedPattern[5][20] + " " + this.savedPattern[5][21] + " " + this.savedPattern[5][22] + " " + this.savedPattern[5][23] + " " + 
+          this.savedPattern[5][24] + " " + this.savedPattern[5][25] + " " + this.savedPattern[5][26] + " " + this.savedPattern[5][27] + " " + 
+          this.savedPattern[5][28] + " " + this.savedPattern[5][29] + " " + this.savedPattern[5][30] + " " + this.savedPattern[5][31]);
+      console.log(this.savedPattern[6][6] + " " + this.savedPattern[6][1] + " " + this.savedPattern[6][2] + " " + this.savedPattern[6][3] + " " + 
+            this.savedPattern[6][4] + " " + this.savedPattern[6][5] + " " + this.savedPattern[6][6] + " " + this.savedPattern[6][7] + " " + 
+            this.savedPattern[6][8] + " " + this.savedPattern[6][9] + " " + this.savedPattern[6][10] + " " + this.savedPattern[6][11] + " " + 
+            this.savedPattern[6][12] + " " + this.savedPattern[6][13] + " " + this.savedPattern[6][14] + " " + this.savedPattern[6][15] + " " + 
+            this.savedPattern[6][16] + " " + this.savedPattern[6][17] + " " + this.savedPattern[6][18] + " " + this.savedPattern[6][19] + " " + 
+            this.savedPattern[6][20] + " " + this.savedPattern[6][21] + " " + this.savedPattern[6][22] + " " + this.savedPattern[6][23] + " " + 
+            this.savedPattern[6][24] + " " + this.savedPattern[6][25] + " " + this.savedPattern[6][26] + " " + this.savedPattern[6][27] + " " + 
+            this.savedPattern[6][28] + " " + this.savedPattern[6][29] + " " + this.savedPattern[6][30] + " " + this.savedPattern[6][31]);
+            console.log(this.savedPattern[7][7] + " " + this.savedPattern[7][1] + " " + this.savedPattern[7][2] + " " + this.savedPattern[7][3] + " " + 
+       this.savedPattern[7][4] + " " + this.savedPattern[7][5] + " " + this.savedPattern[7][6] + " " + this.savedPattern[7][7] + " " + 
+       this.savedPattern[7][8] + " " + this.savedPattern[7][9] + " " + this.savedPattern[7][10] + " " + this.savedPattern[7][11] + " " + 
+       this.savedPattern[7][12] + " " + this.savedPattern[7][13] + " " + this.savedPattern[7][14] + " " + this.savedPattern[7][15] + " " + 
+       this.savedPattern[7][16] + " " + this.savedPattern[7][17] + " " + this.savedPattern[7][18] + " " + this.savedPattern[7][19] + " " + 
+       this.savedPattern[7][20] + " " + this.savedPattern[7][21] + " " + this.savedPattern[7][22] + " " + this.savedPattern[7][23] + " " + 
+       this.savedPattern[7][24] + " " + this.savedPattern[7][25] + " " + this.savedPattern[7][26] + " " + this.savedPattern[7][27] + " " + 
+       this.savedPattern[7][28] + " " + this.savedPattern[7][29] + " " + this.savedPattern[7][30] + " " + this.savedPattern[7][31]);
   }
 
   loadSavedPattern() {
