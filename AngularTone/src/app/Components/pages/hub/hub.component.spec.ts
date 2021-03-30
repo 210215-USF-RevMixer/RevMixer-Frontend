@@ -23,4 +23,7 @@ describe('HubComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it ('should grab', () =>{
+    
+  });
 });
