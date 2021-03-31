@@ -3,7 +3,7 @@ import { User } from "./User";
 
 export interface Comments
 {
-    id: number,
+    Id: number,
     comment: string,
     commentData: Date,
     userId: number,

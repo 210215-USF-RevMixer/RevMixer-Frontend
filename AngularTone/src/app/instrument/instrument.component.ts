@@ -203,6 +203,7 @@ export class InstrumentComponent implements OnInit {
       //Initialize audio 
       this.audio = document.querySelector('audio');
       this.changeSampleSet(0);
+      
   }
 
   //Record songs to audio component and allows song to be downloaded
