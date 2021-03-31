@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UploadComponent implements OnInit {
   authUser: any;
-  url: string = environment.AMAZON_REST;
+  url: string = environment.AZURE_REST;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();
@@ -52,7 +52,6 @@ export class UploadComponent implements OnInit {
       uploadDate: new Date,
       likes: 0,
       plays: 0,
-
       musicPlaylists: [],
       comments: []
     }
@@ -104,8 +103,7 @@ export class UploadComponent implements OnInit {
         this.uploadedSong.musicFilePath = this.name.name;
         this.uploadedSong.userId = this.user.id;
         this.uploadedSong.name = this.name.songname;
-        debugger;
-        console.log(JSON.stringify(this.uploadedSong));
+        //console.log(JSON.stringify(this.uploadedSong));
 
         this.uploadmusicService.PostSong(this.uploadedSong).subscribe(
           (response) =>

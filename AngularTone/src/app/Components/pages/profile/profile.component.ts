@@ -22,7 +22,7 @@ import { PlaylistServiceService } from 'src/app/services/playlist-service.servic
 export class ProfileComponent implements OnInit {
   user: User;
   authUser: any;
-  S3Bucket: string = environment.AMAZON_S3;
+  S3Bucket: string = environment.AZURE_STORAGE;
 
   userMusic: UploadMusic[];
   audioPlayer: Track;
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   //audio player settings
   msaapDisplayTitle = true;
   msaapDisplayPlayList = true;
-  msaapPageSizeOptions = [2,4,6];
+  msaapPageSizeOptions = [10,10,10];
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
   msaapDisplayArtist = true;

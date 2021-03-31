@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AudioPlayerComponent implements OnInit {
   
-  S3Bucket: string = environment.AMAZON_S3;
+  S3Bucket: string = environment.AZURE_STORAGE;
   
   userMusic: UploadMusic[];
   playlist: Track[];

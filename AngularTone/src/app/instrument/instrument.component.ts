@@ -624,7 +624,8 @@ export class InstrumentComponent implements OnInit {
     { name: 'Three', number: '2' },
     { name: 'Joaquin', number: '3' },
     { name: 'Four', number: '4' },
-    { name: 'Five', number: '5' }
+    { name: 'Five', number: '5' },
+    { name: 'Weston\'s Loop', number: '6' }
 ];
 
   sampleSets: any[] = [
