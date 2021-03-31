@@ -202,7 +202,7 @@ export class InstrumentComponent implements OnInit {
       }
       //Initialize audio 
       this.audio = document.querySelector('audio');
-      this.changeSampleSet(0);
+      //this.changeSampleSet(0);
   }
 
   //Record songs to audio component and allows song to be downloaded
@@ -244,49 +244,49 @@ export class InstrumentComponent implements OnInit {
 
   private initializeKickSample() {
     this.kickSample = new Tone.Sampler({
-      C3: '../../assets/Kick.wav'
+      C3: '../../assets/808/Kick.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
     //}).connect(this.dist).connect(this.reverb).connect(this.recorder).connect(Tone.Destination);//.chain(this.volume, Tone.Destination);
   }
   private initializeSnareSample() {
     this.snareSample = new Tone.Sampler({
-      C3: '../../assets/Snare.wav'
+      C3: '../../assets/808/Snare.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
       //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
   }
   private initializeHiHatSample() {
     this.hiHatSample = new Tone.Sampler({
-      C3: '../../assets/ClosedHat.wav'
+      C3: '../../assets/808/ClosedHat.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
       //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.volume, Tone.Destination);
   }
   private initializeClapSample() {
     this.clapSample = new Tone.Sampler({
-      C3: '../../assets/Clap.wav'
+      C3: '../../assets/808/Clap.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
       //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeShakerSample() {
     this.shakerSample = new Tone.Sampler({
-      C3: '../../assets/Shaker.wav'
+      C3: '../../assets/808/Shaker.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
       //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeCowbellSample() {
     this.cowbellSample = new Tone.Sampler({
-      C3: '../../assets/Cowbell.wav'
+      C3: '../../assets/808/Cowbell.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
       //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeClaveSample() {
     this.claveSample = new Tone.Sampler({
-      C3: '../../assets/Clave.wav'
+      C3: '../../assets/808/Clave.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
       //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
   private initializeCymbalSample() {
     this.cymbalSample = new Tone.Sampler({
-      C3: '../../assets/Cymbal.wav'
+      C3: '../../assets/808/Cymbal.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);//.connect(this.recorder);
       //}).connect(this.dist).connect(this.reverb).connect(this.recorder);//.chain(this.clapVolume = new Tone.Volume(-20), Tone.Destination);
   }
@@ -623,7 +623,8 @@ export class InstrumentComponent implements OnInit {
     { name: 'Two', number: '1' },
     { name: 'Three', number: '2' },
     { name: 'Joaquin', number: '3' },
-    { name: 'Four', number: '4' }
+    { name: 'Four', number: '4' },
+    { name: 'Five', number: '5' }
 ];
 
   sampleSets: any[] = [
@@ -635,13 +636,11 @@ export class InstrumentComponent implements OnInit {
     { name: 'Alesis XR-10', number: '5' },
     { name: 'Eli CompuRhythm', number: '6' },
     { name: 'Boss DR-220', number: '7' },
-    //{ name: 'Hammond AutoVari 64', number: '8' },
-    //{ name: 'Live Kit', number: '9' },
-    { name: 'Casio SK-1', number: '10' },
-    { name: 'Casio SA-10', number: '11' },
-    { name: 'Casio MT-500', number: '12' },
-    { name: 'Serge Modular', number: '13' },
-    { name: 'Nintendo Entertainment System', number: '14' }
+    { name: 'Casio SK-1', number: '8' },
+    { name: 'Casio SA-10', number: '9' },
+    { name: 'Casio MT-500', number: '10' },
+    { name: 'Serge Modular', number: '11' },
+    { name: 'Nintendo Entertainment System', number: '12' }
     
   ]
 
@@ -863,59 +862,7 @@ export class InstrumentComponent implements OnInit {
         C3: '../../assets/BossDR-220/Tom3.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
     }
-    // if (x == 8) {//Hammond AutoVari 64
-    //   this.kickSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/Kick.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.snareSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/Snare.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.hiHatSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/ClosedHiHat.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.clapSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/Shaker.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.shakerSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/OpenHiHat.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.cowbellSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/Cymbal.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.claveSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/HiTom.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.cymbalSample = new Tone.Sampler({
-    //     C3: '../../assets/HammondAutoVari64/LowTom.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    // }
-    // if (x == 9) {//Live Kit
-    //   this.kickSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/Kick.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.snareSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/Snare.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.hiHatSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/HiHat.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.clapSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/Clap.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.shakerSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/Shaker.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.cowbellSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/Hat.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.claveSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/Tom.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    //   this.cymbalSample = new Tone.Sampler({
-    //     C3: '../../assets/LiveDrums/Cymbal.wav'
-    //   }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
-    // }
-    if (x == 10) {//Casio SK-1
+    if (x == 8) {//Casio SK-1
       this.kickSample = new Tone.Sampler({
         C3: '../../assets/CasioSk-1/skkick.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
@@ -941,7 +888,7 @@ export class InstrumentComponent implements OnInit {
         C3: '../../assets/CasioSk-1/skophat.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
     }
-    if (x == 11) {//Casio SA-10
+    if (x == 9) {//Casio SA-10
       this.kickSample = new Tone.Sampler({
         C3: '../../assets/CasioSA-10/Kick.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
@@ -967,7 +914,7 @@ export class InstrumentComponent implements OnInit {
         C3: '../../assets/CasioSA-10/Tom4.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
     }
-    if (x == 12) {//Casio MT-500
+    if (x == 10) {//Casio MT-500
       this.kickSample = new Tone.Sampler({
         C3: '../../assets/CasioMT-500/bd.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
@@ -993,7 +940,7 @@ export class InstrumentComponent implements OnInit {
         C3: '../../assets/CasioMT-500/tomhi.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
     }
-    if (x == 13) {//Serge Modular
+    if (x == 11) {//Serge Modular
       this.kickSample = new Tone.Sampler({
         C3: '../../assets/SergeModular/SergeZBass.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
@@ -1019,7 +966,7 @@ export class InstrumentComponent implements OnInit {
         C3: '../../assets/SergeModular/SergeWhoomp.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
     }
-    if (x == 14) {//NES
+    if (x == 12) {//NES
       this.kickSample = new Tone.Sampler({
         C3: '../../assets/NES/Kick.wav'
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination);
