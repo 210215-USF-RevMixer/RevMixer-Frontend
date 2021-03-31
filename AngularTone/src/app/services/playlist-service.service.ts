@@ -24,10 +24,12 @@ export class PlaylistServiceService {
   GetAllPlaylists(): Observable<PlayList[]> {
     return this.http.get<PlayList[]>(this.url, this.httpOptions);
   }
+  //Get playlist by id
+  GetPlaylist(id: number): Observable<PlayList> {
+    return this.http.get<PlayList>(`${this.url}/${id}`, this.httpOptions);
+  }
   //Add a playlist
-  ;
   AddPlaylist(playList2Add: PlayList): Observable<PlayList> {
-    debugger;
     return this.http.post<PlayList>(this.url, playList2Add, this.httpOptions);
   }
 }
