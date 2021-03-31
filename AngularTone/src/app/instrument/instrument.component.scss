@@ -1,18 +1,16 @@
-
-mat-card-title {text-align: center;}
-html, body { height: 100%; }
-body { 
-  margin-left: 0px; font-family: Roboto, "Helvetica Neue", sans-serif; 
-  padding-top: 56px;
+mat-card-title {
+  text-align: center;
 }
-
-.centered {
-  text-align: left;
+body {
+  height: 100%;
+  margin-left: 0px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .playButton {
   height: 50px;
   width: 100px;
+  background-color: white;
 }
 
 .pad {
@@ -51,7 +49,29 @@ body {
   border-color: black;
   border-style: solid;
 }
-.centered{
-  background-image: url('https://i.pinimg.com/564x/f7/3a/5b/f73a5b4b7262440684a2b5c39e684304.jpg');
-  background-size: contain;
+.centered {
+  background-image: url("https://i.pinimg.com/564x/f7/3a/5b/f73a5b4b7262440684a2b5c39e684304.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  height: 100%;
 }
+.topbar {
+  text-align: center;
+  background-color: gray;
+  padding-top: 56px;
+}
+.mat-slider {
+  color: white;
+}
+.center {
+  margin-right: auto;
+  margin-left: 200px;
+}
+
+.container
+{
+  text-align: center;
+}
+
+

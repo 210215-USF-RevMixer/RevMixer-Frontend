@@ -2,8 +2,8 @@
     <form (ngSubmit)="onSubmit()" #characterForm="ngForm">
         <div class="form-group">
             <label for="addComment">Character's Name: </label>
-            <input type="text" [(ngModel)]="addComment.comment" name="addComment" id="addComment"
-                #name="ngModel" class="form-control" placeholder="Enter your Comment" min="1" max="500" required>
+            <input type="text" [(ngModel)]="addComment.comment" Comments="Comment" id="Comment"
+                #Comments="ngModel" class="form-control" placeholder="Enter your Comment" min="1" max="500" required>
                 <button type="submit" class="mt-2 btn btn-secondary">Submit</button>
             </div>
 </form>

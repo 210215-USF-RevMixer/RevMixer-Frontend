@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { Comments } from 'src/app/Models/Comments';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { User } from 'src/app/Models/User';
 import { CommentRestService } from 'src/app/services/comment-rest.service';
+import { UserRestService } from 'src/app/services/user-rest.service';
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
@@ -13,8 +15,9 @@ export class CommentComponent implements OnInit {
 
   comment: Comments[];
   addComment: Comments;
+  getUser: User;
   
-  constructor(private commentService: CommentRestService) {
+  constructor(private commentService: CommentRestService, public authService: AuthService, private userService: UserRestService) {
   this.comment =[
   {
     Id: 0,
@@ -64,7 +67,7 @@ export class CommentComponent implements OnInit {
 
   this.addComment = 
   {
-    Id: 1,
+    Id: 0,
     comment: '',
     commentData: new Date,
     userId: 0,
@@ -106,11 +109,24 @@ export class CommentComponent implements OnInit {
       uploadDate: new Date
     }
   }
+  this.getUser =
+    {
+      userName: '',
+      ID: 0,
+      email: '',
+      isAdmin: false,
+      userProjects: [],
+      sample: [],
+      comments: [],
+      uploadMusics: [],
+      playlists: []
+    }
 
   }
 
 
   ngOnInit(): void {
+    
     this.commentService.GetAllComment().subscribe
     (
       foundUser =>
@@ -118,10 +134,22 @@ export class CommentComponent implements OnInit {
         this.comment = foundUser;
       }
     )
-    debugger;
+    this.authService.user$.subscribe
+    (
+      authUser =>
+
+      this.userService.GetUserByEmail(authUser.email).subscribe
+      (
+        foundUser =>
+        {
+          this.getUser = foundUser;
+        }
+      )
+    )
   }
 
   onSubmit(): void{
+    this.addComment.userId = this.getUser.ID;
     this.commentService.SubmitComment(this.addComment).subscribe(
       (addComment) =>
       {
