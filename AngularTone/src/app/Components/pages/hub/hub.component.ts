@@ -13,7 +13,7 @@ export class HubComponent implements OnInit {
   
     this.upload =[
     {
-      ID: 0,
+      id: 0,
       userId: 0,
       musicFilePath: '',
       name: '',
@@ -21,7 +21,7 @@ export class HubComponent implements OnInit {
       plays: 0,
       user:
       {
-        ID: 0,
+        id: 0,
         userName: '',
         email: '',
         isAdmin: false,

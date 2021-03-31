@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
     this.userBackend = 
     {
       userName: '',
-      ID: 0,
+      id: 0,
       email: '',
       isAdmin: false,
       userProjects: [],

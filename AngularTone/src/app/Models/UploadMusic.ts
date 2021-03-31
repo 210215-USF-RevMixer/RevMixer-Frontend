@@ -5,7 +5,7 @@ import { User } from "./User";
 
 export interface UploadMusic
 {
-    ID: number,
+    id: number,
     userId: number,
     musicFilePath: string,
     name: string,
