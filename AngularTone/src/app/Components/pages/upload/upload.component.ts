@@ -33,7 +33,8 @@ export class UploadComponent implements OnInit {
   }
 
   handleFileInput(event: any){
-    this.fileToUpload = event.target.files(0);
+
+    this.fileToUpload = event.target.files[0];
   }
 
 }

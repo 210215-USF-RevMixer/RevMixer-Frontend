@@ -11,7 +11,8 @@ export const environment = {
   AMAZON_S3: 'https://uploaded-music-revmixer.s3.amazonaws.com',
   AWS_ACCESS_KEY_ID: 'AKIA4YRWWDKN2WQKGMI5',
   AWS_ACCESS_KEY_SECRET: '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',
-  SAVED_PROJECTS_REST: 'https://revmixerapi.azurewebsites.net/api/SavedProjects'
+  SAVED_PROJECTS_REST: 'https://revmixerapi.azurewebsites.net/api/SavedProjects',
+  PLAYLIST_REST: 'https://revmixerapi.azurewebsites.net/api/Playlist',
 };
 
 /*

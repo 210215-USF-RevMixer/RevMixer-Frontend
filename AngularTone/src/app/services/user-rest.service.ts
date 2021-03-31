@@ -38,6 +38,9 @@ responseValue: any;
     return this.http.get<User>(`${this.url}/email/${email}`, this.httpOptions);
     
   }
+  EditUser(user2BEdited: User): Observable<any> {
+    return this.http.put(`${this.url}/${user2BEdited.ID}`, user2BEdited, this.httpOptions);
+  }
 
 
 }

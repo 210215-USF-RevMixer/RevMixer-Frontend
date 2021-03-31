@@ -31,6 +31,7 @@ export class AmazonS3ApiService {
         'Content-Type':'application/json'
       }
     )
+    
   }
 
 
@@ -42,18 +43,18 @@ export class AmazonS3ApiService {
   constructor(private httpClient: HttpClient) { 
     this.dbsongentry =
     {
-      ID: 1,
-      userId: 1,
-      musicFilePath: "cool_song",
-      name: "Jumping Jacks",
+      ID: 0,
+      userId: 0,
+      musicFilePath: "",
+      name: "",
       uploadDate: new Date,
-      likes: 3409,
-      plays: 90845,
+      likes: 0,
+      plays: 0,
       user: 
       {
         ID: 0,
-        userName: "jlong",
-        email: "jacklong@gmail.com",
+        userName: "",
+        email: "",
         isAdmin: false,
         userProjects: [],
         sample: [],
@@ -66,16 +67,12 @@ export class AmazonS3ApiService {
     }
 
   }
-
+  
   uploadSong(song: File, userId: int): Observable<any> {
+    debugger;
     var result = true;
     const contentType = song.type;
-    const bucket = new S3 (
-      {
-        secretAccessKey: environment.AWS_ACCESS_KEY_SECRET,
-        accessKeyId: environment.AWS_ACCESS_KEY_ID
-      }
-    );
+    const bucket = new S3 ()
     const params = {
       Bucket: 'uploaded-music-revmixer',
       Key: song.name,
