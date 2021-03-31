@@ -33,7 +33,5 @@ export class HubRestService {
     return this.http.put<any>(`${this.url}/${upload.likes}`, upload, this.httpOptions);
   }
 
-  GetAllComments(): Observable<Comments[]> {
-    return this.http.get<Comments[]>(this.url, this.httpOptions);
-  }
+  
 }

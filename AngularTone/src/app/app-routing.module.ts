@@ -6,14 +6,18 @@ import { ProfileComponent } from './Components/pages/profile/profile.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { AudioPlayerComponent } from './Components/audio/audio-player/audio-player.component';
 import { UploadComponent } from './Components/pages/upload/upload.component';
+import { CreatePlaylistComponent } from './Components/pages/create-playlist/create-playlist.component';
 
 
 const routes: Routes = [
-  {path: '', component: InstrumentComponent, data: { title: 'Home' }},
+  {path: '', component: InstrumentComponent},
   {path: 'hub', component: HubComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'test', component: AudioPlayerComponent, canActivate: [AuthGuard]},
-  {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]}
+  {path: 'upload', component: UploadComponent, canActivate: [AuthGuard]},
+  {path: 'newPlayList', component: CreatePlaylistComponent, canActivate: [AuthGuard]},
+  {path: '**', component: InstrumentComponent}
+
 ];
 
 @NgModule({

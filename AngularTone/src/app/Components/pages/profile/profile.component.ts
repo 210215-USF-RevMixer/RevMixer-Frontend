@@ -8,9 +8,10 @@ import { environment } from 'src/environments/environment';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { debug } from 'tone';
-
-
-
+import { PlayList } from 'src/app/Models/PlayList';
+import { Router } from '@angular/router';
+import { IoTThingsGraph } from 'aws-sdk';
+import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 
 
 @Component({
@@ -38,7 +39,12 @@ export class ProfileComponent implements OnInit {
   msaapDisplayDuration = false;
   msaapDisablePositionSlider = false;
 
-  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService, private authService: AuthService) {
+  //User Playlists
+  allPlayLists: PlayList[] = [];
+  userPlayLists: PlayList[] = [];
+
+  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService, private authService: AuthService,
+    private router: Router, private playlistService: PlaylistServiceService) {
 
     
     this.user = 
@@ -91,11 +97,7 @@ export class ProfileComponent implements OnInit {
     this.audioCollection = [
       this.audioPlayer
     ]
-
-
-
-
-
+    
 
   }
 
@@ -126,8 +128,48 @@ export class ProfileComponent implements OnInit {
         }
       )
     )
-    
+
+    //Get all users playlists
+    this.authService.user$.subscribe(
+      au =>
+      this.authUser = au
+    )
+    this.authService.user$.subscribe(
+      authUser =>
+      this.userService.GetUserByEmail(authUser.email).subscribe
+      (
+        foundUser =>
+        {
+          let x = foundUser.id;
+          this.updatePlaylist(foundUser, x);
+        }
+      )
+    )
   }
+
+  //Update all playlist
+  updatePlaylist(foundUser: User, x: any) {
+    this.playlistService.GetAllPlaylists().subscribe(
+      (result) => {
+        debugger;
+        this.allPlayLists = (result);
+        this.updateUserPlaylist(this.allPlayLists, x);
+      }
+    )
+  }
+  //Update user playlist
+  updateUserPlaylist(allPlayLists: PlayList[], x: any) {
+    debugger;
+    this.allPlayLists.forEach(playlist => 
+      {
+        if(playlist.userId == x)
+        {
+          this.userPlayLists.push(playlist);
+        }
+      })
+    this.router.navigate(['profile']);
+  }
+
 
   PopulateAudioPlayer(foundDbMusic: UploadMusic[])
   {
@@ -150,6 +192,9 @@ export class ProfileComponent implements OnInit {
 
 
     });
+  }
+  onNewPlayList() {
+    this.router.navigate(['newPlayList']);
   }
 
 }
