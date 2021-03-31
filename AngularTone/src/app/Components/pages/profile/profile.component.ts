@@ -151,7 +151,6 @@ export class ProfileComponent implements OnInit {
   updatePlaylist(foundUser: User, x: any) {
     this.playlistService.GetAllPlaylists().subscribe(
       (result) => {
-        debugger;
         this.allPlayLists = (result);
         this.updateUserPlaylist(this.allPlayLists, x);
       }
@@ -159,7 +158,6 @@ export class ProfileComponent implements OnInit {
   }
   //Update user playlist
   updateUserPlaylist(allPlayLists: PlayList[], x: any) {
-    debugger;
     this.allPlayLists.forEach(playlist => 
       {
         if(playlist.userId == x)
@@ -193,8 +191,13 @@ export class ProfileComponent implements OnInit {
 
     });
   }
+  //Navigate to create new playlist component
   onNewPlayList() {
     this.router.navigate(['newPlayList']);
+  }
+  //Get the details of the selected playlist
+  GetPlaylist(playlistID: number) {
+    this.router.navigate(['viewPlaylist'], {queryParams: {playID: playlistID} });
   }
 
 }
