@@ -83,7 +83,7 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let playlist of userPlayLists;">
+                                    <tr *ngFor="let playlist of userPlayLists;" (click)="GetPlaylist(playlist.ID)"> 
                                         <td>{{playlist.name}}</td>
                                     </tr>
                                 </tbody>
