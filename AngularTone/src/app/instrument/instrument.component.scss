@@ -1,14 +1,10 @@
 mat-card-title {
   text-align: center;
 }
-html,
 body {
   height: 100%;
-}
-body {
   margin-left: 0px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  padding-top: 56px;
 }
 
 .playButton {
@@ -63,6 +59,7 @@ body {
 .topbar {
   text-align: center;
   background-color: gray;
+  padding-top: 56px;
 }
 .mat-slider {
   color: white;
