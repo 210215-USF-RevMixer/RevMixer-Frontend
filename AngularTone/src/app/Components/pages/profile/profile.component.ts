@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { IoTThingsGraph } from 'aws-sdk';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
