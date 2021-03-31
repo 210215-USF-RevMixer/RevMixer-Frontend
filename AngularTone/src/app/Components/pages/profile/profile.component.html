@@ -71,6 +71,28 @@
                         </div>
                     </div>
                 </div>
+
+                <h1>Playlists</h1>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="well">
+                            <table class="table">
+                                <thead>
+                                    <th>
+                                        Playlist Name
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let playlist of userPlayLists;">
+                                        <td>{{playlist.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button routerLink="/newPlayList" class="btn btn-primary">Create New Playlist</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col-sm-7 offset-sm-3">
             </div>
