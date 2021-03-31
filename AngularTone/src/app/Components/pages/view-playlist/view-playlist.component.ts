@@ -14,12 +14,12 @@ export class ViewPlaylistComponent implements OnInit {
   constructor(private playlistService: PlaylistServiceService, private activeRoute: ActivatedRoute) { 
     this.selectedPlaylist = 
     {
-      ID: 0,
+      id: 0,
       userId: 0,
       name: '',
       user: {
         userName: '',
-        ID: 0,
+        id: 0,
         email: '',
         isAdmin: false,
         userProjects: [],
@@ -37,7 +37,6 @@ export class ViewPlaylistComponent implements OnInit {
     .subscribe(
       params =>
       {
-        debugger;
         this.playlistService.GetPlaylist(params.id).subscribe(
           foundPlaylist => {
             this.selectedPlaylist = foundPlaylist;
