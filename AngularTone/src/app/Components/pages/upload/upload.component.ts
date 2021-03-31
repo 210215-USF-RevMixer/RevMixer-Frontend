@@ -28,12 +28,12 @@ export class UploadComponent implements OnInit {
     if (files.length === 0) {
       return;
     }
-    debugger;
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
-    this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
+    //https://revmixerapi.azurewebsites.net/api/AzureBlob
+    this.http.post("https://revmixerapi.azurewebsites.net/api/AzureBlob", formData, {reportProgress: true, observe: 'events'})
     .subscribe(event => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
