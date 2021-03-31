@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Comments } from 'src/app/Models/Comments';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
+import { User } from 'src/app/Models/User';
 import { CommentRestService } from 'src/app/services/comment-rest.service';
 @Component({
   selector: 'app-comment',
@@ -11,18 +12,15 @@ import { CommentRestService } from 'src/app/services/comment-rest.service';
 export class CommentComponent implements OnInit {
 
   comment: Comments[];
-  upload: UploadMusic;
   addComment: Comments;
   
-  constructor(private commentService: CommentRestService, private router: Router) {
+  constructor(private commentService: CommentRestService) {
   this.comment =[
   {
-    id: 0,
+    Id: 0,
     comment: '',
     commentData: new Date,
     userId: 0,
-    uploadMusicId: 0,
-    
     user:
     {
         ID: 0,
@@ -35,6 +33,7 @@ export class CommentComponent implements OnInit {
         uploadMusics: [],
         playlists: []
     },
+    uploadMusicId: 0,
     uploadMusic: 
     {
       ID: 0,
@@ -61,39 +60,14 @@ export class CommentComponent implements OnInit {
     }
   }
   ]
-  this.upload =
-  {
-    ID: 0,
-    userId: 0,
-    musicFilePath: '',
-    name: '',
-    likes: 0,
-    plays: 0,
-    user:
-    {
-      ID: 0,
-      userName: '',
-      email: '',
-      isAdmin: false,
-      userProjects: [],
-      sample: [],
-      comments: [],
-      uploadMusics: [],
-      playlists: []
-    },
-    musicPlaylists: [],
-    comments: [],
-    uploadDate: new Date
-  }
+  
 
   this.addComment = 
   {
-    id: 0,
+    Id: 1,
     comment: '',
     commentData: new Date,
     userId: 0,
-    uploadMusicId: 0,
-    
     user:
     {
         ID: 0,
@@ -106,6 +80,7 @@ export class CommentComponent implements OnInit {
         uploadMusics: [],
         playlists: []
     },
+    uploadMusicId: 0,
     uploadMusic: 
     {
       ID: 0,
@@ -143,27 +118,14 @@ export class CommentComponent implements OnInit {
         this.comment = foundUser;
       }
     )
+    debugger;
   }
 
-  GetComments(uploadid: number)
-  {
-    this.commentService.GetAllComments(uploadid).subscribe
-  }
-
-
-  // SubmitComment()
-  // {
-  //   this.commentService.SubmitComment().subscribe
-  //   (data => {
-  //     this.comments.push();
-  //   })
-  // }
-
-  AddComment(): void{
+  onSubmit(): void{
     this.commentService.SubmitComment(this.addComment).subscribe(
-      (Comments) =>
+      (addComment) =>
       {
-        alert(`${this.addComment.comment} was added!`);
+        alert(`${addComment.comment} was added!`);
       }
     )
     console.log("button was pressed")
