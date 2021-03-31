@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UploadMusic } from '../Models/UploadMusic';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,10 @@ export class UploadedMusicRestService {
   {
     return this.http.get<any>(`${this.url}/User/${userid}`, this.httpOptions);
     
+  }
+
+  PostSong(song:UploadMusic)
+  {
+    return this.http.post<UploadMusic>(`${this.url}`, song, this.httpOptions);
   }
 }
