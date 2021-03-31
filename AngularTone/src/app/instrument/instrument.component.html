@@ -1,8 +1,7 @@
 <!-- Wishlist
 Light grey background color, lighter than the blocks
-Labels for sample tracks
 Visual grouping of each measure/4 horizontal blocks
-Dropdown for load pattern selection -->
+Dropdown for load pattern and sample set selection -->
 
 <div class="centered">
   <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">
@@ -12,19 +11,25 @@ Dropdown for load pattern selection -->
 
   <button (click)="savePattern();">Save Pattern</button>
   <button (click)="loadSavedPattern();">Load Saved Pattern</button>
-
-  <button (click)="loadPattern(0);">Pattern 1</button>
-  <button (click)="loadPattern(1);">Pattern 2</button>
-  <button (click)="loadPattern(2);">Pattern 3</button>
-
   <button (click)="Clear();">Clear</button>
 
-<button (click)="changeSample1();">MXR</button>
-<button (click)="changeSample2();">LinnDrum</button>
-<button (click)="changeSample3();">Casio</button>
-<button (click)="changeSample4();">Modular</button>
-<button (click)="changeSample6();">Alesis</button>
-<button (click)="changeSample5();">808</button>
+  <mat-form-field>
+    <mat-label>Load Preset Pattern</mat-label>
+    <mat-select (valueChange)="loadPattern($event)">
+      <mat-option *ngFor="let presetPattern of presetPatterns" [value]="presetPattern.number">
+        {{presetPattern.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Load Sample Set</mat-label>
+    <mat-select  (valueChange)="changeSampleSet($event)">
+      <mat-option *ngFor="let sampleSet of sampleSets" [value]="sampleSet.number">
+        {{sampleSet.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
 
   Distortion: <mat-slider (input)="changeDistortionAmount($event)" step="0.001" min="0" max="1" value="0"></mat-slider>

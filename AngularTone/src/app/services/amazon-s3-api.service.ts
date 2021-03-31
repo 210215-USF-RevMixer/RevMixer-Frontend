@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ArgumentOutOfRangeError, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as AWS from 'aws-sdk';
 import * as S3 from 'aws-sdk/clients/s3';
@@ -10,6 +10,7 @@ import { UserMedia } from 'tone';
 import { User } from "../Models/User";
 import { int } from 'aws-sdk/clients/datapipeline';
 import { EMPTY } from 'rxjs';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 // AWS.config.update(
 //   {
@@ -67,46 +68,22 @@ export class AmazonS3ApiService {
     }
 
   }
-  
-  uploadSong(song: File, userId: int): Observable<any> {
-    debugger;
-    var result = true;
-    const contentType = song.type;
-    const bucket = new S3 ()
-    const params = {
-      Bucket: 'uploaded-music-revmixer',
-      Key: song.name,
-      Body: song,
-      ACL: 'public-read',
-      ContentType: contentType
-    };
-    bucket.upload(params, function (err:any, data:any) {
-      if (err) {
-        console.log('error uploading file: ', err);
-        result = false;
-      }
-      console.log('successfully uploaded file', data);
-      result = true;
-    })
-
-    if(result == true)
-    {
-      return this.addDbSongEntry(song, userId);
-    }
-    else{
-      return EMPTY;
-    }
-  }
-
-  addDbSongEntry(song: File, userId: int): Observable<any>
-  {
-    this.dbsongentry.name = song.name;
-    this.dbsongentry.musicFilePath = song.name;
-    this.dbsongentry.userId = userId;
-    return this.httpClient.post<UploadMusic>(this.url, this.dbsongentry, this.httpOptions)
 
 
-  }
+  // uploadSong(song: File): Observable<any> {
+
+  //   }
+  //}
+
+  // addDbSongEntry(fileName: , userId: int): Observable<any>
+  // {
+  //   this.dbsongentry.name = song.name;
+  //   this.dbsongentry.musicFilePath = song.name;
+  //   this.dbsongentry.userId = userId;
+  //   return this.httpClient.post<UploadMusic>(this.url, this.dbsongentry, this.httpOptions)
+
+
+  // }
 
 
 

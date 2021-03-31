@@ -49,17 +49,4 @@ export class HubComponent implements OnInit {
       }
     )
   }
-  
-  AddLike(likes: UploadMusic)
-  {
-    // this.upload.likes++;
-    // this.hubService.AddLike(this.upload)
-    // console.log('button pressed');
   }
-
-  // convertToSingleSong(song: UploadMusic[]){
-  //   // this.upload[] = this.upload2;
-  //   this.AddLike(this.upload2);
-  // }
-  
-}

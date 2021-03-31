@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
 
 
 import { NavbarComponent } from './Components/shared/navbar/navbar.component';
@@ -44,6 +45,7 @@ import { CreatePlaylistComponent } from './Components/pages/create-playlist/crea
     MatGridListModule,
     MatIconModule,
     MatSliderModule,
+    MatSelectModule,
     HttpClientModule,
     NgxAudioPlayerModule,
     FormsModule,
