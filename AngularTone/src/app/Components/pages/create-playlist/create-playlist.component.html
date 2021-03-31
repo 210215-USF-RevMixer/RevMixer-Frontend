@@ -1,0 +1,23 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .container{
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <div class="container">
+        <form (ngSubmit)="onSubmit()" #playListForm= "ngForm">
+            <div class="form-group">
+                <label>Playlist Name:</label>
+                <input type="text" [(ngModel)] = "newPlaylist.name" #name="ngModel" class="form-control" id="playlistName" name="playlistName" placeholder="Enter a name for the playlist">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
