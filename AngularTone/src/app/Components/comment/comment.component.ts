@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Comments } from 'src/app/Models/Comments';
-import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { User } from 'src/app/Models/User';
 import { CommentRestService } from 'src/app/services/comment-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
@@ -14,7 +12,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 export class CommentComponent implements OnInit {
 
   comment: Comments[];
-  addComment: Comments;
+  addComment: any;
   getUser: User;
   
   constructor(private commentService: CommentRestService, public authService: AuthService, private userService: UserRestService) {
@@ -71,44 +69,9 @@ export class CommentComponent implements OnInit {
     comment: '',
     commentData: new Date,
     userId: 0,
-    user:
-    {
-        id: 0,
-        userName: '',
-        email: '',
-        isAdmin: false,
-        userProjects: [],
-        sample: [],
-        comments: [],
-        uploadMusics: [],
-        playlists: []
-    },
-    uploadMusicId: 0,
-    uploadMusic: 
-    {
-      id: 0,
-      userId: 0,
-      musicFilePath: '',
-      name: '',
-      likes: 0,
-      plays: 0,
-      user:
-      {
-        id: 0,
-        userName: '',
-        email: '',
-        isAdmin: false,
-        userProjects: [],
-        sample: [],
-        comments: [],
-        uploadMusics: [],
-        playlists: []
-      },
-      musicPlaylists: [],
-      comments: [],
-      uploadDate: new Date
-    }
+    uploadMusicId: 17
   }
+
   this.getUser =
     {
       userName: '',
@@ -148,14 +111,11 @@ export class CommentComponent implements OnInit {
     )
   }
 
-  onSubmit(): void{
+  onSubmit(comment: string): void{
+    this.addComment.comment = comment;
     this.addComment.userId = this.getUser.id;
-    this.commentService.SubmitComment(this.addComment).subscribe(
-      (addComment) =>
-      {
-        alert(`${addComment.comment} was added!`);
-      }
-    )
+    console.log(JSON.stringify(this.addComment))
+    this.commentService.SubmitComment(this.addComment).subscribe()
     console.log("button was pressed")
     };
 }
