@@ -1,7 +1,6 @@
 <div class="container transparent text-white">
     <form (ngSubmit)="onSubmit(test.value)" #commentForm="ngForm">
         <div class="form-group">
-            <label for="addComment">Character's Name: </label>
             <input type="text" #test name="test" id="Comment"
                 class="form-control" placeholder="Enter your Comment" min="1" max="500" required>
                 <button type="submit" class="mt-2 btn btn-secondary">Submit</button>
