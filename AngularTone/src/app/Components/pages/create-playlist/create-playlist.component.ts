@@ -5,7 +5,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 import { Router } from '@angular/router';
-//import { threadId } from 'node:worker_threads';
+import { threadId } from 'node:worker_threads';
 @Component({
   selector: 'app-create-playlist',
   templateUrl: './create-playlist.component.html',
