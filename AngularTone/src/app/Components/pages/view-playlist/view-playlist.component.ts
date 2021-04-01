@@ -39,11 +39,14 @@ export class ViewPlaylistComponent implements OnInit {
       {
         this.playlistService.GetPlaylist(params.id).subscribe(
           foundPlaylist => {
-            this.selectedPlaylist = foundPlaylist;
+            this.setPlaylist(foundPlaylist);
           }
         )
       }
     );
+  }
+  setPlaylist(foundPlaylist: PlayList) {
+    this.selectedPlaylist = foundPlaylist;
   }
 
 }
