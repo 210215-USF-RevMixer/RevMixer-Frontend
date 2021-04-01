@@ -146,10 +146,6 @@ export class ViewPlaylistComponent implements OnInit {
     this.musicPlaylist.playlistId = this.selectedPlaylist.id;
     this.musicPlaylist.musicId = id;
     this.musicPlaylistService.AddMusicPlaylist(this.musicPlaylist).subscribe();
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000)
-    //this.route.navigate(['viewPlaylist']);
   }
 
 }
