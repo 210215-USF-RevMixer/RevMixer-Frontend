@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatOption } from '@angular/material/core';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSlider } from '@angular/material/slider';
+import { NavbarComponent } from '../Components/shared/navbar/navbar.component';
 import { InstrumentComponent } from './instrument.component';
+import { MatRippleModule } from '@angular/material/core';
+
 
 describe('InstrumentComponent', () => {
   let component: InstrumentComponent;
@@ -8,7 +13,7 @@ describe('InstrumentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InstrumentComponent ]
+      declarations: [ InstrumentComponent, MatSlider, NavbarComponent, MatOption ], 
     })
     .compileComponents();
   });

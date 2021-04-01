@@ -17,7 +17,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 
-
 import { NavbarComponent } from './Components/shared/navbar/navbar.component';
 import { FooterComponent } from './Components/shared/footer/footer.component';
 import { HubComponent } from './Components/pages/hub/hub.component';
@@ -31,6 +30,7 @@ import { CommentComponent } from './Components/comment/comment.component';
 import { LikebtnComponent } from './Components/likebtn/likebtn.component';
 import { CreatePlaylistComponent } from './Components/pages/create-playlist/create-playlist.component';
 import { ViewPlaylistComponent } from './Components/pages/view-playlist/view-playlist.component';
+import { MatRippleModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -47,6 +47,7 @@ import { ViewPlaylistComponent } from './Components/pages/view-playlist/view-pla
     MatIconModule,
     MatSliderModule,
     MatSelectModule,
+    MatRippleModule,
     HttpClientModule,
     NgxAudioPlayerModule,
     FormsModule,
