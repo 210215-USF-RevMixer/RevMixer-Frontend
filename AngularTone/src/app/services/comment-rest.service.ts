@@ -25,7 +25,7 @@ export class CommentRestService {
   {
     return this.http.get<Comments>(this.url, this.httpOptions)
   }
-  SubmitComment(addComment: any): Observable<Comments>{
+  SubmitComment(addComment: Comments): Observable<Comments>{
     return this.http.post<Comments>(this.url, addComment, this.httpOptions)
   }
 }
