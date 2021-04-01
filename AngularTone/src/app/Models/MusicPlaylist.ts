@@ -4,7 +4,7 @@ import { UploadMusic } from "./UploadMusic";
 export interface MusicPlaylist
 {
     id: number,
-    playlistId: number,
+    playListId: number,
     musicId: number,
 
     playList: PlayList
