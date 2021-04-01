@@ -33,7 +33,7 @@ export class CreatePlaylistComponent implements OnInit {
     };
     this.newPlaylist = 
     {
-      ID: 0,
+      id: 0,
       userId: 0,
       name: '',
       user: {

@@ -98,6 +98,7 @@ export class ProfileComponent implements OnInit {
       this.audioPlayer
     ]
     
+    console.log("logged at constructor " + this.userPlayLists);
 
   }
 
@@ -165,6 +166,7 @@ export class ProfileComponent implements OnInit {
           this.userPlayLists.push(playlist);
         }
       })
+      console.log(this.userPlayLists);
     this.router.navigate(['profile']);
   }
 
@@ -196,8 +198,9 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['newPlayList']);
   }
   //Get the details of the selected playlist
-  GetPlaylist(playlistID: number) {
-    this.router.navigate(['viewPlaylist'], {queryParams: {playID: playlistID} });
+  GetPlaylist(id: number) {
+    console.log(this.userPlayLists);
+    this.router.navigate(['viewPlaylist'], {queryParams: {id: id} });
   }
 
 }
