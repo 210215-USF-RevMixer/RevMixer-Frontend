@@ -7,7 +7,7 @@ import { UserProject } from "./UserProject";
 
 export interface User
 {
-    ID: number,
+    id: number,
     userName: string,
     email: string,
     isAdmin: boolean,

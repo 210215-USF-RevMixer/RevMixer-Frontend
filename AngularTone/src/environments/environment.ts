@@ -7,11 +7,11 @@ export const environment = {
   USERS_REST: 'https://revmixerapi.azurewebsites.net/api/User',
   UPLOAD_MUSIC_REST: 'https://revmixerapi.azurewebsites.net/api/UploadedMusic',
   COMMENT_REST: 'https://revmixerapi.azurewebsites.net/api/Comments',
-  UPLOADEDMUSIC_REST: 'https://revmixerapi.azurewebsites.net/api/UploadedMusic',
-  AMAZON_REST: 'https://revmixerapi.azurewebsites.net/api/Amazon',
-  AMAZON_S3: 'https://uploaded-music-revmixer.s3.amazonaws.com',
   SAVED_PROJECTS_REST: 'https://revmixerapi.azurewebsites.net/api/SavedProjects',
   PLAYLIST_REST: 'https://revmixerapi.azurewebsites.net/api/Playlist',
+  AZURE_REST: 'https://revmixerapi.azurewebsites.net/api/AzureBlob',
+  AZURE_STORAGE: 'https://revmixerstorage.blob.core.windows.net/revmixersongs',
+  MUSIC_PLAYLIST_REST: 'https://revmixerapi.azurewebsites.net/api/MusicPlaylist',
 };
 
 /*

@@ -13,7 +13,7 @@ export class LikebtnComponent implements OnInit {
   
     this.like =
     {
-      ID: 0,
+      id: 0,
       userId: 0,
       musicFilePath: '',
       name: '',
@@ -21,7 +21,7 @@ export class LikebtnComponent implements OnInit {
       plays: 0,
       user:
       {
-        ID: 0,
+        id: 0,
         userName: '',
         email: '',
         isAdmin: false,

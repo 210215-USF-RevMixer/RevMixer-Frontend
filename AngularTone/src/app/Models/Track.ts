@@ -5,7 +5,7 @@ import { SavedProject } from "./SavedProject";
 
 export interface Track
 {
-    ID: number,
+    id: number,
     projectId: number,
     sampleId: number,
     patternId: number,

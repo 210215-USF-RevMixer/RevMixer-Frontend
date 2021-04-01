@@ -18,13 +18,13 @@ export class CommentComponent implements OnInit {
   constructor(private commentService: CommentRestService, public authService: AuthService, private userService: UserRestService) {
   this.comment =[
   {
-    Id: 0,
+    id: 0,
     comment: '',
     commentData: new Date,
     userId: 0,
     user:
     {
-        ID: 0,
+        id: 0,
         userName: '',
         email: '',
         isAdmin: false,
@@ -37,7 +37,7 @@ export class CommentComponent implements OnInit {
     uploadMusicId: 0,
     uploadMusic: 
     {
-      ID: 0,
+      id: 0,
       userId: 0,
       musicFilePath: '',
       name: '',
@@ -45,7 +45,7 @@ export class CommentComponent implements OnInit {
       plays: 0,
       user:
       {
-        ID: 0,
+        id: 0,
         userName: '',
         email: '',
         isAdmin: false,
@@ -65,17 +65,53 @@ export class CommentComponent implements OnInit {
 
   this.addComment = 
   {
-    Id: 0,
+    id: 0,
     comment: '',
     commentData: new Date,
     userId: 0,
-    uploadMusicId: 0
+    user:
+    {
+        id: 0,
+        userName: '',
+        email: '',
+        isAdmin: false,
+        userProjects: [],
+        sample: [],
+        comments: [],
+        uploadMusics: [],
+        playlists: []
+    },
+    uploadMusicId: 0,
+    uploadMusic: 
+    {
+      id: 0,
+      userId: 0,
+      musicFilePath: '',
+      name: '',
+      likes: 0,
+      plays: 0,
+      user:
+      {
+        id: 0,
+        userName: '',
+        email: '',
+        isAdmin: false,
+        userProjects: [],
+        sample: [],
+        comments: [],
+        uploadMusics: [],
+        playlists: []
+      },
+      musicPlaylists: [],
+      comments: [],
+      uploadDate: new Date
+    }
   }
 
   this.getUser =
     {
       userName: '',
-      ID: 0,
+      id: 0,
       email: '',
       isAdmin: false,
       userProjects: [],
@@ -112,7 +148,7 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(): void{
-    // this.addComment.userId = this.getUser.ID;
+    this.addComment.userId = this.getUser.id;
     this.commentService.SubmitComment(this.addComment).subscribe(
       (addComment) =>
       {

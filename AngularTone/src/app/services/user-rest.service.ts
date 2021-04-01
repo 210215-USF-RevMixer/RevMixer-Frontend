@@ -39,7 +39,7 @@ responseValue: any;
     
   }
   EditUser(user2BEdited: User): Observable<any> {
-    return this.http.put(`${this.url}/${user2BEdited.ID}`, user2BEdited, this.httpOptions);
+    return this.http.put(`${this.url}/${user2BEdited.id}`, user2BEdited, this.httpOptions);
   }
 
 

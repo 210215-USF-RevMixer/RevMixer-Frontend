@@ -22,7 +22,7 @@ import { PlaylistServiceService } from 'src/app/services/playlist-service.servic
 export class ProfileComponent implements OnInit {
   user: User;
   authUser: any;
-  S3Bucket: string = environment.AMAZON_S3;
+  S3Bucket: string = environment.AZURE_STORAGE;
 
   userMusic: UploadMusic[];
   audioPlayer: Track;
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   //audio player settings
   msaapDisplayTitle = true;
   msaapDisplayPlayList = true;
-  msaapPageSizeOptions = [2,4,6];
+  msaapPageSizeOptions = [10,10,10];
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
   msaapDisplayArtist = true;
@@ -50,7 +50,7 @@ export class ProfileComponent implements OnInit {
     this.user = 
     {
       userName: '',
-      ID: 0,
+      id: 0,
       email: '',
       isAdmin: false,
       userProjects: [],
@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.userMusic = [{
-      ID: 0,
+      id: 0,
       userId: 0,
       musicFilePath: '',
       name: '',
@@ -71,7 +71,7 @@ export class ProfileComponent implements OnInit {
   
       user: {
         userName: '',
-        ID: 0,
+        id: 0,
         email: '',
         isAdmin: false,
         userProjects: [],
@@ -98,6 +98,7 @@ export class ProfileComponent implements OnInit {
       this.audioPlayer
     ]
     
+    console.log("logged at constructor " + this.userPlayLists);
 
   }
 
@@ -165,6 +166,7 @@ export class ProfileComponent implements OnInit {
           this.userPlayLists.push(playlist);
         }
       })
+      console.log(this.userPlayLists);
     this.router.navigate(['profile']);
   }
 
@@ -191,8 +193,14 @@ export class ProfileComponent implements OnInit {
 
     });
   }
+  //Navigate to create new playlist component
   onNewPlayList() {
     this.router.navigate(['newPlayList']);
+  }
+  //Get the details of the selected playlist
+  GetPlaylist(id: number) {
+    console.log(this.userPlayLists);
+    this.router.navigate(['viewPlaylist'], {queryParams: {id: id} });
   }
 
 }

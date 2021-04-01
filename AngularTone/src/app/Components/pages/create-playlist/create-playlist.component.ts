@@ -22,7 +22,7 @@ export class CreatePlaylistComponent implements OnInit {
     this.user = 
     {
       userName: '',
-      ID: 0,
+      id: 0,
       email: '',
       isAdmin: false,
       userProjects: [],
@@ -33,12 +33,12 @@ export class CreatePlaylistComponent implements OnInit {
     };
     this.newPlaylist = 
     {
-      ID: 0,
+      id: 0,
       userId: 0,
       name: '',
       user: {
         userName: '',
-        ID: 0,
+        id: 0,
         email: '',
         isAdmin: false,
         userProjects: [],

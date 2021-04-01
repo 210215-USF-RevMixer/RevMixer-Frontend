@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AudioPlayerComponent implements OnInit {
   
-  S3Bucket: string = environment.AMAZON_S3;
+  S3Bucket: string = environment.AZURE_STORAGE;
   
   userMusic: UploadMusic[];
   playlist: Track[];
@@ -39,7 +39,7 @@ export class AudioPlayerComponent implements OnInit {
     this.user = 
     {
       userName: '',
-      ID: 0,
+      id: 0,
       email: '',
       isAdmin: false,
       userProjects: [],
@@ -50,7 +50,7 @@ export class AudioPlayerComponent implements OnInit {
     }
 
     this.userMusic = [{
-      ID: 0,
+      id: 0,
       userId: 0,
       musicFilePath: '',
       name: '',
@@ -60,7 +60,7 @@ export class AudioPlayerComponent implements OnInit {
   
       user: {
         userName: '',
-        ID: 0,
+        id: 0,
         email: '',
         isAdmin: false,
         userProjects: [],

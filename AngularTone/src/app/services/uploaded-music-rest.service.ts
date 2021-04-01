@@ -32,10 +32,9 @@ export class UploadedMusicRestService {
   GetSongsByUserId(userid:number) : Observable<any>
   {
     return this.http.get<any>(`${this.url}/User/${userid}`, this.httpOptions);
-    
   }
 
-  PostSong(song:UploadMusic)
+  PostSong(song:any)
   {
     return this.http.post<UploadMusic>(`${this.url}`, song, this.httpOptions);
   }
