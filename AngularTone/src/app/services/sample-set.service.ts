@@ -39,7 +39,7 @@ export class SampleSetService {
 
   //Get preset sampleset for testing
   Get909Set(): string[]{
-    this.sample909set[0] = '../../assets/909/Kick.wav';
+    this.sample909set.push('../../assets/909/Kick.wav');
     this.sample909set.push('../../assets/909/Snare.wav');
     this.sample909set.push('../../assets/909/HiHat.wav');
     return this.sample909set;
