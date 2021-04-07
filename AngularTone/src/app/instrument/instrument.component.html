@@ -11,22 +11,21 @@ Dropdown for load pattern and sample set selection -->
     Tempo<mat-slider (input)="tempoChange($event)" step="1" min="40" max="300" value="190"></mat-slider>
 
     <button (click)="savePattern();">Save Pattern</button>
-    <button (click)="loadSavedPattern();">Load Saved Pattern</button>
     <button (click)="Clear();">Clear</button>
 
     <mat-form-field>
       <mat-label>Load Preset Pattern</mat-label>
-      <mat-select (valueChange)="loadPattern($event)">
-        <mat-option *ngFor="let presetPattern of presetPatterns" [value]="presetPattern.number">
-          {{presetPattern.name}}
+      <mat-select>
+        <mat-option *ngFor="let presetPattern of presetPatterns" (click)="loadPattern(presetPattern)">
+          {{presetPattern.sample}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Load Sample Set</mat-label>
-      <mat-select (valueChange)="changeSampleSet($event)">
-        <mat-option *ngFor="let sampleSet of sampleSets" [value]="sampleSet.number">
+      <mat-select>
+        <mat-option *ngFor="let sampleSet of sampleSets" (click)="changeSampleSet(sampleSet)">
           {{sampleSet.name}}
         </mat-option>
       </mat-select>
@@ -44,62 +43,23 @@ Dropdown for load pattern and sample set selection -->
 
 
   <div class="center">
-  <div class="pad">
-    <div *ngFor="let block of kickBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateKick(i);">
+    <div *ngFor="let track of tracks;" class="pad">
+      <div *ngFor="let currentNote of track.note;">
+        <div class="single-block" [ngStyle]="{'background-color': currentNote.color}" (click)="changeState(currentNote, track)">
+        </div>
       </div>
+      <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png" style="width: 20px; opacity: 75%;"></div>
     </div>
-  </div>
 
-  <div class="pad">
-    <div *ngFor="let block of snareBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateSnare(i);">
-      </div>
-    </div>
+    <mat-form-field class="mt-4 ml-5">
+      <mat-label>Add Sample To Track</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let sample of samples" (click)="addTrack(sample)" (mouseenter)="playSound(sample)">
+          {{sample.sampleName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-  <div class="pad">
-    <div *ngFor="let block of hiHatBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateHiHat(i);">
-      </div>
-    </div>
-  </div>
-
-  <div class="pad">
-    <div *ngFor="let block of clapBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateClap(i);">
-      </div>
-    </div>
-  </div>
-
-  <div class="pad">
-    <div *ngFor="let block of shakerBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateShaker(i);">
-      </div>
-    </div>
-  </div>
-
-  <div class="pad">
-    <div *ngFor="let block of cowbellBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateCowbell(i);">
-      </div>
-    </div>
-  </div>
-
-  <div class="pad">
-    <div *ngFor="let block of claveBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateClave(i);">
-      </div>
-    </div>
-  </div>
-
-  <div class="pad">
-    <div *ngFor="let block of cymbalBlocks;let i = index" class="block">
-      <div class="single-block" [ngStyle]="{'background-color': block.color}" (click)="changeStateCymbal(i);">
-      </div>
-    </div>
-  </div>
-  </div>
-
 
   <br />
   <br />
@@ -109,4 +69,4 @@ Dropdown for load pattern and sample set selection -->
     <br />
     <button (click)="record();" class="btn btn-primary">Record/Stop Record</button>
   </div>
-  <!-- </div> -->
+</div>
