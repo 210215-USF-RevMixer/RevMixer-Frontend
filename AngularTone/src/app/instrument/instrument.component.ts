@@ -81,11 +81,11 @@ export class InstrumentComponent implements OnInit {
     }
     this.isTransportStarted = false
 
-    //Add service to get all available presets from DB
+    //Add service to get all available presets from DB to populate
     this.presetPatterns = []
-    //Add service to get all available sampleSets from DB
+    //Add service to get all available sampleSets from DB to populate
     this.sampleSets = []
-    //Add services to get all the samples
+    //Add services to get all the samples from DB to populate
     this.samples = []
   }
 
@@ -107,6 +107,8 @@ export class InstrumentComponent implements OnInit {
     this.samples.push({sampleName: 'Clap', sample: new Tone.Sampler({
       C3: '../../assets/808/Clap.wav'
     }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)})
+
+    // HARD CODED DATA FOR TESTING
 
     this.testTracks.forEach(testTrack => {
       for (let i = 0; i < this.blockSize; i++) {
@@ -137,6 +139,7 @@ export class InstrumentComponent implements OnInit {
     //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
 
     //populate each block with 32 note positions
+    //change to get base track set from DB
     this.tracks.forEach(track => {
       for (let i = 0; i < this.blockSize; i++) {
         track.note.push({
@@ -206,7 +209,6 @@ export class InstrumentComponent implements OnInit {
       currentNote.onOff = 1
       currentTrack.sample.triggerAttackRelease('C3', '16n')
       currentTrack.sample
-      console.log(currentTrack.sample)
       currentTrack.part.add(this.times[currentNote.position], currentTrack.sample);
     }
     else {
@@ -246,7 +248,6 @@ export class InstrumentComponent implements OnInit {
 
   //Erases all sampler instruments and recreates them from samples in assets folder
   changeSampleSet(sample2Select: any) {
-    console.log(sample2Select)
     this.tracks.forEach(track => {
       track.sample = sample2Select.sample
       track.part = sample2Select.part
@@ -256,13 +257,11 @@ export class InstrumentComponent implements OnInit {
 
   deleteTrack(track2Delete: any)
   {
-    track2Delete.part.dispose
     let filteredTracks = this.tracks.filter(t => t !== track2Delete)
     this.tracks.forEach(track => {
       if(track === track2Delete)
       {
         track.part.dispose()
-        track.sample.dispose()
       }
     })
     this.tracks = filteredTracks
