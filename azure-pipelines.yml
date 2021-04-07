@@ -14,16 +14,16 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: NodeTool@0
+- task: Npm@1
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    command: 'install'
+    workingDir: 'AngularTone'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'AngularTone'
+    customCommand: 'run build'
 
 - task: Docker@2
   displayName: Build an image
@@ -31,3 +31,5 @@ steps:
     repository: ''
     command: build
     Dockerfile: app/Dockerfile
+    
+
