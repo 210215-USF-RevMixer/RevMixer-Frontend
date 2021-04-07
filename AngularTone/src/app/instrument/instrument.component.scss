@@ -8,9 +8,14 @@ body {
 }
 
 .playButton {
-  height: 50px;
-  width: 100px;
+  padding: 4px 10px 4px 10px;
   background-color: white;
+  transition: all 0.3s;
+}
+
+.playButton:hover {
+  background-color: rgb(236, 236, 236);
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
 }
 
 .pad{
@@ -72,10 +77,14 @@ body {
   box-sizing: border-box;
   height: 100%;
 }
+
 .topbar {
   text-align: center;
   background-color: gray;
-  padding-top: 56px;
+  padding-top: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .mat-slider {
   color: white;
@@ -90,4 +99,121 @@ body {
   text-align: center;
 }
 
+.sample-list
+{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  font-size: 18px;
+  padding-left: 0px;
+}
 
+.sample-item
+{
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-bottom: 1px solid #000000;
+}
+
+.sample-item:first-child
+{
+  border-top: 1px solid #000000;
+}
+
+.sample-item:hover
+{
+  background-color: rgb(184, 184, 184);
+}
+
+#pop-out-container
+{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #0000007c;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+
+.pop-out
+{
+  background-color: rgb(209, 209, 209);
+  width: 60%;
+  position: absolute;
+  top: 200px;
+  top: 50%;  
+  left: 50%; 
+  transform: translate(-50%, -50%);
+}
+
+.close-pop-out
+{
+  position: absolute;
+  right: 13%;
+  top: 11%;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 20px;
+  height: 50px;
+  width: 50px;
+}
+
+.x1
+{
+  background-color: #FFFFFF;
+  width: 50px;
+  height: 5px;
+  border-radius: 30px;
+  transition: all 0.3s;
+  transform: translateX(-20px) translateY(6px) rotate(-45deg);
+}
+
+.x2
+{
+  background-color: #FFFFFF;
+  width: 50px;
+  height: 5px;
+  border-radius: 30px;
+  transition: all 0.3s;
+  transform: translateX(-20px) rotate(45deg);
+}
+
+.close-pop-out:hover .x1
+{
+  background-color: #ff4848;
+}
+
+.close-pop-out:hover .x2
+{
+  background-color: #ff4848;
+}
+
+.my-buttons{
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.my-buttons button{
+  margin-bottom: 8px;
+}
+
+.my-sliders{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.topbar div{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.play-feature{
+  
+}

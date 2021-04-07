@@ -20,7 +20,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import * as Tone from 'tone';
-import{ SampleSetService } from '../services/sample-set.service'
+import { SampleSetService } from '../services/sample-set.service'
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -28,6 +28,7 @@ import{ SampleSetService } from '../services/sample-set.service'
 })
 
 export class InstrumentComponent implements OnInit {
+  popOutDisplay: string = 'none'
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
 
@@ -39,39 +40,28 @@ export class InstrumentComponent implements OnInit {
   isTransportStarted: boolean = false
   volume: any
   presetPatterns: any[] = []
- 
   sampleSets: any[] = []
-  sampleTrack : any[]=[]
+  sampleTrack: any[] = []
   samples: any[] = []
-  tracks2Add: any[]=[]
+  tracks2Add: any[] = []
 
   //How many steps we have in the sequencer
   blockSize = 32
   tempo: number = 190
+  currentPosition: number = 0
   //Time in the loop that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
     "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
 
-  savedPattern = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ];
+  savedPattern: number[][] = []
   //effects objects
   dist = new Tone.Distortion(0).toDestination()
   reverb = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
-  
-  
 
-  constructor(private setService : SampleSetService) {
+  constructor(private setService: SampleSetService) {
     this.tracks = [
       {
         sample: {},
@@ -88,10 +78,10 @@ export class InstrumentComponent implements OnInit {
 
     //Add service to get all available presets from DB to populate
     this.presetPatterns = []
-   
+
 
     this.sampleSets = []
-    this.sampleTrack=[
+    this.sampleTrack = [
 
     ]
     //Add services to get all the samples from DB to populate
@@ -102,24 +92,30 @@ export class InstrumentComponent implements OnInit {
     this.volume = new Tone.Volume(-10)
 
     // HARD CODED DATA FOR TESTING
-    
+    this.testTracks.push({ part: {}, sample: {}, note: [] })
+    this.testTracks.push({ part: {}, sample: {}, note: [] })
+    this.testTracks.push({ part: {}, sample: {}, note: [] })
+    this.testTracks.push({ part: {}, sample: {}, note: [] })
+
     //push on the sample sets to array
     // get the arrays from services
     this.sampleSets.push(this.setService.Get909Set())
-    
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
-    this.samples.push({sampleName: 'Kick', sample: new Tone.Sampler({
-      C3: '../../assets/808/Kick.wav'
-    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)})
-    this.samples.push({sampleName: 'Snare', sample: new Tone.Sampler({
-      C3: '../../assets/808/Snare.wav'
-    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)})
-    this.samples.push({sampleName: 'Clap', sample: new Tone.Sampler({
-      C3: '../../assets/808/Clap.wav'
-    }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)})
+
+    this.samples.push({
+      sampleName: 'Kick', sample: new Tone.Sampler({
+        C3: '../../assets/808/Kick.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+    })
+    this.samples.push({
+      sampleName: 'Snare', sample: new Tone.Sampler({
+        C3: '../../assets/808/Snare.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+    })
+    this.samples.push({
+      sampleName: 'Clap', sample: new Tone.Sampler({
+        C3: '../../assets/808/Clap.wav'
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+    })
 
     // HARD CODED DATA FOR TESTING
 
@@ -145,7 +141,7 @@ export class InstrumentComponent implements OnInit {
       }
     }
     )
-    
+
     this.presetPatterns.push(this.testTracks)
     // HARD CODED DATA FOR TESTING
 
@@ -197,12 +193,16 @@ export class InstrumentComponent implements OnInit {
   }
   playStop() {
     this.isTransportStarted = !this.isTransportStarted
+
+    console.log(Tone.Transport.position)
+
     Tone.Transport.toggle();
   }
 
   //From  HTML sliders
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
+    this.tempo = event.value
   }
   changeDistortionAmount(event: any) {
     this.dist.distortion = event.value;
@@ -235,22 +235,25 @@ export class InstrumentComponent implements OnInit {
     this.tracks.forEach(track => {
       track.note.forEach(note => {
         note.onOff = 0,
-        note.color = 'grey'
+          note.color = 'grey'
       })
-      for(let i = 0; i < this.times.length; i++)
-      {
+      for (let i = 0; i < this.times.length; i++) {
         track.part.remove(this.times[i]);
       }
     })
   }
 
   savePattern() {
+    this.savedPattern = []
+    let tempArray = []
     for (let i = 0; i < this.tracks.length; i++) {
       for (let j = 0; j < this.blockSize; j++) {
-        this.savedPattern[i][j] = this.tracks[i].note[j].onOff;
+        tempArray.push(this.tracks[i].note[j].onOff)
       }
+      this.savedPattern.push(tempArray)
+      tempArray = []
     }
-    //save this.tracks in the DB
+    //send pattern to DB
   }
 
   //Preset patterns are in pattern.const.ts 
@@ -262,7 +265,7 @@ export class InstrumentComponent implements OnInit {
 
   //Erases all sampler instruments and recreates them from samples in assets folder
   changeSampleSet(sample2Select: any) {
-    for(let i = 0; i< sample2Select.length;i++){
+    for (let i = 0; i < sample2Select.length; i++) {
       let tempSample = new Tone.Sampler({
         C3: `${sample2Select[i]}`
       }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
@@ -270,22 +273,19 @@ export class InstrumentComponent implements OnInit {
       this.addTrack(tempSample)
     }
   }
-  
 
-  deleteTrack(track2Delete: any)
-  {
+
+  deleteTrack(track2Delete: any) {
     let filteredTracks = this.tracks.filter(t => t !== track2Delete)
     this.tracks.forEach(track => {
-      if(track === track2Delete)
-      {
+      if (track === track2Delete) {
         track.part.dispose()
       }
     })
     this.tracks = filteredTracks
   }
 
-  addTrack(sample2Add: any)
-  {
+  addTrack(sample2Add: any) {
     this.track2Add.sample = sample2Add
     for (let i = 0; i < this.blockSize; i++) {
       this.track2Add.note.push({
@@ -304,10 +304,18 @@ export class InstrumentComponent implements OnInit {
     }
     this.tracks.push(this.track2Add)
 
-    this.track2Add = {sample: {}, part: {}, note: []}
+    this.track2Add = { sample: {}, part: {}, note: [] }
   }
 
-  playSound(sample2Add: any){
+  playSound(sample2Add: any) {
     sample2Add.sample.triggerAttackRelease('C3', '16n');
+  }
+
+  showSamples() {
+    this.popOutDisplay = 'block'
+  }
+
+  hideSamples() {
+    this.popOutDisplay = 'none'
   }
 }
