@@ -48,6 +48,7 @@ Dropdown for load pattern and sample set selection -->
 
 
   <div class="center">
+    <div class="play-feature"><img [ngStyle]="{'left': currentPosition}" src=""/></div>
     <div *ngFor="let track of tracks;" class="pad">
       <div *ngFor="let currentNote of track.note;">
         <div class="single-block" [ngStyle]="{'background-color': currentNote.color}"
@@ -78,7 +79,7 @@ Dropdown for load pattern and sample set selection -->
   <div class="pop-out">
     <h1 class="p-3">Click a sample to add it to your track</h1>
     <ul class="sample-list">
-      <li *ngFor="let sample of samples" class="sample-item" (click)="addTrack(sample)"
+      <li *ngFor="let sample of samples" class="sample-item" (click)="addTrack(sample.sample)"
         (mouseenter)="playSound(sample)">{{sample.sampleName}}</li>
     </ul>
   </div>
