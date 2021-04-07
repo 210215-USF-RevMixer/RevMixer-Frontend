@@ -20,7 +20,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import * as Tone from 'tone';
-
+import{ SampleSetService } from '../services/sample-set.service'
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -39,6 +39,7 @@ export class InstrumentComponent implements OnInit {
   isTransportStarted: boolean = false
   volume: any
   presetPatterns: any[] = []
+ 
   sampleSets: any[] = []
   samples: any[] = []
 
@@ -65,8 +66,10 @@ export class InstrumentComponent implements OnInit {
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
+  
+  
 
-  constructor() {
+  constructor(private setService : SampleSetService) {
     this.tracks = [
       {
         sample: {},
@@ -83,7 +86,8 @@ export class InstrumentComponent implements OnInit {
 
     //Add service to get all available presets from DB to populate
     this.presetPatterns = []
-    //Add service to get all available sampleSets from DB to populate
+   
+
     this.sampleSets = []
     //Add services to get all the samples from DB to populate
     this.samples = []
@@ -93,6 +97,10 @@ export class InstrumentComponent implements OnInit {
     this.volume = new Tone.Volume(-10)
 
     // HARD CODED DATA FOR TESTING
+    
+    //push on the sample sets to array
+    // get the arrays from services
+    this.sampleSets.push(this.setService.Get909Set())
 
     this.testTracks.push({ part: {}, sample: {}, note: [] })
     this.testTracks.push({ part: {}, sample: {}, note: [] })
@@ -255,6 +263,7 @@ export class InstrumentComponent implements OnInit {
       track.note = sample2Select.note
     })
   }
+  
 
   deleteTrack(track2Delete: any)
   {
