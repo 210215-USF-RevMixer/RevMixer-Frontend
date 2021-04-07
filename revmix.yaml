@@ -16,8 +16,12 @@ spec:
       - name: front
         image: <Image>
         resources:
-          limits:
+          requests:
+            cpu: 250m
             memory: "128Mi"
+          limits:
+            memory: "256Mi"
             cpu: "500m"
         ports:
-        - containerPort: <Port>
+        - containerPort: 80
+# 6a89fc76-4c72-4e6a-8194-c0ca904bf265
