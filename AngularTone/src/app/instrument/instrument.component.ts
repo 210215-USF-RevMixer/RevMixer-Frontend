@@ -20,7 +20,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import * as Tone from 'tone';
-
+import{ SampleSetService } from '../services/sample-set.service'
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -39,8 +39,11 @@ export class InstrumentComponent implements OnInit {
   isTransportStarted: boolean = false
   volume: any
   presetPatterns: any[] = []
+ 
   sampleSets: any[] = []
+  sampleTrack : any[]=[]
   samples: any[] = []
+  tracks2Add: any[]=[]
 
   //How many steps we have in the sequencer
   blockSize = 32
@@ -65,8 +68,10 @@ export class InstrumentComponent implements OnInit {
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
+  
+  
 
-  constructor() {
+  constructor(private setService : SampleSetService) {
     this.tracks = [
       {
         sample: {},
@@ -83,8 +88,12 @@ export class InstrumentComponent implements OnInit {
 
     //Add service to get all available presets from DB to populate
     this.presetPatterns = []
-    //Add service to get all available sampleSets from DB to populate
+   
+
     this.sampleSets = []
+    this.sampleTrack=[
+
+    ]
     //Add services to get all the samples from DB to populate
     this.samples = []
   }
@@ -93,7 +102,11 @@ export class InstrumentComponent implements OnInit {
     this.volume = new Tone.Volume(-10)
 
     // HARD CODED DATA FOR TESTING
-
+    
+    //push on the sample sets to array
+    // get the arrays from services
+    this.sampleSets.push(this.setService.Get909Set())
+    
     this.testTracks.push({ part: {}, sample: {}, note: [] })
     this.testTracks.push({ part: {}, sample: {}, note: [] })
     this.testTracks.push({ part: {}, sample: {}, note: [] })
@@ -249,12 +262,15 @@ export class InstrumentComponent implements OnInit {
 
   //Erases all sampler instruments and recreates them from samples in assets folder
   changeSampleSet(sample2Select: any) {
-    this.tracks.forEach(track => {
-      track.sample = sample2Select.sample
-      track.part = sample2Select.part
-      track.note = sample2Select.note
-    })
+    for(let i = 0; i< sample2Select.length;i++){
+      let tempSample = new Tone.Sampler({
+        C3: `${sample2Select[i]}`
+      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      console.log(sample2Select[i])
+      this.addTrack(tempSample)
+    }
   }
+  
 
   deleteTrack(track2Delete: any)
   {
@@ -270,7 +286,7 @@ export class InstrumentComponent implements OnInit {
 
   addTrack(sample2Add: any)
   {
-    this.track2Add.sample = sample2Add.sample
+    this.track2Add.sample = sample2Add
     for (let i = 0; i < this.blockSize; i++) {
       this.track2Add.note.push({
         onOff: 0,
@@ -280,7 +296,7 @@ export class InstrumentComponent implements OnInit {
     }
     for (let i = 0; i < this.blockSize; i++) {
       this.track2Add.part = new Tone.Part(((time) => {
-        sample2Add.sample.triggerAttackRelease('C3', '16n', time);
+        sample2Add.triggerAttackRelease('C3', '16n', time);
       }))
       this.track2Add.part.start(0);
       this.track2Add.part.loop = true;

@@ -54,7 +54,7 @@ Dropdown for load pattern and sample set selection -->
     <mat-form-field class="mt-4 ml-5">
       <mat-label>Add Sample To Track</mat-label>
       <mat-select>
-        <mat-option *ngFor="let sample of samples" (click)="addTrack(sample)" (mouseenter)="playSound(sample)">
+        <mat-option *ngFor="let sample of samples" (click)="addTrack(sample.sample)" (mouseenter)="playSound(sample)">
           {{sample.sampleName}}
         </mat-option>
       </mat-select>
