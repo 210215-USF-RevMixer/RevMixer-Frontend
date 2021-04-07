@@ -5,7 +5,7 @@ export interface UserProject
 {
     id: number,
     userId: number,
-    projectId: string,
+    projectId: number,
     owner: boolean,
     
     user: User,
