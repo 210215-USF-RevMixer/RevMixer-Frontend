@@ -25,11 +25,11 @@ steps:
     workingDir: 'AngularTone'
     customCommand: 'run build'
 
-- task: Docker@2
-  displayName: Build an image
-  inputs:
-    repository: ''
-    command: build
-    Dockerfile: app/Dockerfile
+# - task: Docker@2 (will put back later)
+#   displayName: Build an image
+#   inputs:
+#     repository: ''
+#     command: build
+#     Dockerfile: app/Dockerfile
     
 
