@@ -44,19 +44,19 @@ export class InstrumentComponent implements OnInit {
   sampleTrack: any[] = []
   samples: any[] = []
   tracks2Add: any[] = []
+  currentTimePosition: number = 0;
 
   //How many steps we have in the sequencer
   blockSize = 32
-  tempo: number = 190
-  currentPosition: number = 0
+  tempo: number = 80
   //Time in the loop that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
-    "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
+  "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
 
   savedPattern: number[][] = []
   //effects objects
-  dist = new Tone.Distortion(0).toDestination()
-  reverb = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
+  dist: any = new Tone.Distortion(0).toDestination()
+  reverb: any = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
@@ -75,15 +75,10 @@ export class InstrumentComponent implements OnInit {
       note: []
     }
     this.isTransportStarted = false
-
     //Add service to get all available presets from DB to populate
     this.presetPatterns = []
-
-
     this.sampleSets = []
-    this.sampleTrack = [
-
-    ]
+    this.sampleTrack = []
     //Add services to get all the samples from DB to populate
     this.samples = []
   }
@@ -173,6 +168,8 @@ export class InstrumentComponent implements OnInit {
     )
     //Initial Tempo
     Tone.Transport.bpm.value = 190;
+    Tone.Transport.setLoopPoints(0, "4m");
+    Tone.Transport.loop = true
     this.audio = document.querySelector('audio');
   }
 
@@ -193,10 +190,8 @@ export class InstrumentComponent implements OnInit {
   }
   playStop() {
     this.isTransportStarted = !this.isTransportStarted
-
-    console.log(Tone.Transport.position)
-
     Tone.Transport.toggle();
+    this.updateTimePosition()
   }
 
   //From  HTML sliders
@@ -213,7 +208,7 @@ export class InstrumentComponent implements OnInit {
   }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
-  public changeState(currentNote: any, currentTrack: any) {
+  changeState(currentNote: any, currentTrack: any) {
     if (this.isTransportStarted) {
       this.playStop()
     }
@@ -254,6 +249,7 @@ export class InstrumentComponent implements OnInit {
       tempArray = []
     }
     //send pattern to DB
+    console.log(this.savedPattern)
   }
 
   //Preset patterns are in pattern.const.ts 
@@ -317,5 +313,14 @@ export class InstrumentComponent implements OnInit {
 
   hideSamples() {
     this.popOutDisplay = 'none'
+  }
+
+  updateTimePosition(){
+    const timer = setInterval(() => {
+      this.currentTimePosition = (Tone.Transport.seconds * 44 * this.tempo)
+      if(!this.isTransportStarted){
+        clearInterval(timer)
+      }
+    }, 10)
   }
 }

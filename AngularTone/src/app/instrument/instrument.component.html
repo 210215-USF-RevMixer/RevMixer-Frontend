@@ -13,13 +13,13 @@ Dropdown for load pattern and sample set selection -->
 
     <div class="my-sliders">
       <div *ngIf="tempo"><label class="pr-2">Tempo:</label>
-        <mat-slider (input)="tempoChange($event)" step="1" min="40" max="300" value="190"></mat-slider> {{tempo}}
+        <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="80"></mat-slider> {{tempo}}
       </div>
-      <div><label class="pr-2">Distortion:</label>
-        <mat-slider (input)="changeDistortionAmount($event)" step="0.001" min="0" max="1" value="0"></mat-slider>
+      <div *ngIf="dist"><label class="pr-2">Distortion:</label>
+        <mat-slider (input)="changeDistortionAmount($event)" step="0.001" min="0" max="1" value="0"></mat-slider> {{dist.distortion * 100 | number:'1.0-0'}} %
       </div>
-      <div><label class="pr-2">Reverb:</label>
-        <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0" max="5" value="0"></mat-slider>
+      <div *ngIf="reverb"><label class="pr-2">Reverb:</label>
+        <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0.001" max="5" value="0.001"></mat-slider> {{reverb.decay * 20 | number:'1.0-0'}} %
       </div>
     </div>
 
@@ -44,11 +44,8 @@ Dropdown for load pattern and sample set selection -->
     </div>
   </div>
 
-
-
-
   <div class="center">
-    <div class="play-feature"><img [ngStyle]="{'left': currentPosition}" src=""/></div>
+    <div class="play-feature"><div class="play-position" [ngStyle]="{'transform': 'translateX(' + currentTimePosition + 'px) translateY(-3.5px)'}"></div></div>
     <div *ngFor="let track of tracks;" class="pad">
       <div *ngFor="let currentNote of track.note;">
         <div class="single-block" [ngStyle]="{'background-color': currentNote.color}"

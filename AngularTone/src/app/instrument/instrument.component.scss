@@ -90,8 +90,9 @@ body {
   color: white;
 }
 .center {
+  width: 80%;
   margin-right: auto;
-  margin-left: 200px;
+  margin-left: auto;
 }
 
 .container
@@ -215,5 +216,21 @@ body {
 }
 
 .play-feature{
-  
+  margin-top: 30px;
+  background-color: rgb(209, 209, 209);
+  width: 93%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 2px;
+  border-radius: 100px;
+  transform: translateX(-10px);
+}
+
+.play-position{
+  background-color: #3b3b3b;
+  border-radius: 100%;
+  width: 8px;
+  height: 8px;
+  transform: translateY(-4px);
+  position: relative;
 }
