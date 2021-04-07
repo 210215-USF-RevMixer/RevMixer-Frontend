@@ -13,14 +13,27 @@ body {
   background-color: white;
 }
 
-.pad {
+.pad{
   height: 25px;
-  width: 50px;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
   margin-left: 40px;
   margin-right: auto;
+}
+
+.options{
+  display: inline;
+  transition: all 1s;
+  transform: translateX(-15px);
+  opacity: 0%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.pad:hover > .options{
+  opacity: 100%;
+  transform: translateX(0px);
 }
 
 .step {
@@ -48,7 +61,13 @@ body {
   text-align: center;
   border-color: black;
   border-style: solid;
+  opacity: 90%;
 }
+
+.single-block:hover {
+  opacity: 100%;
+}
+
 .centered {
   box-sizing: border-box;
   height: 100%;
