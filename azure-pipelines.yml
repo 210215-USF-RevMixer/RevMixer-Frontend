@@ -31,13 +31,6 @@ steps:
     # Additional properties that will be passed to the scanner, 
     # Put one key=value per line, example:
     # sonar.exclusions=**/*.bin
-    # sonar.sourceEncoding=UTF-8
-    # sonar.exclusions=**/node_modules/**,**/*.spec.ts
-    sonar.tests = /*.src
-    # sonar.test.inclusions=**/*.spec.ts
-    # sonar.ts.tslintconfigpath=tslint.json
-    # sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/[PROJECT PATH]/coverage/lcov.info
-    # sonar.typescript.exclusions=**/node_modules/**,**/typings.d.ts,**/environments/environment*.ts,**/*routing.module.ts
     
 - task: Npm@1
   displayName: 'npm install'
