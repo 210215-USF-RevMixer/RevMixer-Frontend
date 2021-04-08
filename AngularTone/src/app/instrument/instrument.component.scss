@@ -51,8 +51,8 @@ body {
   margin-top: 20px;
   display: flex;
   flex-direction: row;
-  margin-left: 40px;
-  margin-right: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .options{
@@ -101,24 +101,16 @@ body {
   opacity: 100%;
 }
 
-.centered {
-  box-sizing: border-box;
-  height: 100%;
-}
-
 .topbar {
   text-align: center;
-  background-color: gray;
-  padding-top: 58px;
+  background-color: rgb(148, 148, 148);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 5px;
 }
 .mat-slider {
   color: white;
-}
-.center {
-  margin: auto;
 }
 
 .center-grid{
@@ -246,5 +238,60 @@ body {
 }
 
 .play-feature{
-  
+  margin-top: 30px;
+  background-color: rgb(209, 209, 209);
+  width: 100em;
+  margin-left: auto;
+  margin-right: auto;
+  height: 2px;
+  border-radius: 100px;
+  transform: translateX(-30px);
+}
+
+.play-position{
+  background-color: #3b3b3b;
+  border-radius: 100%;
+  width: 8px;
+  height: 8px;
+  position: relative;
+}
+
+.blue-button{
+  width: 300px;
+  height: 40px;
+  padding: 4px 10px 4px 10px;
+  transition: all 0.3s;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blue-button:hover {
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+}
+
+.soundboard-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.blue-button-container{
+  display: flex;
+  justify-items: center;
+  margin-top: 4em;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #000000;
+  padding: 10px;
+  background-color: #5e5e5e67;
+  border-radius: 100px;
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.466);
+}
+
+.blue-button-container div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
 }
