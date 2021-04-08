@@ -95,6 +95,28 @@
                     </div>
                 </div>
             </div>
+            <div class="well"> 
+                <h1>Sample Sets</h1>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="well">
+                            <table class="table">
+                                <thead>
+                                    <th>
+                                        Sample Set Name
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let set of userSampleSets;" (click)="GetSampleSet(set.id)"> 
+                                        <td>{{set.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button routerLink="/newPlayList" class="btn btn-primary">Create New Playlist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             </div>
             <div class="col-sm-7 offset-sm-3">

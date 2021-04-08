@@ -1,3 +1,4 @@
+import { SampleSet } from './../../../Models/SampleSet';
 import { Sample } from './../../../Models/Sample';
 import { SampleSetService } from './../../../services/sample-set.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,19 +12,20 @@ import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.s
   styleUrls: ['./sample-sets.component.scss']
 })
 export class SampleSetsComponent implements OnInit {
-  selectedSet: Sample | undefined;
-  allSamples: Sample [] = [];
+  selectedSet: SampleSet ;
+  allSampleSets: SampleSet [] = [];
   constructor(private activeRoute: ActivatedRoute, 
     private uploadMusicService: UploadedMusicRestService, private sampleService: SampleSetService,
     private route: Router) { 
       this.selectedSet = {
         id: 0,
-        userId: 0,
-        sampleName: '',
-        sampleLink: '',
-        user: {
-          userName: '',
+        userId: 0, 
+        isPrivate:false,
+        name:'',
+        user:
+        {
           id: 0,
+          userName: '',
           email: '',
           isAdmin: false,
           userProjects: [],
@@ -32,8 +34,7 @@ export class SampleSetsComponent implements OnInit {
           uploadMusics: [],
           playlists: []
         },
-        tracks: []
-        
+        samples:[]
       }
     }
 
@@ -41,17 +42,22 @@ export class SampleSetsComponent implements OnInit {
     this.sampleService.GetAllSampleSets().subscribe(
       (result) =>
       {
-        let sample = result;
-        this.GetAllSamples(sample);
+        let set = result;
+        this.GetAllSamples(set);
       }
     )
   }
-  GetAllSamples(samples: Sample[]){
-    samples.forEach(sample=>{
-      this.allSamples.push(sample);
+  GetAllSamples(sets: SampleSet[]){
+    sets.forEach(set=>{
+      this.allSampleSets.push(set);
     })
-    console.log(this.allSamples);
+    console.log(this.allSampleSets);
   }
+  // GetSample(id: number) {
+  //   console.log(this.userPlayLists);
+  //   this.router.navigate(['viewPlaylist'], {queryParams: {id: id} });
+  // }
+
 }
 
 
