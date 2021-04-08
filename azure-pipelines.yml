@@ -46,7 +46,7 @@ steps:
     customCommand: 'run build'
 
 - task: Npm@1
-  displayName: 'npm run build'
+  displayName: 'test'
   inputs:
     command: 'custom'
     workingDir: 'AngularTone'
