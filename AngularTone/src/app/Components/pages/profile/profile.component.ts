@@ -5,14 +5,12 @@ import { User } from 'src/app/Models/User';
 import { UserRestService } from 'src/app/services/user-rest.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'ngx-audio-player';
-import { Console } from 'node:console';
 import { environment } from 'src/environments/environment';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { debug } from 'tone';
 import { PlayList } from 'src/app/Models/PlayList';
 import { Router } from '@angular/router';
-import { IoTThingsGraph } from 'aws-sdk';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 
 

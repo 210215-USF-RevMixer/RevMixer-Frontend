@@ -1,7 +1,8 @@
 import { Sample } from "./Sample"
 import { User } from "./User";
 
-export interface SampleSet{
+export interface SampleSets{
+
     id: number,
     name: string,
     userId: number,

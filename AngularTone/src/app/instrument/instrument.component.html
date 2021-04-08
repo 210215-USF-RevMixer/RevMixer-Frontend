@@ -1,6 +1,6 @@
-
 <div (window:resize)="onResize()">
   <div class="topbar" [ngStyle]="{'margin-top': marginForTopBar}">
+
     <div class="my-buttons">
       <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">Play/Stop</button>
       <button class="playButton" mat-stroked-button color="primary" (click)="savePattern();">Save Pattern</button>
@@ -42,6 +42,7 @@
       </mat-form-field>
     </div>
   </div>
+
 
   <div class="soundboard-container">
     <div class="play-feature"><div class="play-position" [ngStyle]="{'transform': 'translateX(' + currentTimePosition + 'em) translateY(-3.5px)'}"></div></div>
