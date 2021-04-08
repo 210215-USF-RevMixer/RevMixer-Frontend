@@ -28,9 +28,10 @@ steps:
     cliProjectName: 'RevMixer-Frontend'
     cliSources: 'AngularTone'
     extraProperties: |
-     # Additional properties that will be passed to the scanner, 
-     # Put one key=value per line, example:
-     # sonar.exclusions=**/*.bin
+      sonar.sources=src
+      sonar.tests=src
+      sonar.exclusions=**/*.spec.ts,**/*test.ts,**/*.js
+      sonar.test.inclusions=**/*.spec.ts,**/*test.ts
 - task: Npm@1
   displayName: 'npm install'
   inputs:
@@ -49,3 +50,21 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'wysparDockerHub'
+    repository: 'wyspar123/revmixerfrontend'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    buildContext: '**'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(583825bd-d55a-497c-bfe6-2e3972e128e2)'
+    appType: 'webAppContainer'
+    WebAppName: 'revmix'
+    DockerNamespace: 'wyspar123'
+    DockerRepository: 'revmixerfrontend'
+    DockerImageTag: 'latest'
