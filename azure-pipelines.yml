@@ -14,6 +14,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'P3 sonarcloud'
+    organization: '210215-usf-revmixer'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '210215-USF-RevMixer_RevMixer-Frontend'
+    cliProjectName: 'RevMixer-Frontend'
+    cliSources: 'AngularTone'
 - task: Npm@1
   inputs:
     command: 'install'
@@ -24,6 +33,12 @@ steps:
     command: 'custom'
     workingDir: 'AngularTone'
     customCommand: 'run build'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
 
 # - task: Docker@2 (will put back later)
 #   displayName: Build an image
