@@ -1,5 +1,5 @@
 import { SampleSetService } from './../../../services/sample-set.service';
-import { SampleSet } from './../../../Models/SampleSet';
+import { SampleSets } from "../../../Models/SampleSets";
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/Models/User';
 import { UserRestService } from 'src/app/services/user-rest.service';
@@ -42,8 +42,8 @@ export class ProfileComponent implements OnInit {
   //User Playlists
   allPlayLists: PlayList[] = [];
   userPlayLists: PlayList[] = [];
-  allSampleSets: SampleSet[] = [];
-  userSampleSets: SampleSet[] = [];
+  allSampleSets: SampleSets[] = [];
+  userSampleSets: SampleSets[] = [];
 
   constructor(private userService: UserRestService, private musicService: UploadedMusicRestService,private sampleService: SampleSetService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
@@ -170,7 +170,7 @@ export class ProfileComponent implements OnInit {
     )
   }
 
-  updateUserSampleSets(allSampleSets: SampleSet[], x: any) {
+  updateUserSampleSets(allSampleSets: SampleSets[], x: any) {
     this.allSampleSets.forEach(set => 
       {
         if(set.userId == x)
