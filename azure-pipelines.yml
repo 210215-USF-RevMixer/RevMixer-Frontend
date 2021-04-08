@@ -27,11 +27,18 @@ steps:
     cliProjectKey: '210215-USF-RevMixer_RevMixer-Frontend'
     cliProjectName: 'RevMixer-Frontend'
     cliSources: 'AngularTone'
-    extraProperties: |
-      sonar.sources=src
-      sonar.tests=src
-      sonar.exclusions=**/*.spec.ts,**/*test.ts,**/*.js
-      sonar.test.inclusions=**/*.spec.ts,**/*test.ts
+    extraProperties: 
+    # Additional properties that will be passed to the scanner, 
+    # Put one key=value per line, example:
+    # sonar.exclusions=**/*.bin
+    # sonar.sourceEncoding=UTF-8
+    # sonar.exclusions=**/node_modules/**,**/*.spec.ts
+    sonar.tests = /*.src
+    # sonar.test.inclusions=**/*.spec.ts
+    # sonar.ts.tslintconfigpath=tslint.json
+    # sonar.typescript.lcov.reportPaths=$(Build.SourcesDirectory)/[PROJECT PATH]/coverage/lcov.info
+    # sonar.typescript.exclusions=**/node_modules/**,**/typings.d.ts,**/environments/environment*.ts,**/*routing.module.ts
+    
 - task: Npm@1
   displayName: 'npm install'
   inputs:
@@ -44,6 +51,13 @@ steps:
     command: 'custom'
     workingDir: 'AngularTone'
     customCommand: 'run build'
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: 'custom'
+    workingDir: 'AngularTone'
+    customCommand: 'test'
 
 - task: SonarCloudAnalyze@1
 
