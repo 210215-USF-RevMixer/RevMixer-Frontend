@@ -1,4 +1,4 @@
-import { SampleSet } from './../../../Models/SampleSet';
+import { SampleSets } from './../../../Models/SampleSets';
 import { Sample } from './../../../Models/Sample';
 import { SampleSetService } from './../../../services/sample-set.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,8 +12,8 @@ import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.s
   styleUrls: ['./sample-sets.component.scss']
 })
 export class SampleSetsComponent implements OnInit {
-  selectedSet: SampleSet ;
-  allSampleSets: SampleSet [] = [];
+  selectedSet: SampleSets ;
+  allSampleSets: SampleSets [] = [];
   constructor(private activeRoute: ActivatedRoute, 
     private uploadMusicService: UploadedMusicRestService, private sampleService: SampleSetService,
     private route: Router) { 
@@ -47,7 +47,7 @@ export class SampleSetsComponent implements OnInit {
       }
     )
   }
-  GetAllSamples(sets: SampleSet[]){
+  GetAllSamples(sets: SampleSets[]){
     sets.forEach(set=>{
       this.allSampleSets.push(set);
     })
