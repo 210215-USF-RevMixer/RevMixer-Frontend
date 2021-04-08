@@ -10,7 +10,6 @@ import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { debug } from 'tone';
 import { PlayList } from 'src/app/Models/PlayList';
 import { Router } from '@angular/router';
-import { IoTThingsGraph } from 'aws-sdk';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 
 
