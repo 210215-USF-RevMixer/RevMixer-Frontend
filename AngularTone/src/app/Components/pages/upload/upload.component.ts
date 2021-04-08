@@ -94,6 +94,10 @@ export class UploadComponent implements OnInit {
       //console.log('not a video or audio file!!!!');
       this.message = 'You tried to upload something other than a song! Please try again';
     }
+    else if(this.songName == '')
+    {
+      this.message = 'Please enter in a name for your track!';
+    }
     else {
     //https://revmixerapi.azurewebsites.net/api/AzureBlob
     this.http.post("https://revmixerapi.azurewebsites.net/api/AzureBlob", formData, {reportProgress: true, observe: 'events'})
