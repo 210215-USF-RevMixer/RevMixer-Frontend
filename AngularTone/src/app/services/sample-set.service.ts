@@ -21,9 +21,7 @@ export class SampleSetService {
 
   url : string = '';
 
-  constructor(private http:HttpClient) {
-  
-  }
+  constructor(private http:HttpClient) { }
   //Add sampleset
   AddSampleSet(sampleset2add: any): Observable<any> {
     return this.http.post<any>(this.url, sampleset2add, this.httpOptions);
