@@ -31,10 +31,11 @@ import { CommentComponent } from './Components/comment/comment.component';
 import { LikebtnComponent } from './Components/likebtn/likebtn.component';
 import { CreatePlaylistComponent } from './Components/pages/create-playlist/create-playlist.component';
 import { ViewPlaylistComponent } from './Components/pages/view-playlist/view-playlist.component';
+import { SampleSetsComponent } from './Components/pages/sample-sets/sample-sets.component';
 
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent],
 
 
   imports: [
