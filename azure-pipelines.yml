@@ -49,12 +49,3 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
-
-# - task: Docker@2 (will put back later)
-#   displayName: Build an image
-#   inputs:
-#     repository: ''
-#     command: build
-#     Dockerfile: app/Dockerfile
-    
-
