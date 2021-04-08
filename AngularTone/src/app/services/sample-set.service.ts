@@ -19,7 +19,7 @@ export class SampleSetService {
     )
   }
 
-  url : string = '';
+  url : string = environment.SAMPLESET_REST;
 
   constructor(private http:HttpClient) {
   
@@ -33,7 +33,7 @@ export class SampleSetService {
     return this.http.get<any>(`${this.url}/${id}`, this.httpOptions);
   }
   //Get samplesets by userID
-  GetUserSampleSets(userID: number){
+  GetUserSampleSets(userID: number): Observable<any[]>{
     return this.http.get<any[]>(`${this.url}/${userID}`, this.httpOptions);
   }
 
