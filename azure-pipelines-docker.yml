@@ -26,8 +26,8 @@ steps:
     containerRegistry: 'wysparDockerHub'
     repository: 'revmixerfrontend'
     command: 'buildAndPush'
-    Dockerfile: '/AngularTone/**/Dockerfile'
-    buildContext: '/AngularTone/**'
+    Dockerfile: '**/Dockerfile'
+    buildContext: '**'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
