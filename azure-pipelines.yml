@@ -12,9 +12,13 @@ trigger:
     - GivHub-Angular
 pool:
   vmImage: ubuntu-latest
+  demands:
+  - npm
+  - java
 
 steps:
 - task: SonarCloudPrepare@1
+  displayName: 'Prepare analysis on SonarCloud'
   inputs:
     SonarCloud: 'P3 sonarcloud'
     organization: '210215-usf-revmixer'
@@ -28,11 +32,13 @@ steps:
      # Put one key=value per line, example:
      # sonar.exclusions=**/*.bin
 - task: Npm@1
+  displayName: 'npm install'
   inputs:
     command: 'install'
     workingDir: 'AngularTone'
 
 - task: Npm@1
+  displayName: 'npm run build'
   inputs:
     command: 'custom'
     workingDir: 'AngularTone'
