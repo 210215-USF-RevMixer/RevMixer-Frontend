@@ -12,7 +12,6 @@ export const environment = {
   AZURE_REST: 'https://revmixerapi.azurewebsites.net/api/AzureBlob',
   AZURE_STORAGE: 'https://revmixerstorage.blob.core.windows.net/revmixersongs',
   MUSIC_PLAYLIST_REST: 'https://revmixerapi.azurewebsites.net/api/MusicPlaylist',
-  SAMPLESET_REST: 'https://revmixerapi.azurewebsites.net/api/SampleSet',
 };
 
 /*
