@@ -1,0 +1,61 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - GivHub-Angular
+pool:
+  vmImage: ubuntu-latest
+  demands:
+  - npm
+  - java
+
+steps:
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare analysis on SonarCloud'
+  inputs:
+    SonarCloud: 'P3 sonarcloud'
+    organization: '210215-usf-revmixer'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '210215-USF-RevMixer_RevMixer-Frontend'
+    cliProjectName: 'RevMixer-Frontend'
+    cliSources: 'AngularTone'
+    extraProperties: |
+     # Additional properties that will be passed to the scanner, 
+     # Put one key=value per line, example:
+     # sonar.exclusions=**/*.bin
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    command: 'install'
+    workingDir: 'AngularTone'
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: 'custom'
+    workingDir: 'AngularTone'
+    customCommand: 'run build'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(583825bd-d55a-497c-bfe6-2e3972e128e2)'
+    appType: 'webAppContainer'
+    WebAppName: 'revmix'
+    DockerNamespace: 'wyspar123/revmixerfrontend'
+    DockerRepository: 'revmixerfrontend'
+    DockerImageTag: 'latest'
