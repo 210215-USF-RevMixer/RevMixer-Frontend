@@ -8,6 +8,9 @@ export interface Sample
     userId: number,
     sampleName: string,
     sampleLink: string,
+    isPrivate: boolean,
+    isApproved: boolean,
+    isLocked: boolean,
 
     user: User,
     tracks: Track[]
