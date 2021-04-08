@@ -24,7 +24,7 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'wysparDockerHub'
-    repository: 'revmixerfrontend'
+    repository: 'wyspar123/revmixerfrontend'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     buildContext: '**'
