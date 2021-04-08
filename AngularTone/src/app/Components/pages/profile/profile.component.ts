@@ -80,7 +80,7 @@ export class ProfileComponent implements OnInit {
         uploadMusics: [],
         playlists: []
       },
-      isPrivate:false,
+
   
       musicPlaylists: [],
       comments: []
