@@ -12,7 +12,6 @@ export interface UploadMusic
     uploadDate: Date,
     likes: number,
     plays: number,
-    isPrivate: boolean,
 
     user: User,
 

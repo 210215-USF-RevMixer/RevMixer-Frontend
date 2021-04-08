@@ -31,7 +31,6 @@ export class HubComponent implements OnInit {
         uploadMusics: [],
         playlists: []
       },
-      isPrivate:false,
       musicPlaylists: [],
       comments: [],
       uploadDate: new Date
