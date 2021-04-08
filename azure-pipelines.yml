@@ -49,3 +49,13 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(583825bd-d55a-497c-bfe6-2e3972e128e2)'
+    appType: 'webAppContainer'
+    WebAppName: 'revmix'
+    DockerNamespace: 'wyspar123/revmixerfrontend'
+    DockerRepository: 'revmixerfrontend'
+    DockerImageTag: 'latest'
