@@ -17,8 +17,15 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/profile">Profile</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/upload">Upload Music</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="uploadDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Upload
+            </a>
+            <div class="dropdown-menu" aria-labelledby="uploadDropdown">
+              <a class="dropdown-item" routerLink="/upload">Upload Music</a>
+              <a class="dropdown-item" routerLink="/uploadSample">Upload Samples</a>
+            </div>
+
           </li>
         </ul>
       </div>
