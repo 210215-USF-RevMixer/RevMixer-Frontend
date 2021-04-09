@@ -39,7 +39,7 @@ describe('UploadedMusicRestService', () => {
       }
     ));
     it(
-      'should get uploaded music by id',
+      'should get songs by user',
       inject(
         [HttpTestingController, UploadedMusicRestService],
         (httpMock: HttpTestingController, uploadedMusicRestService: UploadedMusicRestService) => {
@@ -50,11 +50,12 @@ describe('UploadedMusicRestService', () => {
           uploadedMusicRestService.GetSongsByUserId(1).subscribe((event: HttpEvent<any>) => {
             switch (event.type) {
               case HttpEventType.Response:
+                console.log(event.body)
                 expect(event.body).toBe(mockUploads);
             }
           });
   
-          const mockReq = httpMock.expectOne(uploadedMusicRestService.url);
+          const mockReq = httpMock.expectOne(`${uploadedMusicRestService.url}/User/${1}`);
   
           expect(mockReq.cancelled).toBeFalsy();
           expect(mockReq.request.responseType).toEqual('json');
