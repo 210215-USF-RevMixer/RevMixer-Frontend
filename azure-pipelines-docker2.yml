@@ -30,6 +30,6 @@ steps:
     azureSubscription: 'Azure subscription 1(583825bd-d55a-497c-bfe6-2e3972e128e2)'
     appType: 'webAppContainer'
     WebAppName: 'revmix'
-    DockerNamespace: 'wysparDockerHub'
+    DockerNamespace: 'wyspar123'
     DockerRepository: 'revmixerfrontend'
     DockerImageTag: 'latest'
