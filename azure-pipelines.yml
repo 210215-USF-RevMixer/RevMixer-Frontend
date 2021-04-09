@@ -45,26 +45,19 @@ steps:
     workingDir: 'AngularTone'
     customCommand: 'run build'
 
-- task: Npm@1
-  displayName: 'test'
-  inputs:
-    command: 'custom'
-    workingDir: 'AngularTone'
-    customCommand: 'test'
-
 - task: SonarCloudAnalyze@1
 
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
 
-- task: Docker@2
-  inputs:
-    containerRegistry: 'wysparDockerHub'
-    repository: 'wyspar123/revmixerfrontend'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    buildContext: '**'
+# - task: Docker@2
+#   inputs:
+#     containerRegistry: 'wysparDockerHub'
+#     repository: 'wyspar123/revmixerfrontend'
+#     command: 'buildAndPush'
+#     Dockerfile: '**/Dockerfile'
+#     buildContext: '**'
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
