@@ -22,7 +22,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: Start-Sleep -Seconds 300  
+    script: Start-Sleep -Seconds 60  
   displayName: 'PowerShell Script'
 - task: AzureRmWebAppDeployment@4
   inputs:
