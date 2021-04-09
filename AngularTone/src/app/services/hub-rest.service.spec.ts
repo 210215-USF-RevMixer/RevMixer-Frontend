@@ -42,4 +42,33 @@ describe('HubRestService', () => {
         httpMock.verify();
       }
     ));
+    it(
+      'should add like to music',
+      inject(
+        [HttpTestingController, HubRestService],
+        (httpMock: HttpTestingController, hubRestService: HubRestService) => {
+          const mockUser = {id: 1, userName: "user", email: "user@emai.com",
+        isAdmin: false, userProjects: [], sample: [], comments: [],
+      uploadMusics: [], playlists: []};
+          //ICollection<List> mockComments = new List();
+          const testDate: Date = new Date();
+          let mockLike = { id: 1, userId: 1, musicFilePath: "test",
+          name: 'Upload1', uploadDate: testDate, likes: 1, plays: 1,
+        isPrivate: false, user: mockUser, musicPlaylists: [], comments: []};
+          hubRestService.AddLike(mockLike).subscribe((event: HttpClientTestingModule) => {
+            switch (event) {
+              case HttpEventType.Response:
+                expect(event).toEqual(2);
+            }
+          });
+  
+          const mockReq = httpMock.expectOne(`${hubRestService.url}/${mockLike.likes}`);
+  
+          expect(mockReq.cancelled).toBeFalsy();
+          expect(mockReq.request.responseType).toEqual('json');
+          mockReq.flush(mockLike);
+  
+          httpMock.verify();
+        }
+      ));
 });
