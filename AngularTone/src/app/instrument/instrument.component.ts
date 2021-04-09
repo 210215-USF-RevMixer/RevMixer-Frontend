@@ -189,6 +189,15 @@ export class InstrumentComponent implements OnInit {
   }
 
   //From  HTML sliders
+  changeVolume(event: any) {
+    if(event.value <= -53) {
+      Tone.Destination.mute = true;
+    } else {
+      Tone.Destination.mute = false;
+      Tone.Destination.volume.rampTo(event.value, 0.01);
+    }
+  } 
+
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
     this.tempo = event.value
@@ -322,10 +331,6 @@ export class InstrumentComponent implements OnInit {
         clearInterval(timer)
       }
     }, 10)
-  }
-
-  changeVolume(event: any) {
-    this.volume.volume.value = event.value;
   }
 
   changePlayTime(event: any) {
