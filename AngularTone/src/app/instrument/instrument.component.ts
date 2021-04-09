@@ -311,8 +311,13 @@ export class InstrumentComponent implements OnInit {
   }
 
   updateTimePosition(){
+    let multiplier = 100
+    if(window.window.innerWidth < 1480)
+    {
+      multiplier = 75
+    }
     const timer = setInterval(() => {
-      this.currentTimePosition = (Tone.Transport.seconds / +Tone.Transport.loopEnd) * 100
+      this.currentTimePosition = (Tone.Transport.seconds / +Tone.Transport.loopEnd) * multiplier
       if(!this.isTransportStarted){
         clearInterval(timer)
       }
