@@ -190,7 +190,7 @@ export class InstrumentComponent implements OnInit {
 
   //From  HTML sliders
   changeVolume(event: any) {
-    if(event.value <= -53) {
+    if(event.value <= -43) {
       Tone.Destination.mute = true;
     } else {
       Tone.Destination.mute = false;
