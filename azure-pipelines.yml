@@ -18,19 +18,12 @@ pool:
 
 steps:
 - task: SonarCloudPrepare@1
-  displayName: 'Prepare analysis on SonarCloud'
   inputs:
     SonarCloud: 'P3 sonarcloud'
     organization: '210215-usf-revmixer'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: '210215-USF-RevMixer_RevMixer-Frontend'
-    cliProjectName: 'RevMixer-Frontend'
-    cliSources: 'AngularTone'
-    extraProperties: |
-    # Additional properties that will be passed to the scanner, 
-    # Put one key=value per line, example:
-    # sonar.exclusions=**/*.bin
+    scannerMode: 'MSBuild'
+    projectKey: '210215-USF-RevMixer_RevMixer-Frontend'
+    projectName: 'RevMixer-Frontend'
     
 - task: Npm@1
   displayName: 'npm install'
