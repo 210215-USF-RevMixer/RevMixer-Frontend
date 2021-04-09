@@ -1,0 +1,52 @@
+<div class="row h-25">
+    <div class="col-8">
+  what are you doing here
+    </div>
+  </div>
+  
+        
+        
+        <div class="container-fluid">
+          <div class="d-flex justify-content-center">
+              <div class="col-sm-offset-3 col-sm-6">
+                  <h1>Upload Sample</h1>
+                  <hr/>
+                  <input type="text" [(ngModel)]="sampleName" placeholder="Sample Name">
+                  <hr/>
+                  <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" [(ngModel)]="isPrivate" (change)="changePrivacy(isPrivate?'1':'0')" id="privateswitch">
+                  <label class="custom-control-label" for="privateswitch">Private Upload</label>
+                  </div>
+                  <hr/>
+                  
+                  
+                  <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none" accept="audio/*">
+                  <button type="button" class="btn btn-success" (click)="file.click()">Upload Sample</button>
+                  <hr/>
+  
+                  
+                  <div class="upload" *ngIf="progress > 0">
+                    <div class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar"
+                    attr.aria-valuenow="{{progress}}"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    [ngStyle]="{width: progress + '%'}"
+                    >
+                    {{progress}}%
+                    </div>
+                  </div>
+                  
+                
+                  <span class="upload" *ngIf="message">
+                    {{message}}
+                  </span>
+                
+  
+              </div>
+            </div>
+          
+  </div>
+  
+  
+  

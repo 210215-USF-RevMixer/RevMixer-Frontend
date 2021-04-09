@@ -1,18 +1,18 @@
-import { HttpClient, HttpEventType, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { HttpClient, HttpEventType } from '@angular/common/http';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { UploadMusic } from 'src/app/Models/UploadMusic';
-import { User } from 'src/app/Models/User';
+import { Track } from 'ngx-audio-player';
+import { Sample } from 'src/app/Models/Sample';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+  selector: 'app-upload-sample',
+  templateUrl: './upload-sample.component.html',
+  styleUrls: ['./upload-sample.component.scss']
 })
-export class UploadComponent implements OnInit {
+export class UploadSampleComponent implements OnInit {
   authUser: any;
   url: string = environment.AZURE_REST;
   public progress: number;
@@ -20,14 +20,15 @@ export class UploadComponent implements OnInit {
   @Output() public onUploadFinished = new EventEmitter();
   name: any;
   user: any;
-  uploadedSong: any;
-  songName: string = '';
+  uploadedSample: any;
+  sampleName: string = '';
   isPrivate: string = '0';
 
-  constructor(private http: HttpClient, private authService: AuthService, private userService: UserRestService, private uploadmusicService: UploadedMusicRestService) {
+
+
+  constructor(private http: HttpClient, private authService: AuthService, private userService: UserRestService, private uploadmusicService: UploadedMusicRestService) { 
     this.progress = 0,
     this.message = '',
-
     
     this.user = 
     {
@@ -41,40 +42,24 @@ export class UploadComponent implements OnInit {
       uploadMusics: [],
       playlists: []
     },
-
-
-    this.uploadedSong =
+    this.uploadedSample =
     {
       id: 0,
       userId: 0,
-      musicFilePath: '',
-      name: '',
-      uploadDate: new Date,
-      likes: 0,
-      plays: 0,
-      musicPlaylists: [],
-      comments: []
+      sampleName: '',
+      sampleLink: '',
+      
+      tracks: []
     }
+
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
-    this.authService.user$.subscribe(
-      authUser =>
-
-    this.userService.GetUserByEmail(authUser.email).subscribe
-    (
-      foundUser =>
-      {
-        //this.user = foundUser;
-        this.updateUser(foundUser);
-      }
-    )
-    )
   }
+
+
+
+
 
   public uploadFile = (files: any) => {
     if (files.length === 0) {
@@ -83,7 +68,7 @@ export class UploadComponent implements OnInit {
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
-    formData.append('songName', this.songName);
+    formData.append('songName', this.sampleName);
     formData.append('isPrivate', this.isPrivate);
     //console.log(fileToUpload.type.substring(0,5));
     if(fileToUpload.type.substring(0,5) != 'audio')
@@ -91,7 +76,7 @@ export class UploadComponent implements OnInit {
       //console.log('not a video or audio file!!!!');
       this.message = 'You tried to upload something other than a song! Please try again';
     }
-    else if(this.songName == '')
+    else if(this.sampleName == '')
     {
       this.message = 'Please enter in a name for your track!';
     }
@@ -112,12 +97,12 @@ export class UploadComponent implements OnInit {
         
         //console.log(event.body);
         this.name = event.body; 
-        this.uploadedSong.musicFilePath = this.name.name;
-        this.uploadedSong.userId = this.user.id;
-        this.uploadedSong.name = this.name.songname;
-        //console.log(JSON.stringify(this.uploadedSong));
+        this.uploadedSample.musicFilePath = this.name.name;
+        this.uploadedSample.userId = this.user.id;
+        this.uploadedSample.name = this.name.songname;
+        //console.log(JSON.stringify(this.uploadedSample));
 
-        this.uploadmusicService.PostSong(this.uploadedSong).subscribe(
+        this.uploadmusicService.PostSong(this.uploadedSample).subscribe(
           (response) =>
           {
             
@@ -133,16 +118,10 @@ export class UploadComponent implements OnInit {
     }
     )
   }
-
   }
 
   changePrivacy(event: any){
     console.log(event);
   }
-  updateUser(foundUser: User): void {
-    this.user = foundUser;
-  }
-
-
 
 }

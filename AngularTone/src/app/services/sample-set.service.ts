@@ -26,6 +26,9 @@ export class SampleSetService {
   AddSampleSet(sampleset2add: any): Observable<any> {
     return this.http.post<any>(this.url, sampleset2add, this.httpOptions);
   }
+  GetAllSampleSets():Observable<any>{
+    return this.http.get<any[]>(this.url,this.httpOptions)
+  }
   //Get sampleset by id
   GetSampleSet(id: number): Observable<any> {
     return this.http.get<any>(`${this.url}/${id}`, this.httpOptions);
@@ -33,6 +36,10 @@ export class SampleSetService {
   //Get samplesets by userID
   GetUserSampleSets(userID: number){
     return this.http.get<any[]>(`${this.url}/${userID}`, this.httpOptions);
+  }
+
+  EditSampleSet(id: number):Observable<any>{
+    return this.http.put<any>(`${this.url}/${id}`, this.httpOptions);
   }
 
   //Get preset sampleset for testing

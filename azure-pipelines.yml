@@ -27,10 +27,11 @@ steps:
     cliProjectKey: '210215-USF-RevMixer_RevMixer-Frontend'
     cliProjectName: 'RevMixer-Frontend'
     cliSources: 'AngularTone'
-    extraProperties: |
-     # Additional properties that will be passed to the scanner, 
-     # Put one key=value per line, example:
-     # sonar.exclusions=**/*.bin
+    extraProperties: 
+    # Additional properties that will be passed to the scanner, 
+    # Put one key=value per line, example:
+    # sonar.exclusions=**/*.bin
+    
 - task: Npm@1
   displayName: 'npm install'
   inputs:
@@ -43,6 +44,13 @@ steps:
     command: 'custom'
     workingDir: 'AngularTone'
     customCommand: 'run build'
+
+- task: Npm@1
+  displayName: 'test'
+  inputs:
+    command: 'custom'
+    workingDir: 'AngularTone'
+    customCommand: 'test'
 
 - task: SonarCloudAnalyze@1
 
