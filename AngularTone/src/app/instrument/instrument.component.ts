@@ -177,6 +177,15 @@ export class InstrumentComponent implements OnInit {
   }
 
   //From  HTML sliders
+  changeVolume(event: any) {
+    if(event.value <= -43) {
+      Tone.Destination.mute = true;
+    } else {
+      Tone.Destination.mute = false;
+      Tone.Destination.volume.rampTo(event.value, 0.01);
+    }
+  } 
+
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
     this.tempo = event.value
@@ -186,15 +195,6 @@ export class InstrumentComponent implements OnInit {
   }
   changeReverbDecay(event: any) {
     this.reverb.decay = event.value;
-  }
-
-  changeVolume(event: any) {
-    if (event.value <= -53) {
-      Tone.Destination.mute = true;
-    } else {
-      Tone.Destination.mute = false;
-      Tone.Destination.volume.rampTo(event.value, 0.1);
-    }
   }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
@@ -319,7 +319,6 @@ export class InstrumentComponent implements OnInit {
       }
     }, 10)
   }
-
 
   changePlayTime(event: any) {
     this.currentTimePosition = event.value;

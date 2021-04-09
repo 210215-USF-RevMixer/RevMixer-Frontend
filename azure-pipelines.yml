@@ -9,7 +9,7 @@ trigger:
     - main
   paths:
     include:
-    - GivHub-Angular
+    - AngularTone
 pool:
   vmImage: ubuntu-latest
   demands:
@@ -27,7 +27,7 @@ steps:
     cliProjectKey: '210215-USF-RevMixer_RevMixer-Frontend'
     cliProjectName: 'RevMixer-Frontend'
     cliSources: 'AngularTone'
-    extraProperties: 
+    extraProperties: |
     # Additional properties that will be passed to the scanner, 
     # Put one key=value per line, example:
     # sonar.exclusions=**/*.bin
@@ -46,32 +46,19 @@ steps:
     customCommand: 'run build'
 
 - task: Npm@1
-  displayName: 'test'
+  displayName: 'Test Angular'
   inputs:
-    command: 'custom'
+    command: custom
+    customCommand: run test -- --watch=false --code-coverage
     workingDir: 'AngularTone'
-    customCommand: 'test'
+
+# - task: PublishTestResults@2
+#   inputs:
+#     testResultsFormat: 'XUnit'
+#     testResultsFiles: '**/TEST-*.xml'
 
 - task: SonarCloudAnalyze@1
 
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
-
-- task: Docker@2
-  inputs:
-    containerRegistry: 'wysparDockerHub'
-    repository: 'wyspar123/revmixerfrontend'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    buildContext: '**'
-
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure subscription 1(583825bd-d55a-497c-bfe6-2e3972e128e2)'
-    appType: 'webAppContainer'
-    WebAppName: 'revmix'
-    DockerNamespace: 'wyspar123'
-    DockerRepository: 'revmixerfrontend'
-    DockerImageTag: 'latest'
