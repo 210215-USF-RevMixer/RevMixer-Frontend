@@ -1,16 +1,16 @@
+import { SampleSetService } from './../../../services/sample-set.service';
+import { SampleSets } from "../../../Models/SampleSets";
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/Models/User';
 import { UserRestService } from 'src/app/services/user-rest.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'ngx-audio-player';
-import { Console } from 'node:console';
 import { environment } from 'src/environments/environment';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { debug } from 'tone';
 import { PlayList } from 'src/app/Models/PlayList';
 import { Router } from '@angular/router';
-import { IoTThingsGraph } from 'aws-sdk';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 
 
@@ -42,8 +42,10 @@ export class ProfileComponent implements OnInit {
   //User Playlists
   allPlayLists: PlayList[] = [];
   userPlayLists: PlayList[] = [];
+  allSampleSets: SampleSets[] = [];
+  userSampleSets: SampleSets[] = [];
 
-  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService, private authService: AuthService,
+  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService,private sampleService: SampleSetService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
 
     
@@ -80,7 +82,7 @@ export class ProfileComponent implements OnInit {
         uploadMusics: [],
         playlists: []
       },
-
+      isPrivate:false,
   
       musicPlaylists: [],
       comments: []
@@ -143,6 +145,7 @@ export class ProfileComponent implements OnInit {
         {
           let x = foundUser.id;
           this.updatePlaylist(foundUser, x);
+          // this.updateSampleSet(foundUser,x);
         }
       )
     )
@@ -156,6 +159,27 @@ export class ProfileComponent implements OnInit {
         this.updateUserPlaylist(this.allPlayLists, x);
       }
     )
+  }
+  //update all the sample sets 
+  updateSampleSet(foundUser: User, x: any) {
+    this.sampleService.GetAllSampleSets().subscribe(
+      (result) => {
+        this.allSampleSets = (result);
+        this.updateUserSampleSets(this.allSampleSets, x);
+      }
+    )
+  }
+
+  updateUserSampleSets(allSampleSets: SampleSets[], x: any) {
+    this.allSampleSets.forEach(set => 
+      {
+        if(set.userId == x)
+        {
+          this.userSampleSets.push(set);
+        }
+      })
+      console.log(this.userSampleSets);
+    this.router.navigate(['profile']);
   }
   //Update user playlist
   updateUserPlaylist(allPlayLists: PlayList[], x: any) {
@@ -202,5 +226,8 @@ export class ProfileComponent implements OnInit {
     console.log(this.userPlayLists);
     this.router.navigate(['viewPlaylist'], {queryParams: {id: id} });
   }
-
+  GetSampleSet(id: number){
+    console.log(this.userSampleSets);
+    //this.router.navigate(['viewSamples],{queryParams: {id: id} })
+  }
 }

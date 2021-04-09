@@ -69,7 +69,7 @@ export class AudioPlayerComponent implements OnInit {
         uploadMusics: [],
         playlists: []
       },
-
+      isPrivate: false,
   
       musicPlaylists: [],
       comments: []

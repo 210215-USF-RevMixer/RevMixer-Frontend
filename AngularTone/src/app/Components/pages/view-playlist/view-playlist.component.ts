@@ -92,6 +92,7 @@ export class ViewPlaylistComponent implements OnInit {
       {
         this.allMusic.push(song);
       })
+      console.log('all the musics');
       console.log(this.allMusic);
   }
 
@@ -130,8 +131,8 @@ export class ViewPlaylistComponent implements OnInit {
         }
       })
     })
-    debugger;
-    console.log("Playlist music" + this.playlistMusic);
+    console.log('music from playlist')
+    console.log(this.playlistMusic);
   }
   //Get all music playlists
   GetAllMusicPlaylists(musicPlaylist2: MusicPlaylist[]) {

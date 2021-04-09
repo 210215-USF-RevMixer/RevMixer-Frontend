@@ -19,8 +19,11 @@
 //-change note of drum samples, they sound cool repitched
 
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import * as Tone from 'tone';
+import { User } from '../Models/User';
 import { SampleSetService } from '../services/sample-set.service'
+import { UserRestService } from '../services/user-rest.service';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -28,40 +31,62 @@ import { SampleSetService } from '../services/sample-set.service'
 })
 
 export class InstrumentComponent implements OnInit {
+  mouseIsClicked: boolean = false
+  marginForTopBar: string = '56px'
   popOutDisplay: string = 'none'
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
 
-  //delete this later
-  testTracks: { sample: any, part: any, note: any[] }[] = []
-  //delete this later
-
   parts: any[] = []
   isTransportStarted: boolean = false
-  volume: any
   presetPatterns: any[] = []
   sampleSets: any[] = []
-  sampleTrack: any[] = []
   samples: any[] = []
   tracks2Add: any[] = []
+  currentTimePosition: number = 0;
 
   //How many steps we have in the sequencer
   blockSize = 32
-  tempo: number = 190
-  currentPosition: number = 0
+  tempo: number = 80
   //Time in the loop that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
-    "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
+  "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
 
   savedPattern: number[][] = []
   //effects objects
-  dist = new Tone.Distortion(0).toDestination()
-  reverb = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
+  dist: any = new Tone.Distortion(0).toDestination()
+  reverb: any = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
+  volume: any = new Tone.Volume(0).toDestination()
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
 
-  constructor(private setService: SampleSetService) {
+  userBackend: User;
+
+  constructor(private setService: SampleSetService, private auth: AuthService, private userService: UserRestService) {
+    this.userBackend = 
+    {
+      userName: '',
+      id: 0,
+      email: '',
+      isAdmin: false,
+      userProjects: [],
+      sample: [],
+      comments: [],
+      uploadMusics: [],
+      playlists: []
+    }
+    this.auth.user$.subscribe (
+      user =>
+      this.userService.GetUserByEmail(user.email).subscribe
+      (
+        foundUser =>
+        {
+          this.userBackend = foundUser;
+        }
+      )
+    )
+    this.volume.volume.value = -12
     this.tracks = [
       {
         sample: {},
@@ -75,27 +100,19 @@ export class InstrumentComponent implements OnInit {
       note: []
     }
     this.isTransportStarted = false
-
     //Add service to get all available presets from DB to populate
     this.presetPatterns = []
-
-
-    this.sampleSets = []
-    this.sampleTrack = [
-
-    ]
+    // this.setService.GetUserSampleSets(this.userBackend.id).subscribe(
+    //   (userSampleSets => {
+    //     this.sampleSets = userSampleSets
+    //   })
+    // )
     //Add services to get all the samples from DB to populate
     this.samples = []
   }
 
   ngOnInit(): void {
-    this.volume = new Tone.Volume(-10)
-
-    // HARD CODED DATA FOR TESTING
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
-    this.testTracks.push({ part: {}, sample: {}, note: [] })
+    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
 
     //push on the sample sets to array
     // get the arrays from services
@@ -104,46 +121,18 @@ export class InstrumentComponent implements OnInit {
     this.samples.push({
       sampleName: 'Kick', sample: new Tone.Sampler({
         C3: '../../assets/808/Kick.wav'
-      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
     })
     this.samples.push({
       sampleName: 'Snare', sample: new Tone.Sampler({
         C3: '../../assets/808/Snare.wav'
-      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
     })
     this.samples.push({
       sampleName: 'Clap', sample: new Tone.Sampler({
         C3: '../../assets/808/Clap.wav'
-      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
     })
-
-    // HARD CODED DATA FOR TESTING
-
-    this.testTracks.forEach(testTrack => {
-      for (let i = 0; i < this.blockSize; i++) {
-        testTrack.note.push({
-          onOff: 0,
-          color: 'grey',
-          position: i
-        })
-      }
-      testTrack.sample = new Tone.Sampler({
-        C3: '../../assets/808/Kick.wav'
-      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-
-      for (let i = 0; i < this.blockSize; i++) {
-        testTrack.part = new Tone.Part(((time) => {
-          testTrack.sample.triggerAttackRelease('C3', '16n', time);
-        }))
-        testTrack.part.start(0);
-        testTrack.part.loop = true;
-        testTrack.part.loopEnd = '4m';
-      }
-    }
-    )
-
-    this.presetPatterns.push(this.testTracks)
-    // HARD CODED DATA FOR TESTING
 
     //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
 
@@ -159,7 +148,7 @@ export class InstrumentComponent implements OnInit {
       }
       track.sample = new Tone.Sampler({
         C3: '../../assets/808/Kick.wav'
-      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
 
       for (let i = 0; i < this.blockSize; i++) {
         track.part = new Tone.Part(((time) => {
@@ -172,7 +161,9 @@ export class InstrumentComponent implements OnInit {
     }
     )
     //Initial Tempo
-    Tone.Transport.bpm.value = 190;
+    Tone.Transport.bpm.value = 80;
+    Tone.Transport.setLoopPoints(0, "4m");
+    Tone.Transport.loop = true
     this.audio = document.querySelector('audio');
   }
 
@@ -193,10 +184,8 @@ export class InstrumentComponent implements OnInit {
   }
   playStop() {
     this.isTransportStarted = !this.isTransportStarted
-
-    console.log(Tone.Transport.position)
-
     Tone.Transport.toggle();
+    this.updateTimePosition()
   }
 
   //From  HTML sliders
@@ -206,14 +195,13 @@ export class InstrumentComponent implements OnInit {
   }
   changeDistortionAmount(event: any) {
     this.dist.distortion = event.value;
-    //this.dist.wet = event.value;
   }
   changeReverbDecay(event: any) {
     this.reverb.decay = event.value;
   }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
-  public changeState(currentNote: any, currentTrack: any) {
+  changeState(currentNote: any, currentTrack: any) {
     if (this.isTransportStarted) {
       this.playStop()
     }
@@ -241,6 +229,9 @@ export class InstrumentComponent implements OnInit {
         track.part.remove(this.times[i]);
       }
     })
+    if (this.isTransportStarted) {
+      this.playStop()
+    }
   }
 
   savePattern() {
@@ -254,6 +245,7 @@ export class InstrumentComponent implements OnInit {
       tempArray = []
     }
     //send pattern to DB
+    console.log(this.savedPattern)
   }
 
   //Preset patterns are in pattern.const.ts 
@@ -268,8 +260,7 @@ export class InstrumentComponent implements OnInit {
     for (let i = 0; i < sample2Select.length; i++) {
       let tempSample = new Tone.Sampler({
         C3: `${sample2Select[i]}`
-      }).connect(this.dist).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-      console.log(sample2Select[i])
+      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
       this.addTrack(tempSample)
     }
   }
@@ -317,5 +308,54 @@ export class InstrumentComponent implements OnInit {
 
   hideSamples() {
     this.popOutDisplay = 'none'
+  }
+
+  updateTimePosition(){
+    let multiplier = 100
+    if(window.window.innerWidth < 1480)
+    {
+      multiplier = 75
+    }
+    const timer = setInterval(() => {
+      this.currentTimePosition = (Tone.Transport.seconds / +Tone.Transport.loopEnd) * multiplier
+      if(!this.isTransportStarted){
+        clearInterval(timer)
+      }
+    }, 10)
+  }
+
+  changeVolume(event: any) {
+    this.volume.volume.value = event.value;
+  }
+
+  changePlayTime(event: any) {
+    this.currentTimePosition = event.value;
+  }
+  
+  onResize(){
+    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
+  }
+
+  startTracking(){
+    this.mouseIsClicked = true
+  }
+
+  getTrackedPosition(event: any, currentNote: any, currentTrack: any){
+    if(this.mouseIsClicked)
+    {
+      var cX = event.clientX;
+      var cY = event.clientY;
+      document.querySelectorAll('.single-block').forEach(block => {
+        let rect = block.getBoundingClientRect()
+        if(cX >= rect.left && cX <= rect.right && cY <= rect.bottom && cY >= rect.top)
+        {
+          this.changeState(currentNote, currentTrack)
+        }
+      })
+    }
+  }
+
+  stopTracking(){
+    this.mouseIsClicked = false
   }
 }
