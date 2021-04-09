@@ -33,9 +33,10 @@ import { CreatePlaylistComponent } from './Components/pages/create-playlist/crea
 import { ViewPlaylistComponent } from './Components/pages/view-playlist/view-playlist.component';
 import { SampleSetsComponent } from './Components/pages/sample-sets/sample-sets.component';
 import { UploadSampleComponent } from './Components/pages/upload-sample/upload-sample.component';
+import { CreateSampleSetComponent } from './Components/pages/create-sample-set/create-sample-set.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent, UploadSampleComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent, UploadSampleComponent, CreateSampleSetComponent],
 
 
 
