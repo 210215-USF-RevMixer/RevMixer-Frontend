@@ -51,13 +51,13 @@ steps:
   inputs:
     pollingTimeoutSec: '300'
 
-# - task: Docker@2
-#   inputs:
-#     containerRegistry: 'wysparDockerHub'
-#     repository: 'wyspar123/revmixerfrontend'
-#     command: 'buildAndPush'
-#     Dockerfile: '**/Dockerfile'
-#     buildContext: '**'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'wysparDockerHub'
+    repository: 'wyspar123/revmixerfrontend'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    buildContext: '**'
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
