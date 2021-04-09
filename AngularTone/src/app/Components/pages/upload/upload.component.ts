@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  authUser: any;
   url: string = environment.AZURE_REST;
   public progress: number;
   public message: string;
@@ -58,10 +57,6 @@ export class UploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
     this.authService.user$.subscribe(
       authUser =>
 
