@@ -295,3 +295,36 @@ body {
   align-items: center;
   width: 50%;
 }
+
+@media only screen and (max-width: 1480px){
+  .single-block {
+    min-height: 30px;
+    min-width: 30px;
+  }
+
+  .play-feature{
+    width: 75em;
+    transform: translateX(-35px);
+  }
+  
+  .play-position{
+    width: 6px;
+    height: 6px;
+  }
+
+  .pad{
+    height: 20px;
+  }
+
+  .blue-button-container{
+    padding: 5px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.466);
+  }
+
+  .blue-button{
+    width: 200px;
+    height: 35px;
+    padding: 3px 8px 3px 8px;
+  }
+}
+

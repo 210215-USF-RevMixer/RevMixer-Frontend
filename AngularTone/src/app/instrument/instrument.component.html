@@ -8,6 +8,9 @@
     </div>
 
     <div class="my-sliders">
+      <div><label class="pr-2">Volume:</label>
+        <mat-slider (input)="changeVolume($event)" step="1" min="-55" max="0" value="-10"></mat-slider>
+      </div>
       <div *ngIf="tempo"><label class="pr-2">Tempo:</label>
         <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="80"></mat-slider> {{tempo}}
       </div>
@@ -17,9 +20,6 @@
       <div *ngIf="reverb"><label class="pr-2">Reverb:</label>
         <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0.001" max="5" value="0.001"></mat-slider> {{reverb.decay * 20 | number:'1.0-0'}} %
       </div>
-      <!-- <div *ngIf="volume"><label class="pr-2">Volume:</label>
-        <mat-slider (input)="changeVolume($event)" step="1" min="-100" max="0" value="-75"></mat-slider> {{volume.volume.value | number:'1.0-0'}}
-      </div> -->
     </div>
 
     <div>
