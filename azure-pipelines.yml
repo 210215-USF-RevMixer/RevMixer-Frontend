@@ -45,13 +45,6 @@ steps:
     workingDir: 'AngularTone'
     customCommand: 'run build'
 
-- task: Npm@1
-  displayName: 'test'
-  inputs:
-    command: 'custom'
-    workingDir: 'AngularTone'
-    customCommand: 'test'
-
 - task: SonarCloudAnalyze@1
 
 - task: SonarCloudPublish@1
