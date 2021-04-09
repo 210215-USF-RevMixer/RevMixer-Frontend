@@ -19,17 +19,17 @@ steps:
     buildContext: '**'
     tags: 'latest'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: Start-Sleep -Seconds 60  
-  displayName: 'PowerShell Script'
+# - task: PowerShell@2
+#   inputs:
+#     targetType: 'inline'
+#     script: Start-Sleep -Seconds 60  
+#   displayName: 'PowerShell Script'
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure subscription 1(583825bd-d55a-497c-bfe6-2e3972e128e2)'
     appType: 'webAppContainer'
     WebAppName: 'revmix'
-    DockerNamespace: 'wyspar123'
-    DockerRepository: 'revmixerfrontend'
+    DockerNamespace: 'wysparDockerHub'
+    DockerRepository: 'wyspar123/revmixerfrontend'
     DockerImageTag: 'latest'
