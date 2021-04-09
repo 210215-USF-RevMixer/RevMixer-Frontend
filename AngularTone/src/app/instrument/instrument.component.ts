@@ -200,6 +200,15 @@ export class InstrumentComponent implements OnInit {
     this.reverb.decay = event.value;
   }
 
+  changeVolume(event: any) {
+    if(event.value <= -53) {
+      Tone.Destination.mute = true;
+    } else {
+      Tone.Destination.mute = false;
+      Tone.Destination.volume.rampTo(event.value, 0.1);
+    }
+  }
+
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
   changeState(currentNote: any, currentTrack: any) {
     if (this.isTransportStarted) {
@@ -319,9 +328,6 @@ export class InstrumentComponent implements OnInit {
     }, 10)
   }
 
-  changeVolume(event: any) {
-    this.volume.volume.value = event.value;
-  }
 
   changePlayTime(event: any) {
     this.currentTimePosition = event.value;
