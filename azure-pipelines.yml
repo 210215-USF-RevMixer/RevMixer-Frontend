@@ -45,10 +45,16 @@ steps:
     workingDir: 'AngularTone'
     customCommand: 'run build'
 
-- task: PublishTestResults@2
+- task: Npm@1
   inputs:
-    testResultsFormat: 'XUnit'
-    testResultsFiles: '**/TEST-*.xml'
+    command: 'custom'
+    workingDir: 'AngularTone'
+    customCommand: 'test'
+
+# - task: PublishTestResults@2
+#   inputs:
+#     testResultsFormat: 'XUnit'
+#     testResultsFiles: '**/TEST-*.xml'
 
 - task: SonarCloudAnalyze@1
 
