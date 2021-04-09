@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  authUser: any;
   url: string = environment.AZURE_REST;
   public progress: number;
   public message: string;
@@ -59,10 +58,6 @@ export class UploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
-    this.authService.user$.subscribe(
       authUser =>
 
     this.userService.GetUserByEmail(authUser.email).subscribe
@@ -97,7 +92,7 @@ export class UploadComponent implements OnInit {
     }
     else {
     //https://revmixerapi.azurewebsites.net/api/AzureBlob
-    this.http.post("https://revmixerapi.azurewebsites.net/api/AzureBlob", formData, {reportProgress: true, observe: 'events'})
+    this.http.post(environment.AZURE_REST, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){

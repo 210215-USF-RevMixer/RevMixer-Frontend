@@ -1,3 +1,4 @@
+import { CreateSampleSetComponent } from './Components/pages/create-sample-set/create-sample-set.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HubComponent } from './Components/pages/hub/hub.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'newPlayList', component: CreatePlaylistComponent, canActivate: [AuthGuard]},
   {path: 'viewPlaylist', component: ViewPlaylistComponent, canActivate: [AuthGuard]},
   {path: 'sampleSets', component: SampleSetsComponent, canActivate: [AuthGuard]},
+  {path: 'newSampleSet',  component: CreateSampleSetComponent, canActivate: [AuthGuard] },
   {path: 'editSongs', component: EditSongsComponent, canActivate: [AuthGuard]},
   {path: '**', component: InstrumentComponent}
 
