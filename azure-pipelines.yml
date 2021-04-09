@@ -59,6 +59,10 @@ steps:
     Dockerfile: '**/Dockerfile'
     buildContext: '**'
     tags: 'latest'
+
+- task: Delay@1
+  inputs:
+    delayForMinutes: '1'
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
