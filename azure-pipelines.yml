@@ -46,10 +46,11 @@ steps:
     customCommand: 'run build'
 
 - task: Npm@1
+  displayName: 'Test Angular'
   inputs:
-    command: 'custom'
+    command: custom
+    customCommand: run test -- --watch=false --code-coverage
     workingDir: 'AngularTone'
-    customCommand: 'test'
 
 # - task: PublishTestResults@2
 #   inputs:
