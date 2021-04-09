@@ -1,4 +1,5 @@
 //needs to be finished -Tate
+//it's finished - Joaquin
 import { Comments } from "./Comments";
 import { MusicPlaylist } from "./MusicPlaylist";
 import { User } from "./User";

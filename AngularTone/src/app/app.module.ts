@@ -33,10 +33,10 @@ import { CreatePlaylistComponent } from './Components/pages/create-playlist/crea
 import { ViewPlaylistComponent } from './Components/pages/view-playlist/view-playlist.component';
 import { SampleSetsComponent } from './Components/pages/sample-sets/sample-sets.component';
 import { UploadSampleComponent } from './Components/pages/upload-sample/upload-sample.component';
-import { EditSongComponent } from './Components/pages/edit-song/edit-song.component';
+import { EditSongsComponent } from './Components/pages/edit-songs/edit-songs.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent, UploadSampleComponent, EditSongComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent, UploadSampleComponent, EditSongsComponent],
 
 
 
