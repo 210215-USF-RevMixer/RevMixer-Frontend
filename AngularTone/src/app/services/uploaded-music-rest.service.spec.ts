@@ -64,4 +64,26 @@ describe('UploadedMusicRestService', () => {
           httpMock.verify();
         }
       ));
+      it(
+        'should post song',
+        inject(
+          [HttpTestingController, UploadedMusicRestService],
+          (httpMock: HttpTestingController, uploadedMusicRestService: UploadedMusicRestService) => {
+            const mockUpload = { name: 'Upload1' };
+            uploadedMusicRestService.PostSong(mockUpload).subscribe((event: HttpClientTestingModule) => {
+              switch (event) {
+                case HttpEventType.Response:
+                  expect(event).toEqual(mockUpload);
+              }
+            });
+    
+            const mockReq = httpMock.expectOne(uploadedMusicRestService.url);
+    
+            expect(mockReq.cancelled).toBeFalsy();
+            expect(mockReq.request.responseType).toEqual('json');
+            mockReq.flush(mockUpload);
+    
+            httpMock.verify();
+          }
+        ));
 });
