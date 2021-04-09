@@ -8,7 +8,7 @@ import { InstrumentComponent } from './instrument/instrument.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { FormsModule } from '@angular/forms';
-
+import { environment } from 'src/environments/environment';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -56,8 +56,8 @@ import { UploadSampleComponent } from './Components/pages/upload-sample/upload-s
     FormsModule,
     AuthModule.forRoot(
       {
-        domain: 'dev-vymugu6z.us.auth0.com',
-        clientId: 'XK3HVI5aAOQMHCNQL5MYtvIgOCg02uKD'
+        domain: environment.DOMAIN,
+        clientId: environment.CLIENT_ID
       }
     )
   ],
