@@ -9,7 +9,7 @@ trigger:
     - main
   paths:
     include:
-    - GivHub-Angular
+    - AngularTone
 pool:
   vmImage: ubuntu-latest
   demands:
