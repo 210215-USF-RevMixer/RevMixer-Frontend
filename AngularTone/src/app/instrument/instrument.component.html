@@ -9,7 +9,7 @@
 
     <div class="my-sliders">
       <div><label class="pr-2">Volume:</label>
-        <mat-slider (input)="changeVolume($event)" step="1" min="-55" max="0" value="-10"></mat-slider>
+        <mat-slider (input)="changeVolume($event)" step="1" min="-45" max="-10" value="-10"></mat-slider>
       </div>
       <div *ngIf="tempo"><label class="pr-2">Tempo:</label>
         <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="80"></mat-slider> {{tempo}}
