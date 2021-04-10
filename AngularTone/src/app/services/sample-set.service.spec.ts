@@ -1,13 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { SampleSets } from '../Models/SampleSets';
 import {User} from '../Models/User'; 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SampleSetService } from './sample-set.service';
 
 describe('SampleSetService', () => {
   let service: SampleSetService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule]
+    });
     service = TestBed.inject(SampleSetService);
   });
 
@@ -19,35 +22,31 @@ describe('SampleSetService', () => {
     service.GetAllSampleSets().subscribe(result => {
       expect(result instanceof Object).toBeTruthy();
     });
-
-
-
-    it('AddSampleSet should return any Observable', () => {
-      let user: User = {id: 1,
-        userName: 'string',
-        email: 'string',
-        isAdmin: false,
-    
-        userProjects: [],
-        sample: [],
-        comments: [],
-        uploadMusics: [],
-        playlists: []};
-
-      let sampleSet : SampleSets={
-        id: 1,
-        name: 'string',
-        userId: 1,
-        isPrivate: false,
-        user: user,
-        samples: [],
-      }
-      service.AddSampleSet(sampleSet).subscribe (result =>{
-        expect (result instanceof (Object )). toBeTruthy();
-      });
-    });
-    
   });
 
+  it('AddSampleSet should return any Observable', () => {
+    let user: User = {id: 1,
+      userName: 'string',
+      email: 'string',
+      isAdmin: false,
+  
+      userProjects: [],
+      sample: [],
+      comments: [],
+      uploadMusics: [],
+      playlists: []};
+
+    let sampleSet : SampleSets={
+      id: 1,
+      name: 'string',
+      userId: 1,
+      isPrivate: false,
+      user: user,
+      samples: [],
+    };
+    service.AddSampleSet(sampleSet).subscribe (result =>{
+      expect (result instanceof (Object )). toBeTruthy();
+    });
+  });
   
 });

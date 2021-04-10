@@ -3,12 +3,15 @@ import { Comments } from '../Models/Comments';
 import { User } from '../Models/User';
 
 import { CommentRestService } from './comment-rest.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('CommentRestService', () => {
   let service: CommentRestService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports : [HttpClientTestingModule]
+    });
     service = TestBed.inject(CommentRestService);
   });
 
