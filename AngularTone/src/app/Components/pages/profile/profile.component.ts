@@ -221,6 +221,9 @@ export class ProfileComponent implements OnInit {
   onNewPlayList() {
     this.router.navigate(['newPlayList']);
   }
+  onNewSampleSet() {
+    this.router.navigate(['newSampleSet']);
+  }
   //Get the details of the selected playlist
   GetPlaylist(id: number) {
     console.log(this.userPlayLists);
