@@ -46,6 +46,8 @@ export class InstrumentComponent implements OnInit {
   samples: any[]
   tracks2Add: any[] = []
   currentTimePosition: number = 0;
+  boxColor: string = 'tomato'
+  tempTarget: any
 
   //How many steps we have in the sequencer
   blockSize = 32
@@ -134,13 +136,16 @@ export class InstrumentComponent implements OnInit {
           position: i
         })
       }
-      track.sample = new Tone.Sampler({
+      track.sample = {
+        sampleName: 'BaseKick',
+        sample: new Tone.Sampler({
         C3: '../../assets/808/Kick.wav'
       }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
+    }
 
       for (let i = 0; i < this.blockSize; i++) {
         track.part = new Tone.Part(((time) => {
-          track.sample.triggerAttackRelease('C3', '16n', time);
+          track.sample.sample.triggerAttackRelease('C3', '16n', time);
         }))
         track.part.start(0);
         track.part.loop = true;
@@ -203,9 +208,9 @@ export class InstrumentComponent implements OnInit {
       this.playStop()
     }
     if (currentNote.onOff === 0) {
-      currentNote.color = 'tomato'
+      currentNote.color = this.boxColor
       currentNote.onOff = 1
-      currentTrack.sample.triggerAttackRelease('C3', '16n')
+      currentTrack.sample.sample.triggerAttackRelease('C3', '16n')
       currentTrack.part.add(this.times[currentNote.position], currentTrack.sample);
     }
     else {
@@ -255,9 +260,12 @@ export class InstrumentComponent implements OnInit {
   //Erases all sampler instruments and recreates them from samples in assets folder
   changeSampleSet(sample2Select: any) {
     for (let i = 0; i < sample2Select.length; i++) {
-      let tempSample = new Tone.Sampler({
-        C3: `${sample2Select[i]}`
+      let tempSample = {
+        sampleName: sample2Select[i],
+        sample: new Tone.Sampler({
+        C3: sample2Select[i]
       }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+    }
       this.addTrack(tempSample)
     }
   }
@@ -284,7 +292,7 @@ export class InstrumentComponent implements OnInit {
     }
     for (let i = 0; i < this.blockSize; i++) {
       this.track2Add.part = new Tone.Part(((time) => {
-        sample2Add.triggerAttackRelease('C3', '16n', time);
+        sample2Add.sample.triggerAttackRelease('C3', '16n', time);
       }))
       this.track2Add.part.start(0);
       this.track2Add.part.loop = true;
@@ -347,5 +355,15 @@ export class InstrumentComponent implements OnInit {
 
   stopTracking() {
     this.mouseIsClicked = false
+  }
+
+  changeColor(color: string, event: any)
+  {
+    if(this.tempTarget){
+      this.tempTarget.style.borderColor = '#000000'
+    }
+    event.target.style.borderColor = '#FFFFFF'
+    this.tempTarget = event.target
+    this.boxColor = color
   }
 }
