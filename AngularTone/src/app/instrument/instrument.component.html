@@ -75,6 +75,7 @@
         [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
       <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png"
           [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
+      <mat-slider (input)="changeTrackVolume($event, track)" step="1" min="-50" max="0" value="0"></mat-slider>
     </div>
   </div>
 
