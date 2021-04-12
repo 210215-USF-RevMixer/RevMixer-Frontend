@@ -212,8 +212,14 @@ export class InstrumentComponent implements OnInit {
   }
 
   changeTrackVolume(event: any, track: any) {
+    if(track.part.mute == true && event.value > -48){
+      this.muteTrack(track)
+    }
     if(event.value <= -48) {
       track.sample.sample.volume.value = -100
+      if(track.part.mute == false){
+        this.muteTrack(track)
+      }
     } else {
       track.sample.sample.volume.value = event.value
     }
@@ -295,11 +301,7 @@ export class InstrumentComponent implements OnInit {
     }
   }
   muteTrack(track2Mute: any) {
-    if (track2Mute.part.mute == true) {
-      track2Mute.part.mute = false;
-    } else {
-      track2Mute.part.mute = true;
-    }
+    track2Mute.part.mute = !track2Mute.part.mute
   }
 
   soloTrack(track2Solo: any) {
