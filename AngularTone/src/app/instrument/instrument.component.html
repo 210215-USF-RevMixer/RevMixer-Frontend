@@ -1,10 +1,18 @@
-<!-- Wishlist
-Light grey background color, lighter than the blocks
-Visual grouping of each measure/4 horizontal blocks
-Dropdown for load pattern and sample set selection -->
+<div (window:resize)="onResize()">
+  <div class="topbar" [ngStyle]="{'margin-top': marginForTopBar}">
 
-<div class="centered">
-  <div class="topbar">
+    <div class="my-colors">
+      <div class="color-option" style="background-color:red;" (click)="changeColor('red', $event)"></div>
+      <div class="color-option" style="background-color:orange;" (click)="changeColor('orange', $event)"></div>
+      <div class="color-option" style="background-color:yellow;" (click)="changeColor('yellow', $event)"></div>
+      <div class="color-option" style="background-color:green;" (click)="changeColor('green', $event)"></div>
+      <div class="color-option" style="background-color:blue;" (click)="changeColor('blue', $event)"></div>
+      <div class="color-option" style="background-color:purple;" (click)="changeColor('purple', $event)"></div>
+      <div class="color-option" style="background-color:pink;" (click)="changeColor('pink', $event)"></div>
+      <div class="color-option" style="background-color:black;" (click)="changeColor('black', $event)"></div>
+      <div class="color-option" style="background-color:white;" (click)="changeColor('white', $event)"></div>
+    </div>
+
     <div class="my-buttons">
       <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">Play/Stop</button>
       <button class="playButton" mat-stroked-button color="primary" (click)="savePattern();">Save Pattern</button>
@@ -12,19 +20,22 @@ Dropdown for load pattern and sample set selection -->
     </div>
 
     <div class="my-sliders">
+      <div><label class="pr-2">Volume:</label>
+        <mat-slider (input)="changeVolume($event)" step="1" min="-45" max="-10" value="-10"></mat-slider>
+      </div>
       <div *ngIf="tempo"><label class="pr-2">Tempo:</label>
-        <mat-slider (input)="tempoChange($event)" step="1" min="40" max="300" value="190"></mat-slider> {{tempo}}
+        <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="80"></mat-slider> {{tempo}}
       </div>
-      <div><label class="pr-2">Distortion:</label>
-        <mat-slider (input)="changeDistortionAmount($event)" step="0.001" min="0" max="1" value="0"></mat-slider>
+      <div *ngIf="dist"><label class="pr-2">Distortion:</label>
+        <mat-slider (input)="changeDistortionAmount($event)" step="0.001" min="0" max="1" value="0"></mat-slider> {{dist.distortion * 100 | number:'1.0-0'}} %
       </div>
-      <div><label class="pr-2">Reverb:</label>
-        <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0" max="5" value="0"></mat-slider>
+      <div *ngIf="reverb"><label class="pr-2">Reverb:</label>
+        <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0.001" max="5" value="0.001"></mat-slider> {{reverb.decay * 20 | number:'1.0-0'}} %
       </div>
     </div>
 
-    <div>
-      <mat-form-field class="pr-4">
+    <div class="my-dropdowns">
+      <mat-form-field class="mb-4">
         <mat-label>Load Preset Pattern</mat-label>
         <mat-select>
           <mat-option *ngFor="let presetPattern of presetPatterns" (click)="loadPattern(presetPattern)">
@@ -45,29 +56,28 @@ Dropdown for load pattern and sample set selection -->
   </div>
 
 
-
-
-  <div class="center">
-    <div class="play-feature"><img [ngStyle]="{'left': currentPosition}" src=""/></div>
-    <div *ngFor="let track of tracks;" class="pad">
-      <div *ngFor="let currentNote of track.note;">
-        <div class="single-block" [ngStyle]="{'background-color': currentNote.color}"
-          (click)="changeState(currentNote, track)">
+  <div class="soundboard-container">
+    <div class="play-feature"><div class="play-position" [ngStyle]="{'transform': 'translateX(' + currentTimePosition + 'em) translateY(-3.5px)'}"></div></div>
+    <div *ngFor="let track of tracks;" class="pad" (mousedown)="startTracking()" (mouseup)="stopTracking()" (mouseleave)="stopTracking()">
+      <div *ngFor="let currentNote of track.note;" class="block-container">
+        <div class="single-block" [ngStyle]="{'background-color': currentNote.color}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)">
         </div>
       </div>
       <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png"
           style="width: 20px; opacity: 75%;"></div>
     </div>
-
-    <button class="mt-4 ml-5 btn btn-primary" (click)="showSamples()">Add Sample To Track</button>
   </div>
 
-  <br />
-
-  <div class="container">
-    <audio controls></audio>
-    <br />
-    <button (click)="record();" class="btn btn-primary">Record/Stop Record</button>
+  <div class="blue-button-container">
+    <div>
+      <button class="blue-button mt-3 btn btn-primary" (click)="showSamples()">Add Sample To Track</button>
+    </div>
+    
+    <div>
+      <audio controls></audio>
+      <br/>
+      <button (click)="record();" class="blue-button btn btn-primary">Record/Stop Record</button>
+    </div>
   </div>
 </div>
 
@@ -79,7 +89,7 @@ Dropdown for load pattern and sample set selection -->
   <div class="pop-out">
     <h1 class="p-3">Click a sample to add it to your track</h1>
     <ul class="sample-list">
-      <li *ngFor="let sample of samples" class="sample-item" (click)="addTrack(sample.sample)"
+      <li *ngFor="let sample of samples" class="sample-item" (click)="addTrack(sample)"
         (mouseenter)="playSound(sample)">{{sample.sampleName}}</li>
     </ul>
   </div>

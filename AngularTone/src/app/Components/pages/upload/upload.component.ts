@@ -1,8 +1,6 @@
 import { HttpClient, HttpEventType, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { Console } from 'node:console';
-import { Http2ServerResponse } from 'node:http2';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { User } from 'src/app/Models/User';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
@@ -15,7 +13,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  authUser: any;
   url: string = environment.AZURE_REST;
   public progress: number;
   public message: string;
@@ -23,6 +20,8 @@ export class UploadComponent implements OnInit {
   name: any;
   user: any;
   uploadedSong: any;
+  songName: string = '';
+  isPrivate: string = '0';
 
   constructor(private http: HttpClient, private authService: AuthService, private userService: UserRestService, private uploadmusicService: UploadedMusicRestService) {
     this.progress = 0,
@@ -59,10 +58,6 @@ export class UploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
-    this.authService.user$.subscribe(
       authUser =>
 
     this.userService.GetUserByEmail(authUser.email).subscribe
@@ -83,9 +78,21 @@ export class UploadComponent implements OnInit {
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
-
+    formData.append('songName', this.songName);
+    formData.append('isPrivate', this.isPrivate);
+    //console.log(fileToUpload.type.substring(0,5));
+    if(fileToUpload.type.substring(0,5) != 'audio')
+    {
+      //console.log('not a video or audio file!!!!');
+      this.message = 'You tried to upload something other than a song! Please try again';
+    }
+    else if(this.songName == '')
+    {
+      this.message = 'Please enter in a name for your track!';
+    }
+    else {
     //https://revmixerapi.azurewebsites.net/api/AzureBlob
-    this.http.post("https://revmixerapi.azurewebsites.net/api/AzureBlob", formData, {reportProgress: true, observe: 'events'})
+    this.http.post(environment.AZURE_REST, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
@@ -98,7 +105,7 @@ export class UploadComponent implements OnInit {
         {
         this.onUploadFinished.emit(event.body);
         
-        console.log(event.body);
+        //console.log(event.body);
         this.name = event.body; 
         this.uploadedSong.musicFilePath = this.name.name;
         this.uploadedSong.userId = this.user.id;
@@ -109,7 +116,7 @@ export class UploadComponent implements OnInit {
           (response) =>
           {
             
-            console.log(response.musicFilePath);
+            //console.log(response.musicFilePath);
           }
         )
 
@@ -120,9 +127,13 @@ export class UploadComponent implements OnInit {
 
     }
     )
+  }
 
   }
 
+  changePrivacy(event: any){
+    console.log(event);
+  }
   updateUser(foundUser: User): void {
     this.user = foundUser;
   }

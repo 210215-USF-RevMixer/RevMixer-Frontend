@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { userInfo } from 'node:os';
 import { Observable } from 'rxjs';
 import { SavedProject } from '../Models/SavedProject';
 import { UserProject } from '../Models/UserProject';
@@ -63,6 +62,9 @@ export class ProjectRestService {
             userId: 0,
             sampleName: '',
             sampleLink: '',
+            isPrivate:false,
+            isApproved:false,
+            isLocked:false,
             user: {
               id: 0,
               userName: '',
