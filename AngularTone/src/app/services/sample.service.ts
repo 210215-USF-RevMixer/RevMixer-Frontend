@@ -19,20 +19,18 @@ export class SampleService {
     )
   }
 
-  url : string = '';
+  url : string = environment.SAVED_PROJECTS_REST;
 
   constructor(private http:HttpClient) { }
-  //Add sampleset
-  AddSample(sample2add: any): Observable<any> {
-    return this.http.post<any>(this.url, sample2add, this.httpOptions);
+  
+  GetSamples(): Observable<any> {
+    return this.http.get<any[]>(this.url, this.httpOptions);
   }
   GetSampleByID(id: number): Observable<any> {
     return this.http.get<any>(`${this.url}/${id}`, this.httpOptions);
   }
-  GetSamplesByUserID(userID: number): Observable<any> {
-    return this.http.get<any[]>(`${this.url}/${userID}`, this.httpOptions);
-  }
-  GetSamples(): Observable<any> {
-    return this.http.get<any[]>(this.url, this.httpOptions);
+  
+  AddSample(sample2add: any): Observable<any> {
+    return this.http.post<any>(this.url, sample2add, this.httpOptions);
   }
 }

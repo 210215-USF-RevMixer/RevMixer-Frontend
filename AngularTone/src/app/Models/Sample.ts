@@ -1,5 +1,5 @@
 import { Track } from "./Track";
-import { User } from "./User";
+
 
 //needs to be finished -Tate
 export interface Sample
@@ -12,6 +12,5 @@ export interface Sample
     isApproved: boolean,
     isLocked: boolean,
 
-    user: User,
     tracks: Track[]
 }
