@@ -63,12 +63,11 @@
         <div class="single-block" [ngStyle]="{'background-color': currentNote.color}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)">
         </div>
       </div>
-      <div class="options" (click)="soloTrack(track)"><img src="../../assets/images/warning.png"
-        style="width: 20px; opacity: 75%;"></div>
       <div class="options" (click)="muteTrack(track)"><img src="../../assets/images/mute.png"
         style="width: 20px; opacity: 75%;"></div>
       <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png"
           style="width: 20px; opacity: 75%;"></div>
+          <mat-slider (input)="changeTrackVolume($event, track)" step="1" min="-50" max="0" value="0"></mat-slider>
     </div>
   </div>
 
