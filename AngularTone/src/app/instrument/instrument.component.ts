@@ -18,6 +18,7 @@
 //-Timer that shows how long you've been recording for
 //-change note of drum samples, they sound cool repitched
 
+import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import * as Tone from 'tone';
@@ -38,7 +39,6 @@ export class InstrumentComponent implements OnInit {
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
 
-  buffers: any[] = []
   parts: any[] = []
   isTransportStarted: boolean = false
   presetPatterns: any[]
@@ -183,7 +183,7 @@ export class InstrumentComponent implements OnInit {
 
   //From  HTML sliders
   changeVolume(event: any) {
-    if(event.value <= -43) {
+    if(event.value <= -48) {
       Tone.Destination.mute = true;
     } else {
       Tone.Destination.mute = false;
@@ -269,7 +269,31 @@ export class InstrumentComponent implements OnInit {
       this.addTrack(tempSample)
     }
   }
+  muteTrack(track2Mute: any) {
+    if(track2Mute.part.mute == true) {
+      track2Mute.part.mute = false;
+    } else {
+      track2Mute.part.mute = true;
+    }
+  }
 
+  soloTrack(track2Solo: any) {
+    //This is trying to figure out a way to turn off the solo if the track is already solo'd, I think I need an isSolo'd variable
+      // this.tracks.forEach(track => {
+      //   if(((track.part.mute === true) && (track !== track2Solo)) || ((track.part.mute !== true) && (track === track2Solo)) ){
+          
+      //   }
+      //   return;
+      // })
+    
+    this.tracks.forEach(track => {
+      if (track !== track2Solo) {
+        track.part.mute = true;
+      } else { 
+        track.part.mute = false; 
+      }
+    })
+  }
 
   deleteTrack(track2Delete: any) {
     let filteredTracks = this.tracks.filter(t => t !== track2Delete)

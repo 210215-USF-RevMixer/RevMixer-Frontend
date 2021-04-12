@@ -21,7 +21,7 @@
 
     <div class="my-sliders">
       <div><label class="pr-2">Volume:</label>
-        <mat-slider (input)="changeVolume($event)" step="1" min="-45" max="-10" value="-10"></mat-slider>
+        <mat-slider (input)="changeVolume($event)" step="1" min="-50" max="-10" value="-10"></mat-slider>
       </div>
       <div *ngIf="tempo"><label class="pr-2">Tempo:</label>
         <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="80"></mat-slider> {{tempo}}
@@ -63,6 +63,10 @@
         <div class="single-block" [ngStyle]="{'background-color': currentNote.color}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)">
         </div>
       </div>
+      <div class="options" (click)="soloTrack(track)"><img src="../../assets/images/warning.png"
+        style="width: 20px; opacity: 75%;"></div>
+      <div class="options" (click)="muteTrack(track)"><img src="../../assets/images/mute.png"
+        style="width: 20px; opacity: 75%;"></div>
       <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png"
           style="width: 20px; opacity: 75%;"></div>
     </div>
