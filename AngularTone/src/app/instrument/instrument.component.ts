@@ -195,6 +195,14 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
+  changeTrackVolume(event: any, track: any) {
+    if(event.value <= -48) {
+      track.sample.sample.volume.value = -100
+    } else {
+      track.sample.sample.volume.value = event.value
+    }
+  }
+
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
     this.tempo = event.value
@@ -300,6 +308,7 @@ export class InstrumentComponent implements OnInit {
       this.tempSoloedTrack = track2Solo
     }
   }
+
 
   deleteTrack(track2Delete: any) {
     let filteredTracks = this.tracks.filter(t => t !== track2Delete)
