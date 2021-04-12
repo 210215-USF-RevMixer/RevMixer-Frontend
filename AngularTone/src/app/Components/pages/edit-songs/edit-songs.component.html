@@ -16,11 +16,11 @@ yes daddy
                 <td>
                     <input type="text" [(ngModel)]="music2edit.name" name="name"
                     #name="ngModel" class="form-control" value="music2edit.name">
-                    <!-- {{music2edit.name}} -->
+                    {{music2edit.name}}
                 </td>
                 <td>
                     <label class="switch">
-                    <input type="checkbox" [(ngModel)]="music2edit.isPrivate"
+                    <input type="checkbox" [(ngModel)]="music2edit.isPrivate" (change)="changePrivacy(music2edit.isPrivate?'1':'0')"
                     name="isPrivate" #name="ngModel" value="music2edit.isPrivate">
                     <span class="slider round"></span>
                     </label>

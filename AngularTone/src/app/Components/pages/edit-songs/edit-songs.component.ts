@@ -77,6 +77,10 @@ export class EditSongsComponent implements OnInit {
                 this.music2edits = foundsongs;
                 console.log(this.music2edits)
               })}))}
+  onClick(): void
+  {
+    
+  }
   onSubmit(): void{
     console.log(this.music2edits);
     this.music2edits.forEach(music2edit=>
@@ -87,4 +91,8 @@ export class EditSongsComponent implements OnInit {
       )
       )
     };
+    
+  changePrivacy(event: any){
+    console.log(event);
+  }
 }
