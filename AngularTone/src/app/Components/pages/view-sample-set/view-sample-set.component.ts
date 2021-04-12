@@ -1,3 +1,5 @@
+import { UsersSampleSets } from './../../../Models/UsersSampleSets';
+import { SamplePlaylist } from './../../../Models/SamplePlaylist';
 import { SamplePlaylistService } from './../../../services/sample-playlist.service';
 import { SampleService } from './../../../services/sample.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,9 +18,10 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./view-sample-set.component.scss']
 })
 export class ViewSampleSetComponent implements OnInit {
-  selectedSampleSet: SampleSets;
+  selectedSampleSet: UsersSampleSets;
+  currentPlaylist:SamplePlaylist[]=[];
   sampleSet: any;
-  samplePlaylist:any;
+  samplePlaylist:SamplePlaylist;
   foundSet: SampleSets[]=[];
   allSamples: Sample[]=[];
   allSets:SampleSets[]=[];
@@ -27,8 +30,9 @@ export class ViewSampleSetComponent implements OnInit {
   authUser: any;
   constructor(private authService: AuthService, private userService: UserRestService, private sampleSetService: SampleSetService, private sampleService : SampleService,private activeRoute: ActivatedRoute,private samplePlaylistService: SamplePlaylistService) {    
     this.selectedSampleSet = {
-      id: 0, 
-      name:''
+      Id:0,
+      userId:0,
+      sampleSetsId:0
     }
     this.sampleSet =
     {
@@ -38,14 +42,14 @@ export class ViewSampleSetComponent implements OnInit {
     }
     this.samplePlaylist=
     {
-      id: 0,
+      Id: 0,
       sampleId: 0,
       sampleSetId: 0
     }
     this.user = 
     {
       userName: '',
-      id: 1,
+      id: 0,
       email: '',
       isAdmin: false,
       userProjects: [],
@@ -86,7 +90,7 @@ export class ViewSampleSetComponent implements OnInit {
             //set the selected sampleset
             this.selectedSampleSet = foundSet;
             //Gets the music playlist for this particular playlist!
-            this.SetAllSampleSetsToThisSamplePlaylist(foundSet.id);
+            this.GetSamplesFromPlaylist(foundSet.id);
           }
         )
       }
@@ -101,34 +105,43 @@ export class ViewSampleSetComponent implements OnInit {
     )
   }
 
-    GetAllSets(sets: SampleSets[]) {
-      sets.forEach(set =>
-        {
-          this.allSets.push(set);
-        })
-        console.log('all the sets');
-        console.log(this.allSets);
-    }
-    
- 
-
-  SetAllSampleSetsToThisSamplePlaylist(sampleID: number) {
-    // this.sampleService.GetAllSampleSets().subscribe(
-    //   (result => {
-    //     result.forEach(sample => {
-    //       if(sample.sampleId == sampleID) {
-    //         this.sampleSampleSets.push(sample);
-    //       }
-    //     })
-    //     let x = this.sampleSampleSets;
-    //    // this.GetUploadedMusicForPlaylist(x);
-    //   })
-    // )
-    // console.log(this.sampleSampleSets);
+  GetAllSets(sets: SampleSets[]) {
+    sets.forEach(set =>
+      {
+        this.allSets.push(set);
+      })
+      console.log('all the sets');
+      console.log(this.allSets);
   }
 
-  AddSampleToSamplePlaylist(sampleId: string, sampleSetId: string){
-    this.samplePlaylist.id = 0;
+  //method to get all the samplePlaylists for the userSampleSet
+  GetSamplesFromPlaylist(selectedSet: SampleSets){
+    this.samplePlaylistService.GetSamplePlaylistById(selectedSet.id).subscribe(
+    (result)=>
+    {
+      result.forEach((x: SamplePlaylist) => {
+        this.currentPlaylist.push(x);
+      });
+    }
+  )
+  }
+  //method to get all the samples from the playlist
+  GetAllSamplesFromPlaylist(){
+    this.currentPlaylist.forEach((list)=>{
+      this.sampleService.GetSampleByID(list.Id).subscribe((result)=>{
+        result.forEach((element: Sample) => {
+          this.allSamples.push(element);
+        });
+      }
+      )
+    })
+  }
+
+  
+  
+
+  AddSampleToSamplePlaylist(sampleId: number, sampleSetId: number){
+    this.samplePlaylist.Id = 0;
     this.samplePlaylist.sampleId = sampleId;
     this.samplePlaylist.sampleSetId = sampleSetId;
     this.samplePlaylistService.AddSamplePlaylist(this.samplePlaylist);

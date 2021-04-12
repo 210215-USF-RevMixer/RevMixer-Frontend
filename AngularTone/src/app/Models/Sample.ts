@@ -5,7 +5,6 @@ import { Track } from "./Track";
 export interface Sample
 {
     id: number,
-    userId: number,
     sampleName: string,
     sampleLink: string,
     isPrivate: boolean,
