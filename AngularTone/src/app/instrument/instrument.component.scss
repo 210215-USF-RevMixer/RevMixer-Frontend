@@ -51,8 +51,12 @@ body {
   margin-top: 20px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-content: center;
   justify-content: center;
+}
+
+.block-container{
+  position: relative;
 }
 
 .options{
@@ -232,6 +236,34 @@ body {
   align-items: flex-start;
 }
 
+.my-dropdowns{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.my-colors{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.color-option{
+  height: 3em;
+  width: 3em;
+  opacity: 80%;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.color-option:hover{
+  opacity: 100%;
+}
+
 .topbar div{
   padding-left: 20px;
   padding-right: 20px;
@@ -303,7 +335,7 @@ body {
   }
 
   .play-feature{
-    width: 75em;
+    width: 76em;
     transform: translateX(-35px);
   }
   

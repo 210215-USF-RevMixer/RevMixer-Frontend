@@ -22,4 +22,15 @@ describe('UploadComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
+  it('should update the message if file upload is successful', () => {
+    let testFile: any;
+    
+    expect(component.message).toBe('');
+
+    component.uploadFile(testFile);
+
+    expect(component.message).toBe('Upload success.');
+  });
 });

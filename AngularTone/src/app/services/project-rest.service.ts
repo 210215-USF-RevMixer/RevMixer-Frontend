@@ -62,6 +62,9 @@ export class ProjectRestService {
             userId: 0,
             sampleName: '',
             sampleLink: '',
+            isPrivate:false,
+            isApproved:false,
+            isLocked:false,
             user: {
               id: 0,
               userName: '',
