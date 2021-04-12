@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import { HttpTestingController} from "@angular/common/http/testing";
 import { asyncData } from '../../testHelpers/observables';
 
 import { MusicPlaylist } from '../Models/MusicPlaylist';
 import { MusicPlaylistRestService } from './music-playlist-rest.service';
 import { PlayList } from '../Models/PlayList';
 import { UploadMusic } from '../Models/UploadMusic';
-import { toBase64String } from '@angular/compiler/src/output/source_map';
 
 describe('MusicPlaylistRestService', () => {
   let service: MusicPlaylistRestService;

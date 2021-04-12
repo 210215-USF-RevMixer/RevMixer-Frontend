@@ -1,17 +1,32 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpTestingController } from '@angular/common/http/testing';
+import { asyncData } from '../../testHelpers/observables';
+
 import { SampleSets } from '../Models/SampleSets';
-import {User} from '../Models/User'; 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { User } from '../Models/User';
+import { Sample } from '../Models/Sample';
 import { SampleSetService } from './sample-set.service';
 
 describe('SampleSetService', () => {
   let service: SampleSetService;
+  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy }
+
+  let sampleset: SampleSets = {
+    id: 1,
+    name: "string",
+    userId: 2,
+    isPrivate: true,
+
+    user: {} as User,
+    samples: [{}, {}, {}] as Sample[]
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpTestingController]
     });
-    service = TestBed.inject(SampleSetService);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'delete']);
+    service = new SampleSetService(httpClientSpy as any)
   });
 
   it('should be created', () => {
@@ -47,6 +62,16 @@ describe('SampleSetService', () => {
     service.AddSampleSet(sampleSet).subscribe (result =>{
       expect (result instanceof (Object )). toBeTruthy();
     });
+  });
+
+  let testID = 1;
+  it('should return the proper sample set when given the id', () => {
+    httpClientSpy.get.and.returnValue(asyncData(sampleset));
+    service.GetSampleSet(testID).subscribe(
+      ss => expect(ss).toEqual([sampleset]), fail
+    );
+
+    expect(httpClientSpy.get.calls.count()).toBe(1);
   });
   
 });
