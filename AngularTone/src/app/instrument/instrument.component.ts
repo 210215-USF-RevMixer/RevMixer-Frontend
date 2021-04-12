@@ -66,6 +66,8 @@ export class InstrumentComponent implements OnInit {
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
+  showDistortion: boolean = true
+  showReverb: boolean = false
 
   constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private sampleSetService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
     this.tracks = [
@@ -367,7 +369,7 @@ export class InstrumentComponent implements OnInit {
 
   updateTimePosition() {
     let multiplier = 100
-    if (window.window.innerWidth < 1480) {
+    if (window.window.innerWidth < 1720) {
       multiplier = 76
     }
     const timer = setInterval(() => {
@@ -414,5 +416,19 @@ export class InstrumentComponent implements OnInit {
     event.target.style.borderColor = '#FFFFFF'
     this.tempTarget = event.target
     this.boxColor = color
+  }
+
+  changeEffect(effect : any) {
+    this.showReverb = false
+    this.showDistortion = false
+    switch(effect.value)
+    {
+      case 'distortion':
+        this.showDistortion = true
+        break
+      case 'reverb':
+        this.showReverb = true
+        break
+    }
   }
 }
