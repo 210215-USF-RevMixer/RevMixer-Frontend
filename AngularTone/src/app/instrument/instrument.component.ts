@@ -107,16 +107,20 @@ export class InstrumentComponent implements OnInit {
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              const proxyUrl = "https://cors.bridged.cc/"
-              for (let i = 0; i < foundUser.uploadMusics.length; i++) {
-                let tempSample = {
-                  sampleName: foundUser.uploadMusics[i].name,
-                  sample: new Tone.Sampler({
-                    C3: `${proxyUrl}${environment.AZURE_STORAGE}/${foundUser.uploadMusics[i].musicFilePath}`
-                  }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+              this.setService.GetUserSampleSets(foundUser.userID).subscribe(
+                userSamples => {
+                  const proxyUrl = "https://cors.bridged.cc/"
+                  for (let i = 0; i < userSamples.length; i++) {
+                    let tempSample = {
+                      sampleName: userSamples[i].name,
+                      sample: new Tone.Sampler({
+                        C3: `${proxyUrl}${environment.AZURE_STORAGE}/${userSamples[i].musicFilePath}`
+                      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                    }
+                    this.samples.push(tempSample)
+                  }
                 }
-                this.samples.push(tempSample)
-              }
+              )
             }
           )
     )
@@ -284,15 +288,15 @@ export class InstrumentComponent implements OnInit {
       })
       track2Solo.part.mute = false
     }
-    else{
+    else {
       this.tracks.forEach(track => {
         track.part.mute = true
       })
       track2Solo.part.mute = false
     }
-    if(this.tempSoloedTrack == track2Solo){
+    if (this.tempSoloedTrack == track2Solo) {
       this.tempSoloedTrack = {}
-    }else{
+    } else {
       this.tempSoloedTrack = track2Solo
     }
   }
