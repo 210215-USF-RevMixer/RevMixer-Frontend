@@ -5,8 +5,5 @@ export interface SampleSets{
 
     id: number,
     name: string,
-    userId: number,
-    isPrivate: boolean,
-    user: User,
-    samples: Sample[],
+   
 }
