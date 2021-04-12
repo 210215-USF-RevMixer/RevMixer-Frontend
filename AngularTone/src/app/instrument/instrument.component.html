@@ -26,11 +26,20 @@
       <div *ngIf="tempo"><label class="pr-2">Tempo:</label>
         <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="80"></mat-slider> {{tempo}}
       </div>
-      <div *ngIf="dist"><label class="pr-2">Distortion:</label>
-        <mat-slider (input)="changeDistortionAmount($event)" step="0.001" min="0" max="1" value="0"></mat-slider> {{dist.distortion * 100 | number:'1.0-0'}} %
+      <div>
+        <mat-form-field>
+          <mat-label>Select Effect</mat-label>
+          <mat-select (selectionChange)="changeEffect($event)">
+            <mat-option value="distortion">Distortion</mat-option>
+            <mat-option value="reverb">Reverb</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div *ngIf="reverb"><label class="pr-2">Reverb:</label>
-        <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0.001" max="5" value="0.001"></mat-slider> {{reverb.decay * 20 | number:'1.0-0'}} %
+      <div *ngIf="dist && showDistortion"><label class="pr-2">Distortion:</label>
+        <mat-slider (input)="changeDistortionAmount($event)" step="0.001" min="0" max="1" value="dist.distortion"></mat-slider> {{dist.distortion * 100 | number:'1.0-0'}} %
+      </div>
+      <div *ngIf="reverb && showReverb"><label class="pr-2">Reverb:</label>
+        <mat-slider (input)="changeReverbDecay($event)" step="0.001" min="0.001" max="5" value="reverb.decay"></mat-slider> {{reverb.decay * 20 | number:'1.0-0'}} %
       </div>
     </div>
 
@@ -65,17 +74,12 @@
         <div *ngIf="track.part.mute == true" class="single-block" [ngStyle]="{'background-color': currentNote.color, 'opacity': '40%'}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)">
         </div>
       </div>
-      <div *ngIf="tempSoloedTrack != track" class="options" (click)="soloTrack(track)"><img src="../../assets/images/solo-off.png"
-        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
-      <div *ngIf="tempSoloedTrack == track" class="options" (click)="soloTrack(track)"><img src="../../assets/images/solo-on.png"
-        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
-      <div *ngIf="track.part.mute == true" class="options" (click)="muteTrack(track)"><img src="../../assets/images/mute.png"
-        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
-      <div *ngIf="track.part.mute == false" class="options" (click)="muteTrack(track)"><img src="../../assets/images/unmute.png"
-        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
-      <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png"
-          [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
-      <mat-slider (input)="changeTrackVolume($event, track)" step="1" min="-50" max="0" value="0"></mat-slider>
+      <div *ngIf="tempSoloedTrack != track" class="options" (click)="soloTrack(track)"><img src="../../assets/images/solo-off.png"></div>
+      <div *ngIf="tempSoloedTrack == track" class="options" (click)="soloTrack(track)"><img src="../../assets/images/solo-on.png"></div>
+      <div *ngIf="track.part.mute == true" class="options" (click)="muteTrack(track)"><img src="../../assets/images/mute.png"></div>
+      <div *ngIf="track.part.mute == false" class="options" (click)="muteTrack(track)"><img src="../../assets/images/unmute.png"></div>
+      <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png"></div>
+      <mat-slider class="track-slider options" (input)="changeTrackVolume($event, track)" step="1" min="-50" max="0" value="0"></mat-slider>
     </div>
   </div>
 
