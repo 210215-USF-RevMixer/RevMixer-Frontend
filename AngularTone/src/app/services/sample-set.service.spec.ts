@@ -73,5 +73,14 @@ describe('SampleSetService', () => {
 
     expect(httpClientSpy.get.calls.count()).toBe(1);
   });
-  
+
+  let testUserID = 1;
+  it('should return the proper sample-set when given the UserID', () => {
+    httpClientSpy.get.and.returnValue(asyncData(sampleset));
+    service.GetSampleSet(testUserID).subscribe(
+      ss => expect(ss).toEqual([sampleset]), fail
+    );
+
+    expect(httpClientSpy.get.calls.count()).toBe(1);
+  });
 });
