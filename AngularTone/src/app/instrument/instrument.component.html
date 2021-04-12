@@ -2,15 +2,15 @@
   <div class="topbar" [ngStyle]="{'margin-top': marginForTopBar}">
 
     <div class="my-colors">
-      <div class="color-option" style="background-color:red;" (click)="changeColor('red', $event)"></div>
-      <div class="color-option" style="background-color:orange;" (click)="changeColor('orange', $event)"></div>
-      <div class="color-option" style="background-color:yellow;" (click)="changeColor('yellow', $event)"></div>
-      <div class="color-option" style="background-color:green;" (click)="changeColor('green', $event)"></div>
-      <div class="color-option" style="background-color:blue;" (click)="changeColor('blue', $event)"></div>
-      <div class="color-option" style="background-color:purple;" (click)="changeColor('purple', $event)"></div>
-      <div class="color-option" style="background-color:pink;" (click)="changeColor('pink', $event)"></div>
-      <div class="color-option" style="background-color:black;" (click)="changeColor('black', $event)"></div>
-      <div class="color-option" style="background-color:white;" (click)="changeColor('white', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'red'}" (click)="changeColor('red', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'orange'}" (click)="changeColor('orange', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'yellow'}" (click)="changeColor('yellow', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'green'}" (click)="changeColor('green', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'blue'}" (click)="changeColor('blue', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'purple'}" (click)="changeColor('purple', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'pink'}" (click)="changeColor('pink', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'black'}" (click)="changeColor('black', $event)"></div>
+      <div class="color-option" [ngStyle]="{'background-color': 'white'}" (click)="changeColor('white', $event)"></div>
     </div>
 
     <div class="my-buttons">
@@ -60,21 +60,21 @@
     <div class="play-feature"><div class="play-position" [ngStyle]="{'transform': 'translateX(' + currentTimePosition + 'em) translateY(-3.5px)'}"></div></div>
     <div *ngFor="let track of tracks;" class="pad" (mousedown)="startTracking()" (mouseup)="stopTracking()" (mouseleave)="stopTracking()">
       <div *ngFor="let currentNote of track.note;" class="block-container">
-        <div *ngIf="track.part.mute == false" class="single-block" [ngStyle]="{'background-color': currentNote.color}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)" style="opacity: 100%;">
+        <div *ngIf="track.part.mute == false" class="single-block" [ngStyle]="{'background-color': currentNote.color, 'opacity': '100%'}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)">
         </div>
-        <div *ngIf="track.part.mute == true" class="single-block" [ngStyle]="{'background-color': currentNote.color}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)" style="opacity: 40%;">
+        <div *ngIf="track.part.mute == true" class="single-block" [ngStyle]="{'background-color': currentNote.color, 'opacity': '40%'}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)">
         </div>
       </div>
       <div *ngIf="tempSoloedTrack != track" class="options" (click)="soloTrack(track)"><img src="../../assets/images/solo-off.png"
-        style="width: 20px; opacity: 75%;"></div>
+        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
       <div *ngIf="tempSoloedTrack == track" class="options" (click)="soloTrack(track)"><img src="../../assets/images/solo-on.png"
-        style="width: 20px; opacity: 75%;"></div>
+        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
       <div *ngIf="track.part.mute == true" class="options" (click)="muteTrack(track)"><img src="../../assets/images/mute.png"
-        style="width: 20px; opacity: 75%;"></div>
+        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
       <div *ngIf="track.part.mute == false" class="options" (click)="muteTrack(track)"><img src="../../assets/images/unmute.png"
-        style="width: 20px; opacity: 75%;"></div>
+        [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
       <div class="options" (click)="deleteTrack(track)"><img src="../../assets/images/tiny-trash-can.png"
-          style="width: 20px; opacity: 75%;"></div>
+          [ngStyle]="{'width': '20px', 'opacity': '75%'}"></div>
     </div>
   </div>
 
