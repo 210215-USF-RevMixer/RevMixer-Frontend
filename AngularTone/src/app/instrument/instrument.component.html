@@ -1,6 +1,18 @@
 <div (window:resize)="onResize()">
   <div class="topbar" [ngStyle]="{'margin-top': marginForTopBar}">
 
+    <div class="my-colors">
+      <div class="color-option" style="background-color:red;" (click)="changeColor('red', $event)"></div>
+      <div class="color-option" style="background-color:orange;" (click)="changeColor('orange', $event)"></div>
+      <div class="color-option" style="background-color:yellow;" (click)="changeColor('yellow', $event)"></div>
+      <div class="color-option" style="background-color:green;" (click)="changeColor('green', $event)"></div>
+      <div class="color-option" style="background-color:blue;" (click)="changeColor('blue', $event)"></div>
+      <div class="color-option" style="background-color:purple;" (click)="changeColor('purple', $event)"></div>
+      <div class="color-option" style="background-color:pink;" (click)="changeColor('pink', $event)"></div>
+      <div class="color-option" style="background-color:black;" (click)="changeColor('black', $event)"></div>
+      <div class="color-option" style="background-color:white;" (click)="changeColor('white', $event)"></div>
+    </div>
+
     <div class="my-buttons">
       <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">Play/Stop</button>
       <button class="playButton" mat-stroked-button color="primary" (click)="savePattern();">Save Pattern</button>
@@ -22,8 +34,8 @@
       </div>
     </div>
 
-    <div>
-      <mat-form-field class="pr-4">
+    <div class="my-dropdowns">
+      <mat-form-field class="mb-4">
         <mat-label>Load Preset Pattern</mat-label>
         <mat-select>
           <mat-option *ngFor="let presetPattern of presetPatterns" (click)="loadPattern(presetPattern)">
@@ -47,7 +59,7 @@
   <div class="soundboard-container">
     <div class="play-feature"><div class="play-position" [ngStyle]="{'transform': 'translateX(' + currentTimePosition + 'em) translateY(-3.5px)'}"></div></div>
     <div *ngFor="let track of tracks;" class="pad" (mousedown)="startTracking()" (mouseup)="stopTracking()" (mouseleave)="stopTracking()">
-      <div *ngFor="let currentNote of track.note;">
+      <div *ngFor="let currentNote of track.note;" class="block-container">
         <div class="single-block" [ngStyle]="{'background-color': currentNote.color}" (click)="changeState(currentNote, track)" (mouseover)="getTrackedPosition($event, currentNote, track)">
         </div>
       </div>
@@ -77,7 +89,7 @@
   <div class="pop-out">
     <h1 class="p-3">Click a sample to add it to your track</h1>
     <ul class="sample-list">
-      <li *ngFor="let sample of samples" class="sample-item" (click)="addTrack(sample.sample)"
+      <li *ngFor="let sample of samples" class="sample-item" (click)="addTrack(sample)"
         (mouseenter)="playSound(sample)">{{sample.sampleName}}</li>
     </ul>
   </div>
