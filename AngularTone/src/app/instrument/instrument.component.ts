@@ -18,7 +18,6 @@
 //-Timer that shows how long you've been recording for
 //-change note of drum samples, they sound cool repitched
 
-import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import * as Tone from 'tone';
@@ -26,6 +25,7 @@ import { User } from '../Models/User';
 import { SampleSetService } from '../services/sample-set.service'
 import { UserRestService } from '../services/user-rest.service';
 import { environment } from 'src/environments/environment';
+import { SampleService } from '../services/sample.service';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -66,21 +66,7 @@ export class InstrumentComponent implements OnInit {
   recorder = new Tone.Recorder()
   audio: any
 
-  userBackend: User
-
-  constructor(private setService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
-    this.userBackend =
-    {
-      userName: '',
-      id: 0,
-      email: '',
-      isAdmin: false,
-      userProjects: [],
-      sample: [],
-      comments: [],
-      uploadMusics: [],
-      playlists: []
-    }
+  constructor(private sampleService: SampleService, private sampleSetService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
     this.tracks = [
       {
         sample: {},
@@ -107,17 +93,42 @@ export class InstrumentComponent implements OnInit {
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              this.setService.GetUserSampleSets(foundUser.userID).subscribe(
+              this.sampleSetService.GetUserSampleSets(foundUser.userID).subscribe(
+                userSampleSets => {
+                  for (let i = 0; i < userSampleSets.length; i++) {
+                    this.sampleSetService.GetSampleSet(userSampleSets[i].sampleSetsId).subscribe(
+                      currentSampleSet => {
+                        this.sampleSets.push(currentSampleSet)
+                        // const proxyUrl = "https://cors.bridged.cc/"
+                        // for (let i = 0; i < currentSampleSet.samples.length; i++) {
+                        //   let tempSample = {
+                        //     sampleName: currentSampleSet.samples[i].sampleName,
+                        //     sample: new Tone.Sampler({
+                        //       C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSampleSet.samples[i].sampleLink}`
+                        //     }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                        //   }
+                        //   this.sampleSets.push(currentSampleSet.samples[i].sampleLink)
+                        // }
+                      }
+                    )
+                  }
+                }
+              )
+              this.sampleService.GetSamplesByUserID(foundUser.userID).subscribe(
                 userSamples => {
                   const proxyUrl = "https://cors.bridged.cc/"
                   for (let i = 0; i < userSamples.length; i++) {
-                    let tempSample = {
-                      sampleName: userSamples[i].name,
-                      sample: new Tone.Sampler({
-                        C3: `${proxyUrl}${environment.AZURE_STORAGE}/${userSamples[i].musicFilePath}`
-                      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-                    }
-                    this.samples.push(tempSample)
+                    this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
+                      currentSample => {
+                        let tempSample = {
+                          sampleName: currentSample.sampleName,
+                          sample: new Tone.Sampler({
+                            C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSample.sampleLink}`
+                          }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                        }
+                        this.samples.push(tempSample)
+                      }
+                    )
                   }
                 }
               )
@@ -126,7 +137,9 @@ export class InstrumentComponent implements OnInit {
     )
     //push on the sample sets to array
     // get the arrays from services
-    this.sampleSets.push(this.setService.Get909Set())
+
+    // DELETE WHEN WE ARE ACTUALLY GETTING USER SAMPLES
+    this.sampleSets.push(this.sampleSetService.Get909Set())
 
     //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
 
@@ -208,9 +221,6 @@ export class InstrumentComponent implements OnInit {
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
   changeState(currentNote: any, currentTrack: any) {
-    if (this.isTransportStarted) {
-      this.playStop()
-    }
     if (currentNote.onOff === 0) {
       currentNote.color = this.boxColor
       currentNote.onOff = 1
