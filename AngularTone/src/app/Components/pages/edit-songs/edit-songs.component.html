@@ -1,1 +1,27 @@
-<p>edit-songs works!</p>
+<div class="row h-25">
+    <div class="col-8">
+yes daddy
+    </div>
+</div>
+
+<div class="container transparent">
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Privacy</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let music2edit of music2edits;">
+                <td>
+                    <input type="text" [(ngModel)]="music2edit.name" name="name"
+                    #name="ngModel" class="form-control" placeholder="music2edit.name">
+                </td>
+                <td>{{music2edit.isPrivate}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-secondary">Update info</button>
+</form>
+</div>
+
