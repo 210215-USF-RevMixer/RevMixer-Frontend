@@ -1,3 +1,5 @@
+import { UsersSampleSetsService } from 'src/app/services/users-sample-sets.service';
+import { UsersSampleSets } from './../../../Models/UsersSampleSets';
 import { SampleSetService } from './../../../services/sample-set.service';
 import { SampleSets } from "../../../Models/SampleSets";
 import { Component, OnInit } from '@angular/core';
@@ -43,9 +45,9 @@ export class ProfileComponent implements OnInit {
   allPlayLists: PlayList[] = [];
   userPlayLists: PlayList[] = [];
   allSampleSets: SampleSets[] = [];
-  userSampleSets: SampleSets[] = [];
+  userSampleSets: UsersSampleSets[] = [];
 
-  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService,private sampleService: SampleSetService, private authService: AuthService,
+  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService,private sampleService: SampleSetService, private userSampleSetsService: UsersSampleSetsService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
 
     
@@ -164,9 +166,9 @@ export class ProfileComponent implements OnInit {
   // K- fix with the new userSampleSets
   //update all the sample sets 
   updateSampleSet(foundUser: User, x: any) {
-    this.sampleService.GetAllSampleSets().subscribe(
+    this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
       (result) => {
-        this.allSampleSets = (result);
+        this.userSampleSets = (result);
         // this.updateUserSampleSets(this.allSampleSets, x);
       }
     )

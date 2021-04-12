@@ -70,17 +70,8 @@ export class CreateSampleSetComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.setsService.AddSampleSet(this.newSampleSet);
-    //this.usersSampleSets.
-    
-    // debugger;
-    // this.user.playlists.concat(this.newPlaylist);
-    // this.userService.EditUser(this.user).subscribe(
-    //   () =>{
-    //     alert(`${this.user.email} added playlist ${this.newPlaylist.name}`);
-    //     this.router.navigate(['profile']);
-    //   }
-    // )
+    //this.setsService.AddSampleSet(this.newSampleSet.name,this.user.id);
+   
   }
 
 }
