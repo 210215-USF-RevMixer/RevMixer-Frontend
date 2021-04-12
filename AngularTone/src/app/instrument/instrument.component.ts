@@ -48,6 +48,7 @@ export class InstrumentComponent implements OnInit {
   currentTimePosition: number = 0;
   boxColor: string = 'tomato'
   tempTarget: any
+  tempSoloedTrack: any
 
   //How many steps we have in the sequencer
   blockSize = 32
@@ -100,26 +101,29 @@ export class InstrumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
     this.authService.user$.subscribe(
       authUser =>
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              const proxyUrl = "https://cors.bridged.cc/"
-              for (let i = 0; i < foundUser.uploadMusics.length; i++) {
-                let tempSample = {
-                  sampleName: foundUser.uploadMusics[i].name,
-                  sample: new Tone.Sampler({
-                    C3: `${proxyUrl}${environment.AZURE_STORAGE}/${foundUser.uploadMusics[i].musicFilePath}`
-                  }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+              this.setService.GetUserSampleSets(foundUser.userID).subscribe(
+                userSamples => {
+                  const proxyUrl = "https://cors.bridged.cc/"
+                  for (let i = 0; i < userSamples.length; i++) {
+                    let tempSample = {
+                      sampleName: userSamples[i].name,
+                      sample: new Tone.Sampler({
+                        C3: `${proxyUrl}${environment.AZURE_STORAGE}/${userSamples[i].musicFilePath}`
+                      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                    }
+                    this.samples.push(tempSample)
+                  }
                 }
-                this.samples.push(tempSample)
-              }
+              )
             }
           )
     )
-    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
-
     //push on the sample sets to array
     // get the arrays from services
     this.sampleSets.push(this.setService.Get909Set())
@@ -139,9 +143,9 @@ export class InstrumentComponent implements OnInit {
       track.sample = {
         sampleName: 'BaseKick',
         sample: new Tone.Sampler({
-        C3: '../../assets/808/Kick.wav'
-      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
-    }
+          C3: '../../assets/808/Kick.wav'
+        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }
 
       for (let i = 0; i < this.blockSize; i++) {
         track.part = new Tone.Part(((time) => {
@@ -183,13 +187,13 @@ export class InstrumentComponent implements OnInit {
 
   //From  HTML sliders
   changeVolume(event: any) {
-    if(event.value <= -48) {
+    if (event.value <= -48) {
       Tone.Destination.mute = true;
     } else {
       Tone.Destination.mute = false;
       Tone.Destination.volume.rampTo(event.value, 0.01);
     }
-  } 
+  }
 
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
@@ -263,14 +267,14 @@ export class InstrumentComponent implements OnInit {
       let tempSample = {
         sampleName: sample2Select[i],
         sample: new Tone.Sampler({
-        C3: sample2Select[i]
-      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-    }
+          C3: sample2Select[i]
+        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }
       this.addTrack(tempSample)
     }
   }
   muteTrack(track2Mute: any) {
-    if(track2Mute.part.mute == true) {
+    if (track2Mute.part.mute == true) {
       track2Mute.part.mute = false;
     } else {
       track2Mute.part.mute = true;
@@ -278,21 +282,23 @@ export class InstrumentComponent implements OnInit {
   }
 
   soloTrack(track2Solo: any) {
-    //This is trying to figure out a way to turn off the solo if the track is already solo'd, I think I need an isSolo'd variable
-      // this.tracks.forEach(track => {
-      //   if(((track.part.mute === true) && (track !== track2Solo)) || ((track.part.mute !== true) && (track === track2Solo)) ){
-          
-      //   }
-      //   return;
-      // })
-    
-    this.tracks.forEach(track => {
-      if (track !== track2Solo) {
-        track.part.mute = true;
-      } else { 
-        track.part.mute = false; 
-      }
-    })
+    if (this.tempSoloedTrack == track2Solo) {
+      this.tracks.forEach(track => {
+        track.part.mute = !track.part.mute
+      })
+      track2Solo.part.mute = false
+    }
+    else {
+      this.tracks.forEach(track => {
+        track.part.mute = true
+      })
+      track2Solo.part.mute = false
+    }
+    if (this.tempSoloedTrack == track2Solo) {
+      this.tempSoloedTrack = {}
+    } else {
+      this.tempSoloedTrack = track2Solo
+    }
   }
 
   deleteTrack(track2Delete: any) {
@@ -381,9 +387,8 @@ export class InstrumentComponent implements OnInit {
     this.mouseIsClicked = false
   }
 
-  changeColor(color: string, event: any)
-  {
-    if(this.tempTarget){
+  changeColor(color: string, event: any) {
+    if (this.tempTarget) {
       this.tempTarget.style.borderColor = '#000000'
     }
     event.target.style.borderColor = '#FFFFFF'
