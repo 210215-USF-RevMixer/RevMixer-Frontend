@@ -25,17 +25,4 @@ describe('AuthButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should show as Log out or Log in at the appropriate time', () => {
-    const btn = fixture.debugElement.query(By.css('.btn')).nativeElement;
-
-    if(auth.isAuthenticated$)
-    {
-      expect(btn.innerHTML).toContain('Log out');
-    }
-    else
-    {
-      expect(btn.innerHTML).toContain('Log in')
-    }
-  });
 });
