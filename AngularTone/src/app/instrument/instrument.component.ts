@@ -36,8 +36,8 @@ export class InstrumentComponent implements OnInit {
   mouseIsClicked: boolean = false
   marginForTopBar: string = '56px'
   popOutDisplay: string = 'none'
-  tracks: { sample: any, part: any, note: any[] }[] = []
-  track2Add: { sample: any, part: any, note: any[] }
+  tracks: { sample: any, part: any, note: any[], lastSoloed: boolean}[] = []
+  track2Add: { sample: any, part: any, note: any[], lastSoloed: boolean}
 
   parts: any[] = []
   isTransportStarted: boolean = false
@@ -84,13 +84,15 @@ export class InstrumentComponent implements OnInit {
       {
         sample: {},
         part: {},
-        note: []
+        note: [],
+        lastSoloed: false
       }
     ]
     this.track2Add = {
       sample: {},
       part: {},
-      note: []
+      note: [],
+      lastSoloed: false
     }
     this.isTransportStarted = false
     //Add service to get all available presets from DB to populate
@@ -278,21 +280,34 @@ export class InstrumentComponent implements OnInit {
   }
 
   soloTrack(track2Solo: any) {
-    //This is trying to figure out a way to turn off the solo if the track is already solo'd, I think I need an isSolo'd variable
-      // this.tracks.forEach(track => {
-      //   if(((track.part.mute === true) && (track !== track2Solo)) || ((track.part.mute !== true) && (track === track2Solo)) ){
-          
-      //   }
-      //   return;
-      // })
-    
-    this.tracks.forEach(track => {
-      if (track !== track2Solo) {
-        track.part.mute = true;
-      } else { 
-        track.part.mute = false; 
-      }
-    })
+        
+        this.tracks.forEach(track => {
+          if (track === track2Solo && track.lastSoloed == true) {
+            this.tracks.forEach(track => {
+              if (track === track2Solo) {
+              track.part.mute = false;
+              track.lastSoloed = false;
+              track2Solo = null;
+            } else {
+              track.part.mute = false;
+            }
+            })
+          }
+         if (track === track2Solo && track.lastSoloed == false) {
+            this.tracks.forEach(track => {
+              if (track === track2Solo) {
+              track.part.mute = false;
+              track.lastSoloed = true;
+              track2Solo = null;
+            } else { 
+              track.part.mute = true; 
+              track.lastSoloed = false;
+            }
+            })
+          }
+        })
+        
+        
   }
 
   deleteTrack(track2Delete: any) {
@@ -324,7 +339,7 @@ export class InstrumentComponent implements OnInit {
     }
     this.tracks.push(this.track2Add)
 
-    this.track2Add = { sample: {}, part: {}, note: [] }
+    this.track2Add = { sample: {}, part: {}, note: [], lastSoloed: false }
   }
 
   playSound(sample2Add: any) {
