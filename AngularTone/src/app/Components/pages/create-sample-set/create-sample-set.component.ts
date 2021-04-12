@@ -1,3 +1,4 @@
+import { UsersSampleSets } from './../../../Models/UsersSampleSets';
 import { SampleSetService } from './../../../services/sample-set.service';
 import { ProfileComponent } from './../profile/profile.component';
 import { SampleSets } from '../../../Models/SampleSets';
@@ -6,6 +7,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Models/User';
+import { UsersSampleSetsService } from 'src/app/services/users-sample-sets.service';
 
 @Component({
   selector: 'app-create-sample-set',
@@ -16,8 +18,9 @@ export class CreateSampleSetComponent implements OnInit {
   user: User;
   authUser: any;
   newSampleSet: SampleSets;
+  newUsersSampleSet: UsersSampleSets;
   userEmail: string = '';
-  constructor(private userService: UserRestService, private authService: AuthService, private router: Router,private setsService :SampleSetService) { 
+  constructor(private usersSampleSets: UsersSampleSetsService,private userService: UserRestService, private authService: AuthService, private router: Router,private setsService :SampleSetService) { 
     this.user = 
     {
       userName: '',
@@ -32,22 +35,12 @@ export class CreateSampleSetComponent implements OnInit {
     };
     this.newSampleSet={
       id: 0,
-        userId: 0, 
-        isPrivate:false,
-        name:'',
-        user:
-        {
-          id: 0,
-          userName: '',
-          email: '',
-          isAdmin: false,
-          userProjects: [],
-          sample: [],
-          comments: [],
-          uploadMusics: [],
-          playlists: []
-        },
-        samples:[]
+      name:''
+    }
+    this.newUsersSampleSet ={
+      Id: 0,
+      userId:0,
+      sampleSetsId : 0
     }
   }
 
@@ -64,25 +57,22 @@ export class CreateSampleSetComponent implements OnInit {
         foundUser =>
         {
           let x = foundUser.id;
-          this.updateUser(foundUser, x);
+          this.updateUser(foundUser);
         }
       )
     )
   }
-    updateUser(foundUser: User, x: any): void {
+    updateUser(foundUser: User): void {
     this.user = foundUser;
     this.userEmail = foundUser.email;
-    this.newSampleSet.userId = x;
-    this.newSampleSet.user = foundUser;
+    this.newUsersSampleSet.userId = foundUser.id;
+    
   }
 
   onSubmit(): void {
-    this.setsService.AddSampleSet(this.newSampleSet).subscribe(
-      (sampleSet) => {
-        alert(`${sampleSet.name} added to your Sample Set!`);
-        this.router.navigate(['profile']);
-      }
-    )
+    this.setsService.AddSampleSet(this.newSampleSet);
+    //this.usersSampleSets.
+    
     // debugger;
     // this.user.playlists.concat(this.newPlaylist);
     // this.userService.EditUser(this.user).subscribe(
