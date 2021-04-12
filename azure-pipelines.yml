@@ -45,17 +45,8 @@ steps:
     workingDir: 'AngularTone'
     customCommand: 'run build'
 
-# - task: Npm@1
-#   displayName: 'Test Angular'
-#   inputs:
-#     command: custom
-#     customCommand: run test -- --watch=false --code-coverage
-#     workingDir: 'AngularTone'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'XUnit'
-    testResultsFiles: '**/TEST-*.xml'
+- script: npm test --browsers ChromeHeadless --no-watch --code-coverage
+  displayName: ng test
 
 - task: SonarCloudAnalyze@1
 
