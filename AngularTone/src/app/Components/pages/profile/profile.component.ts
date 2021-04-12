@@ -160,27 +160,29 @@ export class ProfileComponent implements OnInit {
       }
     )
   }
+
+  // K- fix with the new userSampleSets
   //update all the sample sets 
   updateSampleSet(foundUser: User, x: any) {
     this.sampleService.GetAllSampleSets().subscribe(
       (result) => {
         this.allSampleSets = (result);
-        this.updateUserSampleSets(this.allSampleSets, x);
+        // this.updateUserSampleSets(this.allSampleSets, x);
       }
     )
   }
 
-  updateUserSampleSets(allSampleSets: SampleSets[], x: any) {
-    this.allSampleSets.forEach(set => 
-      {
-        if(set.userId == x)
-        {
-          this.userSampleSets.push(set);
-        }
-      })
-      console.log(this.userSampleSets);
-    this.router.navigate(['profile']);
-  }
+  // updateUserSampleSets(allSampleSets: SampleSets[], x: any) {
+  //   this.allSampleSets.forEach(set => 
+  //     {
+  //       if(set.userId == x)
+  //       {
+  //         this.userSampleSets.push(set);
+  //       }
+  //     })
+  //     console.log(this.userSampleSets);
+  //   this.router.navigate(['profile']);
+  // }
   //Update user playlist
   updateUserPlaylist(allPlayLists: PlayList[], x: any) {
     this.allPlayLists.forEach(playlist => 
@@ -221,6 +223,9 @@ export class ProfileComponent implements OnInit {
   onNewPlayList() {
     this.router.navigate(['newPlayList']);
   }
+  onNewSampleSet() {
+    this.router.navigate(['newSampleSet']);
+  }
   //Get the details of the selected playlist
   GetPlaylist(id: number) {
     console.log(this.userPlayLists);
@@ -228,7 +233,7 @@ export class ProfileComponent implements OnInit {
   }
   GetSampleSet(id: number){
     console.log(this.userSampleSets);
-    this.router.navigate(['viewSamples'],{queryParams: {id: id} });
+    this.router.navigate(['viewSampleSets'],{queryParams: {id: id} });
   }
   EditSongs(id: number){
     console.log(this.userMusic)

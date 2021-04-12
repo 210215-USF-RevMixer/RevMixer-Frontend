@@ -19,22 +19,7 @@ export class SampleSetsComponent implements OnInit {
     private route: Router) { 
       this.selectedSet = {
         id: 0,
-        userId: 0, 
-        isPrivate:false,
-        name:'',
-        user:
-        {
-          id: 0,
-          userName: '',
-          email: '',
-          isAdmin: false,
-          userProjects: [],
-          sample: [],
-          comments: [],
-          uploadMusics: [],
-          playlists: []
-        },
-        samples:[]
+        name: ''
       }
     }
 

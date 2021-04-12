@@ -25,6 +25,8 @@ import { User } from '../Models/User';
 import { SampleSetService } from '../services/sample-set.service'
 import { UserRestService } from '../services/user-rest.service';
 import { environment } from 'src/environments/environment';
+import { SampleService } from '../services/sample.service';
+import { UsersSampleService } from '../services/users-sample.service';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -38,7 +40,6 @@ export class InstrumentComponent implements OnInit {
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
 
-  buffers: any[] = []
   parts: any[] = []
   isTransportStarted: boolean = false
   presetPatterns: any[]
@@ -48,6 +49,7 @@ export class InstrumentComponent implements OnInit {
   currentTimePosition: number = 0;
   boxColor: string = 'tomato'
   tempTarget: any
+  tempSoloedTrack: any
 
   //How many steps we have in the sequencer
   blockSize = 32
@@ -65,21 +67,7 @@ export class InstrumentComponent implements OnInit {
   recorder = new Tone.Recorder()
   audio: any
 
-  userBackend: User
-
-  constructor(private setService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
-    this.userBackend =
-    {
-      userName: '',
-      id: 0,
-      email: '',
-      isAdmin: false,
-      userProjects: [],
-      sample: [],
-      comments: [],
-      uploadMusics: [],
-      playlists: []
-    }
+  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private sampleSetService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
     this.tracks = [
       {
         sample: {},
@@ -100,29 +88,59 @@ export class InstrumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
     this.authService.user$.subscribe(
       authUser =>
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              const proxyUrl = "https://cors.bridged.cc/"
-              for (let i = 0; i < foundUser.uploadMusics.length; i++) {
-                let tempSample = {
-                  sampleName: foundUser.uploadMusics[i].name,
-                  sample: new Tone.Sampler({
-                    C3: `${proxyUrl}${environment.AZURE_STORAGE}/${foundUser.uploadMusics[i].musicFilePath}`
-                  }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+              this.sampleSetService.GetUserSampleSets(foundUser.userID).subscribe(
+                userSampleSets => {
+                  for (let i = 0; i < userSampleSets.length; i++) {
+                    this.sampleSetService.GetSampleSet(userSampleSets[i].sampleSetsId).subscribe(
+                      currentSampleSet => {
+                        this.sampleSets.push(currentSampleSet)
+                        // const proxyUrl = "https://cors.bridged.cc/"
+                        // for (let i = 0; i < currentSampleSet.samples.length; i++) {
+                        //   let tempSample = {
+                        //     sampleName: currentSampleSet.samples[i].sampleName,
+                        //     sample: new Tone.Sampler({
+                        //       C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSampleSet.samples[i].sampleLink}`
+                        //     }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                        //   }
+                        //   this.sampleSets.push(currentSampleSet.samples[i].sampleLink)
+                        // }
+                      }
+                    )
+                  }
                 }
-                this.samples.push(tempSample)
-              }
+              )
+              // this.usersSampleService.GetSamplesByUserID(foundUser.userID).subscribe(
+              //   userSamples => {
+              //     const proxyUrl = "https://cors.bridged.cc/"
+              //     for (let i = 0; i < userSamples.length; i++) {
+              //       this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
+              //         currentSample => {
+              //           let tempSample = {
+              //             sampleName: currentSample.sampleName,
+              //             sample: new Tone.Sampler({
+              //               C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSample.sampleLink}`
+              //             }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+              //           }
+              //           this.samples.push(tempSample)
+              //         }
+              //       )
+              //     }
+              //   }
+              // )
             }
           )
     )
-    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
-
     //push on the sample sets to array
     // get the arrays from services
-    this.sampleSets.push(this.setService.Get909Set())
+
+    // DELETE WHEN WE ARE ACTUALLY GETTING USER SAMPLES
+    this.sampleSets.push(this.sampleSetService.Get909Set())
 
     //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
 
@@ -139,9 +157,9 @@ export class InstrumentComponent implements OnInit {
       track.sample = {
         sampleName: 'BaseKick',
         sample: new Tone.Sampler({
-        C3: '../../assets/808/Kick.wav'
-      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
-    }
+          C3: '../../assets/808/Kick.wav'
+        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }
 
       for (let i = 0; i < this.blockSize; i++) {
         track.part = new Tone.Part(((time) => {
@@ -183,13 +201,21 @@ export class InstrumentComponent implements OnInit {
 
   //From  HTML sliders
   changeVolume(event: any) {
-    if(event.value <= -43) {
+    if (event.value <= -48) {
       Tone.Destination.mute = true;
     } else {
       Tone.Destination.mute = false;
       Tone.Destination.volume.rampTo(event.value, 0.01);
     }
-  } 
+  }
+
+  changeTrackVolume(event: any, track: any) {
+    if(event.value <= -48) {
+      track.sample.sample.volume.value = -100
+    } else {
+      track.sample.sample.volume.value = event.value
+    }
+  }
 
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
@@ -204,9 +230,6 @@ export class InstrumentComponent implements OnInit {
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
   changeState(currentNote: any, currentTrack: any) {
-    if (this.isTransportStarted) {
-      this.playStop()
-    }
     if (currentNote.onOff === 0) {
       currentNote.color = this.boxColor
       currentNote.onOff = 1
@@ -263,10 +286,37 @@ export class InstrumentComponent implements OnInit {
       let tempSample = {
         sampleName: sample2Select[i],
         sample: new Tone.Sampler({
-        C3: sample2Select[i]
-      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-    }
+          C3: sample2Select[i]
+        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }
       this.addTrack(tempSample)
+    }
+  }
+  muteTrack(track2Mute: any) {
+    if (track2Mute.part.mute == true) {
+      track2Mute.part.mute = false;
+    } else {
+      track2Mute.part.mute = true;
+    }
+  }
+
+  soloTrack(track2Solo: any) {
+    if (this.tempSoloedTrack == track2Solo) {
+      this.tracks.forEach(track => {
+        track.part.mute = !track.part.mute
+      })
+      track2Solo.part.mute = false
+    }
+    else {
+      this.tracks.forEach(track => {
+        track.part.mute = true
+      })
+      track2Solo.part.mute = false
+    }
+    if (this.tempSoloedTrack == track2Solo) {
+      this.tempSoloedTrack = {}
+    } else {
+      this.tempSoloedTrack = track2Solo
     }
   }
 
@@ -357,9 +407,8 @@ export class InstrumentComponent implements OnInit {
     this.mouseIsClicked = false
   }
 
-  changeColor(color: string, event: any)
-  {
-    if(this.tempTarget){
+  changeColor(color: string, event: any) {
+    if (this.tempTarget) {
       this.tempTarget.style.borderColor = '#000000'
     }
     event.target.style.borderColor = '#FFFFFF'
