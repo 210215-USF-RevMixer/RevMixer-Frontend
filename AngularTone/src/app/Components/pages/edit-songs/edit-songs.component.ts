@@ -58,7 +58,6 @@ export class EditSongsComponent implements OnInit {
       uploadMusics: [],
       playlists: []
     }
-
     }
 
     ngOnInit(): void {
@@ -68,24 +67,24 @@ export class EditSongsComponent implements OnInit {
       )
       this.authService.user$.subscribe(
         authUser =>
-  
         this.userService.GetUserByEmail(authUser.email).subscribe
-        (
-          foundUser =>
+        (foundUser =>
           {
             this.user = foundUser;
-  
             this.musicService.GetSongsByUserId(foundUser.id).subscribe
-            (
-              foundsongs =>
+            (foundsongs =>
               {
                 this.music2edits = foundsongs;
                 console.log(this.music2edits)
-              }
-            )
-          }
-        )
+              })}))}
+  onSubmit(): void{
+    console.log(this.music2edits);
+    this.music2edits.forEach(music2edit=>
+      this.musicService.EditSongById(music2edit.id).subscribe(
+        ()=>{alert('Music updated!'),
+      this.router.navigate(['profile'])},
+      ()=>{alert('Something went wrong :('); console.log(this.music2edits)}
       )
-  }
-  onSubmit(): void{}
+      )
+    };
 }

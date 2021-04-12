@@ -15,9 +15,16 @@ yes daddy
             <tr *ngFor="let music2edit of music2edits;">
                 <td>
                     <input type="text" [(ngModel)]="music2edit.name" name="name"
-                    #name="ngModel" class="form-control" placeholder="music2edit.name">
+                    #name="ngModel" class="form-control" value="music2edit.name">
+                    <!-- {{music2edit.name}} -->
                 </td>
-                <td>{{music2edit.isPrivate}}</td>
+                <td>
+                    <label class="switch">
+                    <input type="checkbox" [(ngModel)]="music2edit.isPrivate"
+                    name="isPrivate" #name="ngModel" value="music2edit.isPrivate">
+                    <span class="slider round"></span>
+                    </label>
+                </td>
             </tr>
         </tbody>
     </table>
