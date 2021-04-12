@@ -26,6 +26,7 @@ import { SampleSetService } from '../services/sample-set.service'
 import { UserRestService } from '../services/user-rest.service';
 import { environment } from 'src/environments/environment';
 import { SampleService } from '../services/sample.service';
+import { UsersSampleService } from '../services/users-sample.service';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -66,7 +67,7 @@ export class InstrumentComponent implements OnInit {
   recorder = new Tone.Recorder()
   audio: any
 
-  constructor(private sampleService: SampleService, private sampleSetService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
+  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private sampleSetService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
     this.tracks = [
       {
         sample: {},
@@ -114,24 +115,24 @@ export class InstrumentComponent implements OnInit {
                   }
                 }
               )
-              this.sampleService.GetSamplesByUserID(foundUser.userID).subscribe(
-                userSamples => {
-                  const proxyUrl = "https://cors.bridged.cc/"
-                  for (let i = 0; i < userSamples.length; i++) {
-                    this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
-                      currentSample => {
-                        let tempSample = {
-                          sampleName: currentSample.sampleName,
-                          sample: new Tone.Sampler({
-                            C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSample.sampleLink}`
-                          }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-                        }
-                        this.samples.push(tempSample)
-                      }
-                    )
-                  }
-                }
-              )
+              // this.usersSampleService.GetSamplesByUserID(foundUser.userID).subscribe(
+              //   userSamples => {
+              //     const proxyUrl = "https://cors.bridged.cc/"
+              //     for (let i = 0; i < userSamples.length; i++) {
+              //       this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
+              //         currentSample => {
+              //           let tempSample = {
+              //             sampleName: currentSample.sampleName,
+              //             sample: new Tone.Sampler({
+              //               C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSample.sampleLink}`
+              //             }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+              //           }
+              //           this.samples.push(tempSample)
+              //         }
+              //       )
+              //     }
+              //   }
+              // )
             }
           )
     )
