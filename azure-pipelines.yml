@@ -47,6 +47,7 @@ steps:
 
 - script: npm test --browsers ChromeHeadless --no-watch --code-coverage
   displayName: ng test
+  workingDirectory: 'AngularTone'
 
 - task: SonarCloudAnalyze@1
 
