@@ -11,6 +11,7 @@ import { ViewPlaylistComponent } from './Components/pages/view-playlist/view-pla
 import { SampleSetsComponent } from './Components/pages/sample-sets/sample-sets.component';
 import { UploadSampleComponent } from './Components/pages/upload-sample/upload-sample.component';
 import { ViewSampleSetComponent } from './Components/pages/view-sample-set/view-sample-set.component';
+import { EditSongsComponent } from './Components/pages/edit-songs/edit-songs.component';
 
 
 const routes: Routes = [
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'sampleSets', component: SampleSetsComponent, canActivate: [AuthGuard]},
   {path: 'newSampleSet',  component: CreateSampleSetComponent, canActivate: [AuthGuard] },
   {path: 'viewSampleSet', component: ViewSampleSetComponent, canActivate: [AuthGuard]},
+  {path: 'editSongs', component: EditSongsComponent, canActivate: [AuthGuard]},
   {path: '**', component: InstrumentComponent}
 
 

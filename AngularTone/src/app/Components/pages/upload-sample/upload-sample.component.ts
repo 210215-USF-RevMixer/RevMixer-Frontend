@@ -82,7 +82,7 @@ export class UploadSampleComponent implements OnInit {
     }
     else {
     //https://revmixerapi.azurewebsites.net/api/AzureBlob
-    this.http.post("https://revmixerapi.azurewebsites.net/api/AzureBlob", formData, {reportProgress: true, observe: 'events'})
+    this.http.post(environment.AZURE_REST, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){

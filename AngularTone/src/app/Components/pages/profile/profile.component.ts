@@ -233,4 +233,8 @@ export class ProfileComponent implements OnInit {
     console.log(this.userSampleSets);
     //this.router.navigate(['viewSamples],{queryParams: {id: id} })
   }
+  EditSong(){
+    console.log(this.userMusic[0])
+        this.router.navigate(['editSongs']);
+  }
 }

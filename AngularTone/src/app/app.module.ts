@@ -8,7 +8,7 @@ import { InstrumentComponent } from './instrument/instrument.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { FormsModule } from '@angular/forms';
-
+import { environment } from 'src/environments/environment';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -35,9 +35,11 @@ import { SampleSetsComponent } from './Components/pages/sample-sets/sample-sets.
 import { UploadSampleComponent } from './Components/pages/upload-sample/upload-sample.component';
 import { CreateSampleSetComponent } from './Components/pages/create-sample-set/create-sample-set.component';
 import { ViewSampleSetComponent } from './Components/pages/view-sample-set/view-sample-set.component';
+import { EditSongsComponent } from './Components/pages/edit-songs/edit-songs.component';
 
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent, UploadSampleComponent, CreateSampleSetComponent, ViewSampleSetComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent, UploadSampleComponent, CreateSampleSetComponent, ViewSampleSetComponent, EditSongsComponent],
+
 
 
 
@@ -58,8 +60,8 @@ import { ViewSampleSetComponent } from './Components/pages/view-sample-set/view-
     FormsModule,
     AuthModule.forRoot(
       {
-        domain: 'dev-vymugu6z.us.auth0.com',
-        clientId: 'XK3HVI5aAOQMHCNQL5MYtvIgOCg02uKD'
+        domain: environment.DOMAIN,
+        clientId: environment.CLIENT_ID
       }
     )
   ],
