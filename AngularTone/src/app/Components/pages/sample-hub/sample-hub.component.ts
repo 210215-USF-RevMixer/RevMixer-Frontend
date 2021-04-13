@@ -22,10 +22,11 @@ import { environment } from 'src/environments/environment';
 export class SampleHubComponent implements OnInit {
   user: User;
   authUser: any;
-  S3Bucket: string = environment.AZURE_STORAGE;
   allSamples: Sample[] = [];
   usersSampleToAdd: UsersSample;
-  sampleStorage: string = environment.AZURE_STORAGE;
+
+  //NEED TO ADD SAMPLE ENDPOINT, NOT IN README ATM
+  sampleStorage: string = environment.SAMPLE_STORAGE;
   
   constructor(private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {

@@ -22,7 +22,7 @@ responseValue: any;
   }
 
 
-  url : string = environment.USERS_REST;
+  url : string = environment.USERSERVICE_USER;
 
   constructor(private http:HttpClient) {
   }

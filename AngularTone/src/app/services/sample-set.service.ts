@@ -19,7 +19,7 @@ export class SampleSetService {
     )
   }
 
-  url : string = '';
+  url : string = environment.PROJECTSERVICE_SAMPLESETS;
 
   constructor(private http:HttpClient) { }
   

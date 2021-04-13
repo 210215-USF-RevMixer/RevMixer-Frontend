@@ -24,7 +24,7 @@ import { PlaylistServiceService } from 'src/app/services/playlist-service.servic
 export class ProfileComponent implements OnInit {
   user: User;
   authUser: any;
-  S3Bucket: string = environment.AZURE_STORAGE;
+  S3Bucket: string = environment.MUSIC_STORAGE;
 
   userMusic: UploadMusic[];
   audioPlayer: Track;

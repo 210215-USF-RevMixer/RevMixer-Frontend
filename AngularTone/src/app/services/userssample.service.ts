@@ -16,7 +16,8 @@ export class UserssampleService {
       }
     )
   }
-  url : string = environment.SAVED_PROJECTS_REST;
+  //NEEDS TO BE UPDATED
+  url : string = environment.PROJECTSERVICE_USERSSAMPLE;
   constructor(private http:HttpClient) { 
   }
 
