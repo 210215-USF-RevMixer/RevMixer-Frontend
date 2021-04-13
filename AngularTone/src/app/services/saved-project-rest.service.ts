@@ -16,11 +16,11 @@ export class SavedProjectRestService {
     )
   }
   //url
-  url: string = environment.SAVED_PROJECTS_REST;
+  url: string = environment.PROJECTSERVICE_SAVEDPROJECT;
 
   constructor(private http: HttpClient) { }
 
-  //Logic
+  //Logic 
 
   //Add a saved project
   AddSavedProject(savedProject2Add: SavedProject): Observable<SavedProject> {
