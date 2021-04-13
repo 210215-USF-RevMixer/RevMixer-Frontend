@@ -77,12 +77,13 @@ export class SampleHubComponent implements OnInit {
   }
 
 
-  AddSampleToUserSamples(user:User, sample:Sample){
-    
-    this.usersSampleToAdd.sampleId = sample.id;
-    this.usersSampleToAdd.userId = user.id;
+
+  AddSampleToUserSamplesButtonClick(sampleid: number)
+  {
+    this.usersSampleToAdd.sampleId = sampleid;
+    this.usersSampleToAdd.userId = this.user.id;
     this.usersSampleToAdd.isOwner = false;
-    this.usersSampleService.AddUserSample(this.usersSampleToAdd);
+    this.usersSampleService.AddUserSample(this.usersSampleToAdd)
   }
 
   // PopulateAudioPlayer(foundDbMusic: UploadMusic[])
