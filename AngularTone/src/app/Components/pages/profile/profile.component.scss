@@ -3,6 +3,16 @@ tr:hover {
     background: rgb(255, 255, 255, 0.75);
     z-index: 1;
     -webkit-box-shadow: 1px 1px 30px 4px rgba(97, 97, 97, 0.53);
-    box-shadow: 1px 1px 30px 4px rgba(97, 97, 97, 0.53);
-    
+    box-shadow: 1px 1px 30px 4px rgba(97, 97, 97, 0.53); 
   }
+
+.top-of-page {
+  margin-top: 60px;
+}
+
+.row-style{
+  background-color: rgb(233, 233, 233);
+  padding: 10px;
+  border-radius: 20px;
+  margin-top: 2em;
+}

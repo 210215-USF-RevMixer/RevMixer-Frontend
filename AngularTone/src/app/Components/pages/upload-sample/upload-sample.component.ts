@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 export class UploadSampleComponent implements OnInit {
   authUser: any;
   //NEED TO ADD: NO ENDPOINT AVAILABLE YET IN README
-  url: string = "NEED ENPOINT FOR AZUREUPLOAD CONTROLLER";
+  url: string = 'https://cors.bridged.cc/' + environment.SAMPLE_STORAGE;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();
@@ -82,7 +82,7 @@ export class UploadSampleComponent implements OnInit {
       this.message = 'Please enter in a name for your track!';
     }
     else {
-    //https://revmixerapi.azurewebsites.net/api/AzureBlob
+    const proxyUrl = "https://cors.bridged.cc/"
     this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){

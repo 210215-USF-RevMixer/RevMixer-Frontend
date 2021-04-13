@@ -21,12 +21,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import * as Tone from 'tone';
-import { User } from '../Models/User';
-import { SampleSetService } from '../services/sample-set.service'
 import { UserRestService } from '../services/user-rest.service';
 import { environment } from 'src/environments/environment';
 import { SampleService } from '../services/sample.service';
 import { UsersSampleService } from '../services/users-sample.service';
+import { UsersSampleSetsService } from '../services/users-sample-sets.service';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -35,7 +34,7 @@ import { UsersSampleService } from '../services/users-sample.service';
 
 export class InstrumentComponent implements OnInit {
   mouseIsClicked: boolean = false
-  marginForTopBar: string = '56px'
+  paddingForTopBar: string = '56px'
   popOutDisplay: string = 'none'
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
@@ -69,7 +68,7 @@ export class InstrumentComponent implements OnInit {
   showDistortion: boolean = true
   showReverb: boolean = false
 
-  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private sampleSetService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
+  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService) {
     this.tracks = [
       {
         sample: {},
@@ -90,59 +89,58 @@ export class InstrumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
     this.authService.user$.subscribe(
       authUser =>
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              this.sampleSetService.GetUserSampleSets(foundUser.userID).subscribe(
+              this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.userID).subscribe(
                 userSampleSets => {
                   for (let i = 0; i < userSampleSets.length; i++) {
-                    this.sampleSetService.GetSampleSet(userSampleSets[i].sampleSetsId).subscribe(
+                    this.userSampleSetService.GetUsersSampleSetById(userSampleSets[i].sampleSetsId).subscribe(
                       currentSampleSet => {
                         this.sampleSets.push(currentSampleSet)
-                        // const proxyUrl = "https://cors.bridged.cc/"
-                        // for (let i = 0; i < currentSampleSet.samples.length; i++) {
-                        //   let tempSample = {
-                        //     sampleName: currentSampleSet.samples[i].sampleName,
-                        //     sample: new Tone.Sampler({
-                        //       C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSampleSet.samples[i].sampleLink}`
-                        //     }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-                        //   }
-                        //   this.sampleSets.push(currentSampleSet.samples[i].sampleLink)
-                        // }
+                        const proxyUrl = "https://cors.bridged.cc/"
+                        var tempSampleSet = []
+                        for (let i = 0; i < currentSampleSet.samples.length; i++) {
+                          let tempSample = {
+                            sampleName: currentSampleSet.samples[i].sampleName,
+                            sample: new Tone.Sampler({
+                              C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSampleSet.samples[i].sampleLink}`
+                            }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                          }
+                          tempSampleSet.push(tempSample)
+                        }
+                        this.sampleSets.push(tempSampleSet)
                       }
                     )
                   }
                 }
               )
-              // this.usersSampleService.GetSamplesByUserID(foundUser.userID).subscribe(
-              //   userSamples => {
-              //     const proxyUrl = "https://cors.bridged.cc/"
-              //     for (let i = 0; i < userSamples.length; i++) {
-              //       this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
-              //         currentSample => {
-              //           let tempSample = {
-              //             sampleName: currentSample.sampleName,
-              //             sample: new Tone.Sampler({
-              //               C3: `${proxyUrl}${environment.AZURE_STORAGE}/${currentSample.sampleLink}`
-              //             }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-              //           }
-              //           this.samples.push(tempSample)
-              //         }
-              //       )
-              //     }
-              //   }
-              // )
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.userID).subscribe(
+                userSamples => {
+                  const proxyUrl = "https://cors.bridged.cc/"
+                  for (let i = 0; i < userSamples.length; i++) {
+                    this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
+                      currentSample => {
+                        let tempSample = {
+                          sampleName: currentSample.sampleName,
+                          sample: new Tone.Sampler({
+                            C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
+                          }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                        }
+                        this.samples.push(tempSample)
+                      }
+                    )
+                  }
+                }
+              )
             }
           )
     )
+    this.onResize
     //push on the sample sets to array
     // get the arrays from services
-
-    // DELETE WHEN WE ARE ACTUALLY GETTING USER SAMPLES
-    this.sampleSets.push(this.sampleSetService.Get909Set())
 
     //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
 
@@ -384,7 +382,7 @@ export class InstrumentComponent implements OnInit {
   }
 
   onResize() {
-    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
+    this.paddingForTopBar = document.querySelector('nav')?.clientHeight + 'px'
   }
 
   startTracking() {
