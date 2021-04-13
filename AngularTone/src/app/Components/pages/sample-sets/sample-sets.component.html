@@ -1,9 +1,41 @@
-<h1>stufff</h1>
-<p>sample-sets works!</p>
-<p>sample-sets works!</p>
-<p>sample-sets works!</p>
-<p>sample-sets works!</p>
-<p>sample-sets works!</p>
-<p>sample-sets works!</p>
+<div class="row h-24">
+    <div class="col-8">
+        what are you doing here
+    </div>
+</div>
 
-<p>sample-sets works!</p>
+<div class="jumbotron">
+    <h1 class="display-4">Sample Hub</h1>
+    <p class="lead">Browse samples other users have uploaded to RevMixer, and add them to your library for personal use!</p>
+</div>
+
+<div class="container">
+    <h1>All SampleSets</h1>
+</div>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>
+                Sample Set Name
+            </th>
+            <th>
+                Sample Playback
+            </th>
+            <th>
+                Creator
+            </th>
+            <th>
+                Add Sample to Personal Library
+            </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let set of allSampleSets">
+                <td>{{set.name}}</td>
+                <td>ToDo</td>
+                <td>TODO</td>
+                <td><button (click)="AddSampleSetToUserSampleSetsButtonClick(set.id)">Add to Library</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

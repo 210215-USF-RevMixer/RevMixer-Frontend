@@ -70,8 +70,7 @@ export class CreateSampleSetComponent implements OnInit {
   }
 
   onSubmit(): void {
-    //this.setsService.AddSampleSet(this.newSampleSet.name,this.user.id);
-   
+    this.setsService.AddSampleSet(this.newSampleSet.id);
   }
 
 }
