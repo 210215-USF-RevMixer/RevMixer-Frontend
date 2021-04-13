@@ -40,7 +40,11 @@ import { SampleHubComponent } from './Components/pages/sample-hub/sample-hub.com
 import { EditSamplesComponent } from './Components/pages/edit-samples/edit-samples.component';
 import { EditSampleSetsComponent } from './Components/pages/edit-sample-sets/edit-sample-sets.component';
 @NgModule({
-  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, SampleSetsComponent, UploadSampleComponent, CreateSampleSetComponent, ViewSampleSetComponent, EditSongsComponent, EditSamplesComponent, EditSampleSetsComponent, SampleHubComponent],
+  declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, 
+    HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, 
+    UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, 
+    SampleSetsComponent, UploadSampleComponent, CreateSampleSetComponent, ViewSampleSetComponent, EditSongsComponent, 
+    EditSamplesComponent, EditSampleSetsComponent, SampleHubComponent],
 
 
 
