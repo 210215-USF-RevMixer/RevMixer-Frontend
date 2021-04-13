@@ -19,7 +19,7 @@ export class HubRestService {
     )
   }
 
-  url : string = environment.UPLOAD_MUSIC_REST;
+  url : string = environment.MUSICSERVICE_UPLOADMUSIC;
 
   constructor(private http:HttpClient) { }
 

@@ -21,7 +21,7 @@ export class ViewPlaylistComponent implements OnInit {
   allMusicPlaylist: MusicPlaylist[] = [];
   playlistMusicPlaylist: MusicPlaylist[] =[];
   playlistMusic: UploadMusic[] = [];
-  songlink: string = environment.AZURE_STORAGE;
+  songlink: string = environment.MUSIC_STORAGE;
   constructor(private playlistService: PlaylistServiceService, private activeRoute: ActivatedRoute, 
     private uploadMusicService: UploadedMusicRestService, private musicPlaylistService: MusicPlaylistRestService,
     private route: Router) { 

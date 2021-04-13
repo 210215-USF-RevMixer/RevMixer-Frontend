@@ -18,8 +18,8 @@ export class SampleService {
       }
     )
   }
-
-  url : string = environment.SAVED_PROJECTS_REST;
+  //THIS NEEDS TO BE UPDATED
+  url : string = "NO ENV PATH YET";
 
   constructor(private http:HttpClient) { }
   
