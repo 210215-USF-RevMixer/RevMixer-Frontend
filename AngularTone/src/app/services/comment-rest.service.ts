@@ -17,7 +17,7 @@ export class CommentRestService {
     )
   }
 
-  url : string = environment.COMMENT_REST;
+  url : string = environment.MUSICSERVICE_COMMENTS;
 
   constructor(private http:HttpClient) { }
 

@@ -11,7 +11,7 @@ export class UploadedMusicRestService {
 
   responseValue: any;
 
-  url: string = environment.UPLOAD_MUSIC_REST;
+  url: string = environment.MUSICSERVICE_UPLOADMUSIC;
 
 
   httpOptions = {

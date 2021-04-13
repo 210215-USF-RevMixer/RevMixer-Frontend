@@ -12,6 +12,7 @@ import { SampleSetsComponent } from './Components/pages/sample-sets/sample-sets.
 import { UploadSampleComponent } from './Components/pages/upload-sample/upload-sample.component';
 import { ViewSampleSetComponent } from './Components/pages/view-sample-set/view-sample-set.component';
 import { EditSongsComponent } from './Components/pages/edit-songs/edit-songs.component';
+import { SampleHubComponent } from './Components/pages/sample-hub/sample-hub.component';
 
 
 const routes: Routes = [
@@ -26,9 +27,8 @@ const routes: Routes = [
   {path: 'newSampleSet',  component: CreateSampleSetComponent, canActivate: [AuthGuard] },
   {path: 'viewSampleSet', component: ViewSampleSetComponent, canActivate: [AuthGuard]},
   {path: 'editSongs', component: EditSongsComponent, canActivate: [AuthGuard]},
-  {path: '**', component: InstrumentComponent}
-
-
+  {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]},
+  {path: '**', component: InstrumentComponent},
 ];
 
 @NgModule({

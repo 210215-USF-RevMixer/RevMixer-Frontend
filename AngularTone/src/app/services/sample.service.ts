@@ -8,7 +8,7 @@ import * as Tone from 'tone';
   providedIn: 'root'
 })
 export class SampleService {
-  sample909set: string[] = [];
+  //sample909set: string[] = [];
 
 
   httpOptions = {
@@ -18,8 +18,8 @@ export class SampleService {
       }
     )
   }
-
-  url : string = environment.SAVED_PROJECTS_REST;
+  //THIS NEEDS TO BE UPDATED
+  url : string = environment.PROJECTSERVICE_SAMPLE;
 
   constructor(private http:HttpClient) { }
   

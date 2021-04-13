@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 })
 
 export class SamplePlaylistService {
-  url: string = environment.SAVED_PROJECTS_REST;
+  //NEEDS TO BE ADDED
+  url: string = environment.PROJECTSERVICE_SAMPLEPLAYLIST;
   httpOptions = {
     headers: new HttpHeaders(
       {

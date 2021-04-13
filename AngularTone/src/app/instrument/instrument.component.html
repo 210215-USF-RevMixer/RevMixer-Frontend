@@ -1,5 +1,5 @@
 <div (window:resize)="onResize()">
-  <div class="topbar" [ngStyle]="{'margin-top': marginForTopBar}">
+  <div class="topbar" [ngStyle]="{'padding-top': paddingForTopBar}">
 
     <div class="my-colors">
       <div class="color-option" [ngStyle]="{'background-color': 'red'}" (click)="changeColor('red', $event)"></div>
@@ -15,7 +15,7 @@
 
     <div class="my-buttons">
       <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">Play/Stop</button>
-      <button class="playButton" mat-stroked-button color="primary" (click)="savePattern();">Save Pattern</button>
+      <button class="playButton" mat-stroked-button color="primary" (click)="saveProject();">Save Project</button>
       <button class="playButton" mat-stroked-button color="primary" (click)="Clear();">Clear</button>
     </div>
 
@@ -81,10 +81,10 @@
 
     <div class="my-dropdowns">
       <mat-form-field class="mb-4">
-        <mat-label>Load Preset Pattern</mat-label>
+        <mat-label>Load Saved Project</mat-label>
         <mat-select>
-          <mat-option *ngFor="let presetPattern of presetPatterns" (click)="loadPattern(presetPattern)">
-            {{presetPattern.sample}}
+          <mat-option *ngFor="let project of savedProjects" (click)="loadProject(project)">
+            {{project.sample}}
           </mat-option>
         </mat-select>
       </mat-form-field>
