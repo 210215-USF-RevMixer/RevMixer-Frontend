@@ -25,7 +25,7 @@ responseValue: any;
   url : string = environment.USERS_REST;
 
   constructor(private http:HttpClient) {
-   }
+  }
 
 
   GetUser(userid:number ) : Observable<any>
