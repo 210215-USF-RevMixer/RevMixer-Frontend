@@ -25,6 +25,7 @@ export class SampleHubComponent implements OnInit {
   S3Bucket: string = environment.AZURE_STORAGE;
   allSamples: Sample[] = [];
   usersSampleToAdd: UsersSample;
+  sampleStorage: string = environment.AZURE_STORAGE;
   
   constructor(private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {

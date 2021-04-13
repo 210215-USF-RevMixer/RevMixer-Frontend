@@ -18,6 +18,9 @@
                 Sample Name
             </th>
             <th>
+                Sample Playback
+            </th>
+            <th>
                 Creator
             </th>
             <th>
@@ -25,9 +28,9 @@
             </th>
         </thead>
         <tbody>
-            <tr *ngFor="">
-                <td></td>
-                <td></td>
+            <tr *ngFor="let sample of allSamples">
+                <td>{{sample.sampleName}}</td>
+                <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
                 <td><button>Add to Library</button></td>
             </tr>
         </tbody>
