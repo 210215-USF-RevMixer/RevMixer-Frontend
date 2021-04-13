@@ -26,7 +26,7 @@ export class SampleHubComponent implements OnInit {
   usersSampleToAdd: UsersSample;
 
   //NEED TO ADD SAMPLE ENDPOINT, NOT IN README ATM
-  sampleStorage: string = "NEED TO ADD";
+  sampleStorage: string = environment.SAMPLE_STORAGE;
   
   constructor(private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {

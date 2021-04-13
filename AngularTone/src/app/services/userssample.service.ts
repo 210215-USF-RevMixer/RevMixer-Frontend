@@ -17,7 +17,7 @@ export class UserssampleService {
     )
   }
   //NEEDS TO BE UPDATED
-  url : string = "NO ENV ENDPOINT YET";
+  url : string = environment.PROJECTSERVICE_USERSSAMPLE;
   constructor(private http:HttpClient) { 
   }
 

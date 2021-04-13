@@ -14,6 +14,11 @@ export const environment = {
   PROJECTSERVICE_SAVEDPROJECT: 'https://revmix-project-service.azurewebsites.net/api/SavedProject',
   PROJECTSERVICE_TRACK: 'https://revmix-project-service.azurewebsites.net/api/Track',
   PROJECTSERVICE_PATTERN: 'https://revmix-project-service.azurewebsites.net/api/Pattern',
+  PROJECTSERVICE_SAMPLE: 'https://revmix-project-service.azurewebsites.net/api/Sample',
+  PROJECTSERVICE_SAMPLEPLAYLIST: 'https://revmix-project-service.azurewebsites.net/api/SamplePlaylist',
+  PROJECTSERVICE_SAMPLESETS: 'https://revmix-project-service.azurewebsites.net/api/SampleSets',
+  PROJECTSERVICE_USERSSAMPLE: 'https://revmix-project-service.azurewebsites.net/api/UsersSample',
+  PROJECTSERVICE_USERSSAMPLESETS: 'https://revmix-project-service.azurewebsites.net/api/UsersSampleSets',
 
   SAMPLE_STORAGE: 'https://revmixerstorage2.blob.core.windows.net/uploadsample',
   MUSIC_STORAGE: 'https://revmixerstorage2.blob.core.windows.net/uploadmusic',

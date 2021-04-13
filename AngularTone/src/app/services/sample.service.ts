@@ -19,7 +19,7 @@ export class SampleService {
     )
   }
   //THIS NEEDS TO BE UPDATED
-  url : string = "NO ENV PATH YET";
+  url : string = environment.PROJECTSERVICE_SAMPLE;
 
   constructor(private http:HttpClient) { }
   
