@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 export class SamplePlaylistService {
   //NEEDS TO BE ADDED
-  url: string = "NO ENV VARIABLE YET FOR SAMPLEPLAYLISTSERVICE";
+  url: string = environment.PROJECTSERVICE_SAMPLEPLAYLIST;
   httpOptions = {
     headers: new HttpHeaders(
       {
