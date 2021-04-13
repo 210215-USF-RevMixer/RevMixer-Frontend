@@ -1,53 +1,40 @@
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-sm-3 well">
-                <div class="well">
-                    <p>{{user.email}}</p>
-                    <img src="{{authUser.picture}}" class="img-circle" height="65" width="65" alt="Avatar">
-
-                </div>
-                <ul class="list-group">
-                    <li class="list-group-item">Has contributed to {{user.userProjects.length}} Project<span
-                            *ngIf="user.userProjects.length > 1">s</span></li>
-                    <li class="list-group-item">Has Uploaded {{user.uploadMusics.length}} Song<span
-                            *ngIf="user.uploadMusics.length > 1">s</span> </li>
-                    <li class="list-group-item">Has Uploaded {{user.sample.length}} Sample<span
-                            *ngIf="user.sample.length > 1">s</span> </li>
-                    <li class="list-group-item">Has Left {{user.uploadMusics.length}} <span
-                            *ngIf="user.comments.length == 0">Comments</span> <span
-                            *ngIf="user.comments.length > 1">comments</span> <span
-                            *ngIf="user.comments.length == 1">comment</span> on songs/samples </li>
-                </ul>
+<div class="container text-center top-of-page">
+    <div class="row">
+        <div class="col-sm-3 well row-style">
+            <div class="well row-style">
+                <p>{{user.email}}</p>
+                <img src="{{authUser.picture}}" class="img-circle" height="65" width="65" alt="Avatar">
             </div>
-
-
-            <div class="col-sm-7">
-                <div class="well">
-                <h1>Uploaded Music</h1>
             
+            <ul class="list-group">
+                <li class="list-group-item">Has contributed to {{user.userProjects.length}} Project<span
+                        *ngIf="user.userProjects.length > 1">s</span></li>
+                <li class="list-group-item">Has Uploaded {{user.uploadMusics.length}} Song<span
+                        *ngIf="user.uploadMusics.length > 1">s</span> </li>
+                <li class="list-group-item">Has Uploaded {{user.sample.length}} Sample<span
+                        *ngIf="user.sample.length > 1">s</span> </li>
+                <li class="list-group-item">Has Left {{user.uploadMusics.length}} <span
+                        *ngIf="user.comments.length == 0">Comments</span> <span
+                        *ngIf="user.comments.length > 1">comments</span> <span
+                        *ngIf="user.comments.length == 1">comment</span> on songs/samples </li>
+            </ul>
+        </div>
 
+        <div class="col-sm-7">
+            <div class="well row-style">
+                <h1>Uploaded Music</h1>
 
                 <div class="row">
                     <div class="col-sm-5">
-                    <!-- Song stuff -->
+                        <!-- Song stuff -->
                     </div>
                     <div class="col-sm-12">
-                        <div class="well">
+                        <div class="well row-style">
                             <ngx-audio-player [playlist]="audioCollection" [displayTitle]="msaapDisplayTitle"
                                 [autoPlay]="false" muted="muted" [displayPlaylist]="msaapDisplayPlayList"
                                 [pageSizeOptions]="msaapPageSizeOptions"
                                 [displayVolumeControls]="msaapDisplayVolumeControls"
-                                [displayArtist]="msaapDisplayArtist"
-                                [displayDuration]="msaapDisplayDuration"
+                                [displayArtist]="msaapDisplayArtist" [displayDuration]="msaapDisplayDuration"
                                 [expanded]="true" [displayVolumeControls]="msaapDisplayVolumeControls"
                                 [displayRepeatControls]="msaapDisplayRepeatControls"
                                 [disablePositionSlider]="msaapDisablePositionSlider" [expanded]="true">
@@ -59,26 +46,26 @@
                 </div>
             </div>
 
-                <div class="well">
+            <div class="well row-style">
                 <h1>Uploaded Samples</h1>
             </div>
 
-                <div class="row" *ngFor="let uploadedSamples of user.sample">
-                    <div class="col-sm-5">
+            <div class="row" *ngFor="let uploadedSamples of user.sample">
+                <div class="col-sm-5">
 
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="well">
-                            <p>{{uploadedSamples.sampleName}}</p>
-                        </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="well row-style">
+                        <p>{{uploadedSamples.sampleName}}</p>
                     </div>
                 </div>
-                <div class="well">
+            </div>
+            <div class="well row-style">
                 <h1>Playlists</h1>
-            
+
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="well">
+                        <div class="well row-style">
                             <table class="table">
                                 <thead>
                                     <th>
@@ -86,7 +73,7 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let playlist of userPlayLists;" (click)="GetPlaylist(playlist.id)"> 
+                                    <tr *ngFor="let playlist of userPlayLists;" (click)="GetPlaylist(playlist.id)">
                                         <td>{{playlist.name}}</td>
                                     </tr>
                                 </tbody>
@@ -96,11 +83,11 @@
                     </div>
                 </div>
             </div>
-            <div class="well"> 
+            <div class="well row-style">
                 <h1>Sample Sets</h1>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="well">
+                        <div class="well row-style">
                             <table class="table">
                                 <thead>
                                     <th>
@@ -108,7 +95,7 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let set of allSampleSets;" (click)="GetSampleSet(set.id)"> 
+                                    <tr *ngFor="let set of allSampleSets;" (click)="GetSampleSet(set.id)">
                                         <td>{{set.name}}</td>
                                     </tr>
                                 </tbody>
@@ -119,9 +106,8 @@
                 </div>
             </div>
 
-            </div>
-            <div class="col-sm-7 offset-sm-3">
-            </div>
+        </div>
+        <div class="col-sm-7 offset-sm-3">
         </div>
     </div>
-</body>
+</div>
