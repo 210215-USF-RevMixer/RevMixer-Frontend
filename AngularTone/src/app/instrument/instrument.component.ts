@@ -42,7 +42,7 @@ export class InstrumentComponent implements OnInit {
 
   parts: any[] = []
   isTransportStarted: boolean = false
-  presetPatterns: any[]
+  savedProjects: any[]
   sampleSets: any[]
   samples: any[]
   tracks2Add: any[] = []
@@ -58,7 +58,7 @@ export class InstrumentComponent implements OnInit {
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
     "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
 
-  savedPattern: number[][] = []
+  savedProject: number[][] = []
   //effects objects
   dist: any = new Tone.Distortion(0).toDestination()
   reverb: any = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
@@ -84,7 +84,7 @@ export class InstrumentComponent implements OnInit {
     }
     this.isTransportStarted = false
     //Add service to get all available presets from DB to populate
-    this.presetPatterns = []
+    this.savedProjects = []
     this.sampleSets = []
     this.samples = []
   }
@@ -251,7 +251,7 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  //Turns all HTML blocks off/grey, remove all notes from all patterns
+  //Turns all HTML blocks off/grey, remove all notes from all projects
   Clear() {
     this.tracks.forEach(track => {
       track.note.forEach(note => {
@@ -267,25 +267,22 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  savePattern() {
-    this.savedPattern = []
+  saveProject() {
+    this.savedProject = []
     let tempArray = []
     for (let i = 0; i < this.tracks.length; i++) {
       for (let j = 0; j < this.blockSize; j++) {
         tempArray.push(this.tracks[i].note[j].onOff)
       }
-      this.savedPattern.push(tempArray)
+      this.savedProject.push(tempArray)
       tempArray = []
     }
     //send pattern to DB
-    console.log(this.savedPattern)
+    console.log(this.savedProject)
   }
 
-  //Preset patterns are in pattern.const.ts 
-  //Preset select dropdown "Blank" sends -1, which just clears the grid
-  //uniPattern[pattern number selected by HTML][sample instrument track/vertical line position][time/horizontal block position]
-  loadPattern(pattern2Load: any) {
-    this.tracks = pattern2Load
+  loadProject(project2Load: any) {
+    this.tracks = project2Load
   }
 
   //Erases all sampler instruments and recreates them from samples in assets folder
