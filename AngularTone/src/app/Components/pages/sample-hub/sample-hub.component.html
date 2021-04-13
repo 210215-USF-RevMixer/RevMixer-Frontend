@@ -1,18 +1,35 @@
-<div class="container mt-5 mb-5">
-    <div class="d-flex justify-content-center row">
-        <div class="d-flex flex-column col-md-8">
-            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
-                <div class="d-flex flex-column ml-3">
-                    <div class="d-flex flex-row post-title">
-                        <h4>User Uploads</h4><span class="ml-2"></span>
-                    </div>
-                    <app-audio-player></app-audio-player>
-                    <div class="d-flex flex-row align-items-center align-content-center post-title">
-                        <span class="mr-2 dot"></span><span></span>
-                    </div>
-                    <app-comment></app-comment>
-                </div>
-            </div>
-        </div>
+<div class="row h-24">
+    <div class="col-8">
+  what are you doing here
     </div>
+  </div>
+
+  <div class="jumbotron">
+      <h1 class="display-4">Sample Hub</h1>
+      <p class="lead">Browse samples other users have uploaded to RevMixer, and add them to your library for personal use!</p>
+  </div>
+<div class="container">
+    <h1>All Public Samples</h1>
+</div>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>
+                Sample Name
+            </th>
+            <th>
+                Creator
+            </th>
+            <th>
+                Add Sample to Personal Library
+            </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="">
+                <td></td>
+                <td></td>
+                <td><button>Add to Library</button></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

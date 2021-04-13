@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'ngx-audio-player';
+import { Sample } from 'src/app/Models/Sample';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { User } from 'src/app/Models/User';
+import { UsersSample } from 'src/app/Models/UsersSample';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 import { SampleSetService } from 'src/app/services/sample-set.service';
 import { SampleService } from 'src/app/services/sample.service';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
+import { UserssampleService } from 'src/app/services/userssample.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -20,23 +23,10 @@ export class SampleHubComponent implements OnInit {
   user: User;
   authUser: any;
   S3Bucket: string = environment.AZURE_STORAGE;
-
-  //uploadSample: UploadSample
-  audioPlayer: Track;
-
-  audioCollection: Track[];
+  allSamples: Sample[] = [];
+  usersSampleToAdd: UsersSample;
   
-  //audio player settings
-  msaapDisplayTitle = true;
-  msaapDisplayPlayList = true;
-  msaapPageSizeOptions = [10,10,10];
-  msaapDisplayVolumeControls = true;
-  msaapDisplayRepeatControls = true;
-  msaapDisplayArtist = true;
-  msaapDisplayDuration = false;
-  msaapDisablePositionSlider = false;
-  
-  constructor(private userService: UserRestService, private sampleService: SampleService, private authService: AuthService,
+  constructor(private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
       
       this.user = 
@@ -52,17 +42,13 @@ export class SampleHubComponent implements OnInit {
         playlists: []
       }
 
-      this.audioPlayer = 
+      this.usersSampleToAdd = 
       {
-        title: '',
-        link: '',
-        artist: '',
-        duration: 0
+        Id: 0,
+        userId: 0,
+        sampleId: 0,
+        isOwner: true
       }
-
-    this.audioCollection = [
-      this.audioPlayer
-    ]
 
     }
 
@@ -80,39 +66,45 @@ export class SampleHubComponent implements OnInit {
           (
             foundSamples =>
             {
-              // this.userMusic = foundsongs;
+              this.allSamples = foundSamples;
               // this.PopulateAudioPlayer(foundsongs);
             }
           )
-
         }
       )
     )
   }
 
 
-
-  PopulateAudioPlayer(foundDbMusic: UploadMusic[])
-  {
-    var counter = 0;
-    foundDbMusic.forEach(songFound => {
-      if(counter == 0){
-        this.audioCollection[counter].artist = songFound.user.email;
-        this.audioCollection[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
-        this.audioCollection[counter].title = songFound.name;
-        counter++;
-      }
-      else {
-        var fileToAddToPlaylist = new Track;
-
-        fileToAddToPlaylist.artist = songFound.user.email;
-        fileToAddToPlaylist.link = this.S3Bucket + "/" + songFound.musicFilePath;
-        fileToAddToPlaylist.title = songFound.name;
-        this.audioCollection.push(fileToAddToPlaylist);
-      }
-
-
-    });
+  AddSampleToUserSamples(user:User, sample:Sample){
+    
+    this.usersSampleToAdd.sampleId = sample.id;
+    this.usersSampleToAdd.userId = user.id;
+    this.usersSampleToAdd.isOwner = false;
+    this.usersSampleService.AddUserSample(this.usersSampleToAdd);
   }
+
+  // PopulateAudioPlayer(foundDbMusic: UploadMusic[])
+  // {
+  //   var counter = 0;
+  //   foundDbMusic.forEach(songFound => {
+  //     if(counter == 0){
+  //       this.audioCollection[counter].artist = songFound.user.email;
+  //       this.audioCollection[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
+  //       this.audioCollection[counter].title = songFound.name;
+  //       counter++;
+  //     }
+  //     else {
+  //       var fileToAddToPlaylist = new Track;
+
+  //       fileToAddToPlaylist.artist = songFound.user.email;
+  //       fileToAddToPlaylist.link = this.S3Bucket + "/" + songFound.musicFilePath;
+  //       fileToAddToPlaylist.title = songFound.name;
+  //       this.audioCollection.push(fileToAddToPlaylist);
+  //     }
+
+
+  //   });
+  // }
 
 }

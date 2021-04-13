@@ -8,7 +8,7 @@ import * as Tone from 'tone';
   providedIn: 'root'
 })
 export class SampleService {
-  sample909set: string[] = [];
+  //sample909set: string[] = [];
 
 
   httpOptions = {
