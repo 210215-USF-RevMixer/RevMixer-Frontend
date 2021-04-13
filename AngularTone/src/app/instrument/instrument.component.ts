@@ -53,21 +53,33 @@ export class InstrumentComponent implements OnInit {
 
   //How many steps we have in the sequencer
   blockSize = 32
-  tempo: number = 80
+  tempo: number = 120
   //Time in the loop that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
     "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
 
   savedPattern: number[][] = []
   //effects objects
-  dist: any = new Tone.Distortion(0).toDestination()
-  reverb: any = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
-  volume: any = new Tone.Volume(0).toDestination()
+  
+  autoWah = new Tone.AutoWah(50, 6, 0)
+  bitcrush2: any = new Tone.BitCrusher(1.5)
+  bitcrush1: any = new Tone.BitCrusher(1)
+  cheby = new Tone.Chebyshev(2)
+  pitchshift: any = new Tone.PitchShift(0)
+  reverb: any = new Tone.Reverb(Tone.Transport.sampleTime)//.toDestination()
+  volume: any = new Tone.Volume(0)//.toDestination()
+  comp: any = new Tone.Compressor(-30, 20)
+  dist: any = new Tone.Distortion(0)
+  effects: any[] = []
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
   showDistortion: boolean = true
   showReverb: boolean = false
+  showAutoWah: boolean = false
+  showPitchShift: boolean = false
+  showBitCrush: boolean = false
+  showCheby: boolean = false
 
   constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private sampleSetService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
     this.tracks = [
@@ -160,8 +172,8 @@ export class InstrumentComponent implements OnInit {
         sampleName: 'BaseKick',
         sample: new Tone.Sampler({
           C3: '../../assets/808/Kick.wav'
-        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
-      }
+        }).chain(this.dist, this.comp, Tone.Destination, this.recorder)//, this.recorder)//.connect(Tone.Destination)
+      }//.connect(this.dist).connect(this.volume), this.dist, this.reverb
 
       for (let i = 0; i < this.blockSize; i++) {
         track.part = new Tone.Part(((time) => {
@@ -235,6 +247,53 @@ export class InstrumentComponent implements OnInit {
   changeReverbDecay(event: any) {
     this.reverb.decay = event.value;
   }
+  changeAutoWahFreq(event: any) {
+    this.autoWah.baseFrequency = event.value;
+  }
+  changeAutoWahRange(event: any) {
+    this.autoWah.octaves = event.value;
+  }
+  changePitchShift(event: any) {
+    this.pitchshift.pitch = event.value;
+  }
+  pitchShiftDryWet(event: any) {
+    this.pitchshift.wet = event.value;
+  }
+  changeCheby(event: any) {
+    this.cheby.order = event.value;
+  }
+  connectEffect(effect: any) {
+    this.effects.push(effect)
+    
+    this.tracks.forEach(track => {
+      
+      //track.sample.sample.disconnect(this.dist)
+      track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)
+      
+  //     track.sample.sample.chain( this.effects.reduce((acc, string, index, array) => { 
+  //       if (index !== array.length -1) { return acc + ", " + string; }
+  //     else {
+  //       return acc + string }
+  //     } ), this.dist, this.comp, Tone.Destination)
+   })
+}
+  disconnectEffect(effect: any) {
+    // delete this.effects[this.effects.findIndex(function (element) {
+    //   return element === effect
+    // })]
+    
+    
+    this.tracks.forEach(track => {
+      //
+      track.sample.sample.disconnect(effect)
+      
+      // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
+      //   if (index !== array.length -1) { return acc + ", " + string; }
+      // else {
+      //   return acc + string }
+      // } ), this.dist, this.comp, Tone.Destination)
+  })
+  }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
   changeState(currentNote: any, currentTrack: any) {
@@ -295,7 +354,7 @@ export class InstrumentComponent implements OnInit {
         sampleName: sample2Select[i],
         sample: new Tone.Sampler({
           C3: sample2Select[i]
-        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+        }).chain(this.dist, this.comp, Tone.Destination, this.recorder)//.connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
       }
       this.addTrack(tempSample)
     }
@@ -423,6 +482,10 @@ export class InstrumentComponent implements OnInit {
   changeEffect(effect : any) {
     this.showReverb = false
     this.showDistortion = false
+    this.showAutoWah = false
+    this.showPitchShift = false
+    this.showBitCrush = false
+    this.showCheby = false
     switch(effect.value)
     {
       case 'distortion':
@@ -431,6 +494,18 @@ export class InstrumentComponent implements OnInit {
       case 'reverb':
         this.showReverb = true
         break
+      case 'autoWah':
+        this.showAutoWah = true
+        break   
+      case 'pitchshift':
+        this.showPitchShift = true
+        break   
+      case 'bitcrush':
+        this.showBitCrush = true
+        break
+      case 'cheby':
+        this.showCheby = true
+        break    
     }
   }
 }
