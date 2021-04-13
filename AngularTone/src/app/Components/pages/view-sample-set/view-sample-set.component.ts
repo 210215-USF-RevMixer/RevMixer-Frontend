@@ -130,7 +130,9 @@ export class ViewSampleSetComponent implements OnInit {
     this.currentPlaylist.forEach((list)=>{
       this.sampleService.GetSampleByID(list.Id).subscribe((result)=>{
         result.forEach((element: Sample) => {
+          if(element.isPrivate==false && element.isLocked == false){
           this.allSamples.push(element);
+          }
         });
       }
       )
