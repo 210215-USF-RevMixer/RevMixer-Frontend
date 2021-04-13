@@ -65,18 +65,6 @@ export class ProjectRestService {
             isPrivate:false,
             isApproved:false,
             isLocked:false,
-            user: {
-              id: 0,
-              userName: '',
-              email: 'coolguy@something.com',
-              isAdmin: false,
-          
-              userProjects: [],
-              sample: [],
-              comments: [],
-              uploadMusics: [],
-              playlists: []
-            },
             tracks: []
           },
           pattern: {
