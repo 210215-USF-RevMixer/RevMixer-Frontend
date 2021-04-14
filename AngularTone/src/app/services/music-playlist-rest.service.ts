@@ -17,7 +17,7 @@ export class MusicPlaylistRestService {
     )
   }
 
-  url: string = environment.MUSIC_PLAYLIST_REST;
+  url: string = environment.MUSICSERVICE_PLAYLIST;
 
   constructor(private http: HttpClient) { }
 

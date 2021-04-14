@@ -8,7 +8,7 @@ import * as Tone from 'tone';
   providedIn: 'root'
 })
 export class SampleService {
-  sample909set: string[] = [];
+  //sample909set: string[] = [];
 
 
   httpOptions = {
@@ -18,21 +18,23 @@ export class SampleService {
       }
     )
   }
-
-  url : string = '';
+  //THIS NEEDS TO BE UPDATED
+  url : string = environment.PROJECTSERVICE_SAMPLE;
 
   constructor(private http:HttpClient) { }
-  //Add sampleset
-  AddSample(sample2add: any): Observable<any> {
-    return this.http.post<any>(this.url, sample2add, this.httpOptions);
+  
+  GetSamples(): Observable<any> {
+    return this.http.get<any[]>(this.url, this.httpOptions);
   }
   GetSampleByID(id: number): Observable<any> {
     return this.http.get<any>(`${this.url}/${id}`, this.httpOptions);
   }
-  GetSamplesByUserID(userID: number): Observable<any> {
-    return this.http.get<any[]>(`${this.url}/${userID}`, this.httpOptions);
+
+  GetSamplesByUserID(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.url}/${userId}`, this.httpOptions);
   }
-  GetSamples(): Observable<any> {
-    return this.http.get<any[]>(this.url, this.httpOptions);
+  
+  AddSample(sample2add: any): Observable<any> {
+    return this.http.post<any>(this.url, sample2add, this.httpOptions);
   }
 }

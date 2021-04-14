@@ -21,10 +21,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import * as Tone from 'tone';
-import { User } from '../Models/User';
-import { SampleSetService } from '../services/sample-set.service'
 import { UserRestService } from '../services/user-rest.service';
 import { environment } from 'src/environments/environment';
+import { SampleService } from '../services/sample.service';
+import { UsersSampleService } from '../services/users-sample.service';
+import { UsersSampleSetsService } from '../services/users-sample-sets.service';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -33,53 +34,53 @@ import { environment } from 'src/environments/environment';
 
 export class InstrumentComponent implements OnInit {
   mouseIsClicked: boolean = false
-  marginForTopBar: string = '56px'
+  paddingForTopBar: string = '56px'
   popOutDisplay: string = 'none'
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
 
-  buffers: any[] = []
   parts: any[] = []
   isTransportStarted: boolean = false
-  presetPatterns: any[]
+  savedProjects: any[]
   sampleSets: any[]
   samples: any[]
   tracks2Add: any[] = []
   currentTimePosition: number = 0;
   boxColor: string = 'tomato'
   tempTarget: any
+  tempSoloedTrack: any
 
   //How many steps we have in the sequencer
   blockSize = 32
-  tempo: number = 80
+  tempo: number = 120
   //Time in the loop that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
     "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
 
-  savedPattern: number[][] = []
+  savedProject: number[][] = []
   //effects objects
-  dist: any = new Tone.Distortion(0).toDestination()
-  reverb: any = new Tone.Reverb(Tone.Transport.sampleTime).toDestination()
-  volume: any = new Tone.Volume(0).toDestination()
+  
+  autoWah = new Tone.AutoWah(50, 6, 0)
+  bitcrush2: any = new Tone.BitCrusher(1.5)
+  bitcrush1: any = new Tone.BitCrusher(1)
+  cheby = new Tone.Chebyshev(2)
+  pitchshift: any = new Tone.PitchShift(0)
+  reverb: any = new Tone.Reverb(Tone.Transport.sampleTime)//.toDestination()
+  volume: any = new Tone.Volume(0)//.toDestination()
+  comp: any = new Tone.Compressor(-30, 20)
+  dist: any = new Tone.Distortion(0)
+  effects: any[] = []
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
+  showDistortion: boolean = true
+  showReverb: boolean = false
+  showAutoWah: boolean = false
+  showPitchShift: boolean = false
+  showBitCrush: boolean = false
+  showCheby: boolean = false
 
-  userBackend: User
-
-  constructor(private setService: SampleSetService, private authService: AuthService, private userService: UserRestService) {
-    this.userBackend =
-    {
-      userName: '',
-      id: 0,
-      email: '',
-      isAdmin: false,
-      userProjects: [],
-      sample: [],
-      comments: [],
-      uploadMusics: [],
-      playlists: []
-    }
+  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService) {
     this.tracks = [
       {
         sample: {},
@@ -94,7 +95,7 @@ export class InstrumentComponent implements OnInit {
     }
     this.isTransportStarted = false
     //Add service to get all available presets from DB to populate
-    this.presetPatterns = []
+    this.savedProjects = []
     this.sampleSets = []
     this.samples = []
   }
@@ -105,24 +106,53 @@ export class InstrumentComponent implements OnInit {
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              const proxyUrl = "https://cors.bridged.cc/"
-              for (let i = 0; i < foundUser.uploadMusics.length; i++) {
-                let tempSample = {
-                  sampleName: foundUser.uploadMusics[i].name,
-                  sample: new Tone.Sampler({
-                    C3: `${proxyUrl}${environment.AZURE_STORAGE}/${foundUser.uploadMusics[i].musicFilePath}`
-                  }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+              this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
+                userSampleSets => {
+                  for (let i = 0; i < userSampleSets.length; i++) {
+                    this.userSampleSetService.GetUsersSampleSetById(userSampleSets[i].sampleSetsId).subscribe(
+                      currentSampleSet => {
+                        this.sampleSets.push(currentSampleSet)
+                        const proxyUrl = "https://cors.bridged.cc/"
+                        var tempSampleSet = []
+                        for (let i = 0; i < currentSampleSet.samples.length; i++) {
+                          let tempSample = {
+                            sampleName: currentSampleSet.samples[i].sampleName,
+                            sample: new Tone.Sampler({
+                              C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSampleSet.samples[i].sampleLink}`
+                            }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                          }
+                          tempSampleSet.push(tempSample)
+                        }
+                        this.sampleSets.push(tempSampleSet)
+                      }
+                    )
+                  }
                 }
-                this.samples.push(tempSample)
-              }
+              )
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).subscribe(
+                userSamples => {
+                  const proxyUrl = "https://cors.bridged.cc/"
+                  for (let i = 0; i < userSamples.length; i++) {
+                    this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
+                      currentSample => {
+                        let tempSample = {
+                          sampleName: currentSample.sampleName,
+                          sample: new Tone.Sampler({
+                            C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
+                          }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                        }
+                        this.samples.push(tempSample)
+                      }
+                    )
+                  }
+                }
+              )
             }
           )
     )
-    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
-
+    this.onResize
     //push on the sample sets to array
     // get the arrays from services
-    this.sampleSets.push(this.setService.Get909Set())
 
     //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
 
@@ -139,9 +169,9 @@ export class InstrumentComponent implements OnInit {
       track.sample = {
         sampleName: 'BaseKick',
         sample: new Tone.Sampler({
-        C3: '../../assets/808/Kick.wav'
-      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, this.volume, Tone.Destination, this.recorder).connect(Tone.Destination)
-    }
+          C3: '../../assets/808/Kick.wav'
+        }).chain(this.dist, this.comp, Tone.Destination, this.recorder)//, this.recorder)//.connect(Tone.Destination)
+      }//.connect(this.dist).connect(this.volume), this.dist, this.reverb
 
       for (let i = 0; i < this.blockSize; i++) {
         track.part = new Tone.Part(((time) => {
@@ -183,13 +213,27 @@ export class InstrumentComponent implements OnInit {
 
   //From  HTML sliders
   changeVolume(event: any) {
-    if(event.value <= -43) {
+    if (event.value <= -48) {
       Tone.Destination.mute = true;
     } else {
       Tone.Destination.mute = false;
       Tone.Destination.volume.rampTo(event.value, 0.01);
     }
-  } 
+  }
+
+  changeTrackVolume(event: any, track: any) {
+    if(track.part.mute == true && event.value > -48){
+      this.muteTrack(track)
+    }
+    if(event.value <= -48) {
+      track.sample.sample.volume.value = -100
+      if(track.part.mute == false){
+        this.muteTrack(track)
+      }
+    } else {
+      track.sample.sample.volume.value = event.value
+    }
+  }
 
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
@@ -201,12 +245,56 @@ export class InstrumentComponent implements OnInit {
   changeReverbDecay(event: any) {
     this.reverb.decay = event.value;
   }
+  changeAutoWahFreq(event: any) {
+    this.autoWah.baseFrequency = event.value;
+  }
+  changeAutoWahRange(event: any) {
+    this.autoWah.octaves = event.value;
+  }
+  changePitchShift(event: any) {
+    this.pitchshift.pitch = event.value;
+  }
+  pitchShiftDryWet(event: any) {
+    this.pitchshift.wet = event.value;
+  }
+  changeCheby(event: any) {
+    this.cheby.order = event.value;
+  }
+  connectEffect(effect: any) {
+    this.effects.push(effect)
+    
+    this.tracks.forEach(track => {
+      
+      //track.sample.sample.disconnect(this.dist)
+      track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)
+      
+  //     track.sample.sample.chain( this.effects.reduce((acc, string, index, array) => { 
+  //       if (index !== array.length -1) { return acc + ", " + string; }
+  //     else {
+  //       return acc + string }
+  //     } ), this.dist, this.comp, Tone.Destination)
+   })
+}
+  disconnectEffect(effect: any) {
+    // delete this.effects[this.effects.findIndex(function (element) {
+    //   return element === effect
+    // })]
+    
+    
+    this.tracks.forEach(track => {
+      //
+      track.sample.sample.disconnect(effect)
+      
+      // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
+      //   if (index !== array.length -1) { return acc + ", " + string; }
+      // else {
+      //   return acc + string }
+      // } ), this.dist, this.comp, Tone.Destination)
+  })
+  }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
   changeState(currentNote: any, currentTrack: any) {
-    if (this.isTransportStarted) {
-      this.playStop()
-    }
     if (currentNote.onOff === 0) {
       currentNote.color = this.boxColor
       currentNote.onOff = 1
@@ -220,7 +308,7 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  //Turns all HTML blocks off/grey, remove all notes from all patterns
+  //Turns all HTML blocks off/grey, remove all notes from all projects
   Clear() {
     this.tracks.forEach(track => {
       track.note.forEach(note => {
@@ -236,25 +324,22 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  savePattern() {
-    this.savedPattern = []
+  saveProject() {
+    this.savedProject = []
     let tempArray = []
     for (let i = 0; i < this.tracks.length; i++) {
       for (let j = 0; j < this.blockSize; j++) {
         tempArray.push(this.tracks[i].note[j].onOff)
       }
-      this.savedPattern.push(tempArray)
+      this.savedProject.push(tempArray)
       tempArray = []
     }
     //send pattern to DB
-    console.log(this.savedPattern)
+    console.log(this.savedProject)
   }
 
-  //Preset patterns are in pattern.const.ts 
-  //Preset select dropdown "Blank" sends -1, which just clears the grid
-  //uniPattern[pattern number selected by HTML][sample instrument track/vertical line position][time/horizontal block position]
-  loadPattern(pattern2Load: any) {
-    this.tracks = pattern2Load
+  loadProject(project2Load: any) {
+    this.tracks = project2Load
   }
 
   //Erases all sampler instruments and recreates them from samples in assets folder
@@ -263,10 +348,33 @@ export class InstrumentComponent implements OnInit {
       let tempSample = {
         sampleName: sample2Select[i],
         sample: new Tone.Sampler({
-        C3: sample2Select[i]
-      }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-    }
+          C3: sample2Select[i]
+        }).chain(this.dist, this.comp, Tone.Destination, this.recorder)//.connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+      }
       this.addTrack(tempSample)
+    }
+  }
+  muteTrack(track2Mute: any) {
+    track2Mute.part.mute = !track2Mute.part.mute
+  }
+
+  soloTrack(track2Solo: any) {
+    if (this.tempSoloedTrack == track2Solo) {
+      this.tracks.forEach(track => {
+        track.part.mute = !track.part.mute
+      })
+      track2Solo.part.mute = false
+    }
+    else {
+      this.tracks.forEach(track => {
+        track.part.mute = true
+      })
+      track2Solo.part.mute = false
+    }
+    if (this.tempSoloedTrack == track2Solo) {
+      this.tempSoloedTrack = {}
+    } else {
+      this.tempSoloedTrack = track2Solo
     }
   }
 
@@ -317,7 +425,7 @@ export class InstrumentComponent implements OnInit {
 
   updateTimePosition() {
     let multiplier = 100
-    if (window.window.innerWidth < 1480) {
+    if (window.window.innerWidth < 1720) {
       multiplier = 76
     }
     const timer = setInterval(() => {
@@ -333,7 +441,7 @@ export class InstrumentComponent implements OnInit {
   }
 
   onResize() {
-    this.marginForTopBar = document.querySelector('nav')?.clientHeight + 'px'
+    this.paddingForTopBar = document.querySelector('nav')?.clientHeight + 'px'
   }
 
   startTracking() {
@@ -357,13 +465,42 @@ export class InstrumentComponent implements OnInit {
     this.mouseIsClicked = false
   }
 
-  changeColor(color: string, event: any)
-  {
-    if(this.tempTarget){
+  changeColor(color: string, event: any) {
+    if (this.tempTarget) {
       this.tempTarget.style.borderColor = '#000000'
     }
     event.target.style.borderColor = '#FFFFFF'
     this.tempTarget = event.target
     this.boxColor = color
+  }
+
+  changeEffect(effect : any) {
+    this.showReverb = false
+    this.showDistortion = false
+    this.showAutoWah = false
+    this.showPitchShift = false
+    this.showBitCrush = false
+    this.showCheby = false
+    switch(effect.value)
+    {
+      case 'distortion':
+        this.showDistortion = true
+        break
+      case 'reverb':
+        this.showReverb = true
+        break
+      case 'autoWah':
+        this.showAutoWah = true
+        break   
+      case 'pitchshift':
+        this.showPitchShift = true
+        break   
+      case 'bitcrush':
+        this.showBitCrush = true
+        break
+      case 'cheby':
+        this.showCheby = true
+        break    
+    }
   }
 }

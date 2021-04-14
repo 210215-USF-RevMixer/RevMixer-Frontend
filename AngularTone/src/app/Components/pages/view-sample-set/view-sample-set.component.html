@@ -1,0 +1,47 @@
+<p>view-sample-set works!</p>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .container{
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <div class="container">
+        <h2>{{selectedSampleSet.name}} Playlist</h2>
+    </div>
+    <div class="container">
+        <table class="table">
+            <tr *ngFor="let sample of samplePlaylist">
+                <td>{{sample.sampleName}}</td>
+                <td><audio src="{{samleLink}}/{{song.musicFilePath}}" controls></audio></td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="container">
+        <h2>All samples</h2>
+    </div>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <th>
+                    Sample
+                </th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sample of allSamples;">
+                    <td>{{sample.sampleName}}</td>
+                    <td><button (click)="AddSampleToPlaylist(sample.id)">Add to Playlist</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body> 
+
