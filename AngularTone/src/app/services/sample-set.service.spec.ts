@@ -16,12 +16,7 @@ describe('SampleSetService', () => {
 
   let sampleset: SampleSets = {
     id: 1,
-    name: "string",
-    userId: 2,
-    isPrivate: true,
-
-    user: {} as User,
-    samples: [{}, {}, {}] as Sample[]
+    name: "string"
   }
 
   beforeEach(() => {
@@ -57,10 +52,6 @@ describe('SampleSetService', () => {
     let sampleSet : SampleSets={
       id: 1,
       name: 'string',
-      userId: 1,
-      isPrivate: false,
-      user: user,
-      samples: [] as Sample[],
     };
     service.AddSampleSet(sampleSet).subscribe (result =>{
       expect (result).toBeTruthy();
