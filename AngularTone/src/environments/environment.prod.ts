@@ -16,7 +16,7 @@ export const environment = {
   PROJECTSERVICE_USERSSAMPLE: 'https://revmix-project-service.azurewebsites.net/api/UsersSample',
   PROJECTSERVICE_USERSSAMPLESETS: 'https://revmix-project-service.azurewebsites.net/api/UsersSampleSets',
   PROJECTSERVICE_SAMPLESBLOBUPLOAD: 'https://revmix-project-service.azurewebsites.net/api/SampleBlob',
-  PROJECTSERVICE_MUSICBLOBUPLOAD: 'https://revmix-user-service.azurewebsites.net/api/UploadMusicBlob',
+  PROJECTSERVICE_MUSICBLOBUPLOAD: 'https://revmixmusic.azurewebsites.net/api/UploadMusicBlob',
 
   SAMPLE_STORAGE: 'https://revmixerstorage2.blob.core.windows.net/uploadsample',
   MUSIC_STORAGE: 'https://revmixerstorage2.blob.core.windows.net/uploadmusic',
