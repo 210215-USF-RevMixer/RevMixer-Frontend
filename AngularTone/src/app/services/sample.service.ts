@@ -29,6 +29,10 @@ export class SampleService {
   GetSampleByID(id: number): Observable<any> {
     return this.http.get<any>(`${this.url}/${id}`, this.httpOptions);
   }
+
+  GetSamplesByUserID(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.url}/${userId}`, this.httpOptions);
+  }
   
   AddSample(sample2add: any): Observable<any> {
     return this.http.post<any>(this.url, sample2add, this.httpOptions);
