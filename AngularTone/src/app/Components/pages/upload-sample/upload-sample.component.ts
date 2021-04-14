@@ -100,13 +100,11 @@ export class UploadSampleComponent implements OnInit {
         this.name = event.body; 
         this.uploadedSample.musicFilePath = this.name.name;
         this.uploadedSample.userId = this.user.id;
-        this.uploadedSample.name = this.name.songname;
-
-        this.uploadedSample.sampleName = this.songName;
+        this.uploadedSample.sampleName = this.sampleName;
         this.uploadedSample.userId = this.user.id;
-        this.uploadedSong.isPrivate = this.isPrivate;
-        this.uploadedSong.isApproved = true;
-        this.uploadedSong.isLocked = false;
+        this.uploadedSample.isPrivate = this.isPrivate;
+        this.uploadedSample.isApproved = true;
+        this.uploadedSample.isLocked = false;
 
         //console.log(JSON.stringify(this.uploadedSample));
 
