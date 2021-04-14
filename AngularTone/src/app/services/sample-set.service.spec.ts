@@ -6,6 +6,9 @@ import { SampleSets } from '../Models/SampleSets';
 import { User } from '../Models/User';
 import { Sample } from '../Models/Sample';
 import { SampleSetService } from './sample-set.service';
+import { UserProject } from '../Models/UserProject';
+import { UploadMusic } from '../Models/UploadMusic';
+import { PlayList } from '../Models/PlayList';
 
 describe('SampleSetService', () => {
   let service: SampleSetService;
@@ -45,11 +48,11 @@ describe('SampleSetService', () => {
       email: 'string',
       isAdmin: false,
   
-      userProjects: [],
-      sample: [],
-      comments: [],
-      uploadMusics: [],
-      playlists: []};
+      userProjects: [] as UserProject[],
+      sample: [] as Sample[],
+      comments: [] as Comment[],
+      uploadMusics: [] as UploadMusic[],
+      playlists: [] as PlayList[]};
 
     let sampleSet : SampleSets={
       id: 1,
@@ -57,10 +60,10 @@ describe('SampleSetService', () => {
       userId: 1,
       isPrivate: false,
       user: user,
-      samples: [],
+      samples: [] as Sample[],
     };
     service.AddSampleSet(sampleSet).subscribe (result =>{
-      expect (result instanceof (Object )). toBeTruthy();
+      expect (result).toBeTruthy();
     });
   });
 
