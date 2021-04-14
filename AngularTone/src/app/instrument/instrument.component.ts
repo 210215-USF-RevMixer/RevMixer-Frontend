@@ -106,7 +106,7 @@ export class InstrumentComponent implements OnInit {
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.userID).subscribe(
+              this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
                 userSampleSets => {
                   for (let i = 0; i < userSampleSets.length; i++) {
                     this.userSampleSetService.GetUsersSampleSetById(userSampleSets[i].sampleSetsId).subscribe(
@@ -129,7 +129,7 @@ export class InstrumentComponent implements OnInit {
                   }
                 }
               )
-              this.usersSampleService.GetUsersSampleByUserId(foundUser.userID).subscribe(
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).subscribe(
                 userSamples => {
                   const proxyUrl = "https://cors.bridged.cc/"
                   for (let i = 0; i < userSamples.length; i++) {

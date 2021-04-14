@@ -29,7 +29,7 @@ export class UsersSampleSetsService {
   //Get samplesets by userID
   ///api/UsersSampleSets/User/{userID}"
   GetUsersSampleSetByUserId(userID: number): Observable<any[]>{
-    return this.http.get<any[]>(`${this.url}/UsersSampleSet/User/${userID}`, this.httpOptions);
+    return this.http.get<any[]>(`${this.url}/User/${userID}`, this.httpOptions);
   }
   //Add sampleset
   AddUsersSampleSet(sampleset2add: any): Observable<any> {
