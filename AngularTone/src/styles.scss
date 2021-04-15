@@ -24,6 +24,10 @@
     font-family: 'Futura Std Medium';
 }
 
+html, body{
+    overflow-x: hidden;
+}
+
 .mat-accent .mat-slider-thumb {
     background-color: #F26925;
 } 
