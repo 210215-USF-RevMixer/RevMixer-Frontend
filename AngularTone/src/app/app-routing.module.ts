@@ -27,8 +27,7 @@ const routes: Routes = [
   {path: 'newSampleSet',  component: CreateSampleSetComponent, canActivate: [AuthGuard] },
   {path: 'viewSampleSet', component: ViewSampleSetComponent, canActivate: [AuthGuard]},
   {path: 'editSongs', component: EditSongsComponent, canActivate: [AuthGuard]},
-  {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]},
-  {path: '**', component: InstrumentComponent},
+  {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
