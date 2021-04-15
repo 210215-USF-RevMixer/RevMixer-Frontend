@@ -20,6 +20,14 @@ export class SampleService {
       }
     )
   }
+
+  uploadHttpOptions = {
+    headers: new HttpHeaders(
+      {
+        'Content-Type':'multipart/form-data'
+      }
+    )
+  }
   //THIS NEEDS TO BE UPDATED
   url : string = environment.PROJECTSERVICE_SAMPLE;
 
@@ -37,6 +45,6 @@ export class SampleService {
   }
   
   AddSample(sample: FormData): Observable<any> {
-    return this.http.post<any>("https://localhost:44301/api/Sample/", sample, this.httpOptions);
+    return this.http.post<any>("https://localhost:44301/api/Sample/", sample);
   }
 }

@@ -97,6 +97,7 @@ export class UploadSampleComponent implements OnInit {
     }
     else {
     //const proxyUrl = "https://cors.bridged.cc/"
+    //https://localhost:44301/api/SampleBlob
     this.http.post("https://localhost:44301/api/SampleBlob", formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
@@ -109,7 +110,7 @@ export class UploadSampleComponent implements OnInit {
         if(event.body)
         {
         this.onUploadFinished.emit(event.body);
-        debugger;
+        //debugger;
         //console.log(event.body);
         const formdataforSample = new FormData();
         this.name = event.body; 
