@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'ngx-audio-player';
 import { Sample } from 'src/app/Models/Sample';
+import { SamplePlaylist } from 'src/app/Models/SamplePlaylist';
 import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { User } from 'src/app/Models/User';
 import { UsersSample } from 'src/app/Models/UsersSample';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
+import { SamplePlaylistService } from 'src/app/services/sample-playlist.service';
 import { SampleSetService } from 'src/app/services/sample-set.service';
 import { SampleService } from 'src/app/services/sample.service';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
@@ -22,13 +24,15 @@ import { environment } from 'src/environments/environment';
 export class SampleHubComponent implements OnInit {
   user: User;
   authUser: any;
+  samplePlaylist: SamplePlaylist[]=[];
   allSamples: Sample[] = [];
   usersSampleToAdd: UsersSample;
+  neededSamples:Sample[] =[];
 
   //NEED TO ADD SAMPLE ENDPOINT, NOT IN README ATM
   sampleStorage: string = environment.SAMPLE_STORAGE;
   
-  constructor(private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
+  constructor(private samplePlaylistService:SamplePlaylistService, private activeRoute: ActivatedRoute,private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
       
       this.user = 
@@ -54,7 +58,39 @@ export class SampleHubComponent implements OnInit {
 
     }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    this.sampleService.GetSamples().subscribe(
+      r =>{
+        {
+          let sample = r;
+          this.allSamples.push(sample);
+        }
+      }
+    )
+
+    this.activeRoute.queryParams
+    .subscribe(
+      params =>
+      {
+        this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+          result => {
+            console.log('the result')
+            console.log(result);
+              result.forEach(element1 => {
+                if(element1.sampleSetId==params.id)
+                {
+                  this.allSamples.forEach(element2 => {
+                    if(element2.id == element1.sampleId){
+                      this.neededSamples.push(element2);
+                    }
+                  });
+                }
+              });
+          }
+        )
+      }
+    );
+    
     this.authService.user$.subscribe(
       authUser =>
 
@@ -75,6 +111,9 @@ export class SampleHubComponent implements OnInit {
         }
       )
     )
+    if(this.neededSamples.length>0){
+      this.allSamples = this.neededSamples;
+    }
   }
 
 

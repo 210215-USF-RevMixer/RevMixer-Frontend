@@ -35,8 +35,8 @@ export class SampleSetService {
     return this.http.get<any[]>(`${this.url}/${userID}`, this.httpOptions);
   }
   //Add sampleset
-  AddSampleSet(sampleset2add: any): Observable<any> {
-    return this.http.post<any>(this.url, sampleset2add, this.httpOptions);
+  AddSampleSet(sampleset2add: any, userId: number): Observable<any> {
+    return this.http.post<any>(this.url, sampleset2add&userId, this.httpOptions);
   }
   EditSampleSet(id: number):Observable<any>{
     return this.http.put<any>(`${this.url}/${id}`, this.httpOptions);

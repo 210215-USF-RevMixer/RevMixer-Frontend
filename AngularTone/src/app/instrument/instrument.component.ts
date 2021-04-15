@@ -46,7 +46,7 @@ export class InstrumentComponent implements OnInit {
   samples: any[]
   tracks2Add: any[] = []
   currentTimePosition: number = 0;
-  boxColor: string = 'tomato'
+  boxColor: string = '#F26925'
   tempTarget: any
   tempSoloedTrack: any
 

@@ -2,7 +2,19 @@
 {
     color: white;
 }
-nav
+.logo-name
 {
-    margin-top: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.logo-name span
+{
+    font-size: 2em;
+    color: #B9B9BA;
+}
+
+.nav-link{
+    color: #B9B9BA;
 }
