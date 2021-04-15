@@ -343,3 +343,14 @@
     margin-top: -6px;
   }
 }
+
+@media only screen and (max-width: 991px){
+  .topbar div{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .blue-button-container{
+    width: 80%;
+  }
+}
