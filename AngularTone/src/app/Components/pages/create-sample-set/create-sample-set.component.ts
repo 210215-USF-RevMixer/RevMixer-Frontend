@@ -78,7 +78,7 @@ export class CreateSampleSetComponent implements OnInit {
   onSubmit(): void { 
     this.setsService.AddSampleSet(this.newSampleSet,this.user.id);
     
-    alert(`${this.newSampleSet.name} added to your(${this.user.id}) sample sets!`);
+    alert(`${this.newSampleSet.name} added to your sample sets!`);
     this.router.navigate(['profile']);
   }
 
