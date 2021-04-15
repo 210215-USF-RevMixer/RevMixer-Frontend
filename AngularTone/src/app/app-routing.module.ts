@@ -29,7 +29,7 @@ const routes: Routes = [
   {path: 'newSampleSet',  component: CreateSampleSetComponent, canActivate: [AuthGuard] },
   {path: 'viewSampleSet', component: ViewSampleSetComponent, canActivate: [AuthGuard]},
   {path: 'editSongs', component: EditSongsComponent, canActivate: [AuthGuard]},
-  {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]}
+  {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]},
   {path: 'editSamples', component: EditSamplesComponent, canActivate: [AuthGuard]},
   {path: 'editSampleSets', component: EditSampleSetsComponent, canActivate: [AuthGuard]},
   {path: '**', component: InstrumentComponent},
