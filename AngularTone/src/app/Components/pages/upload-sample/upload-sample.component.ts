@@ -100,7 +100,12 @@ export class UploadSampleComponent implements OnInit {
         this.name = event.body; 
         this.uploadedSample.musicFilePath = this.name.name;
         this.uploadedSample.userId = this.user.id;
-        this.uploadedSample.name = this.name.songname;
+        this.uploadedSample.sampleName = this.sampleName;
+        this.uploadedSample.userId = this.user.id;
+        this.uploadedSample.isPrivate = this.isPrivate;
+        this.uploadedSample.isApproved = true;
+        this.uploadedSample.isLocked = false;
+
         //console.log(JSON.stringify(this.uploadedSample));
 
         this.uploadmusicService.PostSong(this.uploadedSample).subscribe(

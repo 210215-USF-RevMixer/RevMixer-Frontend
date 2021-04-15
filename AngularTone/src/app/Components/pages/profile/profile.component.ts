@@ -14,6 +14,7 @@ import { debug } from 'tone';
 import { PlayList } from 'src/app/Models/PlayList';
 import { Router } from '@angular/router';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
+import { SampleService } from 'src/app/services/sample.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ import { PlaylistServiceService } from 'src/app/services/playlist-service.servic
 export class ProfileComponent implements OnInit {
   user: User;
   authUser: any;
-  S3Bucket: string = environment.MUSIC_STORAGE;
+  musicBucket: string = environment.MUSIC_STORAGE;
 
   userMusic: UploadMusic[];
   audioPlayer: Track;
@@ -38,7 +39,7 @@ export class ProfileComponent implements OnInit {
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
   msaapDisplayArtist = true;
-  msaapDisplayDuration = false;
+  msaapDisplayDuration = true;
   msaapDisablePositionSlider = false;
 
   //User Playlists
@@ -47,7 +48,7 @@ export class ProfileComponent implements OnInit {
   allSampleSets: SampleSets[] = [];
   userSampleSets: UsersSampleSets[] = [];
 
-  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService,private sampleService: SampleSetService, private userSampleSetsService: UsersSampleSetsService, private authService: AuthService,
+  constructor(private userService: UserRestService, private musicService: UploadedMusicRestService,private sampleService: SampleSetService, private userSampleSetsService: UsersSampleSetsService, private individualSampleService: SampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
 
     
@@ -62,7 +63,7 @@ export class ProfileComponent implements OnInit {
       comments: [],
       uploadMusics: [],
       playlists: []
-    }
+    },
 
     this.userMusic = [{
       id: 0,
@@ -88,7 +89,7 @@ export class ProfileComponent implements OnInit {
   
       musicPlaylists: [],
       comments: []
-    }]
+    }],
 
     this.audioPlayer = 
     {
@@ -96,11 +97,11 @@ export class ProfileComponent implements OnInit {
       link: '',
       artist: '',
       duration: 0
-    }
+    },
 
     this.audioCollection = [
       this.audioPlayer
-    ]
+    ],
     
     console.log("logged at constructor " + this.userPlayLists);
 
@@ -118,14 +119,25 @@ export class ProfileComponent implements OnInit {
       (
         foundUser =>
         {
-          this.user = foundUser;
+          
+          this.user.email = foundUser.email;
+          this.individualSampleService.GetSamplesByUserID(foundUser.id).subscribe
+          (
+            foundsamples =>
+            {
+              this.user.sample = foundsamples;
+            }
+          )
+          
 
+          
           this.musicService.GetSongsByUserId(foundUser.id).subscribe
           (
             foundsongs =>
             {
+              this.user.uploadMusics = foundsongs;
               this.userMusic = foundsongs;
-              this.PopulateAudioPlayer(foundsongs);
+              this.PopulateAudioPlayer(foundsongs, foundUser);
 
             }
           )
@@ -199,21 +211,22 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  PopulateAudioPlayer(foundDbMusic: UploadMusic[])
+  PopulateAudioPlayer(foundDbMusic: UploadMusic[], foundUser: any)
   {
+    debugger;
     var counter = 0;
     foundDbMusic.forEach(songFound => {
       if(counter == 0){
-        this.audioCollection[counter].artist = songFound.user.email;
-        this.audioCollection[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
+        this.audioCollection[counter].artist = foundUser.email;
+        this.audioCollection[counter].link = this.musicBucket + "/" + songFound.musicFilePath;
         this.audioCollection[counter].title = songFound.name;
         counter++;
       }
       else {
         var fileToAddToPlaylist = new Track;
 
-        fileToAddToPlaylist.artist = songFound.user.email;
-        fileToAddToPlaylist.link = this.S3Bucket + "/" + songFound.musicFilePath;
+        fileToAddToPlaylist.artist = foundUser.email;
+        fileToAddToPlaylist.link = this.musicBucket + "/" + songFound.musicFilePath;
         fileToAddToPlaylist.title = songFound.name;
         this.audioCollection.push(fileToAddToPlaylist);
       }
