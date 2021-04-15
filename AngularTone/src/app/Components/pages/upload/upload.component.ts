@@ -96,7 +96,7 @@ export class UploadComponent implements OnInit {
     }
     else {
     //https://revmixerapi.azurewebsites.net/api/AzureBlob
-    this.http.post("http://localhost:52824/api/UploadMusicBlob", formData, {reportProgress: true, observe: 'events'})
+    this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
@@ -109,6 +109,7 @@ export class UploadComponent implements OnInit {
         {
         this.onUploadFinished.emit(event.body);
         //console.log(event.body);
+        debugger;
         this.name = event.body; 
         this.uploadedSong.musicFilePath = this.name.name;
         this.uploadedSong.userId = this.user.id;
