@@ -18,3 +18,24 @@
 .nav-link{
     color: #B9B9BA;
 }
+
+.flex-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-container-small{
+    display: flex;
+    flex-direction: row;
+}
+
+@media only screen and (max-width: 991px){
+    .flex-container{
+        flex-direction: column;
+    }
+
+    .flex-container-small{
+        justify-content: space-between;
+        width: 100%;
+    }
+}
