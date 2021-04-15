@@ -1,3 +1,4 @@
+import { asyncData } from '../../testHelpers/observables';
 
 import { TestBed, inject } from '@angular/core/testing';
 
@@ -5,17 +6,18 @@ import { HubRestService } from './hub-rest.service';
 
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('HubRestService', () => {
+  let service: HubRestService;
+  let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [HubRestService]
+      imports: [HttpTestingController]
     });
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'delete']);
+    service = new HubRestService(httpClientSpy as any)
   });
   it(
     'should get uploaded music',

@@ -11,7 +11,7 @@ export class UploadedMusicRestService {
 
   responseValue: any;
 
-  url: string = environment.UPLOAD_MUSIC_REST;
+  url: string = environment.MUSICSERVICE_UPLOADMUSIC;
 
 
   httpOptions = {
@@ -32,6 +32,11 @@ export class UploadedMusicRestService {
   GetSongsByUserId(userid:number) : Observable<any>
   {
     return this.http.get<any>(`${this.url}/User/${userid}`, this.httpOptions);
+  }
+
+  EditSongById(id: number): Observable<any>
+  {
+    return this.http.put<any>(`${this.url}/${id}`, this.httpOptions);
   }
 
   PostSong(song:any)

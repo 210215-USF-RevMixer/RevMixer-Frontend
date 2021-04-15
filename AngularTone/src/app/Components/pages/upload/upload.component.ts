@@ -13,7 +13,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  url: string = environment.AZURE_REST;
+  //NEED TO ADD: NO ENDPOINT AVAILABLE YET IN README
+  url: string = environment.PROJECTSERVICE_MUSICBLOBUPLOAD;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();
@@ -52,7 +53,10 @@ export class UploadComponent implements OnInit {
       likes: 0,
       plays: 0,
       musicPlaylists: [],
-      comments: []
+      comments: [],
+      isPrivate: false,
+      isApproved: true,
+      isLocked: false
     }
   }
 
@@ -92,7 +96,7 @@ export class UploadComponent implements OnInit {
     }
     else {
     //https://revmixerapi.azurewebsites.net/api/AzureBlob
-    this.http.post(environment.AZURE_REST, formData, {reportProgress: true, observe: 'events'})
+    this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
@@ -104,21 +108,18 @@ export class UploadComponent implements OnInit {
         if(event.body)
         {
         this.onUploadFinished.emit(event.body);
-        
         //console.log(event.body);
+        debugger;
         this.name = event.body; 
         this.uploadedSong.musicFilePath = this.name.name;
         this.uploadedSong.userId = this.user.id;
-        this.uploadedSong.name = this.name.songname;
+        this.uploadedSong.name = this.songName;
+        this.uploadedSong.isPrivate = this.isPrivate;
+        this.uploadedSong.isApproved = true;
+        this.uploadedSong.isLocked = false;
         //console.log(JSON.stringify(this.uploadedSong));
-
-        this.uploadmusicService.PostSong(this.uploadedSong).subscribe(
-          (response) =>
-          {
-            
-            //console.log(response.musicFilePath);
-          }
-        )
+        
+        this.uploadmusicService.PostSong(this.uploadedSong).subscribe()
 
 
         }

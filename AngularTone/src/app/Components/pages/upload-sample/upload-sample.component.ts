@@ -14,7 +14,8 @@ import { environment } from 'src/environments/environment';
 })
 export class UploadSampleComponent implements OnInit {
   authUser: any;
-  url: string = environment.AZURE_REST;
+  //NEED TO ADD: NO ENDPOINT AVAILABLE YET IN README
+  url: string = 'https://cors.bridged.cc/' + environment.SAMPLE_STORAGE;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();
@@ -81,8 +82,8 @@ export class UploadSampleComponent implements OnInit {
       this.message = 'Please enter in a name for your track!';
     }
     else {
-    //https://revmixerapi.azurewebsites.net/api/AzureBlob
-    this.http.post(environment.AZURE_REST, formData, {reportProgress: true, observe: 'events'})
+    const proxyUrl = "https://cors.bridged.cc/"
+    this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
@@ -99,7 +100,12 @@ export class UploadSampleComponent implements OnInit {
         this.name = event.body; 
         this.uploadedSample.musicFilePath = this.name.name;
         this.uploadedSample.userId = this.user.id;
-        this.uploadedSample.name = this.name.songname;
+        this.uploadedSample.sampleName = this.sampleName;
+        this.uploadedSample.userId = this.user.id;
+        this.uploadedSample.isPrivate = this.isPrivate;
+        this.uploadedSample.isApproved = true;
+        this.uploadedSample.isLocked = false;
+
         //console.log(JSON.stringify(this.uploadedSample));
 
         this.uploadmusicService.PostSong(this.uploadedSample).subscribe(
