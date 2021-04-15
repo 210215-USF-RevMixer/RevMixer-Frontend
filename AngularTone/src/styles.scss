@@ -1,18 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
 
-
-
-body {
-    
-    height: 100%;
-}
-header {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 2.5rem;            
+@font-face {
+    font-family: "Futura Std Bold";
+    src: url("./assets/fonts/Futura-Std-Bold.otf") format("opentype");
 }
 
-html {
-    height: 100%;
+@font-face {
+    font-family: "Futura Std Book";
+    src: url("./assets/fonts/Futura-Std-Book.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Futura Std Heavy";
+    src: url("./assets/fonts/Futura-Std-Heavy.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Futura Std Medium";
+    src: url("./assets/fonts/Futura-Std-Medium.otf") format("opentype");
+}
+
+*{
+    font-family: 'Futura Std Medium';
+}
+
+html, body{
+    overflow-x: hidden;
+}
+
+.mat-accent .mat-slider-thumb {
+    background-color: #F26925;
+} 
+.mat-accent .mat-slider-thumb-label {
+    background-color: #F26925;
+} 
+.mat-accent .mat-slider-track-fill {
+    background-color: #F26925;
+}
+
+.btn-primary{
+    background-color: #F26925;
+    border: #F26925;
 }
