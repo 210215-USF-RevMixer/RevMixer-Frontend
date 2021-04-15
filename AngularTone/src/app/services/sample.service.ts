@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as Tone from 'tone';
+import { Sample } from '../Models/Sample';
+import { SampleSetService } from './sample-set.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +36,7 @@ export class SampleService {
     return this.http.get<any>(`${this.url}/${userId}`, this.httpOptions);
   }
   
-  AddSample(sample2add: any): Observable<any> {
-    return this.http.post<any>(this.url, sample2add, this.httpOptions);
+  AddSample(sample: FormData): Observable<any> {
+    return this.http.post<any>("https://localhost:44301/api/Sample/", sample, this.httpOptions);
   }
 }

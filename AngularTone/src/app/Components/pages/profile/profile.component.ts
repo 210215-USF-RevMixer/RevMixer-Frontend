@@ -213,7 +213,6 @@ export class ProfileComponent implements OnInit {
 
   PopulateAudioPlayer(foundDbMusic: UploadMusic[], foundUser: any)
   {
-    debugger;
     var counter = 0;
     foundDbMusic.forEach(songFound => {
       if(counter == 0){
