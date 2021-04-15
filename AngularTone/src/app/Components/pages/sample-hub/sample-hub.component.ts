@@ -34,7 +34,12 @@ export class SampleHubComponent implements OnInit {
   
   constructor(private samplePlaylistService:SamplePlaylistService, private activeRoute: ActivatedRoute,private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
-      
+      this.allSamples.forEach(element => {
+        this.allSamples.pop();
+      });
+      this.neededSamples.forEach(element => {
+        this.neededSamples.pop();
+      });
       this.user = 
       {
         userName: '',
@@ -64,6 +69,8 @@ export class SampleHubComponent implements OnInit {
         {
           let sample = r;
           this.allSamples.push(sample);
+          console.log('why doesnt this work ');
+          console.log(r);
         }
       }
     )
@@ -72,16 +79,21 @@ export class SampleHubComponent implements OnInit {
     .subscribe(
       params =>
       {
+        console.log('param');
+        console.log(params.id)
+        
         this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
           result => {
-            console.log('the result')
-            console.log(result);
               result.forEach(element1 => {
                 if(element1.sampleSetId==params.id)
                 {
                   this.allSamples.forEach(element2 => {
+                    console.log('e2 ');
+                    console.log(element2);
                     if(element2.id == element1.sampleId){
                       this.neededSamples.push(element2);
+                      console.log('some shit ');
+                      console.log(this.neededSamples);
                     }
                   });
                 }
@@ -99,7 +111,8 @@ export class SampleHubComponent implements OnInit {
         foundUser =>
         {
           this.user = foundUser;
-
+          console.log('this shit ');
+          console.log(this.neededSamples);
           this.sampleService.GetSamples().subscribe
           (
             foundSamples =>
@@ -110,9 +123,17 @@ export class SampleHubComponent implements OnInit {
           )
         }
       )
+      
+
     )
     if(this.neededSamples.length>0){
-      this.allSamples = this.neededSamples;
+      this.allSamples.forEach(element => {
+        this.allSamples.pop();
+      }); 
+      this.neededSamples.forEach(element => {
+        this.allSamples.push(element);
+      });
+      
     }
   }
 
