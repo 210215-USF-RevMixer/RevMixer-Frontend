@@ -60,7 +60,7 @@ export class InstrumentComponent implements OnInit {
   savedProject: number[][] = []
   //effects objects
 
-  autoWah = new Tone.AutoWah(50, 6, 0)
+  autoWah = new Tone.AutoWah(50, 6, -40)
   bitcrush2: any = new Tone.BitCrusher(1.5)
   bitcrush1: any = new Tone.BitCrusher(1)
   cheby = new Tone.Chebyshev(2)
@@ -69,12 +69,16 @@ export class InstrumentComponent implements OnInit {
   volume: any = new Tone.Volume(0)//.toDestination()
   comp: any = new Tone.Compressor(-30, 20)
   dist: any = new Tone.Distortion(0)
+  delay32: any = new Tone.FeedbackDelay("32n", 0.5)
+  delay16: any = new Tone.FeedbackDelay("16n", 0.5)
+  delay8: any = new Tone.FeedbackDelay("8t", 0.5)
   effects: any[] = []
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
   showDistortion: boolean = true
   showReverb: boolean = false
+  showDelay: boolean = false
   showAutoWah: boolean = false
   showPitchShift: boolean = false
   showBitCrush: boolean = false
@@ -243,6 +247,37 @@ export class InstrumentComponent implements OnInit {
   }
   changeReverbDecay(event: any) {
     this.reverb.decay = event.value;
+  }
+  changeDelayTime(event: any) {
+    if(event.value == 0) {
+      this.tracks.forEach(track => {
+        track.sample.sample.disconnect(this.delay32)
+        track.sample.sample.disconnect(this.delay16)
+        track.sample.sample.disconnect(this.delay8)
+      })
+    }else
+    if(event.value == 1) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+        track.sample.sample.disconnect(this.delay16)
+        track.sample.sample.disconnect(this.delay8)
+      })
+    }else
+    if(event.value == 2) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+        track.sample.sample.disconnect(this.delay32)
+        track.sample.sample.disconnect(this.delay8)
+      })
+    }else
+    if(event.value == 3) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+        track.sample.sample.disconnect(this.delay16)
+        track.sample.sample.disconnect(this.delay32)
+      })
+    }
+    
   }
   changeAutoWahFreq(event: any) {
     this.autoWah.baseFrequency = event.value;
@@ -474,6 +509,7 @@ export class InstrumentComponent implements OnInit {
 
   changeEffect(effect: any) {
     this.showReverb = false
+    this.showDelay = false
     this.showDistortion = false
     this.showAutoWah = false
     this.showPitchShift = false
@@ -485,6 +521,9 @@ export class InstrumentComponent implements OnInit {
         break
       case 'reverb':
         this.showReverb = true
+        break
+      case 'delay':
+        this.showDelay = true
         break
       case 'autoWah':
         this.showAutoWah = true
