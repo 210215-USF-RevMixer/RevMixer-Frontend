@@ -22,7 +22,7 @@ export class UploadComponent implements OnInit {
   user: any;
   uploadedSong: any;
   songName: string = '';
-  isPrivate: string = '0';
+  isPrivate: boolean = false;
 
   constructor(private http: HttpClient, private authService: AuthService, private userService: UserRestService, private uploadmusicService: UploadedMusicRestService) {
     this.progress = 0,
@@ -83,7 +83,7 @@ export class UploadComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
     formData.append('songName', this.songName);
-    formData.append('isPrivate', this.isPrivate);
+    // formData.append('isPrivate', this.isPrivate);
     //console.log(fileToUpload.type.substring(0,5));
     if(fileToUpload.type.substring(0,5) != 'audio')
     {
