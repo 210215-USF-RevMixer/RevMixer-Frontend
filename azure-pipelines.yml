@@ -45,7 +45,7 @@ steps:
     workingDir: 'AngularTone'
     customCommand: 'run build'
 
-- script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage --reporters=progress,junit -sm=false
+- script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
   displayName: test
   workingDirectory: 'AngularTone'
   continueOnError: true 
