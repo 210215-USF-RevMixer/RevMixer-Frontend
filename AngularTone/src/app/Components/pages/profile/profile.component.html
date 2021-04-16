@@ -19,7 +19,7 @@
 
                 <div class="row">
                     <div class="col-sm-5">
-                        <!-- Song stuff -->
+                        
                     </div>
                     <div class="col-sm-12">
                         <div class="well row-style">
@@ -39,46 +39,46 @@
                 </div>
             </div>
 
-            <div class="well row-style">
+            <!-- <div class="well row-style">
                 <h1>Uploaded Samples</h1>
             </div>
 
             <div class="row" *ngFor="let uploadedSamples of user.sample">
-                <div class="col-sm-5">
-
-                </div>
+                
                 <div class="col-sm-12">
                     <div class="well row-style">
                         <p>{{uploadedSamples.sampleName}}</p>
+                        <a routerLink="/editSamples">Edit samples</a>
+                    </div>
+                </div>
+
+            </div> -->
+            
+
+        <div class="well row-style">
+            <h1>Playlists</h1>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well row-style">
+                        <table class="table">
+                            <thead>
+                                <th>
+                                    Playlist Name
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let playlist of userPlayLists;"  (click)="GetPlaylist(playlist.id)">
+                                    <td>{{playlist.name}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button routerLink="/newPlayList" class="btn btn-primary">Create New Playlist</button>
                     </div>
                 </div>
             </div>
-            <a routerLink="/editSamples">Edit samples</a>
-
-            <div class="well row-style">
-                <h1>Playlists</h1>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="well row-style">
-                            <table class="table">
-                                <thead>
-                                    <th>
-                                        Playlist Name
-                                    </th>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let playlist of userPlayLists;" (click)="GetPlaylist(playlist.id)">
-                                        <td>{{playlist.name}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <button routerLink="/newPlayList" class="btn btn-primary">Create New Playlist</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="well row-style">
+        </div>
+        <div class="well row-style">
                 <h1>Sample Sets</h1>
                 <div class="row">
                     <div class="col-sm-12">
@@ -103,6 +103,6 @@
 
         </div>
         <div class="col-sm-7 offset-sm-3">
-        </div>
+        </div> 
     </div>
 </div>
