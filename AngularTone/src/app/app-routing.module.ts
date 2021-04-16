@@ -13,6 +13,8 @@ import { UploadSampleComponent } from './Components/pages/upload-sample/upload-s
 import { ViewSampleSetComponent } from './Components/pages/view-sample-set/view-sample-set.component';
 import { EditSongsComponent } from './Components/pages/edit-songs/edit-songs.component';
 import { SampleHubComponent } from './Components/pages/sample-hub/sample-hub.component';
+import { EditSampleSetsComponent } from './Components/pages/edit-sample-sets/edit-sample-sets.component';
+import { EditSamplesComponent } from './Components/pages/edit-samples/edit-samples.component';
 
 
 const routes: Routes = [
@@ -28,6 +30,8 @@ const routes: Routes = [
   {path: 'viewSampleSet', component: ViewSampleSetComponent, canActivate: [AuthGuard]},
   {path: 'editSongs', component: EditSongsComponent, canActivate: [AuthGuard]},
   {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]},
+  {path: 'editSamples', component: EditSamplesComponent, canActivate: [AuthGuard]},
+  {path: 'editSampleSets', component: EditSampleSetsComponent, canActivate: [AuthGuard]},
   {path: '**', component: InstrumentComponent},
 ];
 

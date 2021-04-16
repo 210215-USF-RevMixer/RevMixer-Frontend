@@ -3,7 +3,7 @@
         <div class="col-sm-3 well row-style">
             <div class="well row-style">
                 <p>{{user.email}}</p>
-                <img src="{{authUser.picture}}" class="img-circle" height="65" width="65" alt="Avatar">
+                <img src="{{authUser.picture}}" class="img-circle rounded-circle" height="65" width="65" alt="Avatar">
             </div>
             
             <ul class="list-group">
@@ -88,7 +88,7 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let set of allSampleSets;" (click)="GetSampleSet(set.id)">
+                                    <tr *ngFor="let set of userSampleSets;" (click)="GetSampleSet(set.id)">
                                         <td>{{set.name}}</td>
                                     </tr>
                                 </tbody>

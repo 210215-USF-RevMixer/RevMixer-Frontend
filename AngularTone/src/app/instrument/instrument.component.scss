@@ -1,9 +1,3 @@
-body {
-  height: 100%;
-  margin-left: 0px;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
 .playButton {
   padding: 4px 10px 4px 10px;
   background-color: white;
@@ -85,7 +79,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 60px;
+  padding-top: 70px;
 }
 .mat-slider {
   color: white;
@@ -293,6 +287,7 @@ body {
   border-radius: 100px;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.466);
   transform: translateX(-125px);
+  margin-bottom: 4em;
 }
 
 .blue-button-container div{
@@ -347,5 +342,16 @@ body {
 
   .track-slider{
     margin-top: -6px;
+  }
+}
+
+@media only screen and (max-width: 991px){
+  .topbar div{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .blue-button-container{
+    width: 80%;
   }
 }

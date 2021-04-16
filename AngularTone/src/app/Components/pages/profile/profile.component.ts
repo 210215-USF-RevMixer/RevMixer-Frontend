@@ -15,6 +15,7 @@ import { PlayList } from 'src/app/Models/PlayList';
 import { Router } from '@angular/router';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 import { SampleService } from 'src/app/services/sample.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 @Component({
@@ -139,6 +140,28 @@ export class ProfileComponent implements OnInit {
               this.userMusic = foundsongs;
               this.PopulateAudioPlayer(foundsongs, foundUser);
 
+              //this.updatePlaylist(foundUser,foundUser.id) ;
+              this.playlistService.GetAllPlaylists().subscribe(
+                (result) => {
+                  this.allPlayLists = (result);
+                  this.updateUserPlaylist(this.allPlayLists, foundUser.id);
+                }
+              )
+
+
+              //update the users samplesets
+              console.log(foundUser);
+              this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
+                (result) => {
+                  console.log('founduser')
+                  console.log(foundUser);
+                  console.log('result')
+                  console.log(result);
+                  this.userSampleSets = (result);
+                  console.log('usersamplesets')
+                  console.log(this.userSampleSets);
+                }
+              )
             }
           )
 
@@ -146,45 +169,31 @@ export class ProfileComponent implements OnInit {
       )
     )
 
-    //Get all users playlists
-    this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
-    this.authService.user$.subscribe(
-      authUser =>
-      this.userService.GetUserByEmail(authUser.email).subscribe
-      (
-        foundUser =>
-        {
-          let x = foundUser.id;
-          this.updatePlaylist(foundUser, x);
-          // this.updateSampleSet(foundUser,x);
-        }
-      )
-    )
+    console.log(this.user);
+   
   }
 
-  //Update all playlist
-  updatePlaylist(foundUser: User, x: any) {
-    this.playlistService.GetAllPlaylists().subscribe(
-      (result) => {
-        this.allPlayLists = (result);
-        this.updateUserPlaylist(this.allPlayLists, x);
-      }
-    )
-  }
+  //Update all playlist- MOVED TO WITHIN THE AUTH0
+  // updatePlaylist(foundUser: User, x: any) {
+  //   this.playlistService.GetAllPlaylists().subscribe(
+  //     (result) => {
+  //       this.allPlayLists = (result);
+  //       this.updateUserPlaylist(this.allPlayLists, x);
+  //     }
+  //   )
+  // }
 
   // K- fix with the new userSampleSets
   //update all the sample sets 
-  updateSampleSet(foundUser: User, x: any) {
-    this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
-      (result) => {
-        this.userSampleSets = (result);
-        // this.updateUserSampleSets(this.allSampleSets, x);
-      }
-    )
-  }
+  // updateSampleSet(foundUser: User) {
+  //   this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
+  //     (result) => {
+  //       console.log(foundUser);
+  //       this.userSampleSets = (result);
+  //       console.log(this.userSampleSets);
+  //     }
+  //   )
+  // }
 
   // updateUserSampleSets(allSampleSets: SampleSets[], x: any) {
   //   this.allSampleSets.forEach(set => 
@@ -213,6 +222,7 @@ export class ProfileComponent implements OnInit {
 
   PopulateAudioPlayer(foundDbMusic: UploadMusic[], foundUser: any)
   {
+
     var counter = 0;
     foundDbMusic.forEach(songFound => {
       if(counter == 0){
