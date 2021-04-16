@@ -45,7 +45,7 @@ steps:
     workingDir: 'AngularTone'
     customCommand: 'run build'
 
-- script: ng test 
+- script: npx ng test 
   displayName: test
   workingDirectory: 'AngularTone'
   continueOnError: true 
