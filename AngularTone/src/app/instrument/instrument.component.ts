@@ -265,7 +265,7 @@ export class InstrumentComponent implements OnInit {
     
     this.tracks.forEach(track => {
       
-      //track.sample.sample.disconnect(this.dist)
+      track.sample.sample.disconnect(this.dist)
       track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)
       
   //     track.sample.sample.chain( this.effects.reduce((acc, string, index, array) => { 
@@ -284,6 +284,7 @@ export class InstrumentComponent implements OnInit {
     this.tracks.forEach(track => {
       //
       track.sample.sample.disconnect(effect)
+      track.sample.sample.connect(this.dist)
       
       // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
       //   if (index !== array.length -1) { return acc + ", " + string; }
