@@ -151,7 +151,6 @@ export class SampleHubComponent implements OnInit {
     //add is owner to make sure the person can add samples to set
     if(this.paramFlag && this.neededSamples.length==0 ){
       alert('This set is currently empty try adding some Samples!')
-
     }
   }
 
@@ -172,6 +171,9 @@ export class SampleHubComponent implements OnInit {
         this.samplePlaylist2Add.sampleSetId=params.id;
       });
     this.samplePlaylistService.AddSamplePlaylist(this.samplePlaylist2Add);
+    console.log('samplePlaylist.sampleId '+this.samplePlaylist2Add.sampleId);
+    console.log('samplePlaylist.sampleSetId '+this.samplePlaylist2Add.sampleSetId);
+    alert('You have added a sample to your sample set');
   }
 
   // PopulateAudioPlayer(foundDbMusic: UploadMusic[])
