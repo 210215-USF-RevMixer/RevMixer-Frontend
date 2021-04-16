@@ -164,14 +164,16 @@ export class SampleHubComponent implements OnInit {
     )
 
     //add is owner to make sure the person can add samples to set
-    if(this.paramFlag && this.neededSamples.length==0 && this.ownerFlag){
-      alert('This set is currently empty try adding some Samples!');
-      console.log();
-    }
-    else{
+    if(this.paramFlag && this.neededSamples.length==0 && this.ownerFlag==false){
       alert('This Sample Set is a work in progress try coming back in a bit!')
       window.history.back();
     }
+    else if(this.paramFlag&&this.neededSamples.length==0){
+      alert('This set is currently empty try adding some Samples!');
+      console.log();
+    }
+      
+    
   }
 
 
