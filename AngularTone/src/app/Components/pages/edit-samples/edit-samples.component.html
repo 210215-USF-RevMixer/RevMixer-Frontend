@@ -3,10 +3,35 @@
 yes daddy
     </div>
 </div>
-    <h1>Edit songs</h1>
+    <h1>YES DADDY</h1>
 <div>
 </div>
 <h1>Edit samples</h1>
 <div>
-    
-<p>Edit-samples biiitch</p>
+
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Privacy</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sample2edit of samples2edit;">
+                    <td>
+                        <input type="text" [(ngModel)]="sample2edit.sampleName" name="name"
+                        #name="ngModel" class="form-control" value="sample2edit.sampleName">
+                        {{sample2edit.sampleName}}
+                    </td>
+                    <td>
+                        <label class="switch">
+                        <input type="checkbox" [(ngModel)]="sample2edit.isPrivate" (change)="changePrivacy(sample2edit.isPrivate?'1':'0')"
+                        name="isPrivate" #name="ngModel" value="sample2edit.isPrivate">
+                        <span class="slider round"></span>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-secondary">Update info</button>
+    </form>
+    </div>
