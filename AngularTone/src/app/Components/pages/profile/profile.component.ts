@@ -151,15 +151,18 @@ export class ProfileComponent implements OnInit {
 
               //update the users samplesets
               console.log(foundUser);
-              this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
+              
+              this.userSampleSetsService.GetAllUsersSampleSet().subscribe(
                 (result) => {
-                  console.log('founduser')
-                  console.log(foundUser);
-                  console.log('result')
-                  console.log(result);
-                  this.userSampleSets = (result);
-                  console.log('usersamplesets')
+                  result.forEach((element: UsersSampleSets) => {
+                    if(element.userId== 1){
+                      this.userSampleSets.push(element);
+                      console.log(this.userSampleSets);
+                    }
+                  });
+                  console.log('usersamplesets');
                   console.log(this.userSampleSets);
+                  
                 }
               )
             }
@@ -168,9 +171,6 @@ export class ProfileComponent implements OnInit {
         }
       )
     )
-
-    console.log(this.user);
-   
   }
 
   //Update all playlist- MOVED TO WITHIN THE AUTH0
@@ -257,7 +257,7 @@ export class ProfileComponent implements OnInit {
   }
   GetSampleSet(id: number){
     console.log(this.userSampleSets);
-    this.router.navigate(['viewSampleSets'],{queryParams: {id: id} });
+    this.router.navigate(['sampleHub'],{queryParams: {id: id} });
   }
   EditSongs(id: number){
     console.log(this.userMusic)
