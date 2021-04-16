@@ -86,6 +86,7 @@ export class UploadComponent implements OnInit {
     formData.append('file', fileToUpload, fileToUpload.name);
     formData.append('songName', this.songName);
     //formData.append('isPrivate', this.isPrivate);
+
     //console.log(fileToUpload.type.substring(0,5));
     if(fileToUpload.type.substring(0,5) != 'audio')
     {
