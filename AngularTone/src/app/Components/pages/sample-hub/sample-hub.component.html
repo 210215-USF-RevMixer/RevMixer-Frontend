@@ -62,7 +62,7 @@
                 </th>
             </thead>
             <tbody>
-                <tr *ngFor="let sample of allSamples">
+                <tr *ngFor="let sample of neededSamples">
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
                     <td>TODO</td>
@@ -96,7 +96,7 @@
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
                     <td>TODO</td>
-                    <td><button (click)="AddSampleToCurrentSampleSet(sample.id)">Add to Sample Set</button></td>
+                    <td><button (click)="AddSampleToSampleSetButtonClick(sample.id)">Add to Sample Set</button></td>
                 </tr>
             </tbody>
         </table>
