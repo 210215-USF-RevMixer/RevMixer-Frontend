@@ -28,7 +28,8 @@ export class SampleHubComponent implements OnInit {
   allSamples: Sample[] = [];
   usersSampleToAdd: UsersSample;
   neededSamples:Sample[] =[];
-
+  paramFlag : boolean = false;
+  ownerFlag : boolean = false;
   //NEED TO ADD SAMPLE ENDPOINT, NOT IN README ATM
   sampleStorage: string = environment.SAMPLE_STORAGE;
   
@@ -40,6 +41,8 @@ export class SampleHubComponent implements OnInit {
       this.neededSamples.forEach(element => {
         this.neededSamples.pop();
       });
+      this.paramFlag =false;
+      this.ownerFlag=false;
       this.user = 
       {
         userName: '',
@@ -63,7 +66,8 @@ export class SampleHubComponent implements OnInit {
 
     }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
+    
     this.sampleService.GetSamples().subscribe(
       r =>{
         {
@@ -74,16 +78,27 @@ export class SampleHubComponent implements OnInit {
         }
       }
     )
-
+    this.activeRoute.queryParams
+    .subscribe(
+      params =>
+      {
+       if(params.id>0){
+        this.paramFlag=true;
+       }
+      });
     this.activeRoute.queryParams
     .subscribe(
       params =>
       {
         console.log('param');
+        console.log(params)
+        console.log('param');
         console.log(params.id)
         
         this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
           result => {
+            console.log('result');
+            console.log(result);
               result.forEach(element1 => {
                 if(element1.sampleSetId==params.id)
                 {
@@ -126,14 +141,16 @@ export class SampleHubComponent implements OnInit {
       
 
     )
-    if(this.neededSamples.length>0){
+
+    //add is owner to make sure the person can add samples to set
+    if(this.paramFlag ){
       this.allSamples.forEach(element => {
         this.allSamples.pop();
       }); 
       this.neededSamples.forEach(element => {
         this.allSamples.push(element);
       });
-      
+
     }
   }
 
