@@ -45,6 +45,6 @@ export class SampleService {
   }
   
   AddSample(sample: FormData): Observable<any> {
-    return this.http.post<any>("https://localhost:44301/api/Sample/", sample);
+    return this.http.post<any>(`${this.url}`, sample);
   }
 }
