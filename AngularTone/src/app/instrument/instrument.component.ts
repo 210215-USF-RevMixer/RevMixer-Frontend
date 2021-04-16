@@ -34,7 +34,7 @@ import { UsersSampleSetsService } from '../services/users-sample-sets.service';
 
 export class InstrumentComponent implements OnInit {
   mouseIsClicked: boolean = false
-  paddingForTopBar: string = '56px'
+  paddingForTopBar: string = '70px'
   popOutDisplay: string = 'none'
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
@@ -46,7 +46,7 @@ export class InstrumentComponent implements OnInit {
   samples: any[]
   tracks2Add: any[] = []
   currentTimePosition: number = 0;
-  boxColor: string = 'tomato'
+  boxColor: string = '#F26925'
   tempTarget: any
   tempSoloedTrack: any
 
@@ -59,7 +59,7 @@ export class InstrumentComponent implements OnInit {
 
   savedProject: number[][] = []
   //effects objects
-  
+
   autoWah = new Tone.AutoWah(50, 6, 0)
   bitcrush2: any = new Tone.BitCrusher(1.5)
   bitcrush1: any = new Tone.BitCrusher(1)
@@ -106,7 +106,7 @@ export class InstrumentComponent implements OnInit {
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-              this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.userID).subscribe(
+              this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
                 userSampleSets => {
                   for (let i = 0; i < userSampleSets.length; i++) {
                     this.userSampleSetService.GetUsersSampleSetById(userSampleSets[i].sampleSetsId).subscribe(
@@ -129,7 +129,7 @@ export class InstrumentComponent implements OnInit {
                   }
                 }
               )
-              this.usersSampleService.GetUsersSampleByUserId(foundUser.userID).subscribe(
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).subscribe(
                 userSamples => {
                   const proxyUrl = "https://cors.bridged.cc/"
                   for (let i = 0; i < userSamples.length; i++) {
@@ -150,7 +150,6 @@ export class InstrumentComponent implements OnInit {
             }
           )
     )
-    this.onResize
     //push on the sample sets to array
     // get the arrays from services
 
@@ -222,12 +221,12 @@ export class InstrumentComponent implements OnInit {
   }
 
   changeTrackVolume(event: any, track: any) {
-    if(track.part.mute == true && event.value > -48){
+    if (track.part.mute == true && event.value > -48) {
       this.muteTrack(track)
     }
-    if(event.value <= -48) {
+    if (event.value <= -48) {
       track.sample.sample.volume.value = -100
-      if(track.part.mute == false){
+      if (track.part.mute == false) {
         this.muteTrack(track)
       }
     } else {
@@ -262,36 +261,34 @@ export class InstrumentComponent implements OnInit {
   }
   connectEffect(effect: any) {
     this.effects.push(effect)
-    
+
     this.tracks.forEach(track => {
-      
-      track.sample.sample.disconnect(this.dist)
+
+      //track.sample.sample.disconnect(this.dist)
       track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)
-      
-  //     track.sample.sample.chain( this.effects.reduce((acc, string, index, array) => { 
-  //       if (index !== array.length -1) { return acc + ", " + string; }
-  //     else {
-  //       return acc + string }
-  //     } ), this.dist, this.comp, Tone.Destination)
-   })
-}
+
+      //     track.sample.sample.chain( this.effects.reduce((acc, string, index, array) => { 
+      //       if (index !== array.length -1) { return acc + ", " + string; }
+      //     else {
+      //       return acc + string }
+      //     } ), this.dist, this.comp, Tone.Destination)
+    })
+  }
   disconnectEffect(effect: any) {
     // delete this.effects[this.effects.findIndex(function (element) {
     //   return element === effect
     // })]
-    
-    
+
+
     this.tracks.forEach(track => {
       //
       track.sample.sample.disconnect(effect)
-      track.sample.sample.connect(this.dist)
-      
       // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
       //   if (index !== array.length -1) { return acc + ", " + string; }
       // else {
       //   return acc + string }
       // } ), this.dist, this.comp, Tone.Destination)
-  })
+    })
   }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
@@ -426,7 +423,7 @@ export class InstrumentComponent implements OnInit {
 
   updateTimePosition() {
     let multiplier = 100
-    if (window.window.innerWidth < 1720) {
+    if (window.innerWidth < 1720) {
       multiplier = 76
     }
     const timer = setInterval(() => {
@@ -475,15 +472,14 @@ export class InstrumentComponent implements OnInit {
     this.boxColor = color
   }
 
-  changeEffect(effect : any) {
+  changeEffect(effect: any) {
     this.showReverb = false
     this.showDistortion = false
     this.showAutoWah = false
     this.showPitchShift = false
     this.showBitCrush = false
     this.showCheby = false
-    switch(effect.value)
-    {
+    switch (effect.value) {
       case 'distortion':
         this.showDistortion = true
         break
@@ -492,16 +488,16 @@ export class InstrumentComponent implements OnInit {
         break
       case 'autoWah':
         this.showAutoWah = true
-        break   
+        break
       case 'pitchshift':
         this.showPitchShift = true
-        break   
+        break
       case 'bitcrush':
         this.showBitCrush = true
         break
       case 'cheby':
         this.showCheby = true
-        break    
+        break
     }
   }
 }

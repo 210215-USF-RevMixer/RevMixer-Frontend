@@ -9,6 +9,7 @@ import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.s
 import { AuthService } from '@auth0/auth0-angular';
 import { UserRestService } from 'src/app/services/user-rest.service';
 import { User } from 'src/app/Models/User';
+import { UsersSampleSetsService } from 'src/app/services/users-sample-sets.service';
 
 @Component({
   selector: 'app-sample-sets',
@@ -22,7 +23,7 @@ export class SampleSetsComponent implements OnInit {
   user: User;
   constructor(private activeRoute: ActivatedRoute,private userService: UserRestService, private authService: AuthService,
     private uploadMusicService: UploadedMusicRestService, private sampleService: SampleSetService,
-    private route: Router) { 
+    private router: Router, private userSampleSetService: UsersSampleSetsService) { 
       this.selectedSet = {
         id: 0,
         name: ''
@@ -42,7 +43,8 @@ export class SampleSetsComponent implements OnInit {
       this.set2Add= {
         Id :0,
         userId: 0,
-        sampleSetsId: 0
+        sampleSetsId: 0,
+        isOwner: false
       }
     }
 
@@ -68,20 +70,26 @@ export class SampleSetsComponent implements OnInit {
       }
     )
   }
+
   GetAllSampleSets(sets: SampleSets[]){
     sets.forEach(set=>{
       this.allSampleSets.push(set);
     })
     console.log(this.allSampleSets);
   }
-  // GetSample(id: number) {
-  //   console.log(this.userPlayLists);
-  //   this.router.navigate(['viewPlaylist'], {queryParams: {id: id} });
-  // }
-  AddSampleToUserSamplesButtonClick(setId: number)
+  //add the creator functionality by useing the isOwner and getting the 
+  //user info from user service 
+
+
+  GetSamples(id: number) {
+    this.router.navigate(['sampleHub'], {queryParams: {id: id} });
+  }
+  AddSampleSetToUserSampleSetsButtonClick(setId: number)
   {
     this.set2Add.sampleSetsId = setId,
-    this.set2Add.userId = this.user.id 
+    this.set2Add.userId = this.user.id
+    this.userSampleSetService.AddUsersSampleSet(this.set2Add)
+    console.log(this.set2Add)
   }
 
 

@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Models/User';
 import { UsersSampleSetsService } from 'src/app/services/users-sample-sets.service';
+import { Console } from 'node:console';
 
 @Component({
   selector: 'app-create-sample-set',
@@ -40,7 +41,8 @@ export class CreateSampleSetComponent implements OnInit {
     this.newUsersSampleSet ={
       Id: 0,
       userId:0,
-      sampleSetsId : 0
+      sampleSetsId : 0,
+      isOwner: false
     }
   }
 
@@ -57,20 +59,34 @@ export class CreateSampleSetComponent implements OnInit {
         foundUser =>
         {
           let x = foundUser.id;
-          this.updateUser(foundUser);
+          this.updateUser(foundUser);   
+          this.user = foundUser;
+          this.userEmail = foundUser.email;
+          this.newUsersSampleSet.userId = foundUser.id;
+          console.log('user');
+          console.log(foundUser);
+          console.log('newUserSampleSet');
+          console.log(this.newSampleSet);
         }
       )
     )
   }
     updateUser(foundUser: User): void {
-    this.user = foundUser;
-    this.userEmail = foundUser.email;
-    this.newUsersSampleSet.userId = foundUser.id;
+ 
     
   }
-
-  onSubmit(): void {
-    this.setsService.AddSampleSet(this.newSampleSet.id);
+  
+    
+  onSubmit(): void { 
+    const formData = new FormData();
+    formData.append('userId',(this.newUsersSampleSet.userId).toString());
+    formData.append('name', this.newSampleSet.name);
+    
+    
+    this.setsService.AddSampleSet(formData);
+    
+    alert(`${this.newSampleSet.name} added to your sample sets!`);
+    this.router.navigate(['profile']);
   }
 
 }
