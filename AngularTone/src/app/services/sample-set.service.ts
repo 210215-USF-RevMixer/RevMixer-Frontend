@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Form } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as Tone from 'tone';
@@ -35,8 +36,8 @@ export class SampleSetService {
     return this.http.get<any[]>(`${this.url}/${userID}`, this.httpOptions);
   }
   //Add sampleset
-  AddSampleSet(sampleset2add: any, userId: number): Observable<any> {
-    return this.http.post<any>(this.url, sampleset2add&userId, this.httpOptions);
+  AddSampleSet(sampleset2add :FormData): Observable<any> {
+    return this.http.post<any>(this.url, sampleset2add);
   }
   EditSampleSet(id: number):Observable<any>{
     return this.http.put<any>(`${this.url}/${id}`, this.httpOptions);
