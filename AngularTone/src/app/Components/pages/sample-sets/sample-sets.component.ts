@@ -43,7 +43,8 @@ export class SampleSetsComponent implements OnInit {
       this.set2Add= {
         Id :0,
         userId: 0,
-        sampleSetsId: 0
+        sampleSetsId: 0,
+        isOwner: false
       }
     }
 

@@ -32,7 +32,8 @@ export class ViewSampleSetComponent implements OnInit {
     this.selectedSampleSet = {
       Id:0,
       userId:0,
-      sampleSetsId:0
+      sampleSetsId:0,
+      isOwner: false
     }
     this.sampleSet =
     {

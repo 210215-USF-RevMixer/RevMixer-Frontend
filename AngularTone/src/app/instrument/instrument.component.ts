@@ -297,7 +297,6 @@ export class InstrumentComponent implements OnInit {
     this.tracks.forEach(track => {
       //
       track.sample.sample.disconnect(effect)
-
       // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
       //   if (index !== array.length -1) { return acc + ", " + string; }
       // else {

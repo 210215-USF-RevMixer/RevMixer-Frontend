@@ -41,7 +41,8 @@ export class CreateSampleSetComponent implements OnInit {
     this.newUsersSampleSet ={
       Id: 0,
       userId:0,
-      sampleSetsId : 0
+      sampleSetsId : 0,
+      isOwner: false
     }
   }
 
@@ -74,9 +75,15 @@ export class CreateSampleSetComponent implements OnInit {
  
     
   }
-
+  
+    
   onSubmit(): void { 
-    this.setsService.AddSampleSet(this.newSampleSet,this.user.id);
+    const formData = new FormData();
+    formData.append('userId',(this.newUsersSampleSet.userId).toString());
+    formData.append('name', this.newSampleSet.name);
+    
+    
+    this.setsService.AddSampleSet(formData);
     
     alert(`${this.newSampleSet.name} added to your sample sets!`);
     this.router.navigate(['profile']);

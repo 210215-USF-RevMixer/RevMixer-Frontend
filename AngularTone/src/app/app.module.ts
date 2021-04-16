@@ -39,12 +39,13 @@ import { EditSongsComponent } from './Components/pages/edit-songs/edit-songs.com
 import { SampleHubComponent } from './Components/pages/sample-hub/sample-hub.component';
 import { EditSamplesComponent } from './Components/pages/edit-samples/edit-samples.component';
 import { EditSampleSetsComponent } from './Components/pages/edit-sample-sets/edit-sample-sets.component';
+import { AdminrightsComponent } from './Components/pages/adminrights/adminrights.component';
 @NgModule({
   declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, 
     HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, 
     UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, 
     SampleSetsComponent, UploadSampleComponent, CreateSampleSetComponent, ViewSampleSetComponent, EditSongsComponent, 
-    EditSamplesComponent, EditSampleSetsComponent, SampleHubComponent],
+    EditSamplesComponent, EditSampleSetsComponent, SampleHubComponent, AdminrightsComponent],
 
 
 
