@@ -92,6 +92,9 @@ export class ProjectRestService {
     return this.http.post<UserProject>(`${this.url}`, project, this.httpOptions);
   }
 
+  AddSavedProject(savedProject2add :FormData): Observable<any> {
+    return this.http.post<any>(this.url, savedProject2add);
+  }
 
   DeleteUserProjectByID(projectid: number) : Observable<any>
   {
