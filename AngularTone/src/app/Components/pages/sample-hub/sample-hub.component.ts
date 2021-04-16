@@ -30,6 +30,7 @@ export class SampleHubComponent implements OnInit {
   neededSamples:Sample[] =[];
   paramFlag : boolean = false;
   ownerFlag : boolean = false;
+  samplePlaylist2Add: SamplePlaylist;
   //NEED TO ADD SAMPLE ENDPOINT, NOT IN README ATM
   sampleStorage: string = environment.SAMPLE_STORAGE;
   
@@ -63,7 +64,12 @@ export class SampleHubComponent implements OnInit {
         sampleId: 0,
         isOwner: true
       }
+      this.samplePlaylist2Add ={
+        Id:0,
+        sampleId:0,
+        sampleSetId:0
 
+      }
     }
 
   ngOnInit(): void {
@@ -143,13 +149,8 @@ export class SampleHubComponent implements OnInit {
     )
 
     //add is owner to make sure the person can add samples to set
-    if(this.paramFlag ){
-      this.allSamples.forEach(element => {
-        this.allSamples.pop();
-      }); 
-      this.neededSamples.forEach(element => {
-        this.allSamples.push(element);
-      });
+    if(this.paramFlag && this.neededSamples.length==0 ){
+      alert('This set is currently empty try adding some Samples!')
 
     }
   }
@@ -162,6 +163,15 @@ export class SampleHubComponent implements OnInit {
     this.usersSampleToAdd.userId = this.user.id;
     this.usersSampleToAdd.isOwner = false;
     this.usersSampleService.AddUserSample(this.usersSampleToAdd)
+  }
+  // add the sample to sample playlist
+  AddSampleToSampleSetButtonClick(sampleid: number){
+    this.samplePlaylist2Add.sampleId = sampleid
+    this.activeRoute.queryParams.subscribe(
+      params=>{
+        this.samplePlaylist2Add.sampleSetId=params.id;
+      });
+    this.samplePlaylistService.AddSamplePlaylist(this.samplePlaylist2Add);
   }
 
   // PopulateAudioPlayer(foundDbMusic: UploadMusic[])
