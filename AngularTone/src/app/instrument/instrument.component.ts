@@ -36,6 +36,7 @@ export class InstrumentComponent implements OnInit {
   mouseIsClicked: boolean = false
   paddingForTopBar: string = '70px'
   popOutDisplay: string = 'none'
+  popOutSettings: string = 'none'
   tracks: { sample: any, part: any, note: any[] }[] = []
   track2Add: { sample: any, part: any, note: any[] }
 
@@ -49,6 +50,7 @@ export class InstrumentComponent implements OnInit {
   boxColor: string = '#F26925'
   tempTarget: any
   tempSoloedTrack: any
+  editingTrack: any
 
   //How many steps we have in the sequencer
   blockSize = 32
@@ -60,7 +62,7 @@ export class InstrumentComponent implements OnInit {
   savedProject: number[][] = []
   //effects objects
 
-  autoWah = new Tone.AutoWah(50, 6, 0)
+  autoWah = new Tone.AutoWah(50, 6, -40)
   bitcrush2: any = new Tone.BitCrusher(1.5)
   bitcrush1: any = new Tone.BitCrusher(1)
   cheby = new Tone.Chebyshev(2)
@@ -69,12 +71,19 @@ export class InstrumentComponent implements OnInit {
   volume: any = new Tone.Volume(0)//.toDestination()
   comp: any = new Tone.Compressor(-30, 20)
   dist: any = new Tone.Distortion(0)
+  delay32: any = new Tone.FeedbackDelay("32n", 0.5)
+  delay16: any = new Tone.FeedbackDelay("16n", 0.5)
+  delay8: any = new Tone.FeedbackDelay("8t", 0.5)
+  loadingSampleError: string = ''
+  failedSamples: string[] = []
   effects: any[] = []
+  tempBuffer: any = {}
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
   showDistortion: boolean = true
   showReverb: boolean = false
+  showDelay: boolean = false
   showAutoWah: boolean = false
   showPitchShift: boolean = false
   showBitCrush: boolean = false
@@ -106,13 +115,13 @@ export class InstrumentComponent implements OnInit {
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
+              const proxyUrl = "https://cors.bridged.cc/"
               this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
                 userSampleSets => {
                   for (let i = 0; i < userSampleSets.length; i++) {
                     this.userSampleSetService.GetUsersSampleSetById(userSampleSets[i].sampleSetsId).subscribe(
                       currentSampleSet => {
                         this.sampleSets.push(currentSampleSet)
-                        const proxyUrl = "https://cors.bridged.cc/"
                         var tempSampleSet = []
                         for (let i = 0; i < currentSampleSet.samples.length; i++) {
                           let tempSample = {
@@ -129,19 +138,28 @@ export class InstrumentComponent implements OnInit {
                   }
                 }
               )
-              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).subscribe(
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).pipe().subscribe(
                 userSamples => {
-                  const proxyUrl = "https://cors.bridged.cc/"
                   for (let i = 0; i < userSamples.length; i++) {
                     this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
                       currentSample => {
-                        let tempSample = {
-                          sampleName: currentSample.sampleName,
-                          sample: new Tone.Sampler({
-                            C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
-                          }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-                        }
-                        this.samples.push(tempSample)
+                        const buffer = new Tone.Buffer(`${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`, () => {
+                          let tempSample = {
+                            sampleName: currentSample.sampleName,
+                            sample: new Tone.Sampler({
+                              C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
+                            }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                          }
+                          this.samples.push(tempSample)
+                        })
+                      },
+                      error => {
+                        this.loadingSampleError = 'Some of your samples failed to load. :('
+                        this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
+                          failedSample => {
+                            this.failedSamples.push(failedSample.sampleName)
+                          }
+                        )
                       }
                     )
                   }
@@ -244,6 +262,37 @@ export class InstrumentComponent implements OnInit {
   changeReverbDecay(event: any) {
     this.reverb.decay = event.value;
   }
+  changeDelayTime(event: any) {
+    if(event.value == 0) {
+      this.tracks.forEach(track => {
+        track.sample.sample.disconnect(this.delay32)
+        track.sample.sample.disconnect(this.delay16)
+        track.sample.sample.disconnect(this.delay8)
+      })
+    }else
+    if(event.value == 1) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+        track.sample.sample.disconnect(this.delay16)
+        track.sample.sample.disconnect(this.delay8)
+      })
+    }else
+    if(event.value == 2) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+        track.sample.sample.disconnect(this.delay32)
+        track.sample.sample.disconnect(this.delay8)
+      })
+    }else
+    if(event.value == 3) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+        track.sample.sample.disconnect(this.delay16)
+        track.sample.sample.disconnect(this.delay32)
+      })
+    }
+    
+  }
   changeAutoWahFreq(event: any) {
     this.autoWah.baseFrequency = event.value;
   }
@@ -283,7 +332,6 @@ export class InstrumentComponent implements OnInit {
     this.tracks.forEach(track => {
       //
       track.sample.sample.disconnect(effect)
-
       // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
       //   if (index !== array.length -1) { return acc + ", " + string; }
       // else {
@@ -422,10 +470,19 @@ export class InstrumentComponent implements OnInit {
     this.popOutDisplay = 'none'
   }
 
+  showTrackSettings(track : any) {
+    this.popOutSettings = 'block'
+    this.editingTrack = track
+  }
+
+  hideTrackSettings(){
+    this.popOutSettings = 'none'
+  }
+
   updateTimePosition() {
     let multiplier = 100
-    if (window.innerWidth < 1720) {
-      multiplier = 76
+    if (window.innerWidth < 1600) {
+      multiplier = 82
     }
     const timer = setInterval(() => {
       this.currentTimePosition = (Tone.Transport.seconds / +Tone.Transport.loopEnd) * multiplier
@@ -475,6 +532,7 @@ export class InstrumentComponent implements OnInit {
 
   changeEffect(effect: any) {
     this.showReverb = false
+    this.showDelay = false
     this.showDistortion = false
     this.showAutoWah = false
     this.showPitchShift = false
@@ -486,6 +544,9 @@ export class InstrumentComponent implements OnInit {
         break
       case 'reverb':
         this.showReverb = true
+        break
+      case 'delay':
+        this.showDelay = true
         break
       case 'autoWah':
         this.showAutoWah = true

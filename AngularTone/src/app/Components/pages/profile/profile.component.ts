@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
 
   //User Playlists
   allPlayLists: PlayList[] = [];
-  userPlayLists: PlayList[] = [];
+  userPlayLists: any[] = [];
   allSampleSets: SampleSets[] = [];
   userSampleSets: UsersSampleSets[] = [];
 
@@ -140,26 +140,31 @@ export class ProfileComponent implements OnInit {
               this.userMusic = foundsongs;
               this.PopulateAudioPlayer(foundsongs, foundUser);
 
-              //this.updatePlaylist(foundUser,foundUser.id) ;
               this.playlistService.GetAllPlaylists().subscribe(
-                (result) => {
-                  this.allPlayLists = (result);
-                  this.updateUserPlaylist(this.allPlayLists, foundUser.id);
-                }
-              )
-
-
+                result=>{
+                  result.forEach(e =>{
+                    if(e.userId == foundUser.id){
+                      this.userPlayLists.push(e);
+                    }
+                  });
+                });
+                
+              console.log('userPlaylist');
+              console.log(this.userPlayLists);
               //update the users samplesets
               console.log(foundUser);
-              this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
+              
+              this.userSampleSetsService.GetAllUsersSampleSet().subscribe(
                 (result) => {
-                  console.log('founduser')
-                  console.log(foundUser);
-                  console.log('result')
-                  console.log(result);
-                  this.userSampleSets = (result);
-                  console.log('usersamplesets')
+                  result.forEach((element: UsersSampleSets) => {
+                    if(element.userId== 1){
+                      this.userSampleSets.push(element);
+                      console.log(this.userSampleSets);
+                    }
+                  });
+                  console.log('usersamplesets');
                   console.log(this.userSampleSets);
+                  
                 }
               )
             }
@@ -168,61 +173,11 @@ export class ProfileComponent implements OnInit {
         }
       )
     )
-
-    console.log(this.user);
-   
   }
-
-  //Update all playlist- MOVED TO WITHIN THE AUTH0
-  // updatePlaylist(foundUser: User, x: any) {
-  //   this.playlistService.GetAllPlaylists().subscribe(
-  //     (result) => {
-  //       this.allPlayLists = (result);
-  //       this.updateUserPlaylist(this.allPlayLists, x);
-  //     }
-  //   )
-  // }
-
-  // K- fix with the new userSampleSets
-  //update all the sample sets 
-  // updateSampleSet(foundUser: User) {
-  //   this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
-  //     (result) => {
-  //       console.log(foundUser);
-  //       this.userSampleSets = (result);
-  //       console.log(this.userSampleSets);
-  //     }
-  //   )
-  // }
-
-  // updateUserSampleSets(allSampleSets: SampleSets[], x: any) {
-  //   this.allSampleSets.forEach(set => 
-  //     {
-  //       if(set.userId == x)
-  //       {
-  //         this.userSampleSets.push(set);
-  //       }
-  //     })
-  //     console.log(this.userSampleSets);
-  //   this.router.navigate(['profile']);
-  // }
-  //Update user playlist
-  updateUserPlaylist(allPlayLists: PlayList[], x: any) {
-    this.allPlayLists.forEach(playlist => 
-      {
-        if(playlist.userId == x)
-        {
-          this.userPlayLists.push(playlist);
-        }
-      })
-      console.log(this.userPlayLists);
-    this.router.navigate(['profile']);
-  }
-
 
   PopulateAudioPlayer(foundDbMusic: UploadMusic[], foundUser: any)
   {
-    
+
     var counter = 0;
     foundDbMusic.forEach(songFound => {
       if(counter == 0){
@@ -257,7 +212,7 @@ export class ProfileComponent implements OnInit {
   }
   GetSampleSet(id: number){
     console.log(this.userSampleSets);
-    this.router.navigate(['viewSampleSets'],{queryParams: {id: id} });
+    this.router.navigate(['sampleHub'],{queryParams: {id: id} });
   }
   EditSongs(id: number){
     console.log(this.userMusic)

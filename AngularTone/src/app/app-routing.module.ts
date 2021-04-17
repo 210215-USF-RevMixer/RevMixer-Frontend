@@ -15,6 +15,7 @@ import { EditSongsComponent } from './Components/pages/edit-songs/edit-songs.com
 import { SampleHubComponent } from './Components/pages/sample-hub/sample-hub.component';
 import { EditSampleSetsComponent } from './Components/pages/edit-sample-sets/edit-sample-sets.component';
 import { EditSamplesComponent } from './Components/pages/edit-samples/edit-samples.component';
+import { AdminrightsComponent } from './Components/pages/adminrights/adminrights.component';
 
 
 const routes: Routes = [
@@ -29,9 +30,10 @@ const routes: Routes = [
   {path: 'newSampleSet',  component: CreateSampleSetComponent, canActivate: [AuthGuard] },
   {path: 'viewSampleSet', component: ViewSampleSetComponent, canActivate: [AuthGuard]},
   {path: 'editSongs', component: EditSongsComponent, canActivate: [AuthGuard]},
-  {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]},
   {path: 'editSamples', component: EditSamplesComponent, canActivate: [AuthGuard]},
   {path: 'editSampleSets', component: EditSampleSetsComponent, canActivate: [AuthGuard]},
+  {path: 'sampleHub', component: SampleHubComponent, canActivate: [AuthGuard]},
+  {path: 'adminRights', component: AdminrightsComponent, canActivate: [AuthGuard]},
   {path: '**', component: InstrumentComponent},
 ];
 

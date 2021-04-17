@@ -1,9 +1,9 @@
-import { Sample } from './../Models/Sample';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as Tone from 'tone';
+import { SampleSetService } from './sample-set.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,14 @@ export class SampleService {
     headers: new HttpHeaders(
       {
         'Content-Type':'application/json'
+      }
+    )
+  }
+
+  uploadHttpOptions = {
+    headers: new HttpHeaders(
+      {
+        'Content-Type':'multipart/form-data'
       }
     )
   }
@@ -35,7 +43,7 @@ export class SampleService {
     return this.http.get<any>(`${this.url}/${userId}`, this.httpOptions);
   }
   
-  AddSample(sample2add: any): Observable<any> {
-    return this.http.post<any>(this.url, sample2add, this.httpOptions);
+  AddSample(sample: FormData): Observable<any> {
+    return this.http.post<any>(`${this.url}`, sample);
   }
 }
