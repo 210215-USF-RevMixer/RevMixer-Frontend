@@ -112,7 +112,7 @@ export class UploadComponent implements OnInit {
         {
         this.onUploadFinished.emit(event.body);
         //console.log(event.body);
-        debugger;
+        //debugger;
         this.name = event.body; 
         this.uploadedSong.musicFilePath = this.name.name;
         this.uploadedSong.userId = this.user.id;
