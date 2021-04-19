@@ -1,4 +1,3 @@
-import { Sample } from './../Models/Sample';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -28,7 +27,7 @@ export class SampleService {
       }
     )
   }
-  //THIS NEEDS TO BE UPDATED
+  // url : string = 'https://localhost:44301/api/Sample';
   url : string = environment.PROJECTSERVICE_SAMPLE;
 
   constructor(private http:HttpClient) { }

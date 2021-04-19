@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UploadComponent implements OnInit {
   //NEED TO ADD: NO ENDPOINT AVAILABLE YET IN README
-  url: string = environment.PROJECTSERVICE_MUSICBLOBUPLOAD;
+  url: string = environment.PROJECTSERVICE_SAMPLESBLOBUPLOAD;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();
@@ -81,10 +81,12 @@ export class UploadComponent implements OnInit {
     if (files.length === 0) {
       return;
     }
+    //debugger;
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
-    formData.append('songName', this.songName);
+    formData.append('isSong', "true");
+    //formData.append('songName', this.songName);
     //formData.append('isPrivate', this.isPrivate);
 
     //console.log(fileToUpload.type.substring(0,5));
@@ -99,7 +101,8 @@ export class UploadComponent implements OnInit {
     }
     else {
     //http://localhost:52824/api/UploadMusicBlob
-    this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
+    // https://localhost:44301/api/SampleBlob
+    this.http.post(`${this.url}`, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
@@ -112,7 +115,7 @@ export class UploadComponent implements OnInit {
         {
         this.onUploadFinished.emit(event.body);
         //console.log(event.body);
-        debugger;
+        //debugger;
         this.name = event.body; 
         this.uploadedSong.musicFilePath = this.name.name;
         this.uploadedSong.userId = this.user.id;

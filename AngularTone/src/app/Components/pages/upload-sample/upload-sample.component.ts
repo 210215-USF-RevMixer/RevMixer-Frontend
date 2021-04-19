@@ -110,7 +110,7 @@ export class UploadSampleComponent implements OnInit {
         if(event.body)
         {
         this.onUploadFinished.emit(event.body);
-        //debugger;
+        debugger;
         //console.log(event.body);
         const formdataforSample = new FormData();
         this.name = event.body; 

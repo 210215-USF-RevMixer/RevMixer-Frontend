@@ -42,6 +42,13 @@ export class EditSamplesComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.sampleService.GetSamples().subscribe
+          (foundsamples =>
+            {
+              this.samples2edit = foundsamples;
+              console.log(this.samples2edit)
+            }
+            )
     this.authService.user$.subscribe(
       au =>
       this.authUser = au
@@ -52,10 +59,15 @@ export class EditSamplesComponent implements OnInit {
       (foundUser =>
         {
           this.user = foundUser;
-          this.sampleService.GetSamplesByUserID(foundUser.id).subscribe
-          (foundsamples =>
-            {
-              this.samples2edit = foundsamples;
-              console.log(this.samples2edit)
-            })}))}
+          // this.sampleService.GetSamples().subscribe
+          // (foundsamples =>
+          //   {
+          //     this.samples2edit = foundsamples;
+          //     console.log(this.samples2edit)
+          //   }
+          //   )
+          }
+          )
+          )
+        }
 }

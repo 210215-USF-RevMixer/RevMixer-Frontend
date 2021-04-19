@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
 
   //User Playlists
   allPlayLists: PlayList[] = [];
-  userPlayLists: PlayList[] = [];
+  userPlayLists: any[] = [];
   allSampleSets: SampleSets[] = [];
   userSampleSets: UsersSampleSets[] = [];
 
@@ -140,22 +140,24 @@ export class ProfileComponent implements OnInit {
               this.userMusic = foundsongs;
               this.PopulateAudioPlayer(foundsongs, foundUser);
 
-              //this.updatePlaylist(foundUser,foundUser.id) ;
               this.playlistService.GetAllPlaylists().subscribe(
-                (result) => {
-                  this.allPlayLists = (result);
-                  this.updateUserPlaylist(this.allPlayLists, foundUser.id);
-                }
-              )
-
-
+                result=>{
+                  result.forEach(e =>{
+                    if(e.userId == foundUser.id){
+                      this.userPlayLists.push(e);
+                    }
+                  });
+                });
+                
+              console.log('userPlaylist');
+              console.log(this.userPlayLists);
               //update the users samplesets
               console.log(foundUser);
               
               this.userSampleSetsService.GetAllUsersSampleSet().subscribe(
                 (result) => {
                   result.forEach((element: UsersSampleSets) => {
-                    if(element.userId== 1){
+                    if(element.userId == foundUser.Id){
                       this.userSampleSets.push(element);
                       console.log(this.userSampleSets);
                     }
@@ -172,53 +174,6 @@ export class ProfileComponent implements OnInit {
       )
     )
   }
-
-  //Update all playlist- MOVED TO WITHIN THE AUTH0
-  // updatePlaylist(foundUser: User, x: any) {
-  //   this.playlistService.GetAllPlaylists().subscribe(
-  //     (result) => {
-  //       this.allPlayLists = (result);
-  //       this.updateUserPlaylist(this.allPlayLists, x);
-  //     }
-  //   )
-  // }
-
-  // K- fix with the new userSampleSets
-  //update all the sample sets 
-  // updateSampleSet(foundUser: User) {
-  //   this.userSampleSetsService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
-  //     (result) => {
-  //       console.log(foundUser);
-  //       this.userSampleSets = (result);
-  //       console.log(this.userSampleSets);
-  //     }
-  //   )
-  // }
-
-  // updateUserSampleSets(allSampleSets: SampleSets[], x: any) {
-  //   this.allSampleSets.forEach(set => 
-  //     {
-  //       if(set.userId == x)
-  //       {
-  //         this.userSampleSets.push(set);
-  //       }
-  //     })
-  //     console.log(this.userSampleSets);
-  //   this.router.navigate(['profile']);
-  // }
-  //Update user playlist
-  updateUserPlaylist(allPlayLists: PlayList[], x: any) {
-    this.allPlayLists.forEach(playlist => 
-      {
-        if(playlist.userId == x)
-        {
-          this.userPlayLists.push(playlist);
-        }
-      })
-      console.log(this.userPlayLists);
-    this.router.navigate(['profile']);
-  }
-
 
   PopulateAudioPlayer(foundDbMusic: UploadMusic[], foundUser: any)
   {

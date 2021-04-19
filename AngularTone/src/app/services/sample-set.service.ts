@@ -20,7 +20,7 @@ export class SampleSetService {
     )
   }
 
-  url : string = environment.PROJECTSERVICE_SAMPLESETS;
+  url : string = "https://localhost:44301/api/SampleSets";
 
   constructor(private http:HttpClient) { }
   
@@ -37,7 +37,7 @@ export class SampleSetService {
   }
   //Add sampleset
   AddSampleSet(sampleset2add :FormData): Observable<any> {
-    return this.http.post<any>(this.url, sampleset2add);
+    return this.http.post<any>(`${this.url}`, sampleset2add);
   }
   EditSampleSet(id: number):Observable<any>{
     return this.http.put<any>(`${this.url}/${id}`, this.httpOptions);
