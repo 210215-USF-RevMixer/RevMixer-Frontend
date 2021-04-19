@@ -10,11 +10,7 @@ trigger:
   paths:
     include:
     - AngularTone
-pool:
-  vmImage: ubuntu-latest
-  demands:
-  - npm
-  - java
+pool: connor's agent
 
 steps:
 - task: SonarCloudPrepare@1
@@ -51,12 +47,13 @@ steps:
   continueOnError: true 
 
 - task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage Angular results'
   condition: succeededOrFailed()
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: 'testsResults/unitTests/coverage/cobertura-coverage.xml'
     reportDirectory: 'testsResults/unitTests/coverage/'
-    failIfCoverageEmpty: true 
+    failIfCoverageEmpty: true
 
 - task: SonarCloudAnalyze@1
 
