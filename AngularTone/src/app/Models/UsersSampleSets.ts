@@ -1,6 +1,6 @@
 export interface UsersSampleSets
 {
-    Id: number,
+    id: number,
     userId: number,
     sampleSetsId: number,
     isOwner: boolean

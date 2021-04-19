@@ -23,7 +23,8 @@ yes daddy
         <table class="table">
             <thead>
                 <th>Name</th>
-                <th>Privacy</th>
+                <th>Approved</th>
+                <th>Locked</th>
             </thead>
             <tbody>
                 <tr *ngFor="let sample of samples2admin;">
@@ -32,8 +33,15 @@ yes daddy
                     </td>
                     <td>
                         <label class="switch">
-                        <input type="checkbox" [(ngModel)]="sample.isPrivate" (change)="changePrivacy(sample.isPrivate?'1':'0')"
-                        name="isPrivate" #name="ngModel" value="sample.isPrivate">
+                        <input type="checkbox" [(ngModel)]="sample.isApproved" (change)="changeApproval(sample.isApproved?'1':'0')"
+                        name="isApproved" #name="ngModel" value="sample.isApproved">
+                        <span class="slider round"></span>
+                        </label>
+                    </td>
+                    <td>
+                        <label class="switch">
+                        <input type="checkbox" [(ngModel)]="sample.isLocked" (change)="changeLock(sample.isLocked?'1':'0')"
+                        name="isLocked" #name="ngModel" value="sample.isLocked">
                         <span class="slider round"></span>
                         </label>
                     </td>
