@@ -26,14 +26,14 @@ yes daddy
                 <th>Privacy</th>
             </thead>
             <tbody>
-                <tr *ngFor="let sample2edit of samples2admin;">
+                <tr *ngFor="let sample of samples2admin;">
                     <td>
-                        {{sample2edit.sampleName}}
+                        {{sample.sampleName}}
                     </td>
                     <td>
                         <label class="switch">
-                        <input type="checkbox" [(ngModel)]="sample2admin.isPrivate" (change)="changePrivacy(sample2edit.isPrivate?'1':'0')"
-                        name="isPrivate" #name="ngModel" value="sample2admin.isPrivate">
+                        <input type="checkbox" [(ngModel)]="sample.isPrivate" (change)="changePrivacy(sample.isPrivate?'1':'0')"
+                        name="isPrivate" #name="ngModel" value="sample.isPrivate">
                         <span class="slider round"></span>
                         </label>
                     </td>
