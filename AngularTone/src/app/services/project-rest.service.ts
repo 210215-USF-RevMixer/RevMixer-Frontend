@@ -77,19 +77,14 @@ export class ProjectRestService {
   }
 
 
-  GetUserProjectsByUserID(userid: number) : Observable<any>
+  GetUserProjectsByUserID(userid: number) : Observable<any[]>
   {
-    return this.http.get<any>(`${this.url}/${userid}`, this.httpOptions);
+    return this.http.get<any>(`${this.url}/userId/${userid}`, this.httpOptions);
   }
 
   GetUserProjectByID(projectid: number) : Observable<any>
   {
     return this.http.get<any>(`${this.url}/${projectid}`, this.httpOptions);
-  }
-
-  PostUserProject(project:any) : Observable<any>
-  {
-    return this.http.post<UserProject>(`${this.url}`, project, this.httpOptions);
   }
 
   AddSavedProject(savedProject2add :FormData): Observable<any> {

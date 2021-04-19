@@ -554,13 +554,9 @@ export class InstrumentComponent implements OnInit {
     formData.append('userId', this.newSavedProject.userId)
     formData.append('sampleIds', tempSampleIds.join())
     formData.append('pattern', tempPattern.join())
+    formData.append('bPM', this.tempo.toString())
 
-    console.log('name: ' + formData.get('name'))
-    console.log('userId: ' + formData.get('userId'))
-    console.log('sampleIds: ' + formData.get('sampleIds'))
-    console.log('pattern: ' + formData.get('pattern'))
-
-    // this.projectRestService.AddSavedProject(formData);
+    this.projectRestService.AddSavedProject(formData);
     
     alert(`${this.newSavedProject.name} has been saved!`);
 
