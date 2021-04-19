@@ -8,8 +8,14 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /api/$1/$2$3
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
+    tls:
+    - hosts: 
+    - ingress.revmixer
+    secretName: tls-secret
   rules:
+  - host: ingress.revmixer
   - http:
       paths:
       - backend:
