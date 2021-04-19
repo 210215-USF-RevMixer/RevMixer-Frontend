@@ -10,11 +10,7 @@ trigger:
   paths:
     include:
     - AngularTone
-pool:
-  vmImage: ubuntu-latest
-  demands:
-  - npm
-  - java
+pool: connor's agent
 
 steps:
 - task: SonarCloudPrepare@1
