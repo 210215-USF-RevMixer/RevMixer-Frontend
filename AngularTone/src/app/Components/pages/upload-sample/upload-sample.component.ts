@@ -3,6 +3,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { Track } from 'ngx-audio-player';
 import { Sample } from 'src/app/Models/Sample';
+import { User } from 'src/app/Models/User';
+import { SampleService } from 'src/app/services/sample.service';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
 import { environment } from 'src/environments/environment';
@@ -15,7 +17,7 @@ import { environment } from 'src/environments/environment';
 export class UploadSampleComponent implements OnInit {
   authUser: any;
   //NEED TO ADD: NO ENDPOINT AVAILABLE YET IN README
-  url: string = 'https://cors.bridged.cc/' + environment.SAMPLE_STORAGE;
+  url: string = environment.PROJECTSERVICE_SAMPLESBLOBUPLOAD;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();
@@ -27,7 +29,7 @@ export class UploadSampleComponent implements OnInit {
 
 
 
-  constructor(private http: HttpClient, private authService: AuthService, private userService: UserRestService, private uploadmusicService: UploadedMusicRestService) { 
+  constructor(private http: HttpClient, private authService: AuthService, private userService: UserRestService, private uploadSampleService: SampleService) { 
     this.progress = 0,
     this.message = '',
     
@@ -46,16 +48,28 @@ export class UploadSampleComponent implements OnInit {
     this.uploadedSample =
     {
       id: 0,
-      userId: 0,
       sampleName: '',
       sampleLink: '',
       
-      tracks: []
+      track: []
     }
 
   }
 
   ngOnInit(): void {
+    
+    this.authService.user$.subscribe(
+      authUser =>
+
+    this.userService.GetUserByEmail(authUser.email).subscribe
+    (
+      foundUser =>
+      {
+        //this.user = foundUser;
+        this.updateUser(foundUser);
+      }
+    )
+    )
   }
 
 
@@ -82,8 +96,9 @@ export class UploadSampleComponent implements OnInit {
       this.message = 'Please enter in a name for your track!';
     }
     else {
-    const proxyUrl = "https://cors.bridged.cc/"
-    this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
+    //const proxyUrl = "https://cors.bridged.cc/"
+    //https://localhost:44301/api/SampleBlob
+    this.http.post(`${this.url}`, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
@@ -95,26 +110,29 @@ export class UploadSampleComponent implements OnInit {
         if(event.body)
         {
         this.onUploadFinished.emit(event.body);
-        
+        debugger;
         //console.log(event.body);
+        const formdataforSample = new FormData();
         this.name = event.body; 
-        this.uploadedSample.musicFilePath = this.name.name;
-        this.uploadedSample.userId = this.user.id;
-        this.uploadedSample.sampleName = this.sampleName;
-        this.uploadedSample.userId = this.user.id;
-        this.uploadedSample.isPrivate = this.isPrivate;
-        this.uploadedSample.isApproved = true;
-        this.uploadedSample.isLocked = false;
+        formdataforSample.append('userId', this.user.id);
+        formdataforSample.append('sampleLink', this.name.name);
+        formdataforSample.append('sampleName', this.sampleName);
+        formdataforSample.append('isPrivate', this.isPrivate);
+        formdataforSample.append('isApproved', "1");
+        formdataforSample.append('isLocked', "0");
+
+        // this.uploadedSample.Id = 0;
+        // this.uploadedSample.userId = this.user.id;
+        // this.uploadedSample.sampleLink = this.name.name;
+        // this.uploadedSample.sampleName = this.sampleName;
+        // this.uploadedSample.isPrivate = this.isPrivate;
+        // this.uploadedSample.isApproved = true;
+        // this.uploadedSample.isLocked = false;
 
         //console.log(JSON.stringify(this.uploadedSample));
 
-        this.uploadmusicService.PostSong(this.uploadedSample).subscribe(
-          (response) =>
-          {
-            
-            //console.log(response.musicFilePath);
-          }
-        )
+        this.uploadSampleService.AddSample(formdataforSample).subscribe()
+        
 
 
         }
@@ -128,6 +146,9 @@ export class UploadSampleComponent implements OnInit {
 
   changePrivacy(event: any){
     console.log(event);
+  }
+  updateUser(foundUser: User): void {
+    this.user = foundUser;
   }
 
 }
