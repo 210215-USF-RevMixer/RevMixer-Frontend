@@ -39,7 +39,7 @@ export class CreateSampleSetComponent implements OnInit {
       name:''
     }
     this.newUsersSampleSet ={
-      Id: 0,
+      id: 0,
       userId:0,
       sampleSetsId : 0,
       isOwner: false

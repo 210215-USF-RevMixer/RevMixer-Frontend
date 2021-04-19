@@ -14,7 +14,11 @@ import { environment } from 'src/environments/environment';
 import { SampleService } from '../services/sample.service';
 import { UsersSampleService } from '../services/users-sample.service';
 import { UsersSampleSetsService } from '../services/users-sample-sets.service';
+import { SavedProjectRestService } from '../services/saved-project-rest.service';
 import { ProjectRestService } from '../services/project-rest.service';
+import { SampleSetService } from '../services/sample-set.service';
+import { SamplePlaylistService } from '../services/sample-playlist.service';
+import { SamplePlaylist } from '../Models/SamplePlaylist';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -85,7 +89,8 @@ export class InstrumentComponent implements OnInit {
   showBitCrush: boolean = false
   showCheby: boolean = false
 
-  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: ProjectRestService) {
+  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: SavedProjectRestService, private sampleSetService: SampleSetService,
+    private samplePlaylistService: SamplePlaylistService) {
     this.tracks = [
       {
         sample: {},
@@ -121,31 +126,43 @@ export class InstrumentComponent implements OnInit {
               const proxyUrl = "https://cors.bridged.cc/"
 
               //GET USERS SAMPLE SETS
+              debugger;
               this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
                 userSampleSets => {
                   for (let i = 0; i < userSampleSets.length; i++) {
-                    this.userSampleSetService.GetUsersSampleSetById(userSampleSets[i].sampleSetsId).subscribe(
+                    this.sampleSetService.GetSampleSet(userSampleSets[i].sampleSetsId).subscribe(
                       currentSampleSet => {
                         this.sampleSets.push(currentSampleSet)
-                        var tempSampleSet = []
-                        for (let i = 0; i < currentSampleSet.samples.length; i++) {
-                          let tempSample = {
-                            sampleName: currentSampleSet.samples[i].sampleName,
-                            sample: new Tone.Sampler({
-                              C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSampleSet.samples[i].sampleLink}`
-                            }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
+                        this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+                          (currentSamplePlaylist) => {
+                            var tempSampleSet;
+                            for(let j = 0; j < currentSamplePlaylist.length; j++)
+                            {
+                              if(currentSamplePlaylist[j].sampleSetId === currentSampleSet.id)
+                              {
+                                this.sampleService.GetSampleByID(currentSamplePlaylist[j].sampleId).subscribe(
+                                  currentSample => {
+                                    let tempSample = {
+                                      sampleName: currentSample.sampleName,
+                                      sample: new Tone.Sampler({
+                                        C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
+                                        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
+                                    }
+                                  }
+                                )
+                              }
+                            }
                           }
-                          tempSampleSet.push(tempSample)
-                        }
-                        this.sampleSets.push(tempSampleSet)
+                        )
                       }
                     )
                   }
+                  console.log(this.sampleSets);
                 }
               )
 
               //GET USERS SAMPLES
-              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).pipe().subscribe(
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).subscribe(
                 userSamples => {
                   for (let i = 0; i < userSamples.length; i++) {
                     this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
@@ -171,6 +188,18 @@ export class InstrumentComponent implements OnInit {
                       }
                     )
                   }
+                }
+              )
+
+              // GET USER SAVED PROJECTS
+              this.projectRestService.GetProjects().subscribe(
+                userProjects => {
+                  userProjects.forEach(project => {
+                    if(project.userId === foundUser.id){
+                      console.log('method 2: ' + project)
+                    }
+                  })
+                  
                 }
               )
             }
@@ -678,6 +707,12 @@ export class InstrumentComponent implements OnInit {
     formData.append('sampleIds', tempSampleIds.join())
     formData.append('pattern', tempPattern.join())
     formData.append('bPM', this.tempo.toString())
+
+    console.log('name: ' + formData.get('name'))
+    console.log('userId: ' + formData.get('userId'))
+    console.log('sampleIds: ' + formData.get('sampleIds'))
+    console.log('pattern: ' + formData.get('pattern'))
+    console.log('bPM: ' + formData.get('bPM'))
 
     this.projectRestService.AddSavedProject(formData).subscribe();
     

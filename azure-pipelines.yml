@@ -13,6 +13,10 @@ trigger:
 pool: connor's agent
 
 steps:
+- checkout: self
+  clean: true
+  fetchDepth: 1
+  
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis on SonarCloud'
   inputs:
@@ -45,6 +49,11 @@ steps:
   displayName: ng test
   workingDirectory: 'AngularTone'
   continueOnError: true 
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(Build.SourcesDirectory)/jacoco/**/*.cobertura-coverage.xml'
 
 - task: SonarCloudAnalyze@1
 
