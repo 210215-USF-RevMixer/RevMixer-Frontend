@@ -40,11 +40,6 @@ steps:
     command: 'custom'
     workingDir: 'AngularTone'
     customCommand: 'run build'
-  
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    publishLocation: 'pipeline'
 
 - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
   displayName: test
