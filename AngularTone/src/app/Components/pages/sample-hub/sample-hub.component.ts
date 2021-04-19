@@ -172,6 +172,8 @@ export class SampleHubComponent implements OnInit {
     else if(this.paramFlag&&this.neededSamples.length==0){
       alert('This set is currently empty try adding some Samples!');
       console.log();
+    }else{
+      console.log();
     }
       
     
