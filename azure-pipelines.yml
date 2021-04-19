@@ -43,6 +43,7 @@ steps:
 
 - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
   displayName: test
+  condition: succeededOrFailed()
   workingDirectory: 'AngularTone'
   continueOnError: true 
 
