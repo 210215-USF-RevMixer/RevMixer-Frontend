@@ -41,7 +41,7 @@ export class SampleSetsComponent implements OnInit {
         playlists: []
       }
       this.set2Add= {
-        Id :0,
+        id :0,
         userId: 0,
         sampleSetsId: 0,
         isOwner: false
