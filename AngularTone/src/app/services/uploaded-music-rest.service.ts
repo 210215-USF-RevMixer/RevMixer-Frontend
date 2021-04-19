@@ -10,8 +10,8 @@ import { UploadMusic } from '../Models/UploadMusic';
 export class UploadedMusicRestService {
 
   responseValue: any;
-
-  url : string = 'http://localhost:52824/api/UploadMusic';
+  // http://localhost:52824/api/UploadMusic
+  url : string = environment.MUSICSERVICE_UPLOADMUSIC;
   // url: string = environment.MUSICSERVICE_UPLOADMUSIC;
 
 

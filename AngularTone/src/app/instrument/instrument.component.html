@@ -27,7 +27,7 @@
         <mat-slider (input)="changeVolume($event)" step="1" min="-50" max="-10" value="-10"></mat-slider>
       </div>
       <div *ngIf="tempo"><label class="pr-2">Tempo:</label>
-        <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="120"></mat-slider> {{tempo}}
+        <mat-slider (input)="tempoChange($event)" step="1" min="10" max="300" value="160"></mat-slider> {{tempo}}
       </div>
       <div>
         <mat-form-field>
@@ -48,28 +48,29 @@
       </div>
       <div *ngIf="reverb && showReverb">
         <button class="playButton" mat-stroked-button color="primary" (click)="connectEffect(this.reverb);">On</button>
-        <button class="playButton" mat-stroked-button color="primary"
-          (click)="disconnectEffect(this.reverb);">Off</button>
+        <button class="playButton" mat-stroked-button color="primary" (click)="disconnectEffect(this.reverb);">Off</button>
         <label class="pr-2">Reverb:</label>
 
         <mat-slider (input)="changeReverbDecay($event)" [value]="reverb.decay" step="0.001" min="0.001" max="5"></mat-slider> {{reverb.decay * 20 | number:'1.0-0'}} %
       </div>
       <div *ngIf="delay32 && showDelay">
-        <!-- <button class="playButton" mat-stroked-button color="primary" (click)="changeDelayTime($event);">On</button>
-        <button class="playButton" mat-stroked-button color="primary" (click)="disconnectEffect(this.delay32);">Off</button> -->
         <label class="pr-2">Time:</label>
-        <mat-slider (input)="changeDelayTime($event)"  step="1" min="0" max="3"></mat-slider> 
+        <mat-slider (input)="changeDelayTime($event)"  step="1" min="0" max="3"></mat-slider>
+        <!-- <button class="playButton" mat-stroked-button color="primary" (click)="connectEffect(this.delay32);">On(short)</button>
+        <button class="playButton" mat-stroked-button color="primary" (click)="disconnectEffect(this.delay32);">Off(short)</button>
+        <button class="playButton" mat-stroked-button color="primary" (click)="connectEffect(this.delay16);">On(med)</button>
+        <button class="playButton" mat-stroked-button color="primary" (click)="disconnectEffect(this.delay16);">Off(med)</button>
+        <button class="playButton" mat-stroked-button color="primary" (click)="connectEffect(this.delay8);">On(long)</button>
+        <button class="playButton" mat-stroked-button color="primary" (click)="disconnectEffect(this.delay8);">Off(long)</button> -->
       </div>
       <div *ngIf="autoWah && showAutoWah">
         <button class="playButton" mat-stroked-button color="primary" (click)="connectEffect(this.autoWah);">On</button>
         <button class="playButton" mat-stroked-button color="primary"
           (click)="disconnectEffect(this.autoWah);">Off</button>
         <label class="pr-2">Frequency:</label>
-
-        <mat-slider (input)="changeAutoWahFreq($event)" [value]="autoWah.baseFrequency" step="0.1" min="10" max="75"></mat-slider>
+        <mat-slider (input)="changeAutoWahFreq($event)" [value]="autoWah.baseFrequency" step="0.1" min="5" max="100"></mat-slider>
         <label class="pr-2">Sweep Range:</label> 
-        <mat-slider (input)="changeAutoWahRange($event)" [value]="autoWah.octaves" step="0.1" min="5" max="20"></mat-slider>
-
+        <mat-slider (input)="changeAutoWahRange($event)" [value]="autoWah.octaves" step="0.1" min="1" max="30"></mat-slider>
       </div>
       <div *ngIf="pitchshift && showPitchShift">
         <button class="playButton" mat-stroked-button color="primary"
@@ -209,7 +210,7 @@
 
     <div>
       <label class="pr-2">Volume:</label>
-      <mat-slider (input)="changeTrackVolume($event, editingTrack)" step="1" min="-50" max="-10" value="-10"></mat-slider>
+      <mat-slider (input)="changeTrackVolume($event, editingTrack)" step="1" min="-50" max="0" value="0"></mat-slider>
     </div>
 
     <div>
@@ -219,27 +220,39 @@
 
     <div>
       <label class="pr-2">Reverb:</label>
-      <mat-slider (input)="changeTrackReverbDecay($event, editingTrack)" step="0.01" min="0" max="1" value="0.001"></mat-slider>
+      <mat-slider (input)="changeTrackReverbVolume($event, editingTrack)" step="0.1" min="-50" max="0" value="0"></mat-slider>
+      <button class="playButton" mat-stroked-button color="primary" (click)="connectTrackEffect(this.reverb, editingTrack);">Only</button>
+      <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.reverb, editingTrack);">Off</button>
     </div>
 
     <div>
-      <label class="pr-2">Frequency:</label>
-      <mat-slider (input)="changeTrackAutoWahFreq($event, editingTrack)" step="0.1" min="10" max="75" value="100"></mat-slider>
+      <label class="pr-2">Short Delay:</label>
+      <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.delay32, editingTrack);">Off</button>
     </div>
 
     <div>
-      <label class="pr-2">Sweep Change:</label>
-      <mat-slider (input)="changeTrackAutoWahRange($event)($event, editingTrack)" step="0.1" min="5" max="20" value="6"></mat-slider>
+      <label class="pr-2">Med Delay:</label>
+      <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.delay16, editingTrack);">Off</button>
     </div>
 
     <div>
-      <label class="pr-2">Pitch:</label>
-      <mat-slider (input)="changeTrackPitchShift($event, editingTrack)" step="0.1" min="-48" max="48" value="0"></mat-slider>
+      <label class="pr-2">Long Delay:</label>
+      <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.delay8, editingTrack);">Off</button>
     </div>
 
     <div>
-      <label class="pr-2">Order:</label>
-      <mat-slider (input)="changeTrackCheby($event, editingTrack)" step="1" min="2" max="100" value="cheby.order"></mat-slider>
+      <label class="pr-2">AutoWah:</label>
+      <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.autoWah, editingTrack);">Off</button>
+    </div>
+
+    <div>
+      <label class="pr-2">PitchShift:</label>
+      <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.pitchshift, editingTrack);">Off</button>
+    </div>
+
+    <div>
+      <label class="pr-2">Chebyshev:</label>
+      <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.cheby, editingTrack);">Off</button>
     </div>
   </div>
 </div>

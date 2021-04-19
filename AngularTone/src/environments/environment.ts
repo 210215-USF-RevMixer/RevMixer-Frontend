@@ -22,8 +22,8 @@ export const environment = {
   PROJECTSERVICE_SAMPLESBLOBUPLOAD: 'https://revmix-project-service.azurewebsites.net/api/SampleBlob',
   PROJECTSERVICE_MUSICBLOBUPLOAD: 'https://revmixmusic.azurewebsites.net/api/UploadMusicBlob',
 
-  SAMPLE_STORAGE: 'https://revmixerstorage2.blob.core.windows.net/uploadsample',
-  MUSIC_STORAGE: 'https://revmixerstorage2.blob.core.windows.net/uploadmusic',
+  SAMPLE_STORAGE: 'https://revmixerstoragep3.blob.core.windows.net/uploadsample',
+  MUSIC_STORAGE: 'https://revmixerstoragep3.blob.core.windows.net/uploadmusic',
 
   DOMAIN: 'revmixer.us.auth0.com',
   CLIENT_ID: 'dkWA6cBjs14xdCEU4vWe3tsH7vRNWwra',
