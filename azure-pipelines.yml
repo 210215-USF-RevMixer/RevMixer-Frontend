@@ -10,11 +10,7 @@ trigger:
   paths:
     include:
     - AngularTone
-pool:
-  vmImage: ubuntu-latest
-  demands:
-  - npm
-  - java
+pool: connor's agent
 
 steps:
 - task: SonarCloudPrepare@1
@@ -47,19 +43,23 @@ steps:
 
 - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
   displayName: test
+  condition: succeededOrFailed()
   workingDirectory: 'AngularTone'
   continueOnError: true 
 
+- task: PublishTestResults@2
+  displayName: 'Publish Angular test results'
+  condition: succeededOrFailed()
+  inputs:
+    searchFolder: $(System.DefaultWorkingDirectory)/src/AngularApp/junit
+    testRunTitle: Angular
+    testResultsFormat: JUnit
+    testResultsFiles: "**/TESTS*.xml"
+
 - task: PublishCodeCoverageResults@1
   inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage/cobertura-coverage.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/**/coverage'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(Build.SourcesDirectory)/jacoco/**/*.cobertura-coverage.xml'
 
 - task: SonarCloudAnalyze@1
 
