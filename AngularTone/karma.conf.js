@@ -2,6 +2,8 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
+  const puppeteer = require('puppeteer');
+  process.env.CHROME_BIN = puppeteer.executablePath();
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
@@ -34,17 +36,20 @@ module.exports = function (config) {
       ]
     },
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, './coverage/ng-azure-devops'),
-      reports: ['html', 'lcovonly', 'text-summary', 'cobertura'],
-      fixWebpackSourcePaths: true
+      dir: join(__dirname, '../../coverage'),
+      reports: ['html', 'lcovonly','text-summary', 'cobertura'],
+      fixWebpackSourcePaths: true,
     },
     reporters: ['progress', 'kjhtml', 'junit'],
+    junitReporter: {
+      outputDir: '../junit'
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false,
+    singleRun: true,
     restartOnFileChange: true
   });
 };
