@@ -26,7 +26,7 @@ import { environment } from 'src/environments/environment';
 import { SampleService } from '../services/sample.service';
 import { UsersSampleService } from '../services/users-sample.service';
 import { UsersSampleSetsService } from '../services/users-sample-sets.service';
-import { ProjectRestService } from '../services/project-rest.service';
+import { SavedProjectRestService } from '../services/saved-project-rest.service';
 @Component({
   selector: 'app-instrument',
   templateUrl: './instrument.component.html',
@@ -93,7 +93,7 @@ export class InstrumentComponent implements OnInit {
   showBitCrush: boolean = false
   showCheby: boolean = false
 
-  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: ProjectRestService) {
+  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: SavedProjectRestService) {
     this.tracks = [
       {
         sample: {},
@@ -179,13 +179,6 @@ export class InstrumentComponent implements OnInit {
                       }
                     )
                   }
-                }
-              )
-              
-              // GET USER SAVED PROJECTS
-              this.projectRestService.GetUserProjectsByUserID(foundUser.id).subscribe(
-                userProjects => {
-                  console.log('method 1: ' + userProjects)
                 }
               )
 
@@ -625,6 +618,12 @@ export class InstrumentComponent implements OnInit {
     formData.append('sampleIds', tempSampleIds.join())
     formData.append('pattern', tempPattern.join())
     formData.append('bPM', this.tempo.toString())
+
+    console.log('name: ' + formData.get('name'))
+    console.log('userId: ' + formData.get('userId'))
+    console.log('sampleIds: ' + formData.get('sampleIds'))
+    console.log('pattern: ' + formData.get('pattern'))
+    console.log('bPM: ' + formData.get('bPM'))
 
     this.projectRestService.AddSavedProject(formData).subscribe();
     
