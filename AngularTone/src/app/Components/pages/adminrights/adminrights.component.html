@@ -12,3 +12,34 @@ yes daddy
     Delete public project/ upload file.
 </p>
 <div>
+<div>
+    Show all the samples. And then, have a toggle to flag them/lock them.
+    There should be a thing that lets you delete the jawn as well.
+</div>
+<h1>Edit samples</h1>
+<div>
+
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Privacy</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sample2edit of samples2admin;">
+                    <td>
+                        {{sample2edit.sampleName}}
+                    </td>
+                    <td>
+                        <label class="switch">
+                        <input type="checkbox" [(ngModel)]="sample2admin.isPrivate" (change)="changePrivacy(sample2edit.isPrivate?'1':'0')"
+                        name="isPrivate" #name="ngModel" value="sample2admin.isPrivate">
+                        <span class="slider round"></span>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-secondary">Update info</button>
+    </form>
+    </div>
