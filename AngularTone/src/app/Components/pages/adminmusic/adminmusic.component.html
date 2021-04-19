@@ -1,0 +1,35 @@
+<div class="row h-24">
+    <div class="col-12">
+.
+    </div>
+</div>
+    <h1>Manage songs</h1>
+<div>
+</div>
+<h1>Admin Page</h1>
+<p>
+    You can manage uploaded songs here.
+    An uploaded song can be deleted by selecting the delete button next to its name.
+</p>
+<div>
+
+<h1>Manage Songs</h1>
+<div>
+
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+        <table class="table">
+            <thead>
+                <th>Name</th>
+                <th>Manage</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let music of music2admin;">
+                    <td>
+                        {{music.name}}
+                    </td>
+                    <div (click)="deleteSample(sample)"><img  style="height: 3%; width: 3%;" src="../../assets/images/tiny-trash-can.png"></div>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    </div>
