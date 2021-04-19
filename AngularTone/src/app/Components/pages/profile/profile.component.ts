@@ -49,6 +49,10 @@ export class ProfileComponent implements OnInit {
   allSampleSets: SampleSets[] = [];
   userSampleSets: UsersSampleSets[] = [];
 
+  //User SampleSets
+  userSamples: SampleSets[] = [];
+  flag: boolean = true;
+
   constructor(private userService: UserRestService, private musicService: UploadedMusicRestService,private sampleService: SampleSetService, private userSampleSetsService: UsersSampleSetsService, private individualSampleService: SampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
 
@@ -129,9 +133,6 @@ export class ProfileComponent implements OnInit {
               this.user.sample = foundsamples;
             }
           )
-          
-
-          
           this.musicService.GetSongsByUserId(foundUser.id).subscribe
           (
             foundsongs =>
@@ -149,32 +150,58 @@ export class ProfileComponent implements OnInit {
                   });
                 });
                 
-              console.log('userPlaylist');
-              console.log(this.userPlayLists);
               //update the users samplesets
-              console.log(foundUser);
               
-              this.userSampleSetsService.GetAllUsersSampleSet().subscribe(
-                (result) => {
-                  result.forEach((element: UsersSampleSets) => {
-                    if(element.userId== 1){
-                      this.userSampleSets.push(element);
-                      console.log(this.userSampleSets);
-                    }
-                  });
-                  console.log('usersamplesets');
-                  console.log(this.userSampleSets);
-                  
-                }
-              )
             }
           )
-
+          this.userSampleSetsService.GetAllUsersSampleSet().subscribe(
+            (result) => {
+              result.forEach((element: UsersSampleSets) => {
+                if(element.userId == foundUser.id){
+                  this.userSampleSets.push(element);
+                  debugger;
+                  this.GetTheSampleSets(element.id);
+                }
+              });
+            
+            }
+          )
+          // this.sampleService.GetAllSampleSets().subscribe(
+          //   (result) => {
+          //     console.log('result = ' + result);
+          //     result.forEach((us: SampleSets) => {
+          //       this.userSamples.push(us);
+          //       //this.userSampleSets.forEach(element => {
+          //         // if(element.sampleSetsId == us.id)
+          //         // {
+          //           //this.userSamples.push(us);
+          //           console.log(this.userSamples);
+          //         //}
+          //       //});
+          //     });
+          //   }
+          // )
+          //console.log('Samples:' + this.userSamples);
         }
       )
     )
   }
-
+  GetTheSampleSets(id: number) {
+    this.sampleService.GetAllSampleSets().subscribe(
+      (result: SampleSets[]) => {
+        this.allSampleSets = result;
+        this.DoesSampleSetMatchUserSample(result, id);
+      }
+    )
+  }
+  DoesSampleSetMatchUserSample(test: SampleSets[], id: number) {
+    this.allSampleSets.forEach(element => {
+      if(element.id == id)
+      {
+        this.userSamples.push(element);
+      }
+    });
+  }
   PopulateAudioPlayer(foundDbMusic: UploadMusic[], foundUser: any)
   {
 

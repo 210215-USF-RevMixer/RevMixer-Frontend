@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { SavedProject } from '../Models/SavedProject';
 import { UserProject } from '../Models/UserProject';
 
@@ -9,7 +10,7 @@ import { UserProject } from '../Models/UserProject';
 })
 export class ProjectRestService {
 
-  url: string = "theprojectmicroservice.azure.net/api/etc";
+  url: string = environment.PROJECTSERVICE_SAVEDPROJECT;
   userProject: UserProject;
 
   httpOptions = {
@@ -76,22 +77,20 @@ export class ProjectRestService {
     }
   }
 
-
-  GetUserProjectsByUserID(userid: number) : Observable<any>
+  GetProjects() : Observable<any[]>
   {
-    return this.http.get<any>(`${this.url}/${userid}`, this.httpOptions);
+    return this.http.get<any>(`${this.url}`, this.httpOptions);
+  }
+
+  GetUserProjectsByUserID(userid: number) : Observable<any[]>
+  {
+    return this.http.get<any>(`${this.url}/userId/${userid}`, this.httpOptions);
   }
 
   GetUserProjectByID(projectid: number) : Observable<any>
   {
     return this.http.get<any>(`${this.url}/${projectid}`, this.httpOptions);
   }
-
-  PostUserProject(project:any) : Observable<any>
-  {
-    return this.http.post<UserProject>(`${this.url}`, project, this.httpOptions);
-  }
-
 
   DeleteUserProjectByID(projectid: number) : Observable<any>
   {

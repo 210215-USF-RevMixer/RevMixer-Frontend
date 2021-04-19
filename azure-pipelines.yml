@@ -13,6 +13,10 @@ trigger:
 pool: connor's agent
 
 steps:
+- checkout: self
+  clean: true
+  fetchDepth: 1
+  
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis on SonarCloud'
   inputs:
@@ -42,19 +46,9 @@ steps:
     customCommand: 'run build'
 
 - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
-  displayName: test
-  condition: succeededOrFailed()
+  displayName: ng test
   workingDirectory: 'AngularTone'
   continueOnError: true 
-
-- task: PublishTestResults@2
-  displayName: 'Publish Angular test results'
-  condition: succeededOrFailed()
-  inputs:
-    searchFolder: $(System.DefaultWorkingDirectory)/src/AngularApp/junit
-    testRunTitle: Angular
-    testResultsFormat: JUnit
-    testResultsFiles: "**/TESTS*.xml"
 
 - task: PublishCodeCoverageResults@1
   inputs:

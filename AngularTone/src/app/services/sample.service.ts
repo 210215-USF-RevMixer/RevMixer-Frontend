@@ -27,8 +27,8 @@ export class SampleService {
       }
     )
   }
-  url : string = 'https://localhost:44301/api/Sample';
-  // url : string = environment.PROJECTSERVICE_SAMPLE;
+  // url : string = 'https://localhost:44301/api/Sample';
+  url : string = environment.PROJECTSERVICE_SAMPLE;
 
   constructor(private http:HttpClient) { }
   
@@ -45,5 +45,8 @@ export class SampleService {
   
   AddSample(sample: FormData): Observable<any> {
     return this.http.post<any>(`${this.url}`, sample);
+  }
+  EditSampleByID(id: number): Observable<any>{
+    return this.http.put<any>(`${this.url}/${id}`, id);
   }
 }
