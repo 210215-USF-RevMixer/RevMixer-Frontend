@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Models/User';
 import { UsersSampleSetsService } from 'src/app/services/users-sample-sets.service';
-import { Console } from 'node:console';
+// import { Console } from 'node:console';
 
 @Component({
   selector: 'app-create-sample-set',
@@ -78,15 +78,15 @@ export class CreateSampleSetComponent implements OnInit {
   
     
   onSubmit(): void { 
-    const formData = new FormData();
-    formData.append('userId',(this.newUsersSampleSet.userId).toString());
-    formData.append('name', this.newSampleSet.name);
+    // const formData = new FormData();
+    // formData.append('userId',(this.newUsersSampleSet.userId).toString());
+    // formData.append('name', this.newSampleSet.name);
     
     
-    this.setsService.AddSampleSet(formData);
+    // this.setsService.AddSampleSet(formData);
     
-    alert(`${this.newSampleSet.name} added to your sample sets!`);
-    this.router.navigate(['profile']);
+    // alert(`${this.newSampleSet.name} added to your sample sets!`);
+    // this.router.navigate(['profile']);
   }
 
 }
