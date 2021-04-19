@@ -13,7 +13,7 @@ describe('UploadedMusicRestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule]
+      imports: [HttpClientModule, HttpClientTestingModule]
     });
     service = TestBed.inject(UploadedMusicRestService);
 

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AuthService } from '@auth0/auth0-angular';
 import { NavbarComponent } from './navbar.component';
+import { User } from 'src/app/Models/User';
+import { UserRestService } from 'src/app/services/user-rest.service';
 export class MockAuthService {
   public handleAuth(): void {
     return;
@@ -9,22 +11,17 @@ export class MockAuthService {
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-
-  beforeEach(async () => {
-
-   // let aSpy = jasmine.createSpyObj('AuthService', []);
-    // Provide the dummy/mock data to sortNumberData method.
-   
-    const authMock = {
-      user$: {client:{email: 'someValue'} }};
-    /*await TestBed.configureTestingModule({
-      declarations: [NavbarComponent],
-      providers:
-        [{ provider: AuthService, useValue: authMock}]
-       
-    })
-    .compileComponents();*/
-  });
+  let user: User = {
+    id: 0, userName: "mads",
+    email:"x@x.com",
+    isAdmin: false,
+    userProjects:[],
+    sample: [],
+    comments: [],
+    uploadMusics: [],
+    playlists:[]
+  }
+ 
 
   beforeEach(() => {
     const authMock = {
@@ -53,13 +50,13 @@ describe('NavbarComponent', () => {
 
 
     };
-    //fixture = TestBed.createComponent(NavbarComponent);
-    let userService = {};
-    component = new NavbarComponent(authMock,userService);
-    //fixture.detectChanges();
+    let userService: { GetUserByEmail: jasmine.Spy }
+    userService=jasmine.createSpyObj('UserRestService', ['GetUserByEmail']);
+    component = new NavbarComponent(authMock as any, userService as any);
+
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+   it('should create', () => {
+     expect(component).toBeTruthy();
+   });
 });
