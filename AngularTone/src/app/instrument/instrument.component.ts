@@ -53,20 +53,20 @@ export class InstrumentComponent implements OnInit {
   savedProjectPattern: number[][] = []
   //effects objects
 
-  autoWah = new Tone.AutoWah(50, 6, -40)
+  volume: any = new Tone.Volume(0)//.toDestination()
+  autoWah = new Tone.AutoWah(47, 4, -40)
   bitcrush2: any = new Tone.BitCrusher(2)
   bitcrush1_5: any = new Tone.BitCrusher(1.5)
   bitcrush1: any = new Tone.BitCrusher(1)
   cheby = new Tone.Chebyshev(2)
   pitchshift: any = new Tone.PitchShift(0)
   reverb: any = new Tone.Reverb(Tone.Transport.sampleTime)//.toDestination()
-  volume: any = new Tone.Volume(0)//.toDestination()
-  Rvolume: any = new Tone.Volume(0)//.toDestination()
   comp: any = new Tone.Compressor(-30, 20)
   dist: any = new Tone.Distortion(0)
   delay32: any = new Tone.FeedbackDelay("32n", 0.7)
   delay16: any = new Tone.FeedbackDelay("16n", 0.5)
   delay8: any = new Tone.FeedbackDelay("8t", 0.5)
+  filter = new Tone.Filter(50, "lowpass")
   loadingSampleError: string = ''
   failedSamples: string[] = []
   effects: any[] = []
@@ -78,6 +78,7 @@ export class InstrumentComponent implements OnInit {
   audio: any
   showDistortion: boolean = true
   showReverb: boolean = false
+  showFilter: boolean = false
   showDelay: boolean = false
   showAutoWah: boolean = false
   showPitchShift: boolean = false
@@ -213,6 +214,10 @@ export class InstrumentComponent implements OnInit {
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true
     this.audio = document.querySelector('audio');
+    this.autoWah.Q.value = 6
+    this.autoWah.Q.value = 8
+    this.filter.rolloff = -48 
+
   }
 
   //Record songs to audio component and allows song to be downloaded
@@ -268,12 +273,15 @@ export class InstrumentComponent implements OnInit {
     this.dist.distortion = event.value;
   }
   changeReverbDecay(event: any) {
-    if(event.value <= 2) {
-      try{this.disconnectEffect(this.reverb)}catch{} 
-    }else {
-      try{this.connectEffect(this.reverb)}catch{}
+    // if(event.value <= 2) {
+    //   try{this.disconnectEffect(this.reverb)}catch{} 
+    // }else {
+    //   try{this.connectEffect(this.reverb)}catch{}
       this.reverb.decay = event.value;
-    }
+    // }
+  }
+  changeFilterFreq(event: any) {
+    this.filter.frequency.rampTo(event.value, 0.1)
   }
   changeAutoWahFreq(event: any) {
     this.autoWah.baseFrequency = event.value;
@@ -285,12 +293,12 @@ export class InstrumentComponent implements OnInit {
     this.pitchshift.pitch = event.value;
   }
   changeCheby(event: any) {
-    if(event.value == 1) {
-      try{this.disconnectEffect(this.cheby)}catch{}
-    }else{
-      try{this.connectEffect(this.cheby)}catch{}
+    // if(event.value == 1) {
+    //   try{this.disconnectEffect(this.cheby)}catch{}
+    // }else{
+    //   try{this.connectEffect(this.cheby)}catch{}
       this.cheby.order = event.value;
-    }
+    // }
   }
   changeDelayTime(event: any) {
     if(event.value == 0) {
@@ -378,10 +386,26 @@ export class InstrumentComponent implements OnInit {
     }
   }
   disconnectEffect(effect: any) {
-    this.tracks.forEach(track => { 
-      try{track.sample.sample.disconnect(effect)}catch{}
-      try{track.sample.sample.connect(this.dist)}catch{}
-    })
+    if(effect == "bitcrush") {
+      this.tracks.forEach(track => { 
+        try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
+        try{track.sample.sample.connect(this.dist)}catch{}
+      })
+    } else if(effect == "delay") {
+      this.tracks.forEach(track => { 
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}
+        try{track.sample.sample.connect(this.dist)}catch{}
+      })
+    } else {
+      this.tracks.forEach(track => { 
+        try{track.sample.sample.disconnect(effect)}catch{}
+        try{track.sample.sample.connect(this.dist)}catch{}
+      })
+    }
   }
 
   connectTrackEffect(effect: any, track: any) {
@@ -395,6 +419,21 @@ export class InstrumentComponent implements OnInit {
   disconnectTrackEffect(effect: any, track: any) {
     try{track.sample.sample.disconnect(effect)}catch{}
     try{track.sample.sample.connect(this.dist)}catch{}
+  }
+  disconnectAllEffects() {
+    this.tracks.forEach(track => { 
+      try{track.sample.sample.disconnect(this.autoWah)}catch{}
+      try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
+      try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
+      try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
+      try{track.sample.sample.disconnect(this.cheby)}catch{}
+      try{track.sample.sample.disconnect(this.pitchshift)}catch{}
+      try{track.sample.sample.disconnect(this.reverb)}catch{}
+      try{track.sample.sample.disconnect(this.delay32)}catch{}
+      try{track.sample.sample.disconnect(this.delay16)}catch{}
+      try{track.sample.sample.disconnect(this.delay8)}catch{}
+      try{track.sample.sample.connect(this.dist)}catch{}
+    })
   }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
@@ -584,6 +623,7 @@ export class InstrumentComponent implements OnInit {
   changeEffect(effect: any) {
     this.showReverb = false
     this.showDelay = false
+    this.showFilter = false
     this.showDistortion = false
     this.showAutoWah = false
     this.showPitchShift = false
@@ -595,6 +635,9 @@ export class InstrumentComponent implements OnInit {
         break
       case 'reverb':
         this.showReverb = true
+        break
+      case 'filter':
+        this.showFilter = true
         break
       case 'delay':
         this.showDelay = true
