@@ -2,6 +2,7 @@ import { Track } from "./Track";
 
 
 //needs to be finished -Tate
+//Finished - Joaquin
 export interface Sample
 {
     id: number,
