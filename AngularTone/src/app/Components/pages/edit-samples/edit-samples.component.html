@@ -19,7 +19,7 @@ yes daddy
                 <tr *ngFor="let sample2edit of samples2edit;">
                     <td>
                         <input type="text" [(ngModel)]="sample2edit.sampleName" name="name"
-                        #name="ngModel" class="form-control" value="sample2edit.sampleName">
+                        #name="ngModel" class="form-control" placeholder="Enter New Name Here">
                         {{sample2edit.sampleName}}
                     </td>
                     <td>
