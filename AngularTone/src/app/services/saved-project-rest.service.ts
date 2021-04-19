@@ -24,6 +24,6 @@ export class SavedProjectRestService {
 
   //Add a saved project
   AddSavedProject(savedProject2Add: SavedProject): Observable<SavedProject> {
-    return this.http.post<SavedProject>(this.url, savedProject2Add, this.httpOptions);
+    return this.http.post<SavedProject>(`${this.url}`, savedProject2Add, this.httpOptions);
   }
 }
