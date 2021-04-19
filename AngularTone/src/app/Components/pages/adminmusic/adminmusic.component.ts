@@ -45,6 +45,27 @@ export class AdminmusicComponent implements OnInit {
       }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe(
+      au =>
+      this.authUser = au
+    )
+    this.authService.user$.subscribe(
+      authUser =>
+      this.userService.GetUserByEmail(authUser.email).subscribe
+      (foundUser =>
+          this.musicService.GetUploadedSongs().subscribe
+          (foundmusic =>
+            {
+              this.music2admin = foundmusic;
+              console.log(this.music2admin)
+            })
+          ))
   }
+
+  onSubmit(event: any): void{
+    
+  }
+
+  
 
 }
