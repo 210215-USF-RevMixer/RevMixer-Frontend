@@ -153,7 +153,7 @@ export class InstrumentComponent implements OnInit {
               )
 
               //GET USERS SAMPLES
-              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).pipe().subscribe(
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).subscribe(
                 userSamples => {
                   for (let i = 0; i < userSamples.length; i++) {
                     this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
@@ -179,6 +179,25 @@ export class InstrumentComponent implements OnInit {
                       }
                     )
                   }
+                }
+              )
+              
+              // GET USER SAVED PROJECTS
+              this.projectRestService.GetUserProjectsByUserID(foundUser.id).subscribe(
+                userProjects => {
+                  console.log('method 1: ' + userProjects)
+                }
+              )
+
+              // GET USER SAVED PROJECTS
+              this.projectRestService.GetProjects().subscribe(
+                userProjects => {
+                  userProjects.forEach(project => {
+                    if(project.userId === foundUser.id){
+                      console.log('method 2: ' + project)
+                    }
+                  })
+                  
                 }
               )
             }

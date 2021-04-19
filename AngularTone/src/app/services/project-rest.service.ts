@@ -77,6 +77,10 @@ export class ProjectRestService {
     }
   }
 
+  GetProjects() : Observable<any[]>
+  {
+    return this.http.get<any>(`${this.url}`, this.httpOptions);
+  }
 
   GetUserProjectsByUserID(userid: number) : Observable<any[]>
   {
