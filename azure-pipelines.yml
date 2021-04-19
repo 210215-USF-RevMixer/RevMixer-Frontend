@@ -40,20 +40,34 @@ steps:
     command: 'custom'
     workingDir: 'AngularTone'
     customCommand: 'run build'
+  
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    publishLocation: 'pipeline'
 
 - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
   displayName: test
   workingDirectory: 'AngularTone'
   continueOnError: true 
 
+- task: PublishTestResults@2
+  displayName: 'Publish Angular test results'
+  condition: succeededOrFailed()
+  inputs:
+    searchFolder: $(System.DefaultWorkingDirectory)/src/AngularApp/junit
+    testRunTitle: Angular
+    testResultsFormat: JUnit
+    testResultsFiles: "**/TESTS*.xml"
+
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage Angular results'
   condition: succeededOrFailed()
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: 'testsResults/unitTests/coverage/cobertura-coverage.xml'
-    reportDirectory: 'testsResults/unitTests/coverage/'
-    failIfCoverageEmpty: true
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/src/AngularApp/coverage/cobertura-coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/src/AngularApp/coverage'
+    failIfCoverageEmpty: false
 
 - task: SonarCloudAnalyze@1
 
