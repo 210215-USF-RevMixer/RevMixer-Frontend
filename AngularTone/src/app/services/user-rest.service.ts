@@ -21,8 +21,10 @@ responseValue: any;
     )
   }
 
+  // url : string = 'http://localhost:58980/api/User';
 
   url : string = environment.USERSERVICE_USER;
+
 
   constructor(private http:HttpClient) {
   }

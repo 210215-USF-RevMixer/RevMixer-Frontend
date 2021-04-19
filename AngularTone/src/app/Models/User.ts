@@ -4,6 +4,7 @@ import { PlayList } from "./PlayList";
 import { Sample } from "./Sample";
 import { UploadMusic } from "./UploadMusic";
 import { UserProject } from "./UserProject";
+import { Comments } from "./Comments";
 
 export interface User
 {
@@ -14,7 +15,7 @@ export interface User
 
     userProjects: UserProject[],
     sample: Sample[],
-    comments: Comment[],
+    comments: Comments[],
     uploadMusics: UploadMusic[],
     playlists: PlayList[]
 }

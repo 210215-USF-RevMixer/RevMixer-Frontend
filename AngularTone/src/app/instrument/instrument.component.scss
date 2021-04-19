@@ -1,9 +1,3 @@
-body {
-  height: 100%;
-  margin-left: 0px;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
 .playButton {
   padding: 4px 10px 4px 10px;
   background-color: white;
@@ -16,20 +10,26 @@ body {
 }
 
 .pad{
-  height: 25px;
-  margin-top: 20px;
   display: flex;
-  flex-direction: row;
-  align-content: center;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.block-container{
-  position: relative;
+.mini-pad{
+  display: flex;
+  flex-direction: row;
+}
+
+.track-name{
+  width: 112em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .options{
-  display: inline;
+  display: flex;
+  flex-direction: row;
   transition: all 0.8s;
   transform: translateX(-30px);
   opacity: 0%;
@@ -40,17 +40,13 @@ body {
 .options img{
   width: 20px;
   opacity: 75%;
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
-.pad:hover > .options{
+.mini-pad:hover > .options{
   opacity: 100%;
   transform: translateX(0px);
-}
-
-.step {
-  height: 50px;
-  width: 50px;
-  color: -internal-light-dark(black, white);
 }
 
 .cell {
@@ -85,7 +81,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 60px;
+  padding-top: 70px;
 }
 .mat-slider {
   color: white;
@@ -140,6 +136,27 @@ body {
   left: 0;
 }
 
+#pop-out-settings
+{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #0000007c;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+
+#pop-out-form{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #0000007c;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+
 .pop-out
 {
   background-color: rgb(209, 209, 209);
@@ -149,6 +166,9 @@ body {
   top: 50%;  
   left: 50%; 
   transform: translate(-50%, -50%);
+  border: 1px solid #000000;
+  border-radius: 2em;
+  box-shadow: 10px 10px 10px 10px rgb(0, 0, 0);
 }
 
 .close-pop-out
@@ -245,13 +265,14 @@ body {
 
 .play-feature{
   margin-top: 30px;
+  margin-bottom: 14px;
   background-color: rgb(209, 209, 209);
   width: 100em;
   margin-left: auto;
   margin-right: auto;
   height: 2px;
   border-radius: 100px;
-  transform: translateX(-125px);
+  transform: translateX(-72px);
 }
 
 .play-position{
@@ -293,6 +314,7 @@ body {
   border-radius: 100px;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.466);
   transform: translateX(-125px);
+  margin-bottom: 4em;
 }
 
 .blue-button-container div{
@@ -307,25 +329,20 @@ body {
   margin-top: 0px;
 }
 
-@media only screen and (max-width: 1720px){
+@media only screen and (max-width: 1600px){
   .single-block {
-    min-height: 30px;
-    min-width: 30px;
+    min-height: 32px;
+    min-width: 32px;
   }
 
   .play-feature{
-    width: 76em;
+    width: 82em;
+  }
+
+  .track-name{
+    font-size: 11.5px;
   }
   
-  .play-position{
-    width: 6px;
-    height: 6px;
-  }
-
-  .pad{
-    height: 20px;
-  }
-
   .blue-button-container{
     padding: 5px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.466);
@@ -347,5 +364,16 @@ body {
 
   .track-slider{
     margin-top: -6px;
+  }
+}
+
+@media only screen and (max-width: 991px){
+  .topbar div{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .blue-button-container{
+    width: 80%;
   }
 }
