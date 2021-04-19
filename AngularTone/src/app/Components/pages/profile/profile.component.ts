@@ -157,7 +157,7 @@ export class ProfileComponent implements OnInit {
               this.userSampleSetsService.GetAllUsersSampleSet().subscribe(
                 (result) => {
                   result.forEach((element: UsersSampleSets) => {
-                    if(element.userId== 1){
+                    if(element.userId == foundUser.Id){
                       this.userSampleSets.push(element);
                       console.log(this.userSampleSets);
                     }
