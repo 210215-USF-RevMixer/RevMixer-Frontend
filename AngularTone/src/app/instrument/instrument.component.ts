@@ -54,7 +54,7 @@ export class InstrumentComponent implements OnInit {
 
   //How many steps we have in the sequencer
   blockSize = 32
-  tempo: number = 120
+  tempo: number = 160
   //Time in the loop that matches horizontal position of the grid
   times = ["0:0:0", "0:0:2", "0:1:0", "0:1:2", "0:2:0", "0:2:2", "0:3:0", "0:3:2", "0:4:0", "0:4:2", "0:5:0", "0:5:2", "0:6:0", "0:6:2", "0:7:0", "0:7:2",
     "0:8:0", "0:8:2", "0:9:0", "0:9:2", "0:10:0", "0:10:2", "0:11:0", "0:11:2", "0:12:0", "0:12:2", "0:13:0", "0:13:2", "0:14:0", "0:14:2", "0:15:0", "0:15:2"]
@@ -69,9 +69,10 @@ export class InstrumentComponent implements OnInit {
   pitchshift: any = new Tone.PitchShift(0)
   reverb: any = new Tone.Reverb(Tone.Transport.sampleTime)//.toDestination()
   volume: any = new Tone.Volume(0)//.toDestination()
+  Rvolume: any = new Tone.Volume(0)//.toDestination()
   comp: any = new Tone.Compressor(-30, 20)
   dist: any = new Tone.Distortion(0)
-  delay32: any = new Tone.FeedbackDelay("32n", 0.5)
+  delay32: any = new Tone.FeedbackDelay("32n", 0.7)
   delay16: any = new Tone.FeedbackDelay("16n", 0.5)
   delay8: any = new Tone.FeedbackDelay("8t", 0.5)
   loadingSampleError: string = ''
@@ -187,7 +188,7 @@ export class InstrumentComponent implements OnInit {
         sampleName: 'BaseKick',
         sample: new Tone.Sampler({
           C3: '../../assets/808/Kick.wav'
-        }).chain(this.dist, this.comp, Tone.Destination, this.recorder)//, this.recorder)//.connect(Tone.Destination)
+        }).connect(Tone.Destination)//.chain(this.dist, this.comp, Tone.Destination, this.recorder)
       }//.connect(this.dist).connect(this.volume), this.dist, this.reverb
 
       for (let i = 0; i < this.blockSize; i++) {
@@ -201,7 +202,7 @@ export class InstrumentComponent implements OnInit {
     }
     )
     //Initial Tempo
-    Tone.Transport.bpm.value = 80;
+    Tone.Transport.bpm.value = 160;
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true
     this.audio = document.querySelector('audio');
@@ -228,6 +229,37 @@ export class InstrumentComponent implements OnInit {
     this.updateTimePosition()
   }
 
+  changeDelayTime(event: any) {
+    if(event.value == 0) {
+      this.tracks.forEach(track => {
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}       
+      })
+    }else
+    if(event.value == 1) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{} 
+      })
+    }else
+    if(event.value == 2) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}
+      })
+    }else
+    if(event.value == 3) {
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+      })
+    }
+  }
+
   //From  HTML sliders
   changeVolume(event: any) {
     if (event.value <= -48) {
@@ -251,7 +283,7 @@ export class InstrumentComponent implements OnInit {
       track.sample.sample.volume.value = event.value
     }
   }
-
+  
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
     this.tempo = event.value
@@ -262,36 +294,8 @@ export class InstrumentComponent implements OnInit {
   changeReverbDecay(event: any) {
     this.reverb.decay = event.value;
   }
-  changeDelayTime(event: any) {
-    if(event.value == 0) {
-      this.tracks.forEach(track => {
-        track.sample.sample.disconnect(this.delay32)
-        track.sample.sample.disconnect(this.delay16)
-        track.sample.sample.disconnect(this.delay8)
-      })
-    }else
-    if(event.value == 1) {
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
-        track.sample.sample.disconnect(this.delay16)
-        track.sample.sample.disconnect(this.delay8)
-      })
-    }else
-    if(event.value == 2) {
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
-        track.sample.sample.disconnect(this.delay32)
-        track.sample.sample.disconnect(this.delay8)
-      })
-    }else
-    if(event.value == 3) {
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
-        track.sample.sample.disconnect(this.delay16)
-        track.sample.sample.disconnect(this.delay32)
-      })
-    }
-    
+  changeTrackReverbVolume(event: any, track: any) {
+    track.Rvolue.value = event.value;
   }
   changeAutoWahFreq(event: any) {
     this.autoWah.baseFrequency = event.value;
@@ -312,10 +316,9 @@ export class InstrumentComponent implements OnInit {
     this.effects.push(effect)
 
     this.tracks.forEach(track => {
-
-      //track.sample.sample.disconnect(this.dist)
-      track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)
-
+      
+      track.sample.sample.chain(effect, Tone.Destination)
+      
       //     track.sample.sample.chain( this.effects.reduce((acc, string, index, array) => { 
       //       if (index !== array.length -1) { return acc + ", " + string; }
       //     else {
@@ -327,17 +330,26 @@ export class InstrumentComponent implements OnInit {
     // delete this.effects[this.effects.findIndex(function (element) {
     //   return element === effect
     // })]
-
-
     this.tracks.forEach(track => {
-      //
+      
       track.sample.sample.disconnect(effect)
+      track.sample.sample.connect(Tone.Destination)
+      
       // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
       //   if (index !== array.length -1) { return acc + ", " + string; }
       // else {
       //   return acc + string }
       // } ), this.dist, this.comp, Tone.Destination)
     })
+  }
+
+  connectTrackEffect(effect: any, track: any) {
+    //track.sample.sample.disconnect(effect)
+    track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)
+    track.sample.sample.disconnect(Tone.Destination)
+  }
+  disconnectTrackEffect(effect: any, track: any) {
+    track.sample.sample.disconnect(effect)
   }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
