@@ -30,7 +30,7 @@ export class ViewSampleSetComponent implements OnInit {
   authUser: any;
   constructor(private authService: AuthService, private userService: UserRestService, private sampleSetService: SampleSetService, private sampleService : SampleService,private activeRoute: ActivatedRoute,private samplePlaylistService: SamplePlaylistService) {    
     this.selectedSampleSet = {
-      Id:0,
+      id:0,
       userId:0,
       sampleSetsId:0,
       isOwner: false
