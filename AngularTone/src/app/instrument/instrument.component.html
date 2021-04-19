@@ -50,6 +50,7 @@
         <button class="playButton" mat-stroked-button color="primary" (click)="connectEffect(this.reverb);">On</button>
         <button class="playButton" mat-stroked-button color="primary" (click)="disconnectEffect(this.reverb);">Off</button>
         <label class="pr-2">Reverb:</label>
+
         <mat-slider (input)="changeReverbDecay($event)" [value]="reverb.decay" step="0.001" min="0.001" max="5"></mat-slider> {{reverb.decay * 20 | number:'1.0-0'}} %
       </div>
       <div *ngIf="delay32 && showDelay">
@@ -77,6 +78,7 @@
         <button class="playButton" mat-stroked-button color="primary"
           (click)="disconnectEffect(this.pitchshift);">Off</button>
         <label class="pr-2">Pitch:</label>
+
         <mat-slider (input)="changePitchShift($event)" [value]="pitchshift.pitch" step="0.001" min="-48" max="48"></mat-slider> {{pitchshift.pitch * 1 | number:'1.0-0'}}
       </div>
       <div *ngIf="bitcrush2 && showBitCrush">

@@ -27,8 +27,8 @@ export class SampleService {
       }
     )
   }
-  //THIS NEEDS TO BE UPDATED
-  url : string = environment.PROJECTSERVICE_SAMPLE;
+  url : string = 'https://localhost:44301/api/Sample';
+  // url : string = environment.PROJECTSERVICE_SAMPLE;
 
   constructor(private http:HttpClient) { }
   

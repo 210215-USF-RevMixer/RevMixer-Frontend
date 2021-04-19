@@ -80,9 +80,10 @@ export class SampleHubComponent implements OnInit {
     this.sampleService.GetSamples().subscribe(
       r =>{
         {
+          //debugger;
           let sample = r;
           this.allSamples.push(sample);
-          console.log('why doesnt this work ');
+          //console.log('why doesnt this work ');
           console.log(r);
         }
       }
@@ -116,7 +117,7 @@ export class SampleHubComponent implements OnInit {
                     console.log(element2);
                     if(element2.id == element1.sampleId){
                       this.neededSamples.push(element2);
-                      console.log('some shit ');
+                      //console.log('some shit ');
                       console.log(this.neededSamples);
                     }
                   });
@@ -134,7 +135,7 @@ export class SampleHubComponent implements OnInit {
         foundUser =>
         {
           this.user = foundUser;
-          console.log('this shit ');
+          //console.log('this shit ');
           console.log(this.neededSamples);
           this.activeRoute.queryParams
           .subscribe(
