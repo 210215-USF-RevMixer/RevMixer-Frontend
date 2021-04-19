@@ -18,7 +18,7 @@
 
     <div class="my-buttons">
       <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">Play/Stop</button>
-      <button class="playButton" mat-stroked-button color="primary" (click)="saveProject();">Save Project</button>
+      <button class="playButton" mat-stroked-button color="primary" (click)="showForm();">Save Project</button>
       <button class="playButton" mat-stroked-button color="primary" (click)="Clear();">Clear</button>
     </div>
 
@@ -263,5 +263,21 @@
       <button class="playButton" mat-stroked-button color="primary" (click)="connectTrackEffect(this.cheby, editingTrack);">On</button>
       <button class="playButton" mat-stroked-button color="primary" (click)="disconnectTrackEffect(this.cheby, editingTrack);">Off</button>
     </div>
+  </div>
+</div>
+
+<div id="pop-out-form" [ngStyle]="{'display': popOutForm}">
+  <div class="close-pop-out" (click)="hideForm()">
+    <div class="x1"></div>
+    <div class="x2"></div>
+  </div>
+  <div class="pop-out">
+    <form (ngSubmit)="createNewProject()" #savedProjectForm="ngForm" class="p-4">
+      <div class="form-group">
+          <input type="text" [(ngModel)]="newSavedProject.name" #name="ngModel" class="form-control" id="savedProjectName"
+              name="savedProjectName" placeholder="Enter a name for the project" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
   </div>
 </div>

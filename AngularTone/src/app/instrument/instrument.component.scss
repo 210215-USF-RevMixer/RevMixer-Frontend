@@ -147,6 +147,16 @@
   left: 0;
 }
 
+#pop-out-form{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #0000007c;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+
 .pop-out
 {
   background-color: rgb(209, 209, 209);

@@ -78,12 +78,13 @@ export class CreateSampleSetComponent implements OnInit {
   
     
   onSubmit(): void { 
+    debugger;
     const formData = new FormData();
     formData.append('userId',(this.newUsersSampleSet.userId).toString());
     formData.append('name', this.newSampleSet.name);
     
     
-    this.setsService.AddSampleSet(formData);
+    this.setsService.AddSampleSet(formData).subscribe();
     
     alert(`${this.newSampleSet.name} added to your sample sets!`);
     this.router.navigate(['profile']);
