@@ -57,13 +57,9 @@ steps:
     testResultsFiles: "**/TESTS*.xml"
 
 - task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage Angular results'
-  condition: succeededOrFailed()
   inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/src/AngularApp/coverage/cobertura-coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/src/AngularApp/coverage'
-    failIfCoverageEmpty: false
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(Build.SourcesDirectory)/jacoco/**/*.cobertura-coverage.xml'
 
 - task: SonarCloudAnalyze@1
 
