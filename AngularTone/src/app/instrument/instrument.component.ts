@@ -26,6 +26,7 @@ import { environment } from 'src/environments/environment';
 import { SampleService } from '../services/sample.service';
 import { UsersSampleService } from '../services/users-sample.service';
 import { UsersSampleSetsService } from '../services/users-sample-sets.service';
+import { SavedProjectRestService } from '../services/saved-project-rest.service';
 import { ProjectRestService } from '../services/project-rest.service';
 import { SampleSetService } from '../services/sample-set.service';
 import { SamplePlaylistService } from '../services/sample-playlist.service';
@@ -96,7 +97,7 @@ export class InstrumentComponent implements OnInit {
   showBitCrush: boolean = false
   showCheby: boolean = false
 
-  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: ProjectRestService, private sampleSetService: SampleSetService,
+  constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: SavedProjectRestService, private sampleSetService: SampleSetService,
     private samplePlaylistService: SamplePlaylistService) {
     this.tracks = [
       {
@@ -169,7 +170,7 @@ export class InstrumentComponent implements OnInit {
               )
 
               //GET USERS SAMPLES
-              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).pipe().subscribe(
+              this.usersSampleService.GetUsersSampleByUserId(foundUser.id).subscribe(
                 userSamples => {
                   for (let i = 0; i < userSamples.length; i++) {
                     this.sampleService.GetSampleByID(userSamples[i].sampleId).subscribe(
@@ -195,6 +196,18 @@ export class InstrumentComponent implements OnInit {
                       }
                     )
                   }
+                }
+              )
+
+              // GET USER SAVED PROJECTS
+              this.projectRestService.GetProjects().subscribe(
+                userProjects => {
+                  userProjects.forEach(project => {
+                    if(project.userId === foundUser.id){
+                      console.log('method 2: ' + project)
+                    }
+                  })
+                  
                 }
               )
             }
@@ -622,6 +635,12 @@ export class InstrumentComponent implements OnInit {
     formData.append('sampleIds', tempSampleIds.join())
     formData.append('pattern', tempPattern.join())
     formData.append('bPM', this.tempo.toString())
+
+    console.log('name: ' + formData.get('name'))
+    console.log('userId: ' + formData.get('userId'))
+    console.log('sampleIds: ' + formData.get('sampleIds'))
+    console.log('pattern: ' + formData.get('pattern'))
+    console.log('bPM: ' + formData.get('bPM'))
 
     this.projectRestService.AddSavedProject(formData).subscribe();
     

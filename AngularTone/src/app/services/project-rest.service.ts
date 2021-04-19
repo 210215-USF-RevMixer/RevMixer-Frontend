@@ -77,6 +77,10 @@ export class ProjectRestService {
     }
   }
 
+  GetProjects() : Observable<any[]>
+  {
+    return this.http.get<any>(`${this.url}`, this.httpOptions);
+  }
 
   GetUserProjectsByUserID(userid: number) : Observable<any[]>
   {
@@ -86,10 +90,6 @@ export class ProjectRestService {
   GetUserProjectByID(projectid: number) : Observable<any>
   {
     return this.http.get<any>(`${this.url}/${projectid}`, this.httpOptions);
-  }
-
-  AddSavedProject(savedProject2add :FormData): Observable<any> {
-    return this.http.post<any>(this.url, savedProject2add);
   }
 
   DeleteUserProjectByID(projectid: number) : Observable<any>
