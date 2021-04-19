@@ -1,44 +1,65 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="margin-bottom: 0px">
-    <div class="container">
-      <a class="navbar-brand" href="#">RevMixer</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="container flex-container w-100">
+    <div class="flex-container-small pb-2">
+      <a class="logo-name" [routerLink]="['/']">
+        <img src="../../../../assets/images/rev-logo.png" style="width: 8em;">
+        <span class="pl-3">RevMixer</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+    </div>
+
+    <div class="flex-container-small">
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/']" [routerLinkActive]="['active']">Home
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/hub">Hub</a>
+            <a class="nav-link" [routerLink]="['/hub']" [routerLinkActive]="['active']">Hub</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/profile">Profile</a>
+            <a class="nav-link" [routerLink]="['/profile']" [routerLinkActive]="['active']">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/adminRights']" [routerLinkActive]="['active']">Admin</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="uploadDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Upload
+            <a class="nav-link dropdown-toggle" id="uploadDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Upload
             </a>
             <div class="dropdown-menu" aria-labelledby="uploadDropdown">
-              <a class="dropdown-item" routerLink="/upload">Upload Music</a>
-              <a class="dropdown-item" routerLink="/uploadSample">Upload Samples</a>
+              <a class="dropdown-item" [routerLink]="['/upload']" [routerLinkActive]="['active']">Upload Music</a>
+              <a class="dropdown-item" [routerLink]="['/uploadSample']" [routerLinkActive]="['active']">Upload
+                Samples</a>
             </div>
 
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="sampleAreasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id="sampleAreasDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
               Browse Samples
             </a>
             <div class="dropdown-menu" aria-labelledby="sampleAreasDropdown">
-              <a class="dropdown-item" routerLink="/sampleHub">Individual Samples</a>
-              <a class="dropdown-item" routerLink="/sampleSets">Sample Sets</a>
+              <a class="dropdown-item" [routerLink]="['/sampleHub']" [routerLinkActive]="['active']">Individual
+                Samples</a>
+              <a class="dropdown-item" [routerLink]="['/sampleSets']" [routerLinkActive]="['active']">Sample Sets</a>
             </div>
           </li>
         </ul>
       </div>
+      <div class="d-flex flex-container-small">
+        <span *ngIf="auth.user$ | async as user" class="nav-link text-nowrap" style="color:azure">
+          Welcome {{user.email}}!
+        </span>
+        <app-auth-button class="text-nowrap"></app-auth-button>
+      </div>
+
     </div>
-    <span *ngIf="auth.user$ | async as user" class="nav-link d-flex" style="color:azure" >Welcome {{user.email}}!</span> 
-    <app-auth-button></app-auth-button>
-  </nav>
+
+  </div>
+</nav>
