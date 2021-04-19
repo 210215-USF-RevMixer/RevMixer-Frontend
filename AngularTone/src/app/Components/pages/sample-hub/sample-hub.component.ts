@@ -1,3 +1,4 @@
+import { UsersSampleSetsService } from './../../../services/users-sample-sets.service';
 import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
@@ -15,6 +16,7 @@ import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.s
 import { UserRestService } from 'src/app/services/user-rest.service';
 import { UserssampleService } from 'src/app/services/userssample.service';
 import { environment } from 'src/environments/environment';
+import { UsersSampleSets } from 'src/app/Models/UsersSampleSets';
 
 @Component({
   selector: 'app-sample-hub',
@@ -26,6 +28,7 @@ export class SampleHubComponent implements OnInit {
   authUser: any;
   samplePlaylist: SamplePlaylist[]=[];
   allSamples: Sample[] = [];
+  userSampleSets: UsersSampleSets[] =[];
   usersSampleToAdd: UsersSample;
   neededSamples:Sample[] =[];
   paramFlag : boolean = false;
@@ -34,7 +37,7 @@ export class SampleHubComponent implements OnInit {
   //NEED TO ADD SAMPLE ENDPOINT, NOT IN README ATM
   sampleStorage: string = environment.SAMPLE_STORAGE;
   
-  constructor(private samplePlaylistService:SamplePlaylistService, private activeRoute: ActivatedRoute,private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
+  constructor(private userSampleSetService: UsersSampleSetsService, private samplePlaylistService:SamplePlaylistService, private activeRoute: ActivatedRoute,private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
     private router: Router, private playlistService: PlaylistServiceService) {
       this.allSamples.forEach(element => {
         this.allSamples.pop();
@@ -77,9 +80,10 @@ export class SampleHubComponent implements OnInit {
     this.sampleService.GetSamples().subscribe(
       r =>{
         {
+          //debugger;
           let sample = r;
           this.allSamples.push(sample);
-          console.log('why doesnt this work ');
+          //console.log('why doesnt this work ');
           console.log(r);
         }
       }
@@ -88,23 +92,23 @@ export class SampleHubComponent implements OnInit {
     .subscribe(
       params =>
       {
-       if(params.id>0){
+      if(params.id>0){
         this.paramFlag=true;
-       }
+      }
       });
     this.activeRoute.queryParams
     .subscribe(
       params =>
       {
+        
         console.log('param');
         console.log(params)
         console.log('param');
         console.log(params.id)
         
+        
         this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
           result => {
-            console.log('result');
-            console.log(result);
               result.forEach(element1 => {
                 if(element1.sampleSetId==params.id)
                 {
@@ -113,7 +117,7 @@ export class SampleHubComponent implements OnInit {
                     console.log(element2);
                     if(element2.id == element1.sampleId){
                       this.neededSamples.push(element2);
-                      console.log('some shit ');
+                      //console.log('some shit ');
                       console.log(this.neededSamples);
                     }
                   });
@@ -126,14 +130,28 @@ export class SampleHubComponent implements OnInit {
     
     this.authService.user$.subscribe(
       authUser =>
-
       this.userService.GetUserByEmail(authUser.email).subscribe
       (
         foundUser =>
         {
           this.user = foundUser;
-          console.log('this shit ');
+          //console.log('this shit ');
           console.log(this.neededSamples);
+          this.activeRoute.queryParams
+          .subscribe(
+            params =>
+            {
+              this.userSampleSetService.GetUsersSampleSetByUserId(this.user.id).subscribe(
+                result =>{
+                  this.userSampleSets=result;
+                  this.userSampleSets.forEach(element => {
+                    if(element.sampleSetsId == params.id && element.isOwner){
+                      this.ownerFlag = true;
+                    }
+                  });
+                }
+              )
+          });
           this.sampleService.GetSamples().subscribe
           (
             foundSamples =>
@@ -144,14 +162,19 @@ export class SampleHubComponent implements OnInit {
           )
         }
       )
-      
-
     )
 
     //add is owner to make sure the person can add samples to set
-    if(this.paramFlag && this.neededSamples.length==0 ){
-      alert('This set is currently empty try adding some Samples!')
+    if(this.paramFlag && this.neededSamples.length==0 && this.ownerFlag==false){
+      alert('This Sample Set is a work in progress try coming back in a bit!')
+      window.history.back();
     }
+    else if(this.paramFlag&&this.neededSamples.length==0){
+      alert('This set is currently empty try adding some Samples!');
+      console.log();
+    }
+      
+    
   }
 
 
