@@ -50,6 +50,11 @@ steps:
   workingDirectory: 'AngularTone'
   continueOnError: true 
 
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(Build.SourcesDirectory)/jacoco/**/*.cobertura-coverage.xml'
+
 - task: SonarCloudAnalyze@1
 
 - task: SonarCloudPublish@1
