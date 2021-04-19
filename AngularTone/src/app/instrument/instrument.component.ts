@@ -607,7 +607,7 @@ export class InstrumentComponent implements OnInit {
     formData.append('pattern', tempPattern.join())
     formData.append('bPM', this.tempo.toString())
 
-    this.projectRestService.AddSavedProject(formData);
+    this.projectRestService.AddSavedProject(formData).subscribe();
     
     alert(`${this.newSavedProject.name} has been saved!`);
 

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { SavedProject } from '../Models/SavedProject';
 import { UserProject } from '../Models/UserProject';
 
@@ -9,7 +10,7 @@ import { UserProject } from '../Models/UserProject';
 })
 export class ProjectRestService {
 
-  url: string = "theprojectmicroservice.azure.net/api/etc";
+  url: string = environment.PROJECTSERVICE_SAVEDPROJECT;
   userProject: UserProject;
 
   httpOptions = {
