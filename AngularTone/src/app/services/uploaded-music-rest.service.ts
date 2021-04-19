@@ -11,8 +11,9 @@ export class UploadedMusicRestService {
 
   responseValue: any;
 
-  // url : string = 'http://localhost:52824/api/UploadMusic';
-  url: string = environment.MUSICSERVICE_UPLOADMUSIC;
+  // http://localhost:52824/api/UploadMusic
+  url : string = environment.MUSICSERVICE_UPLOADMUSIC;
+  // url: string = environment.MUSICSERVICE_UPLOADMUSIC;
 
 
   httpOptions = {
@@ -43,5 +44,10 @@ export class UploadedMusicRestService {
   PostSong(song:any)
   {
     return this.http.post<UploadMusic>(`${this.url}`, song, this.httpOptions);
+  }
+
+  DeleteSongById(id: number) : Observable<any>
+  {
+    return this.http.delete<any>(`${this.url}/${id}`, this.httpOptions);
   }
 }

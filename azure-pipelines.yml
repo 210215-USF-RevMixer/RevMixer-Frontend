@@ -10,13 +10,13 @@ trigger:
   paths:
     include:
     - AngularTone
-pool:
-  vmImage: ubuntu-latest
-  demands:
-  - npm
-  - java
+pool: connor's agent
 
 steps:
+- checkout: self
+  clean: true
+  fetchDepth: 1
+  
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis on SonarCloud'
   inputs:
