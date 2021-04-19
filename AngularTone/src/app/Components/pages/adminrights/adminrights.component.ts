@@ -85,7 +85,14 @@ export class AdminrightsComponent implements OnInit {
             {
               this.samples2admin = foundsamples;
               console.log(this.samples2admin)
-            })}))
+            })
+          this.musicService.GetUploadedSongs().subscribe
+          (foundmusic =>
+            {
+              this.music2admin = foundmusic;
+              console.log(this.music2admin)
+            })
+          }))
   }
 
 }
