@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 import { AuthService } from '@auth0/auth0-angular';
 import { User } from 'src/app/Models/User';
 import { UserRestService } from 'src/app/services/user-rest.service';
@@ -11,7 +12,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 export class NavbarComponent implements OnInit {
   userBackend: User;
   userName: string;
-
+  BooLMAO: boolean = false;
 
   constructor(public auth: AuthService, private userService: UserRestService) {
     this.userBackend = 
@@ -19,7 +20,7 @@ export class NavbarComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      isAdmin: false,
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],
@@ -38,21 +39,12 @@ export class NavbarComponent implements OnInit {
         foundUser =>
         {
           this.userBackend = foundUser;
+          if (this.userBackend.role == "Admin"){
+            this.BooLMAO = true;
+          }
         }
       )
     )
 
   }
-
-
-  // GetUser(userName: string)
-  // {
-  //   this.userService.GetUserByEmail(userName).subscribe
-  //   (
-  //     foundUser =>
-  //     {
-  //       this.userBackend = foundUser;
-  //     }
-  //   )
-  // }
 }

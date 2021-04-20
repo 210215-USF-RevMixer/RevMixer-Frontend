@@ -24,8 +24,15 @@
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/profile']" [routerLinkActive]="['active']">Profile</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/adminRights']" [routerLinkActive]="['active']">Admin</a>
+          <li class="nav-item dropdown" *ngIf="BooLMAO">
+            <a class="nav-link dropdown-toggle" id="uploadDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Admin
+            </a>
+            <div class="dropdown-menu" aria-labelledby="uploadDropdown">
+              <a class="dropdown-item" [routerLink]="['/adminmusic']" [routerLinkActive]="['active']">Manage Uploaded Music</a>
+              <a class="dropdown-item" [routerLink]="['/adminRights']" [routerLinkActive]="['active']">Manage Uploaded Samples</a>
+            </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="uploadDropdown" role="button" data-toggle="dropdown"
@@ -37,7 +44,6 @@
               <a class="dropdown-item" [routerLink]="['/uploadSample']" [routerLinkActive]="['active']">Upload
                 Samples</a>
             </div>
-
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="sampleAreasDropdown" role="button" data-toggle="dropdown"

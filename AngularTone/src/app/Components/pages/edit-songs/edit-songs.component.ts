@@ -34,7 +34,7 @@ export class EditSongsComponent implements OnInit {
         id: 0,
         userName: '',
         email: '',
-        isAdmin: false,
+        role: '',
 
         userProjects: [],
         sample: [],
@@ -51,7 +51,7 @@ export class EditSongsComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      isAdmin: false,
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],

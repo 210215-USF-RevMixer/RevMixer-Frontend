@@ -17,13 +17,19 @@ export class SavedProjectRestService {
   }
   //url
   url: string = environment.PROJECTSERVICE_SAVEDPROJECT;
+  // url: string = 'https://localhost:44301/api/SavedProject'
+
 
   constructor(private http: HttpClient) { }
 
   //Logic 
 
   //Add a saved project
-  AddSavedProject(savedProject2Add: SavedProject): Observable<SavedProject> {
-    return this.http.post<SavedProject>(this.url, savedProject2Add, this.httpOptions);
+  AddSavedProject(savedProject2add :FormData): Observable<any> {
+    return this.http.post<any>(`${this.url}`, savedProject2add);
+  }
+
+  GetProjects() : Observable<any[]>{
+    return this.http.get<any>(`${this.url}`, this.httpOptions);
   }
 }

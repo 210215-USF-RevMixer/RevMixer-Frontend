@@ -29,7 +29,7 @@ export class AudioPlayerComponent implements OnInit {
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
   msaapDisplayArtist = true;
-  msaapDisplayDuration = true;
+  msaapDisplayDuration = false;
   msaapDisablePositionSlider = false;
 
   constructor (private hubService: HubRestService, private authService: AuthService, private userService: UserRestService)
@@ -41,7 +41,7 @@ export class AudioPlayerComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      isAdmin: false,
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],
@@ -62,7 +62,7 @@ export class AudioPlayerComponent implements OnInit {
         userName: '',
         id: 0,
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],
@@ -96,7 +96,7 @@ ngOnInit(): void {
     (
       foundsongs =>
       {
-        debugger;
+        //debugger;
         this.userMusic = foundsongs;
         //this.PopulateCreatorList();
         this.PopulateAudioPlayer(foundsongs);
@@ -112,14 +112,21 @@ PopulateAudioPlayer(foundDbMusic: UploadMusic[])
     foundDbMusic.forEach(songFound => {
       if(counter == 0){
         //this.playlist[counter].artist = songFound;
+        this.userService.GetUser(songFound.userId).subscribe(
+          (result) =>
+          this.playlist[counter].artist = result.email
+        )
         this.playlist[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
         this.playlist[counter].title = songFound.name;
         counter++;
       }
       else {
         var fileToAddToPlaylist = new Track;
-
-        fileToAddToPlaylist.artist = songFound.user.email;
+        this.userService.GetUser(songFound.userId).subscribe(
+          (result) =>
+          fileToAddToPlaylist.artist = result.email
+        )
+        //fileToAddToPlaylist.artist = songFound.user.email;
         fileToAddToPlaylist.link = this.S3Bucket + "/" + songFound.musicFilePath;
         fileToAddToPlaylist.title = songFound.name;
         this.playlist.push(fileToAddToPlaylist);

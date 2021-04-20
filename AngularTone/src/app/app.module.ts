@@ -22,7 +22,6 @@ import { NavbarComponent } from './Components/shared/navbar/navbar.component';
 import { FooterComponent } from './Components/shared/footer/footer.component';
 import { HubComponent } from './Components/pages/hub/hub.component';
 import { ProfileComponent } from './Components/pages/profile/profile.component';
-import { ChatroomComponent } from './Components/pages/chatroom/chatroom.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './Components/auth-button/auth-button.component';
 import { AudioPlayerComponent } from './Components/audio/audio-player/audio-player.component';
@@ -40,12 +39,13 @@ import { SampleHubComponent } from './Components/pages/sample-hub/sample-hub.com
 import { EditSamplesComponent } from './Components/pages/edit-samples/edit-samples.component';
 import { EditSampleSetsComponent } from './Components/pages/edit-sample-sets/edit-sample-sets.component';
 import { AdminrightsComponent } from './Components/pages/adminrights/adminrights.component';
+import { AdminmusicComponent } from './Components/pages/adminmusic/adminmusic.component';
 @NgModule({
   declarations: [AppComponent, InstrumentComponent, NavbarComponent, FooterComponent, 
-    HubComponent, ProfileComponent, ChatroomComponent, AudioPlayerComponent, AuthButtonComponent, 
+    HubComponent, ProfileComponent, AudioPlayerComponent, AuthButtonComponent, 
     UploadComponent, CommentComponent, LikebtnComponent, CreatePlaylistComponent, ViewPlaylistComponent, 
     SampleSetsComponent, UploadSampleComponent, CreateSampleSetComponent, ViewSampleSetComponent, EditSongsComponent, 
-    EditSamplesComponent, EditSampleSetsComponent, SampleHubComponent, AdminrightsComponent],
+    EditSamplesComponent, EditSampleSetsComponent, SampleHubComponent, AdminrightsComponent, AdminmusicComponent, AdminmusicComponent],
 
 
 

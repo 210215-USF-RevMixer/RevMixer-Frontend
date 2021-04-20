@@ -6,24 +6,21 @@ yes daddy
     <h1>Edit songs</h1>
 <div>
 </div>
-<h1>Admin Page</h1>
+<h1>Manage Samples</h1>
 <p>
-    Edit sample needed to flag/lock sample, delete sample.
-    Delete public project/ upload file.
+    You can manage uploaded samples here.
+    An uploaded sample can be deleted by selecting the trash icon udner "Manage".
 </p>
 <div>
-<div>
-    Show all the samples. And then, have a toggle to flag them/lock them.
-    There should be a thing that lets you delete the jawn as well.
-</div>
-<h1>Edit samples</h1>
-<div>
 
+
+<div>
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
         <table class="table">
             <thead>
                 <th>Name</th>
-                <th>Privacy</th>
+                <th>Audio Source</th>
+                <th>Manage</th>
             </thead>
             <tbody>
                 <tr *ngFor="let sample of samples2admin;">
@@ -31,15 +28,14 @@ yes daddy
                         {{sample.sampleName}}
                     </td>
                     <td>
-                        <label class="switch">
-                        <input type="checkbox" [(ngModel)]="sample.isPrivate" (change)="changePrivacy(sample.isPrivate?'1':'0')"
-                        name="isPrivate" #name="ngModel" value="sample.isPrivate">
-                        <span class="slider round"></span>
-                        </label>
+                        <audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio>
+                    </td>
+                    <td>
+                        <div (click)="deleteSample(sample.id)"><img  style="height: 3%; width: 3%;" src="../../assets/images/tiny-trash-can.png"></div>
                     </td>
                 </tr>
             </tbody>
         </table>
         <button type="submit" class="btn btn-secondary">Update info</button>
     </form>
-    </div>
+</div>

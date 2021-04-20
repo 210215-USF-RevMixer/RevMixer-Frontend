@@ -14,9 +14,11 @@
         </div>
 
         <div class="col-sm-7">
+            
+
             <div class="well row-style">
                 <h1>Uploaded Music</h1>
-
+    
                 <div class="row">
                     <div class="col-sm-5">
                         
@@ -84,14 +86,13 @@
                     <div class="col-sm-12">
                         <div class="well row-style">
                             <table class="table">
-                                <thead>
-                                    <th>
-                                        Sample Set Name
-                                    </th>
-                                </thead>
                                 <tbody>
-                                    <tr *ngFor="let set of userSampleSets;" (click)="GetSampleSet(set.id)">
-                                        <td>{{set.name}}</td>
+                                    <tr *ngFor="let set of userSamples;">
+                                        <td (click)="GetSampleSet(set.id)" style="cursor: pointer;">{{set.name}}</td>
+
+                                        <td (click)="deleteSampleSet(set.id, authUser)">
+                                            <img src="../../../../assets/images/tiny-trash-can.png" style="width: 20px; height: 20px; cursor: pointer;">
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -102,7 +103,5 @@
             </div>
 
         </div>
-        <div class="col-sm-7 offset-sm-3">
-        </div> 
     </div>
 </div>

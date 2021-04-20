@@ -1,19 +1,17 @@
-<div class="row h-24">
-    <div class="col-8">
-  what are you doing here
-    </div>
-  </div>
-<div class="container" *ngIf ='!paramFlag'>
+
+<div class="container top-of-page" *ngIf ='!paramFlag'>
     <div class="jumbotron">
         <h1 class="display-4">Sample Hub</h1>
         <p class="lead">Browse samples other users have uploaded to RevMixer, and add them to your library for personal use!</p>
     </div>
     <div class="container">
         <h1>All Public Samples</h1>
+
+        <input class="input-group my-1 p-1" type="text" id="searchInput" (keyup)="searchTable($event)" placeholder="Search by sample name...">
     </div>
 
     <div class="container" >
-        <table class="table table-striped">
+        <table class="table table-striped" id="sampleTable">
             <thead>
                 <th>
                     Sample Name
@@ -21,19 +19,19 @@
                 <th>
                     Sample Playback
                 </th>
-                <th>
+                <!-- <th>
                     Creator
-                </th>
+                </th> -->
                 <th>
-                    Add Sample to Personal Library
+                    <!-- Add Sample to Personal Library -->
                 </th>
             </thead>
             <tbody>
                 <tr *ngFor="let sample of allSamples">
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
-                    <td>TODO</td>
-                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample.id)">Add to Library</button></td>
+                    <!-- <td>TODO</td> -->
+                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample)">Add to Library</button></td>
                 </tr>
             </tbody>
         </table>
@@ -43,7 +41,7 @@
 <div class="container" *ngIf='paramFlag'>
     <div class="jumbotron">
         <h1 class="display-4">Sample Hub</h1>
-        <p class="lead">Samples from you sample set!</p>
+        <p class="lead">Samples from your sample set!</p>
     </div>
     <div class="container" >
         <table class="table table-striped">
@@ -54,19 +52,23 @@
                 <th>
                     Sample Playback
                 </th>
-                <th>
+                <!-- <th>
                     Creator
-                </th>
+                </th> -->
                 <th>
-                    Add Sample to Personal Library
+                    <!-- Add Sample to Personal Library -->
+                </th>
+                <th *ngIf = 'ownerFlag'>
+                        
                 </th>
             </thead>
             <tbody>
-                <tr *ngFor="let sample of neededSamples">
+                <tr *ngFor="let sample of neededSamples" class="sample-item-row">
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
-                    <td>TODO</td>
+                    <!-- <td>TODO</td> -->
                     <td><button (click)="AddSampleToUserSamplesButtonClick(sample.id)">Add to Library</button></td>
+                    <td *ngIf = 'ownerFlag' (click)="removeSampleFromSampleSet(sample.id)"><img src="../../../../assets/images/tiny-trash-can.png" style="width: 30px; height: 30px; cursor: pointer;"></td>
                 </tr>
             </tbody>
         </table>
@@ -86,18 +88,18 @@
                     <th>
                         Sample Playback
                     </th>
-                    <th>
+                    <!-- <th>
                         Creator
-                    </th>
+                    </th> -->
                     <th>
-                        Add Sample to Personal Library
+                        <!-- Add Sample to Personal Library -->
                     </th>
                 </thead>
                 <tbody>
                     <tr *ngFor="let sample of allSamples">
                         <td>{{sample.sampleName}}</td>
                         <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
-                        <td>TODO</td>
+                        <!-- <td>TODO</td> -->
                         <td><button (click)="AddSampleToSampleSetButtonClick(sample.id)">Add to Sample Set</button></td>
                     </tr>
                 </tbody>
