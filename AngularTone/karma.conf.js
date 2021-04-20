@@ -31,7 +31,7 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/AngularTone'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
+        { type: 'lcov' },
         { file: 'text-summary' }
       ]
     },
