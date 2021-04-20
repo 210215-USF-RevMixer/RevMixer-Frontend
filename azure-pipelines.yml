@@ -29,6 +29,7 @@ steps:
     cliSources: 'AngularTone'
     extraProperties: |
       sonar.coverage.exclusions=**/*.spec.ts
+      sonar.typescript.lcov.reportPaths= coverage/AngularTone/lcov.info
     
 - task: Npm@1
   displayName: 'npm install'
@@ -68,10 +69,10 @@ steps:
 #       echo "Build.SourcesDirectory:"
       
 #       echo "$(Build.SourcesDirectory)"
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'cobertura'
-    summaryFileLocation: '**/coverage/AngularTone/cobertura-coverage.xml'
+# - task: PublishCodeCoverageResults@1
+#   inputs:
+#     codeCoverageTool: 'cobertura'
+#     summaryFileLocation: '**/coverage/AngularTone/cobertura-coverage.xml'
 
 - task: SonarCloudAnalyze@1
 
