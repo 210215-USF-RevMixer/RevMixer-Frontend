@@ -73,7 +73,7 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'cobertura'
-    summaryFileLocation: '$(Agent.TempDirectory)/TestResults/cobertura-coverage.xml'
+    summaryFileLocation: '$(Agent.WorkFolder)/TestResults/cobertura-coverage.xml'
 
 - task: SonarCloudAnalyze@1
 
