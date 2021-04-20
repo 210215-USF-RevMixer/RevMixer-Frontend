@@ -4,6 +4,8 @@ import { Comments } from 'src/app/Models/Comments';
 import { User } from 'src/app/Models/User';
 import { CommentRestService } from 'src/app/services/comment-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
+import {DatePipe} from '@angular/common';
+
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
@@ -14,7 +16,9 @@ export class CommentComponent implements OnInit {
   comment: Comments[];
   addComment: any;
   getUser: User;
-  
+  userNames: any[] = [];
+  formattedDate: any[] = [];
+  datePipe: DatePipe = new DatePipe('en-US');
   constructor(private commentService: CommentRestService, public authService: AuthService, private userService: UserRestService) {
   this.comment =[
   {
@@ -27,7 +31,7 @@ export class CommentComponent implements OnInit {
         id: 0,
         userName: '',
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],
@@ -48,7 +52,7 @@ export class CommentComponent implements OnInit {
         id: 0,
         userName: '',
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],
@@ -70,7 +74,7 @@ export class CommentComponent implements OnInit {
     comment: '',
     commentData: new Date,
     userId: 0,
-    uploadMusicId: 17
+    uploadMusicId: 4
   }
 
   this.getUser =
@@ -78,7 +82,7 @@ export class CommentComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      isAdmin: false,
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],
@@ -93,9 +97,19 @@ export class CommentComponent implements OnInit {
     
     this.commentService.GetAllComment().subscribe
     (
-      foundUser =>
+      comments =>
       {
-        this.comment = foundUser;
+        this.comment = comments;
+        this.comment.forEach( (comment) =>{
+          this.formattedDate.push(this.datePipe.transform(comment.commentData, 'short'));
+          this.userService.GetUser(comment.userId).subscribe(
+            (user) => {
+              //debugger;
+              this.userNames.push(user.email)
+            }
+          )
+          
+        })
       }
     )
     this.authService.user$.subscribe
@@ -113,10 +127,12 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(comment: string): void{
+    //debugger;
     this.addComment.comment = comment;
     this.addComment.userId = this.getUser.id;
-    console.log(JSON.stringify(this.addComment))
-    this.commentService.SubmitComment(this.addComment).subscribe()
-    console.log("button was pressed")
+    //console.log(JSON.stringify(this.addComment))
+    this.commentService.SubmitComment(this.addComment).subscribe();
+    document.getElementById("commentStatus")!.innerHTML = "comment submitted successfully! Please refresh to see your comment"; 
+    //console.log("button was pressed")
     };
 }

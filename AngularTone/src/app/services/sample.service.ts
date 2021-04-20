@@ -49,4 +49,7 @@ export class SampleService {
   EditSampleByID(id: number): Observable<any>{
     return this.http.put<any>(`${this.url}/${id}`, id);
   }
+  DeleteSampleByID(id: number): Observable<any>{
+    return this.http.delete<any>(`${this.url}/${id}`, this.httpOptions);
+  }
 }
