@@ -19,7 +19,7 @@
     <div class="my-buttons">
       <button class="playButton" mat-stroked-button color="primary" (click)="playStop()">Play/Stop</button>
       <button class="playButton" mat-stroked-button color="primary" (click)="showForm();">Save Project</button>
-      <button class="playButton" mat-stroked-button color="primary" (click)="Clear();">Clear</button>
+      <button class="playButton" mat-stroked-button color="primary" (click)="clear();">Clear</button>
     </div>
 
     <div class="my-sliders">
@@ -107,8 +107,8 @@
       <mat-form-field class="mb-4">
         <mat-label>Load Saved Project</mat-label>
         <mat-select>
-          <mat-option *ngFor="let project of savedProjects" (click)="loadProject(project)">
-            {{project.sample}}
+          <mat-option *ngFor="let project of userProjects" (click)="loadSavedProject(project)">
+            {{project.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
