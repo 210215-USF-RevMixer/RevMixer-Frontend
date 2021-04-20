@@ -38,12 +38,10 @@ export class NavbarComponent implements OnInit {
       (
         foundUser =>
         {
-          debugger;
           this.userBackend = foundUser;
           if (this.userBackend.role == "Admin"){
             this.BooLMAO = true;
           }
-          console.log(this.BooLMAO)
         }
       )
     )
