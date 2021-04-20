@@ -6,7 +6,7 @@
 //-Timer that shows how long you've been recording for
 //-change note of drum samples, they sound cool repitched
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import * as Tone from 'tone';
 import { UserRestService } from '../services/user-rest.service';
@@ -25,7 +25,7 @@ import { SamplePlaylist } from '../Models/SamplePlaylist';
   styleUrls: ['./instrument.component.scss']
 })
 
-export class InstrumentComponent implements OnInit {
+export class InstrumentComponent implements OnInit, OnDestroy {
   mouseIsClicked: boolean = false
   paddingForTopBar: string = '70px'
   popOutDisplay: string = 'none'
@@ -237,6 +237,10 @@ export class InstrumentComponent implements OnInit {
     this.autoWah.Q.value = 6
     this.autoWah.Q.value = 8
     this.filter.rolloff = -48
+  }
+
+  ngOnDestroy(){
+    this.clear()
   }
 
   //Record songs to audio component and allows song to be downloaded
