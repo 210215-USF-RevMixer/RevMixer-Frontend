@@ -16,8 +16,8 @@ export class SavedProjectRestService {
     )
   }
   //url
-  // url: string = environment.PROJECTSERVICE_SAVEDPROJECT;
-  url: string = 'https://localhost:44301/api/SavedProject'
+  url: string = environment.PROJECTSERVICE_SAVEDPROJECT;
+  // url: string = 'https://localhost:44301/api/SavedProject'
 
 
   constructor(private http: HttpClient) { }
