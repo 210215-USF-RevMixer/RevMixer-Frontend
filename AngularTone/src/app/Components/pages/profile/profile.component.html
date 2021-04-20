@@ -86,14 +86,13 @@
                     <div class="col-sm-12">
                         <div class="well row-style">
                             <table class="table">
-                                <thead>
-                                    <th>
-                                        Sample Set Name
-                                    </th>
-                                </thead>
                                 <tbody>
-                                    <tr *ngFor="let set of userSamples;" (click)="GetSampleSet(set.id)" style="cursor: pointer;">
-                                        <td>{{set.name}}</td>
+                                    <tr *ngFor="let set of userSamples;">
+                                        <td (click)="GetSampleSet(set.id)" style="cursor: pointer;">{{set.name}}</td>
+
+                                        <td (click)="deleteSampleSet(set.id, authUser)">
+                                            <img src="../../../../assets/images/tiny-trash-can.png" style="width: 20px; height: 20px; cursor: pointer;">
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
