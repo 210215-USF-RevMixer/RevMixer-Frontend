@@ -33,7 +33,7 @@ export class AdminmusicComponent implements OnInit {
           id: 0,
           userName: '',
           email: '',
-          isAdmin: false,
+          role: '',
   
           userProjects: [],
           sample: [],

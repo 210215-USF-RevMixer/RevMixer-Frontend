@@ -34,7 +34,7 @@ export class AdminrightsComponent implements OnInit {
         id: 0,
         userName: '',
         email: '',
-        isAdmin: false,
+        role: '',
 
         userProjects: [],
         sample: [],
@@ -60,7 +60,7 @@ export class AdminrightsComponent implements OnInit {
         userName: '',
         id: 0,
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],
