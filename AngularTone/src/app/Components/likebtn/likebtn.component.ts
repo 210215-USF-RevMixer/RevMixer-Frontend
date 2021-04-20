@@ -24,7 +24,7 @@ export class LikebtnComponent implements OnInit {
         id: 0,
         userName: '',
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],

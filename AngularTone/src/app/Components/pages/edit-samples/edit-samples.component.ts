@@ -32,7 +32,7 @@ export class EditSamplesComponent implements OnInit {
         userName: '',
         id: 0,
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],

@@ -11,8 +11,7 @@ export interface User
     id: number,
     userName: string,
     email: string,
-    isAdmin: boolean,
-
+    role: string,
     userProjects: UserProject[],
     sample: Sample[],
     comments: Comments[],
