@@ -24,7 +24,7 @@
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/profile']" [routerLinkActive]="['active']">Profile</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="this.isAdmin$ | async">
             <a class="nav-link dropdown-toggle" id="uploadDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               Admin

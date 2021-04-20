@@ -11,7 +11,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 export class NavbarComponent implements OnInit {
   userBackend: User;
   userName: string;
-
+  isAdmin: string;
 
   constructor(public auth: AuthService, private userService: UserRestService) {
     this.userBackend = 
@@ -26,7 +26,8 @@ export class NavbarComponent implements OnInit {
       uploadMusics: [],
       playlists: []
     }
-    this.userName = ''
+    this.userName = '',
+    this.isAdmin = ''
   }
 
   ngOnInit(): void {
@@ -38,21 +39,10 @@ export class NavbarComponent implements OnInit {
         foundUser =>
         {
           this.userBackend = foundUser;
+          this.userBackend.role = this.isAdmin;
         }
       )
     )
 
   }
-
-
-  // GetUser(userName: string)
-  // {
-  //   this.userService.GetUserByEmail(userName).subscribe
-  //   (
-  //     foundUser =>
-  //     {
-  //       this.userBackend = foundUser;
-  //     }
-  //   )
-  // }
 }
