@@ -29,7 +29,7 @@ describe('CommentRestService', () => {
    let user: User = {id: 1,
     userName: 'string',
     email: 'string',
-    isAdmin: false,
+    role: '',
 
     userProjects: [],
     sample: [],

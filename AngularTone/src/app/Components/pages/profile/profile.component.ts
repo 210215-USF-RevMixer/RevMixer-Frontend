@@ -83,12 +83,12 @@ export class ProfileComponent implements OnInit {
           userName: '',
           id: 0,
           email: '',
-          isAdmin: false,
           userProjects: [],
           sample: [],
+          role: '',
           comments: [],
           uploadMusics: [],
-          playlists: []
+          playlists: [],
         },
         isPrivate: false,
 
