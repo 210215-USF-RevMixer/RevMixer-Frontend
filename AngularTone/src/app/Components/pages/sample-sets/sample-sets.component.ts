@@ -94,13 +94,33 @@ export class SampleSetsComponent implements OnInit {
           alert(`This sample set is already in your library!`)
         }
         else {
-          this.set2Add.sampleSetsId = setId,
+          this.set2Add.sampleSetsId = setId
           this.set2Add.userId = this.user.id
           this.userSampleSetService.AddUsersSampleSet(this.set2Add).subscribe()
           alert(`This sample set has been added to your sample sets!`)
         }
       }
     )
+  }
+
+  searchTable(event : any) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = event.target.value.toUpperCase()
+    table = document.getElementById("sampleSetTable");
+    tr = document.getElementsByTagName("tr")
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i]?.getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
   }
 }
 

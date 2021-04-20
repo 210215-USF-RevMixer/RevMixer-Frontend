@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
   flag: boolean = true;
 
   constructor(private userService: UserRestService, private musicService: UploadedMusicRestService, private sampleService: SampleSetService, private userSampleSetsService: UsersSampleSetsService, private individualSampleService: SampleService, private authService: AuthService,
-    private router: Router, private playlistService: PlaylistServiceService) {
+    private router: Router, private playlistService: PlaylistServiceService, private sampleSetService: SampleSetService) {
 
 
     this.user =
@@ -121,7 +121,6 @@ export class ProfileComponent implements OnInit {
         this.userService.GetUserByEmail(authUser.email).subscribe
           (
             foundUser => {
-
               this.user.email = foundUser.email;
               this.individualSampleService.GetSamplesByUserID(foundUser.id).subscribe
                 (
@@ -216,5 +215,51 @@ export class ProfileComponent implements OnInit {
   }
   EditSongs(id: number) {
     this.router.navigate(['editSongs'], { queryParams: { id: id } });
+  }
+
+  deleteSampleSet(setId: number, userId: any) {
+    this.authService.user$.subscribe(
+      au => {
+        this.userService.GetUserByEmail(au.email).subscribe(
+          user => {
+            this.userSampleSetsService.GetUsersSampleSetByUserId(user.id).subscribe(
+              results => {
+                results.forEach(result => {
+                  if (result.sampleSetsId === setId && result.isOwner === true) {
+                    if (confirm('You own this sample set.  Are you sure you want to delete it from everyone\'s library?')) {
+                      this.userSampleSetsService.GetAllUsersSampleSet().subscribe(
+                        allUserSampleSets => {
+                          for (let i = 0; i < allUserSampleSets.length; i++) {
+                            if (allUserSampleSets[i].sampleSetsId === setId) {
+                              this.userSampleSetsService.DeleteSampleSet(allUserSampleSets[i].id).subscribe()
+                            }
+                          }
+                        }
+                      )
+                      this.sampleSetService.GetAllSampleSets().subscribe(
+                        allSampleSets => {
+                          for (let i = 0; i < allSampleSets.length; i++) {
+                            if (allSampleSets[i].id === setId) {
+                              this.sampleSetService.DeleteSampleSet(allSampleSets[i].id).subscribe()
+                            }
+                          }
+                        }
+                      )
+                      this.userSamples.splice(results.indexOf(result), 1)
+                    }
+                  }
+
+                  if (result.sampleSetsId === setId && result.isOwner === false) {
+                    if (confirm('Are you sure you want to remove this sample set from your library?')) {
+                      this.userSamples.splice(results.indexOf(result), 1)
+                      this.userSampleSetsService.DeleteSampleSet(result.id).subscribe()
+                    }
+                  }
+                })
+              })
+          }
+        )
+      }
+    )
   }
 }
