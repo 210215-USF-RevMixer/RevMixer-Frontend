@@ -93,7 +93,7 @@ export class InstrumentComponent implements OnInit {
   showCheby: boolean = false
 
   constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: SavedProjectRestService, private sampleSetService: SampleSetService,
-    private samplePlaylistService: SamplePlaylistService) {
+    private samplePlaylistService: SamplePlaylistService, private userProjectRestService: ProjectRestService) {
     this.tracks = [
       {
         sample: {},
@@ -190,27 +190,27 @@ export class InstrumentComponent implements OnInit {
               )
 
               // GET USER SAVED PROJECTS
-              this.projectRestService.GetProjects().subscribe(
+              this.userProjectRestService.GetUserProjects().subscribe(
                 userProjects => {
                   userProjects.forEach(project => {
+                    console.log(project)
                     if (project.userId === foundUser.id) {
-                      this.userProjects.push(project)
+                      this.userProjects.push(project.savedProject)
                     }
                   })
-
                 }
               )
             }
           )
 
     )
-    this.userProjects.push({
-      name: 'Test Project',
-      sampleIds: '1,2,3',
-      pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
-      userId: '1',
-      bpm: '100'
-    })
+    // this.userProjects.push({
+    //   name: 'Test Project',
+    //   sampleIds: '1,2,3',
+    //   pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
+    //   userId: '1',
+    //   bpm: '100'
+    // })
     //push on the sample sets to array
     // get the arrays from services
 
