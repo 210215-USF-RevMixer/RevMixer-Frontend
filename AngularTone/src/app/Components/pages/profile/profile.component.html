@@ -16,6 +16,31 @@
         <div class="col-sm-7">
             
 
+            <div class="well row-style">
+                <h1>Uploaded Music</h1>
+    
+                <div class="row">
+                    <div class="col-sm-5">
+                        
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="well row-style">
+                            <ngx-audio-player [playlist]="audioCollection" [displayTitle]="msaapDisplayTitle"
+                                [autoPlay]="false" muted="muted" [displayPlaylist]="msaapDisplayPlayList"
+                                [pageSizeOptions]="msaapPageSizeOptions"
+                                [displayVolumeControls]="msaapDisplayVolumeControls"
+                                [displayArtist]="msaapDisplayArtist" [displayDuration]="msaapDisplayDuration"
+                                [expanded]="true" [displayVolumeControls]="msaapDisplayVolumeControls"
+                                [displayRepeatControls]="msaapDisplayRepeatControls"
+                                [disablePositionSlider]="msaapDisablePositionSlider" [expanded]="true">
+                                <p>Testing Something</p>
+                            </ngx-audio-player>
+                            <a routerLink="/editSongs">Edit songs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- <div class="well row-style">
                 <h1>Uploaded Samples</h1>
             </div>
@@ -67,7 +92,7 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let set of userSamples;" (click)="GetSampleSet(set.id)">
+                                    <tr *ngFor="let set of userSamples;" (click)="GetSampleSet(set.id)" style="cursor: pointer;">
                                         <td>{{set.name}}</td>
                                     </tr>
                                 </tbody>
@@ -79,31 +104,5 @@
             </div>
 
         </div>
-        <div class="col-sm-7 offset-sm-3">
-        </div> 
-        <!-- <div class="well row-style">
-            <h1>Uploaded Music</h1>
-
-            <div class="row">
-                <div class="col-sm-5">
-                    
-                </div>
-                <div class="col-sm-12">
-                    <div class="well row-style">
-                        <ngx-audio-player [playlist]="audioCollection" [displayTitle]="msaapDisplayTitle"
-                            [autoPlay]="false" muted="muted" [displayPlaylist]="msaapDisplayPlayList"
-                            [pageSizeOptions]="msaapPageSizeOptions"
-                            [displayVolumeControls]="msaapDisplayVolumeControls"
-                            [displayArtist]="msaapDisplayArtist" [displayDuration]="msaapDisplayDuration"
-                            [expanded]="true" [displayVolumeControls]="msaapDisplayVolumeControls"
-                            [displayRepeatControls]="msaapDisplayRepeatControls"
-                            [disablePositionSlider]="msaapDisablePositionSlider" [expanded]="true">
-                            <p>Testing Something</p>
-                        </ngx-audio-player>
-                        <a routerLink="/editSongs">Edit songs</a>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>

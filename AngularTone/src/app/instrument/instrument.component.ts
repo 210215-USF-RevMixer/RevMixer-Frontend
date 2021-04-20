@@ -736,7 +736,6 @@ export class InstrumentComponent implements OnInit {
           this.addTrack(tempSample)
 
           let tempArr = tempPattern[i].split('')
-          console.log(tempArr)
           for (let i = 0; i < this.blockSize; i++) {
             if (tempArr[i] === '1') {
               this.tracks[this.tracks.length - 1].note[i] = {

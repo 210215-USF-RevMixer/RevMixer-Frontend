@@ -75,7 +75,6 @@ export class SampleSetsComponent implements OnInit {
     sets.forEach(set=>{
       this.allSampleSets.push(set);
     })
-    console.log(this.allSampleSets);
   }
   //add the creator functionality by useing the isOwner and getting the 
   //user info from user service 
@@ -89,7 +88,6 @@ export class SampleSetsComponent implements OnInit {
     this.set2Add.sampleSetsId = setId,
     this.set2Add.userId = this.user.id
     this.userSampleSetService.AddUsersSampleSet(this.set2Add)
-    console.log(this.set2Add)
   }
 
 

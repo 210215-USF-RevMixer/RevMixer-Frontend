@@ -78,7 +78,6 @@ export class CreateSampleSetComponent implements OnInit {
   
     
   onSubmit(): void { 
-    debugger;
     const formData = new FormData();
     formData.append('userId',(this.newUsersSampleSet.userId).toString());
     formData.append('name', this.newSampleSet.name);

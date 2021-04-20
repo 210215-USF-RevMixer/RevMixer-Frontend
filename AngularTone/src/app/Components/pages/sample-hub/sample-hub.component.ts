@@ -17,6 +17,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 import { UserssampleService } from 'src/app/services/userssample.service';
 import { environment } from 'src/environments/environment';
 import { UsersSampleSets } from 'src/app/Models/UsersSampleSets';
+import { param } from 'jquery';
 
 @Component({
   selector: 'app-sample-hub',
@@ -26,143 +27,135 @@ import { UsersSampleSets } from 'src/app/Models/UsersSampleSets';
 export class SampleHubComponent implements OnInit {
   user: User;
   authUser: any;
-  samplePlaylist: SamplePlaylist[]=[];
+  samplePlaylist: SamplePlaylist[] = [];
   allSamples: Sample[] = [];
-  userSampleSets: UsersSampleSets[] =[];
+  userSampleSets: UsersSampleSets[] = [];
   usersSampleToAdd: UsersSample;
-  neededSamples:Sample[] =[];
-  paramFlag : boolean = false;
-  ownerFlag : boolean = false;
+  neededSamples: Sample[] = [];
+  paramFlag: boolean = false;
+  ownerFlag: boolean = false;
   samplePlaylist2Add: SamplePlaylist;
   //NEED TO ADD SAMPLE ENDPOINT, NOT IN README ATM
   sampleStorage: string = environment.SAMPLE_STORAGE;
-  
-  constructor(private userSampleSetService: UsersSampleSetsService, private samplePlaylistService:SamplePlaylistService, private activeRoute: ActivatedRoute,private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
-    private router: Router, private playlistService: PlaylistServiceService) {
-      this.allSamples.forEach(element => {
-        this.allSamples.pop();
-      });
-      this.neededSamples.forEach(element => {
-        this.neededSamples.pop();
-      });
-      this.paramFlag =false;
-      this.ownerFlag=false;
-      this.user = 
-      {
-        userName: '',
-        id: 0,
-        email: '',
-        role: '',
-        userProjects: [],
-        sample: [],
-        comments: [],
-        uploadMusics: [],
-        playlists: []
-      }
 
-      this.usersSampleToAdd = 
-      {
-        Id: 0,
-        userId: 0,
-        sampleId: 0,
-        isOwner: true
-      }
-      this.samplePlaylist2Add ={
-        Id:0,
-        sampleId:0,
-        sampleSetId:0
-
-      }
+  constructor(private userSampleSetService: UsersSampleSetsService, private samplePlaylistService: SamplePlaylistService, private activeRoute: ActivatedRoute, private userService: UserRestService, private sampleService: SampleService, private usersSampleService: UserssampleService, private authService: AuthService,
+    private router: Router, private playlistService: PlaylistServiceService, private sampleSetService: SampleSetService) {
+    this.allSamples.forEach(element => {
+      this.allSamples.pop();
+    });
+    this.neededSamples.forEach(element => {
+      this.neededSamples.pop();
+    });
+    this.paramFlag = false;
+    this.ownerFlag = false;
+    this.user =
+    {
+      userName: '',
+      id: 0,
+      email: '',
+      isAdmin: false,
+      userProjects: [],
+      sample: [],
+      comments: [],
+      uploadMusics: [],
+      playlists: []
     }
 
+    this.usersSampleToAdd =
+    {
+      Id: 0,
+      userId: 0,
+      sampleId: 0,
+      isOwner: true
+    }
+    this.samplePlaylist2Add = {
+      Id: 0,
+      sampleId: 0,
+      sampleSetId: 0
+
+    }
+  }
+
   ngOnInit(): void {
-    
-    // this.sampleService.GetSamples().subscribe(
-    //   r =>{
-    //     {
-    //       //debugger;
-    //       let sample = r;
-    //       this.allSamples.push(sample);
-    //       //console.log('why doesnt this work ');
-    //       console.log(r);
-    //     }
-    //   }
-    // )
     this.activeRoute.queryParams
-    .subscribe(
-      params =>
-      {
-      if(params.id>0){
-        this.paramFlag=true;
-      }
-      });
+      .subscribe(
+        params => {
+          if (params.id > 0) {
+            this.paramFlag = true;
+          }
+        });
     this.activeRoute.queryParams
-    .subscribe(
-      params =>
-      {
-        
-        console.log('param');
-        console.log(params)
-        console.log('param');
-        console.log(params.id)
-        
-        this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
-          result => {
+      .subscribe(
+        params => {
+
+          this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+            result => {
               result.forEach(element1 => {
-                if(element1.sampleSetId==params.id)
-                {
+                if (element1.sampleSetId == params.id) {
                   this.allSamples.forEach(element2 => {
-                    console.log('e2 ');
-                    console.log(element2);
-                    if(element2.id == element1.sampleId){
+                    if (element2.id == element1.sampleId) {
                       this.neededSamples.push(element2);
-                      console.log('some shit ');
-                      console.log(this.neededSamples);
                     }
                   });
                 }
               });
-          }
-        )
-      }
-    );
-    
-    this.authService.user$.subscribe(
-      authUser =>
-      this.userService.GetUserByEmail(authUser.email).subscribe
-      (
-        foundUser =>
-        {
-          this.user = foundUser;
-          //console.log('this shit ');
-          console.log(this.neededSamples);
-          this.activeRoute.queryParams
-          .subscribe(
-            params =>
-            {
-              // this.userSampleSetService.GetUsersSampleSetByUserId(this.user.id).subscribe(
-              //   result =>{
-              //     this.userSampleSets=result;
-              //     this.userSampleSets.forEach(element => {
-              //       if(element.sampleSetsId == params.id && element.isOwner){
-              //         this.ownerFlag = true;
-              //       }
-              //     });
-              //   }
-              // )
-              this.UserSampleSetCheck(this.user.id, params.id);
-              this.GetSamplePlaylists(params.id);
-          });
-          this.sampleService.GetSamples().subscribe
-          (
-            foundSamples =>
-            {
-              this.allSamples = foundSamples;
-              // this.PopulateAudioPlayer(foundsongs);
             }
           )
         }
-      )
+      );
+
+    this.authService.user$.subscribe(
+      authUser =>
+        this.userService.GetUserByEmail(authUser.email).subscribe
+          (
+            foundUser => {
+              this.user = foundUser;
+              this.activeRoute.queryParams
+                .subscribe(
+                  params => {
+                    // this.userSampleSetService.GetUsersSampleSetByUserId(this.user.id).subscribe(
+                    //   result =>{
+                    //     this.userSampleSets=result;
+                    //     this.userSampleSets.forEach(element => {
+                    //       if(element.sampleSetsId == params.id && element.isOwner){
+                    //         this.ownerFlag = true;
+                    //       }
+                    //     });
+                    //   }
+                    // )
+                    this.UserSampleSetCheck(this.user.id, params.id);
+                    this.GetSamplePlaylists(params.id);
+
+                    if(params.id)
+                    {
+                      this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+                        result => {
+                          var playListExist = false;
+                          for (let i = 0; i < result.length; i++) {
+                            if (result[i].sampleSetId == params.id) {
+                              playListExist = true
+                            }
+                          }
+                          if(!playListExist)
+                          {
+                            {
+                              alert('This Sample Set is a work in progress try coming back in a bit!');
+                              window.history.back();
+                            }
+                          }
+                        }
+                      )
+                    }
+                  });
+              this.sampleService.GetSamples().subscribe
+                (
+                  foundSamples => {
+                    this.allSamples = foundSamples;
+                    // this.PopulateAudioPlayer(foundsongs);
+                  }
+                )
+            }
+          )
     )
 
     // //add is owner to make sure the person can add samples to set
@@ -170,22 +163,23 @@ export class SampleHubComponent implements OnInit {
     //   alert('This Sample Set is a work in progress try coming back in a bit!')
     //   window.history.back();
     // }
-    // else if(this.paramFlag&&this.neededSamples.length==0){
+    // else if(this.paramFlag && this.neededSamples.length == 0){
     //   alert('This set is currently empty try adding some Samples!');
     //   console.log();
     // }else{
     //   console.log();
     // }
-      
-    
+
+
   }
 
   UserSampleSetCheck(userId: number, param: number) {
-    this.userSampleSetService.GetUsersSampleSetById(param).subscribe(
-      (result: UsersSampleSets) => {
-        if(result.userId == userId && result.isOwner)
-        {
-          this.ownerFlag = true;
+    this.userSampleSetService.GetUsersSampleSetByUserId(userId).subscribe(
+      (result: UsersSampleSets[]) => {
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].userId == userId && result[i].isOwner && param == result[i].sampleSetsId) {
+            this.ownerFlag = true;
+          }
         }
       }
     )
@@ -194,15 +188,13 @@ export class SampleHubComponent implements OnInit {
     this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
       (result) => {
         this.samplePlaylist = result;
-        console.log(result);
         this.FilterPlaylist(this.samplePlaylist, param);
       }
-      ) 
+    )
   }
   FilterPlaylist(playlist: SamplePlaylist[], param: number) {
     playlist.forEach(element => {
-      if(element.sampleSetId == param)
-      {
+      if (element.sampleSetId == param) {
         this.FilterBySampleID(element.sampleId);
       }
     })
@@ -214,23 +206,21 @@ export class SampleHubComponent implements OnInit {
       }
     )
   }
-  AddSampleToUserSamplesButtonClick(sampleid: number)
-  {
-    this.usersSampleToAdd.sampleId = sampleid;
+  AddSampleToUserSamplesButtonClick(sample: Sample) {
+    this.usersSampleToAdd.sampleId = sample.id;
     this.usersSampleToAdd.userId = this.user.id;
     this.usersSampleToAdd.isOwner = false;
-    this.usersSampleService.AddUserSample(this.usersSampleToAdd)
+    this.usersSampleService.AddUserSample(this.usersSampleToAdd).subscribe()
+    alert(`${sample.sampleName} was added to your sample library!`);
   }
   // add the sample to sample playlist
-  AddSampleToSampleSetButtonClick(sampleid: number){
+  AddSampleToSampleSetButtonClick(sampleid: number) {
     this.samplePlaylist2Add.sampleId = sampleid
     this.activeRoute.queryParams.subscribe(
-      params=>{
-        this.samplePlaylist2Add.sampleSetId=params.id;
+      params => {
+        this.samplePlaylist2Add.sampleSetId = params.id;
       });
     this.samplePlaylistService.AddSamplePlaylist(this.samplePlaylist2Add).subscribe();
-    console.log('samplePlaylist.sampleId '+this.samplePlaylist2Add.sampleId);
-    console.log('samplePlaylist.sampleSetId '+this.samplePlaylist2Add.sampleSetId);
     alert('You have added a sample to your sample set');
   }
 
@@ -256,5 +246,9 @@ export class SampleHubComponent implements OnInit {
 
   //   });
   // }
+
+  reloadPage() {
+    console.log('reload page')
+  }
 
 }
