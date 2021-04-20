@@ -58,7 +58,11 @@ steps:
       echo "Build.ArtifactStagingDirectory:" 
       
       echo "$(Build.ArtifactStagingDirectory)"
+
+      echo "Agent.TempDirectory" 
       
+      echo "$(Agent.TempDirectory)"
+
       echo "Build.BinariesDirectory:" 
       
       echo "$(Build.BinariesDirectory)"
