@@ -262,34 +262,38 @@ export class InstrumentComponent implements OnInit {
   }
 
   changeDelayTime(event: any) {
-    if (event.value == 0) {
+    if(event.value == 0) {
+      this.time = 0
       this.tracks.forEach(track => {
-        try { track.sample.sample.disconnect(this.delay32) } catch { }
-        try { track.sample.sample.disconnect(this.delay16) } catch { }
-        try { track.sample.sample.disconnect(this.delay8) } catch { }
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}       
       })
-    } else
-      if (event.value == 1) {
-        this.tracks.forEach(track => {
-          track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
-          try { track.sample.sample.disconnect(this.delay16) } catch { }
-          try { track.sample.sample.disconnect(this.delay8) } catch { }
-        })
-      } else
-        if (event.value == 2) {
-          this.tracks.forEach(track => {
-            track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
-            try { track.sample.sample.disconnect(this.delay32) } catch { }
-            try { track.sample.sample.disconnect(this.delay8) } catch { }
-          })
-        } else
-          if (event.value == 3) {
-            this.tracks.forEach(track => {
-              track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
-              try { track.sample.sample.disconnect(this.delay16) } catch { }
-              try { track.sample.sample.disconnect(this.delay32) } catch { }
-            })
-          }
+    }else
+    if(event.value == 1) {
+      this.time = 1
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{} 
+      })
+    }else
+    if(event.value == 2) {
+      this.time = 2
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}
+      })
+    }else
+    if(event.value == 3) {
+      this.time = 3
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+      })
+    }
   }
 
   //From  HTML sliders
@@ -350,40 +354,6 @@ export class InstrumentComponent implements OnInit {
     //   try{this.connectEffect(this.cheby)}catch{}
       this.cheby.order = event.value;
     // }
-  }
-  changeDelayTime(event: any) {
-    if(event.value == 0) {
-      this.time = 0
-      this.tracks.forEach(track => {
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}       
-      })
-    }else
-    if(event.value == 1) {
-      this.time = 1
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{} 
-      })
-    }else
-    if(event.value == 2) {
-      this.time = 2
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}
-      })
-    }else
-    if(event.value == 3) {
-      this.time = 3
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-      })
-    }
   }
 
   changeBitCrush(event: any) {
