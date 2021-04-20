@@ -1,19 +1,7 @@
-//Known glitches
-//-Loading a pattern plays all notes at the same time, sounds like garbage, needs to not do that
-//-Turning on the last note of a track increases the volume of the whole track a little, minor, but weird and it bothers me
-//-Sometimes when you turn the effects sliders all the way down, some effect is still heard
-//
-//To do
-//-Abiltiy to swap samples
-//-Save/Load patterns with effects settings and bpm, adjust sliders to new value
 //
 //Wishlist
-//-Master volume
-//-Mute/Solo buttons per track
-//-Adjust volume of each track
 //-Highlight current playing step column
 //-Synth sections, SOUNDFONTS
-//-More effects and parameter sliders!
 //-Filter with cutoff slider, Tonejs only has filters with fixed cutoff frequency :<
 //-Timer that shows how long you've been recording for
 //-change note of drum samples, they sound cool repitched
@@ -70,30 +58,34 @@ export class InstrumentComponent implements OnInit {
   savedProjectPattern: number[][] = []
   //effects objects
 
-  autoWah = new Tone.AutoWah(50, 6, -40)
-  bitcrush2: any = new Tone.BitCrusher(1.5)
+  volume: any = new Tone.Volume(0)//.toDestination()
+  autoWah = new Tone.AutoWah(47, 4, -40)
+  bitcrush2: any = new Tone.BitCrusher(2)
+  bitcrush1_5: any = new Tone.BitCrusher(1.5)
   bitcrush1: any = new Tone.BitCrusher(1)
   cheby = new Tone.Chebyshev(2)
   pitchshift: any = new Tone.PitchShift(0)
   reverb: any = new Tone.Reverb(Tone.Transport.sampleTime)//.toDestination()
-  volume: any = new Tone.Volume(0)//.toDestination()
-  Rvolume: any = new Tone.Volume(0)//.toDestination()
   comp: any = new Tone.Compressor(-30, 20)
   dist: any = new Tone.Distortion(0)
   delay32: any = new Tone.FeedbackDelay("32n", 0.7)
   delay16: any = new Tone.FeedbackDelay("16n", 0.5)
   delay8: any = new Tone.FeedbackDelay("8t", 0.5)
+  filter = new Tone.Filter(50, "lowpass")
   loadingSampleError: string = ''
   failedSamples: string[] = []
   effects: any[] = []
   tempBuffer: any = {}
   baseSamples: any[] = []
 
+  bits: number = 0// for keeping the place of the bitcrusher slider
+  time: number = 0// for keeping the place of the delay slider
   //recording objects 
   recorder = new Tone.Recorder()
   audio: any
   showDistortion: boolean = true
   showReverb: boolean = false
+  showFilter: boolean = false
   showDelay: boolean = false
   showAutoWah: boolean = false
   showPitchShift: boolean = false
@@ -242,7 +234,10 @@ export class InstrumentComponent implements OnInit {
     Tone.Transport.bpm.value = 160;
     Tone.Transport.setLoopPoints(0, "4m")
     Tone.Transport.loop = true
-    this.audio = document.querySelector('audio')
+    this.audio = document.querySelector('audio');
+    this.autoWah.Q.value = 6
+    this.autoWah.Q.value = 8
+    this.filter.rolloff = -48 
   }
 
   //Record songs to audio component and allows song to be downloaded
@@ -329,10 +324,15 @@ export class InstrumentComponent implements OnInit {
     this.dist.distortion = event.value;
   }
   changeReverbDecay(event: any) {
-    this.reverb.decay = event.value;
+    // if(event.value <= 2) {
+    //   try{this.disconnectEffect(this.reverb)}catch{} 
+    // }else {
+    //   try{this.connectEffect(this.reverb)}catch{}
+      this.reverb.decay = event.value;
+    // }
   }
-  changeTrackReverbVolume(event: any, track: any) {
-    track.Rvolue.value = event.value;
+  changeFilterFreq(event: any) {
+    this.filter.frequency.rampTo(event.value, 0.1)
   }
   changeAutoWahFreq(event: any) {
     this.autoWah.baseFrequency = event.value;
@@ -343,50 +343,148 @@ export class InstrumentComponent implements OnInit {
   changePitchShift(event: any) {
     this.pitchshift.pitch = event.value;
   }
-  pitchShiftDryWet(event: any) {
-    this.pitchshift.wet = event.value;
-  }
   changeCheby(event: any) {
-    this.cheby.order = event.value;
+    // if(event.value == 1) {
+    //   try{this.disconnectEffect(this.cheby)}catch{}
+    // }else{
+    //   try{this.connectEffect(this.cheby)}catch{}
+      this.cheby.order = event.value;
+    // }
+  }
+  changeDelayTime(event: any) {
+    if(event.value == 0) {
+      this.time = 0
+      this.tracks.forEach(track => {
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}       
+      })
+    }else
+    if(event.value == 1) {
+      this.time = 1
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{} 
+      })
+    }else
+    if(event.value == 2) {
+      this.time = 2
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}
+      })
+    }else
+    if(event.value == 3) {
+      this.time = 3
+      this.tracks.forEach(track => {
+        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+      })
+    }
+  }
+
+  changeBitCrush(event: any) {
+    if(event.value == 0) {
+      this.bits = 0
+      this.tracks.forEach(track => {
+        try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
+        try{track.sample.sample.chain(this.dist, this.comp, Tone.Destination)}catch{}  
+      })
+    }else
+    if(event.value == 1) {
+      this.bits = 1
+      this.tracks.forEach(track => {
+        try{track.sample.sample.chain(this.bitcrush2, this.dist, this.comp, Tone.Destination)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush1)}catch{} 
+        try{track.sample.sample.disconnect(this.dist)}catch{}
+      })
+    }else
+    if(event.value == 2) {
+      this.bits = 2
+      this.tracks.forEach(track => {
+        try{track.sample.sample.chain(this.bitcrush1_5, this.dist, this.comp, Tone.Destination)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush1)}catch{} 
+        try{track.sample.sample.disconnect(this.dist)}catch{}
+      })
+    }else
+    if(event.value == 3) {
+      this.bits = 3
+      this.tracks.forEach(track => {
+        try{track.sample.sample.chain(this.bitcrush1, this.dist, this.comp, Tone.Destination)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush2)}catch{} 
+        try{track.sample.sample.disconnect(this.dist)}catch{}
+      })
+    }
   }
   connectEffect(effect: any) {
-    this.effects.push(effect)
-
-    this.tracks.forEach(track => {
-
-      track.sample.sample.chain(effect, Tone.Destination)
-
-      //     track.sample.sample.chain( this.effects.reduce((acc, string, index, array) => { 
-      //       if (index !== array.length -1) { return acc + ", " + string; }
-      //     else {
-      //       return acc + string }
-      //     } ), this.dist, this.comp, Tone.Destination)
-    })
+    if(effect === this.reverb) {
+        this.tracks.forEach(track => {
+        try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
+      })
+    }else {
+      this.tracks.forEach(track => {
+        try{track.sample.sample.disconnect(this.dist)}catch{}
+        try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
+      })
+    }
   }
   disconnectEffect(effect: any) {
-    // delete this.effects[this.effects.findIndex(function (element) {
-    //   return element === effect
-    // })]
-    this.tracks.forEach(track => {
-
-      track.sample.sample.disconnect(effect)
-      track.sample.sample.connect(Tone.Destination)
-
-      // track.sample.sample.chain(this.effects.reduce((acc, string, index, array) => { 
-      //   if (index !== array.length -1) { return acc + ", " + string; }
-      // else {
-      //   return acc + string }
-      // } ), this.dist, this.comp, Tone.Destination)
-    })
+    if(effect == "bitcrush") {
+      this.tracks.forEach(track => { 
+        try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
+        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
+        try{track.sample.sample.connect(this.dist)}catch{}
+      })
+    } else if(effect == "delay") {
+      this.tracks.forEach(track => { 
+        try{track.sample.sample.disconnect(this.delay32)}catch{}
+        try{track.sample.sample.disconnect(this.delay16)}catch{}
+        try{track.sample.sample.disconnect(this.delay8)}catch{}
+        try{track.sample.sample.connect(this.dist)}catch{}
+      })
+    } else {
+      this.tracks.forEach(track => { 
+        try{track.sample.sample.disconnect(effect)}catch{}
+        try{track.sample.sample.connect(this.dist)}catch{}
+      })
+    }
   }
 
   connectTrackEffect(effect: any, track: any) {
-    //track.sample.sample.disconnect(effect)
-    track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)
-    track.sample.sample.disconnect(Tone.Destination)
+    if(effect === this.reverb) {
+    try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
+    }else {
+      try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
+      try{track.sample.sample.disconnect(this.dist)}catch{}
+    }
   }
   disconnectTrackEffect(effect: any, track: any) {
-    track.sample.sample.disconnect(effect)
+    try{track.sample.sample.disconnect(effect)}catch{}
+    try{track.sample.sample.connect(this.dist)}catch{}
+  }
+  disconnectAllEffects() {
+    this.tracks.forEach(track => { 
+      try{track.sample.sample.disconnect(this.autoWah)}catch{}
+      try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
+      try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
+      try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
+      try{track.sample.sample.disconnect(this.cheby)}catch{}
+      try{track.sample.sample.disconnect(this.pitchshift)}catch{}
+      try{track.sample.sample.disconnect(this.reverb)}catch{}
+      try{track.sample.sample.disconnect(this.delay32)}catch{}
+      try{track.sample.sample.disconnect(this.delay16)}catch{}
+      try{track.sample.sample.disconnect(this.delay8)}catch{}
+      try{track.sample.sample.connect(this.dist)}catch{}
+    })
   }
 
   //Clicking on a grid block toggles it on or off, changes color and calls update(Sample) to add or remove the note from it's track
@@ -394,7 +492,7 @@ export class InstrumentComponent implements OnInit {
     if (currentNote.onOff === 0) {
       currentNote.color = this.boxColor
       currentNote.onOff = 1
-      currentTrack.sample.sample.triggerAttackRelease('C3', '16n')
+      currentTrack.sample.sample.triggerAttackRelease('C3', '1m')
       currentTrack.part.add(this.times[currentNote.position], currentTrack.sample);
     }
     else {
@@ -492,7 +590,7 @@ export class InstrumentComponent implements OnInit {
     }
     for (let i = 0; i < this.blockSize; i++) {
       this.track2Add.part = new Tone.Part(((time) => {
-        sample2Add.sample.triggerAttackRelease('C3', '16n', time);
+        sample2Add.sample.triggerAttackRelease('C3', '1m', time);
       }))
       this.track2Add.part.start(0);
       this.track2Add.part.loop = true;
@@ -504,7 +602,7 @@ export class InstrumentComponent implements OnInit {
   }
 
   playSound(sample2Add: any) {
-    sample2Add.sample.triggerAttackRelease('C3', '16n');
+    sample2Add.sample.triggerAttackRelease('C3', '1m');
   }
 
   showSamples() {
@@ -586,6 +684,7 @@ export class InstrumentComponent implements OnInit {
   changeEffect(effect: any) {
     this.showReverb = false
     this.showDelay = false
+    this.showFilter = false
     this.showDistortion = false
     this.showAutoWah = false
     this.showPitchShift = false
@@ -597,6 +696,9 @@ export class InstrumentComponent implements OnInit {
         break
       case 'reverb':
         this.showReverb = true
+        break
+      case 'filter':
+        this.showFilter = true
         break
       case 'delay':
         this.showDelay = true
