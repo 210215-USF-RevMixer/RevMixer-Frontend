@@ -20,6 +20,7 @@
         <table class="table">
             <thead>
                 <th>Name</th>
+                <th>Audio File</th>
                 <th>Manage</th>
             </thead>
             <tbody>
@@ -27,6 +28,9 @@
                     
                     <td>
                         {{music.name}}
+                    </td>
+                    <td>
+                        <audio src="{{musicStorage}}/{{music.musicFilePath}}" controls></audio>
                     </td>
                     <!-- <td [hidden]="true">
                         {{music.id}}
