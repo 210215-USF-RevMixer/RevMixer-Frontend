@@ -70,40 +70,24 @@ export class AdminrightsComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
-    this.authService.user$.subscribe(
-      authUser =>
-      this.userService.GetUserByEmail(authUser.email).subscribe
-      (foundUser =>
-        {
-          this.user = foundUser;
           this.sampleService.GetSamples().subscribe
           (foundsamples =>
             {
               this.samples2admin = foundsamples;
               console.log(this.samples2admin)
             })
-          // this.musicService.GetUploadedSongs().subscribe
-          // (foundmusic =>
-          //   {
-          //     this.music2admin = foundmusic;
-          //     console.log(this.music2admin)
-          //   })
-          }))
-  }
+          }
+
   onSubmit(): void{
-    console.log(this.samples2admin);
-    this.samples2admin.forEach(sample=>
-      this.sampleService.EditSampleByID(sample.id).subscribe(
-        ()=>{alert('Music updated!')},
-      ()=>{alert('Something went wrong :('); console.log(sample)} 
-      ))
+    
 }
-changeApproval(event: any){
-  console.log(event);}
-changeLock(event: any){
-    console.log(event);}
+
+deleteSample(id: number): void{
+  this.sampleService.DeleteSampleByID(id).subscribe(
+    (sub) => {
+      alert(`The selected sample was deleted.`);
+    }
+  );
+}
+
 }
