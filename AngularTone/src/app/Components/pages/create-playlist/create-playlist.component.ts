@@ -5,7 +5,6 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { PlaylistServiceService } from 'src/app/services/playlist-service.service';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-create-playlist',
   templateUrl: './create-playlist.component.html',
