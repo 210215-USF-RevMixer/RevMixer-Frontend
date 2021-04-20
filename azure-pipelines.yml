@@ -9,7 +9,7 @@ trigger:
     - devops
   paths:
     include:
-    - AngularTone/src
+    - AngularTone
 pool: connor's agent
 
 steps:
