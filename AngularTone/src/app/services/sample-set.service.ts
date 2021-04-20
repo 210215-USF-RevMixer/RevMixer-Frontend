@@ -20,7 +20,8 @@ export class SampleSetService {
     )
   }
 
-  url : string = "https://localhost:44301/api/SampleSets";
+  url: string = environment.PROJECTSERVICE_SAMPLESETS;
+  // url : string = "https://localhost:44301/api/SampleSets";
 
   constructor(private http:HttpClient) { }
   

@@ -18,13 +18,11 @@ yes daddy
 </div>
 <h1>Edit samples</h1>
 <div>
-
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
         <table class="table">
             <thead>
                 <th>Name</th>
-                <th>Approved</th>
-                <th>Locked</th>
+                <th>Manage</th>
             </thead>
             <tbody>
                 <tr *ngFor="let sample of samples2admin;">
@@ -32,22 +30,11 @@ yes daddy
                         {{sample.sampleName}}
                     </td>
                     <td>
-                        <label class="switch">
-                        <input type="checkbox" [(ngModel)]="sample.isApproved" (change)="changeApproval(sample.isApproved?'1':'0')"
-                        name="isApproved" #name="ngModel" value="sample.isApproved">
-                        <span class="slider round"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <label class="switch">
-                        <input type="checkbox" [(ngModel)]="sample.isLocked" (change)="changeLock(sample.isLocked?'1':'0')"
-                        name="isLocked" #name="ngModel" value="sample.isLocked">
-                        <span class="slider round"></span>
-                        </label>
+                        <div (click)="deleteSample(sample.id)"><img  style="height: 3%; width: 3%;" src="../../assets/images/tiny-trash-can.png"></div>
                     </td>
                 </tr>
             </tbody>
         </table>
         <button type="submit" class="btn btn-secondary">Update info</button>
     </form>
-    </div>
+</div>

@@ -45,4 +45,9 @@ export class UploadedMusicRestService {
   {
     return this.http.post<UploadMusic>(`${this.url}`, song, this.httpOptions);
   }
+
+  DeleteSongById(id: number) : Observable<any>
+  {
+    return this.http.delete<any>(`${this.url}/${id}`, this.httpOptions);
+  }
 }

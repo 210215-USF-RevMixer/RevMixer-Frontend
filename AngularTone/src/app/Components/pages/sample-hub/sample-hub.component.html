@@ -1,9 +1,5 @@
-<div class="row h-24">
-    <div class="col-8">
-  what are you doing here
-    </div>
-  </div>
-<div class="container" *ngIf ='!paramFlag'>
+
+<div class="container top-of-page" *ngIf ='!paramFlag'>
     <div class="jumbotron">
         <h1 class="display-4">Sample Hub</h1>
         <p class="lead">Browse samples other users have uploaded to RevMixer, and add them to your library for personal use!</p>
@@ -33,7 +29,7 @@
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
                     <td>TODO</td>
-                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample.id)">Add to Library</button></td>
+                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample)">Add to Library</button></td>
                 </tr>
             </tbody>
         </table>
