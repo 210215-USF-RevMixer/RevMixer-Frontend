@@ -46,6 +46,7 @@ export class InstrumentComponent implements OnInit {
   tempSoloedTrack: any
   editingTrack: any
   newSavedProject: any = {}
+  userProjects: any[]
 
   //How many steps we have in the sequencer
   blockSize = 32
@@ -75,6 +76,8 @@ export class InstrumentComponent implements OnInit {
   failedSamples: string[] = []
   effects: any[] = []
   tempBuffer: any = {}
+  baseSamples: any[] = []
+
   bits: number = 0// for keeping the place of the bitcrusher slider
   time: number = 0// for keeping the place of the delay slider
   //recording objects 
@@ -108,6 +111,25 @@ export class InstrumentComponent implements OnInit {
     this.savedProjects = []
     this.sampleSets = []
     this.samples = []
+    this.userProjects = []
+    this.baseSamples = [
+      {
+        name: '808 Kick',
+        sampleLink: '../../assets/808/Kick.wav'
+      },
+      {
+        name: '808 Snare',
+        sampleLink: '../../assets/808/Snare.wav'
+      },
+      {
+        name: '808 Closed High Hat',
+        sampleLink: '../../assets/808/ClosedHat.wav'
+      },
+      {
+        name: '808 Clap',
+        sampleLink: '../../assets/808/Clap.wav'
+      },
+    ]
   }
 
   ngOnInit(): void {
@@ -122,42 +144,18 @@ export class InstrumentComponent implements OnInit {
                 userId: foundUser.id.toString()
               }
 
-
               const proxyUrl = "https://cors.bridged.cc/"
 
               //GET USERS SAMPLE SETS
-              debugger;
               this.userSampleSetService.GetUsersSampleSetByUserId(foundUser.id).subscribe(
                 userSampleSets => {
                   for (let i = 0; i < userSampleSets.length; i++) {
                     this.sampleSetService.GetSampleSet(userSampleSets[i].sampleSetsId).subscribe(
                       currentSampleSet => {
                         this.sampleSets.push(currentSampleSet)
-                        this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
-                          (currentSamplePlaylist) => {
-                            var tempSampleSet;
-                            for(let j = 0; j < currentSamplePlaylist.length; j++)
-                            {
-                              if(currentSamplePlaylist[j].sampleSetId === currentSampleSet.id)
-                              {
-                                this.sampleService.GetSampleByID(currentSamplePlaylist[j].sampleId).subscribe(
-                                  currentSample => {
-                                    let tempSample = {
-                                      sampleName: currentSample.sampleName,
-                                      sample: new Tone.Sampler({
-                                        C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
-                                        }).connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-                                    }
-                                  }
-                                )
-                              }
-                            }
-                          }
-                        )
                       }
                     )
                   }
-                  console.log(this.sampleSets);
                 }
               )
 
@@ -195,16 +193,24 @@ export class InstrumentComponent implements OnInit {
               this.projectRestService.GetProjects().subscribe(
                 userProjects => {
                   userProjects.forEach(project => {
-                    if(project.userId === foundUser.id){
-                      console.log('method 2: ' + project)
+                    if (project.userId === foundUser.id) {
+                      this.userProjects.push(project)
                     }
                   })
-                  
+
                 }
               )
             }
           )
+
     )
+    this.userProjects.push({
+      name: 'Test Project',
+      sampleIds: '1,2,3',
+      pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
+      userId: '1',
+      bpm: '100'
+    })
     //push on the sample sets to array
     // get the arrays from services
 
@@ -212,41 +218,26 @@ export class InstrumentComponent implements OnInit {
 
     //populate each block with 32 note positions
     //change to get base track set from DB
-    this.tracks.forEach(track => {
-      for (let i = 0; i < this.blockSize; i++) {
-        track.note.push({
-          onOff: 0,
-          color: 'grey',
-          position: i
-        })
-      }
-      track.sample = {
-        id: 0,
-        sampleName: 'BaseKick',
+    for (let j = 0; j < this.baseSamples.length; j++) {
+      let tempSample = {
+        id: [23 + j],
+        sampleName: this.baseSamples[j].name,
         sample: new Tone.Sampler({
-          C3: '../../assets/808/Kick.wav'
+          C3: `${this.baseSamples[j].sampleLink}`
         }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
-      }//.connect(this.dist).connect(this.volume), this.dist, this.reverb
-
-      for (let i = 0; i < this.blockSize; i++) {
-        track.part = new Tone.Part(((time) => {
-          track.sample.sample.triggerAttackRelease('C3', '1m', time);
-        }))
-        track.part.start(0);
-        track.part.loop = true;
-        track.part.loopEnd = '4m';
       }
+
+      this.addTrack(tempSample)
     }
-    )
+
     //Initial Tempo
     Tone.Transport.bpm.value = 160;
-    Tone.Transport.setLoopPoints(0, "4m");
+    Tone.Transport.setLoopPoints(0, "4m")
     Tone.Transport.loop = true
     this.audio = document.querySelector('audio');
     this.autoWah.Q.value = 6
     this.autoWah.Q.value = 8
     this.filter.rolloff = -48 
-
   }
 
   //Record songs to audio component and allows song to be downloaded
@@ -268,6 +259,37 @@ export class InstrumentComponent implements OnInit {
     this.isTransportStarted = !this.isTransportStarted
     Tone.Transport.toggle();
     this.updateTimePosition()
+  }
+
+  changeDelayTime(event: any) {
+    if (event.value == 0) {
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(this.delay32) } catch { }
+        try { track.sample.sample.disconnect(this.delay16) } catch { }
+        try { track.sample.sample.disconnect(this.delay8) } catch { }
+      })
+    } else
+      if (event.value == 1) {
+        this.tracks.forEach(track => {
+          track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+          try { track.sample.sample.disconnect(this.delay16) } catch { }
+          try { track.sample.sample.disconnect(this.delay8) } catch { }
+        })
+      } else
+        if (event.value == 2) {
+          this.tracks.forEach(track => {
+            track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+            try { track.sample.sample.disconnect(this.delay32) } catch { }
+            try { track.sample.sample.disconnect(this.delay8) } catch { }
+          })
+        } else
+          if (event.value == 3) {
+            this.tracks.forEach(track => {
+              track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+              try { track.sample.sample.disconnect(this.delay16) } catch { }
+              try { track.sample.sample.disconnect(this.delay32) } catch { }
+            })
+          }
   }
 
   //From  HTML sliders
@@ -293,7 +315,7 @@ export class InstrumentComponent implements OnInit {
       track.sample.sample.volume.value = event.value
     }
   }
-  
+
   tempoChange(event: any) {
     Tone.Transport.bpm.value = event.value;
     this.tempo = event.value
@@ -481,11 +503,11 @@ export class InstrumentComponent implements OnInit {
   }
 
   //Turns all HTML blocks off/grey, remove all notes from all projects
-  Clear() {
+  clear() {
     this.tracks.forEach(track => {
       track.note.forEach(note => {
         note.onOff = 0,
-          note.color = 'grey'
+        note.color = 'grey'
       })
       for (let i = 0; i < this.times.length; i++) {
         track.part.remove(this.times[i]);
@@ -496,20 +518,30 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  loadProject(project2Load: any) {
-    this.tracks = project2Load
-  }
-
   //Erases all sampler instruments and recreates them from samples in assets folder
   changeSampleSet(sample2Select: any) {
     for (let i = 0; i < sample2Select.length; i++) {
-      let tempSample = {
-        sampleName: sample2Select[i],
-        sample: new Tone.Sampler({
-          C3: sample2Select[i]
-        }).chain(this.dist, this.comp, Tone.Destination, this.recorder)//.connect(this.dist).connect(this.volume).chain(this.reverb, this.dist, Tone.Destination, this.recorder).connect(Tone.Destination)
-      }
-      this.addTrack(tempSample)
+      const proxyUrl = "https://cors.bridged.cc/"
+      this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+        (currentSamplePlaylist) => {
+          for (let j = 0; j < currentSamplePlaylist.length; j++) {
+            if (currentSamplePlaylist[j].sampleSetId === sample2Select.id) {
+              this.sampleService.GetSampleByID(currentSamplePlaylist[j].sampleId).subscribe(
+                currentSample => {
+                  let tempSample = {
+                    id: currentSample.id,
+                    sampleName: currentSample.sampleName,
+                    sample: new Tone.Sampler({
+                      C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
+                    }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
+                  }
+                  this.addTrack(tempSample)
+                }
+              )
+            }
+          }
+        }
+      )
     }
   }
   muteTrack(track2Mute: any) {
@@ -589,12 +621,12 @@ export class InstrumentComponent implements OnInit {
     this.popOutForm = 'none'
   }
 
-  showTrackSettings(track : any) {
+  showTrackSettings(track: any) {
     this.popOutSettings = 'block'
     this.editingTrack = track
   }
 
-  hideTrackSettings(){
+  hideTrackSettings() {
     this.popOutSettings = 'none'
   }
 
@@ -686,7 +718,7 @@ export class InstrumentComponent implements OnInit {
     }
   }
 
-  createNewProject(){
+  createNewProject() {
     const formData = new FormData();
 
     this.savedProjectPattern = []
@@ -701,23 +733,55 @@ export class InstrumentComponent implements OnInit {
       tempSampleIds.push(this.tracks[i].sample.id)
       tempArray = []
     }
-    
+
     formData.append('name', this.newSavedProject.name)
     formData.append('userId', this.newSavedProject.userId)
     formData.append('sampleIds', tempSampleIds.join())
     formData.append('pattern', tempPattern.join())
     formData.append('bPM', this.tempo.toString())
 
-    console.log('name: ' + formData.get('name'))
-    console.log('userId: ' + formData.get('userId'))
-    console.log('sampleIds: ' + formData.get('sampleIds'))
-    console.log('pattern: ' + formData.get('pattern'))
-    console.log('bPM: ' + formData.get('bPM'))
-
     this.projectRestService.AddSavedProject(formData).subscribe();
-    
+
     alert(`${this.newSavedProject.name} has been saved!`);
 
     this.hideForm()
+  }
+
+  loadSavedProject(savedProject: any) {
+    const proxyUrl = "https://cors.bridged.cc/"
+    this.clear()
+    this.tracks = []
+    let tempSampleIds = savedProject.sampleIds.split(',')
+    let tempPattern = savedProject.pattern.split(',')
+    this.tempo = parseInt(savedProject.bpm)
+    Tone.Transport.bpm.value = parseInt(savedProject.bpm)
+
+    for (let i = 0; i < tempSampleIds.length; i++) {
+      this.sampleService.GetSampleByID(tempSampleIds[i]).subscribe(
+        sample => {
+          let tempSample = {
+            id: sample.id,
+            sampleName: sample.sampleName,
+            sample: new Tone.Sampler({
+              C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${sample.sampleLink}`
+            }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
+          }
+
+          this.addTrack(tempSample)
+
+          let tempArr = tempPattern[i].split('')
+          console.log(tempArr)
+          for (let i = 0; i < this.blockSize; i++) {
+            if (tempArr[i] === '1') {
+              this.tracks[this.tracks.length - 1].note[i] = {
+                onOff: 1,
+                color: this.boxColor
+              }
+              this.tracks[this.tracks.length - 1].part.add(this.times[i], this.tracks[this.tracks.length - 1].sample.sample)
+            }
+          }
+        }
+      )
+    }
   }
 }
