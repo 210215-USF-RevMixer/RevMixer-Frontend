@@ -9,7 +9,7 @@ trigger:
     - devops
   paths:
     include:
-    - AngularTone
+    - AngularTone/src
 pool: connor's agent
 
 steps:
@@ -26,7 +26,7 @@ steps:
     configMode: 'manual'
     cliProjectKey: '210215-USF-RevMixer_RevMixer-Frontend'
     cliProjectName: 'RevMixer-Frontend'
-    cliSources: 'AngularTone'
+    cliSources: 'AngularTone/src'
     extraProperties: |
       sonar.coverage.exclusions=**/*.spec.ts
       sonar.typescript.lcov.reportPaths= **/coverage/AngularTone/lcov.info
@@ -35,18 +35,18 @@ steps:
   displayName: 'npm install'
   inputs:
     command: 'install'
-    workingDir: 'AngularTone'
+    workingDir: 'AngularTone/src'
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: 'custom'
-    workingDir: 'AngularTone'
+    workingDir: 'AngularTone/src'
     customCommand: 'run build'
 
 - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
   displayName: ng test
-  workingDirectory: 'AngularTone'
+  workingDirectory: 'AngularTone/src'
   continueOnError: true 
 # - task: CmdLine@2
 #   inputs:
