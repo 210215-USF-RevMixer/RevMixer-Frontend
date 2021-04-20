@@ -14,6 +14,8 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 export class AdminmusicComponent implements OnInit {
   authUser: any;
   music2admin: UploadMusic[];
+  //music: UploadMusic;
+  // name: string;
 
   constructor(private authService: AuthService, private userService: UserRestService,
     private musicService: UploadedMusicRestService) {this.music2admin = 
@@ -45,27 +47,26 @@ export class AdminmusicComponent implements OnInit {
       }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
-    this.authService.user$.subscribe(
-      authUser =>
-      this.userService.GetUserByEmail(authUser.email).subscribe
-      (foundUser =>
+
           this.musicService.GetUploadedSongs().subscribe
           (foundmusic =>
             {
               this.music2admin = foundmusic;
               console.log(this.music2admin)
             })
-          ))
+          
   }
 
   onSubmit(event: any): void{
     
   }
 
-  
+   deleteSong(id: number): void{
+     this.musicService.DeleteSongById(id).subscribe(
+       (sub) => {
+         alert(`The selected song was deleted.`);
+       }
+     );
+   }
 
 }
