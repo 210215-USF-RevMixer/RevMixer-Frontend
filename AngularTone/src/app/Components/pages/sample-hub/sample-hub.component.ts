@@ -136,7 +136,7 @@ export class SampleHubComponent implements OnInit {
                               playListExist = true
                             }
                           }
-                          if(!playListExist)
+                          if(!playListExist && !this.ownerFlag)
                           {
                             {
                               alert('This Sample Set is a work in progress try coming back in a bit!');

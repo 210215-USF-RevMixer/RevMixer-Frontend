@@ -202,13 +202,13 @@ export class InstrumentComponent implements OnInit {
             }
           )
     )
-    this.userProjects.push({
-      name: 'Test Project',
-      sampleIds: '1,2,3',
-      pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
-      userId: '1',
-      bpm: '100'
-    })
+    // this.userProjects.push({
+    //   name: 'Test Project',
+    //   sampleIds: '1,2,3',
+    //   pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
+    //   userId: '1',
+    //   bpm: '100'
+    // })
     //push on the sample sets to array
     // get the arrays from services
 
@@ -261,38 +261,38 @@ export class InstrumentComponent implements OnInit {
   }
 
   changeDelayTime(event: any) {
-    if(event.value == 0) {
+    if (event.value == 0) {
       this.time = 0
       this.tracks.forEach(track => {
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}       
+        try { track.sample.sample.disconnect(this.delay32) } catch { }
+        try { track.sample.sample.disconnect(this.delay16) } catch { }
+        try { track.sample.sample.disconnect(this.delay8) } catch { }
       })
-    }else
-    if(event.value == 1) {
-      this.time = 1
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{} 
-      })
-    }else
-    if(event.value == 2) {
-      this.time = 2
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}
-      })
-    }else
-    if(event.value == 3) {
-      this.time = 3
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-      })
-    }
+    } else
+      if (event.value == 1) {
+        this.time = 1
+        this.tracks.forEach(track => {
+          track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+          try { track.sample.sample.disconnect(this.delay16) } catch { }
+          try { track.sample.sample.disconnect(this.delay8) } catch { }
+        })
+      } else
+        if (event.value == 2) {
+          this.time = 2
+          this.tracks.forEach(track => {
+            track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+            try { track.sample.sample.disconnect(this.delay32) } catch { }
+            try { track.sample.sample.disconnect(this.delay8) } catch { }
+          })
+        } else
+          if (event.value == 3) {
+            this.time = 3
+            this.tracks.forEach(track => {
+              track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+              try { track.sample.sample.disconnect(this.delay16) } catch { }
+              try { track.sample.sample.disconnect(this.delay32) } catch { }
+            })
+          }
   }
 
   //From  HTML sliders
@@ -331,7 +331,7 @@ export class InstrumentComponent implements OnInit {
     //   try{this.disconnectEffect(this.reverb)}catch{} 
     // }else {
     //   try{this.connectEffect(this.reverb)}catch{}
-      this.reverb.decay = event.value;
+    this.reverb.decay = event.value;
     // }
   }
   changeFilterFreq(event: any) {
@@ -347,107 +347,107 @@ export class InstrumentComponent implements OnInit {
     this.pitchshift.pitch = event.value;
   }
   changeCheby(event: any) {
-      this.cheby.order = event.value;
+    this.cheby.order = event.value;
   }
 
   changeBitCrush(event: any) {
-    if(event.value == 0) {
+    if (event.value == 0) {
       this.bits = 0
       this.tracks.forEach(track => {
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-        try{track.sample.sample.chain(this.dist, this.comp, Tone.Destination)}catch{}  
+        try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+        try { track.sample.sample.chain(this.dist, this.comp, Tone.Destination) } catch { }
       })
-    }else
-    if(event.value == 1) {
-      this.bits = 1
-      this.tracks.forEach(track => {
-        try{track.sample.sample.chain(this.bitcrush2, this.dist, this.comp, Tone.Destination)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{} 
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-      })
-    }else
-    if(event.value == 2) {
-      this.bits = 2
-      this.tracks.forEach(track => {
-        try{track.sample.sample.chain(this.bitcrush1_5, this.dist, this.comp, Tone.Destination)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{} 
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-      })
-    }else
-    if(event.value == 3) {
-      this.bits = 3
-      this.tracks.forEach(track => {
-        try{track.sample.sample.chain(this.bitcrush1, this.dist, this.comp, Tone.Destination)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{} 
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-      })
-    }
+    } else
+      if (event.value == 1) {
+        this.bits = 1
+        this.tracks.forEach(track => {
+          try { track.sample.sample.chain(this.bitcrush2, this.dist, this.comp, Tone.Destination) } catch { }
+          try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+          try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+          try { track.sample.sample.disconnect(this.dist) } catch { }
+        })
+      } else
+        if (event.value == 2) {
+          this.bits = 2
+          this.tracks.forEach(track => {
+            try { track.sample.sample.chain(this.bitcrush1_5, this.dist, this.comp, Tone.Destination) } catch { }
+            try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+            try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+            try { track.sample.sample.disconnect(this.dist) } catch { }
+          })
+        } else
+          if (event.value == 3) {
+            this.bits = 3
+            this.tracks.forEach(track => {
+              try { track.sample.sample.chain(this.bitcrush1, this.dist, this.comp, Tone.Destination) } catch { }
+              try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+              try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+              try { track.sample.sample.disconnect(this.dist) } catch { }
+            })
+          }
   }
   connectEffect(effect: any) {
-    if(effect === this.reverb) {
-        this.tracks.forEach(track => {
-        try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
-      })
-    }else {
+    if (effect === this.reverb) {
       this.tracks.forEach(track => {
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-        try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
+        try { track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination) } catch { }
+      })
+    } else {
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(this.dist) } catch { }
+        try { track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination) } catch { }
       })
     }
   }
   disconnectEffect(effect: any) {
-    if(effect == "bitcrush") {
-      this.tracks.forEach(track => { 
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-        try{track.sample.sample.connect(this.dist)}catch{}
+    if (effect == "bitcrush") {
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+        try { track.sample.sample.connect(this.dist) } catch { }
       })
-    } else if(effect == "delay") {
-      this.tracks.forEach(track => { 
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}
-        try{track.sample.sample.connect(this.dist)}catch{}
+    } else if (effect == "delay") {
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(this.delay32) } catch { }
+        try { track.sample.sample.disconnect(this.delay16) } catch { }
+        try { track.sample.sample.disconnect(this.delay8) } catch { }
+        try { track.sample.sample.connect(this.dist) } catch { }
       })
     } else {
-      this.tracks.forEach(track => { 
-        try{track.sample.sample.disconnect(effect)}catch{}
-        try{track.sample.sample.connect(this.dist)}catch{}
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(effect) } catch { }
+        try { track.sample.sample.connect(this.dist) } catch { }
       })
     }
   }
 
   connectTrackEffect(effect: any, track: any) {
-    if(effect === this.reverb) {
-    try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
-    }else {
-      try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
-      try{track.sample.sample.disconnect(this.dist)}catch{}
+    if (effect === this.reverb) {
+      try { track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination) } catch { }
+    } else {
+      try { track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination) } catch { }
+      try { track.sample.sample.disconnect(this.dist) } catch { }
     }
   }
   disconnectTrackEffect(effect: any, track: any) {
-    try{track.sample.sample.disconnect(effect)}catch{}
-    try{track.sample.sample.connect(this.dist)}catch{}
+    try { track.sample.sample.disconnect(effect) } catch { }
+    try { track.sample.sample.connect(this.dist) } catch { }
   }
   disconnectAllEffects() {
-    this.tracks.forEach(track => { 
-      try{track.sample.sample.disconnect(this.autoWah)}catch{}
-      try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-      try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-      try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
-      try{track.sample.sample.disconnect(this.cheby)}catch{}
-      try{track.sample.sample.disconnect(this.pitchshift)}catch{}
-      try{track.sample.sample.disconnect(this.reverb)}catch{}
-      try{track.sample.sample.disconnect(this.delay32)}catch{}
-      try{track.sample.sample.disconnect(this.delay16)}catch{}
-      try{track.sample.sample.disconnect(this.delay8)}catch{}
-      try{track.sample.sample.connect(this.dist)}catch{}
+    this.tracks.forEach(track => {
+      try { track.sample.sample.disconnect(this.autoWah) } catch { }
+      try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+      try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+      try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+      try { track.sample.sample.disconnect(this.cheby) } catch { }
+      try { track.sample.sample.disconnect(this.pitchshift) } catch { }
+      try { track.sample.sample.disconnect(this.reverb) } catch { }
+      try { track.sample.sample.disconnect(this.delay32) } catch { }
+      try { track.sample.sample.disconnect(this.delay16) } catch { }
+      try { track.sample.sample.disconnect(this.delay8) } catch { }
+      try { track.sample.sample.connect(this.dist) } catch { }
     })
   }
 
@@ -471,7 +471,7 @@ export class InstrumentComponent implements OnInit {
     this.tracks.forEach(track => {
       track.note.forEach(note => {
         note.onOff = 0,
-        note.color = 'grey'
+          note.color = 'grey'
       })
       for (let i = 0; i < this.times.length; i++) {
         track.part.remove(this.times[i]);
@@ -484,29 +484,27 @@ export class InstrumentComponent implements OnInit {
 
   //Erases all sampler instruments and recreates them from samples in assets folder
   changeSampleSet(sample2Select: any) {
-    for (let i = 0; i < sample2Select.length; i++) {
-      const proxyUrl = "https://cors.bridged.cc/"
-      this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
-        (currentSamplePlaylist) => {
-          for (let j = 0; j < currentSamplePlaylist.length; j++) {
-            if (currentSamplePlaylist[j].sampleSetId === sample2Select.id) {
-              this.sampleService.GetSampleByID(currentSamplePlaylist[j].sampleId).subscribe(
-                currentSample => {
-                  let tempSample = {
-                    id: currentSample.id,
-                    sampleName: currentSample.sampleName,
-                    sample: new Tone.Sampler({
-                      C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
-                    }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
-                  }
-                  this.addTrack(tempSample)
+    const proxyUrl = "https://cors.bridged.cc/"
+    this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+      (currentSamplePlaylist) => {
+        for (let j = 0; j < currentSamplePlaylist.length; j++) {
+          if (currentSamplePlaylist[j].sampleSetId === sample2Select.id) {
+            this.sampleService.GetSampleByID(currentSamplePlaylist[j].sampleId).subscribe(
+              currentSample => {
+                let tempSample = {
+                  id: currentSample.id,
+                  sampleName: currentSample.sampleName,
+                  sample: new Tone.Sampler({
+                    C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
+                  }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
                 }
-              )
-            }
+                this.addTrack(tempSample)
+              }
+            )
           }
         }
-      )
-    }
+      }
+    )
   }
   muteTrack(track2Mute: any) {
     track2Mute.part.mute = !track2Mute.part.mute

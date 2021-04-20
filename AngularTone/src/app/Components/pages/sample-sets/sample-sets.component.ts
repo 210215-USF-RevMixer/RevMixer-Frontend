@@ -17,36 +17,36 @@ import { UsersSampleSetsService } from 'src/app/services/users-sample-sets.servi
   styleUrls: ['./sample-sets.component.scss']
 })
 export class SampleSetsComponent implements OnInit {
-  selectedSet: SampleSets ;
-  allSampleSets: SampleSets [] = [];
-  set2Add:UsersSampleSets ;
+  selectedSet: SampleSets;
+  allSampleSets: SampleSets[] = [];
+  set2Add: UsersSampleSets;
   user: User;
-  constructor(private activeRoute: ActivatedRoute,private userService: UserRestService, private authService: AuthService,
+  constructor(private activeRoute: ActivatedRoute, private userService: UserRestService, private authService: AuthService,
     private uploadMusicService: UploadedMusicRestService, private sampleService: SampleSetService,
-    private router: Router, private userSampleSetService: UsersSampleSetsService) { 
-      this.selectedSet = {
-        id: 0,
-        name: ''
-      }
-      this.user = 
-      {
-        userName: '',
-        id: 0,
-        email: '',
-        role: '',
-        userProjects: [],
-        sample: [],
-        comments: [],
-        uploadMusics: [],
-        playlists: []
-      }
-      this.set2Add= {
-        id :0,
-        userId: 0,
-        sampleSetsId: 0,
-        isOwner: false
-      }
+    private router: Router, private userSampleSetService: UsersSampleSetsService) {
+    this.selectedSet = {
+      id: 0,
+      name: ''
     }
+    this.user =
+    {
+      userName: '',
+      id: 0,
+      email: '',
+      role: '',
+      userProjects: [],
+      sample: [],
+      comments: [],
+      uploadMusics: [],
+      playlists: []
+    }
+    this.set2Add = {
+      id: 0,
+      userId: 0,
+      sampleSetsId: 0,
+      isOwner: false
+    }
+  }
 
   ngOnInit(): void {
 
@@ -54,25 +54,23 @@ export class SampleSetsComponent implements OnInit {
     this.authService.user$.subscribe(
       authUser =>
 
-      this.userService.GetUserByEmail(authUser.email).subscribe
-      (
-        foundUser =>
-        {
-          this.user = foundUser;
-        }
-      )
+        this.userService.GetUserByEmail(authUser.email).subscribe
+          (
+            foundUser => {
+              this.user = foundUser;
+            }
+          )
     )
     this.sampleService.GetAllSampleSets().subscribe(
-      (result) =>
-      {
+      (result) => {
         let set = result;
         this.GetAllSampleSets(set);
       }
     )
   }
 
-  GetAllSampleSets(sets: SampleSets[]){
-    sets.forEach(set=>{
+  GetAllSampleSets(sets: SampleSets[]) {
+    sets.forEach(set => {
       this.allSampleSets.push(set);
     })
   }
@@ -81,16 +79,29 @@ export class SampleSetsComponent implements OnInit {
 
 
   GetSamples(id: number) {
-    this.router.navigate(['sampleHub'], {queryParams: {id: id} });
+    this.router.navigate(['sampleHub'], { queryParams: { id: id } });
   }
-  AddSampleSetToUserSampleSetsButtonClick(setId: number)
-  {
-    this.set2Add.sampleSetsId = setId,
-    this.set2Add.userId = this.user.id
-    this.userSampleSetService.AddUsersSampleSet(this.set2Add)
+  AddSampleSetToUserSampleSetsButtonClick(setId: number) {
+    let tempFlag = false
+    this.userSampleSetService.GetUsersSampleSetByUserId(this.user.id).subscribe(
+      result => {
+        result.forEach(userSampleSet => {
+          if (setId == userSampleSet.sampleSetsId) {
+            tempFlag = true
+          }
+        })
+        if (tempFlag) {
+          alert(`This sample set is already in your library!`)
+        }
+        else {
+          this.set2Add.sampleSetsId = setId,
+          this.set2Add.userId = this.user.id
+          this.userSampleSetService.AddUsersSampleSet(this.set2Add).subscribe()
+          alert(`This sample set has been added to your sample sets!`)
+        }
+      }
+    )
   }
-
-
 }
 
 
