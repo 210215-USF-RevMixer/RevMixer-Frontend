@@ -104,7 +104,7 @@
         <mat-label>Load Saved Project</mat-label>
         <mat-select>
           <mat-option *ngFor="let project of userProjects" (click)="loadSavedProject(project)">
-            {{project.name}}
+            {{project.projectName}}
           </mat-option>
         </mat-select>
       </mat-form-field>
