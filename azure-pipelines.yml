@@ -35,13 +35,13 @@ steps:
   displayName: 'npm install'
   inputs:
     command: 'install'
-    workingDir: 'AngularTone/src'
+    workingDir: 'AngularTone'
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: 'custom'
-    workingDir: 'AngularTone/src'
+    workingDir: 'AngularTone'
     customCommand: 'run build'
 
 - script: npx ng test --browsers ChromeHeadless --no-watch --code-coverage
