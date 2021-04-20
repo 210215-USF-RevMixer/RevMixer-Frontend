@@ -65,26 +65,26 @@ describe('SampleService', () => {
             httpMock.verify();
           }
         ));
-      it(
-        'should add sample',
-        inject(
-          [HttpTestingController, SampleService],
-          (httpMock: HttpTestingController, sampleService: SampleService) => {
-            const mockSample = { name: 'Sample1' };
-            sampleService.AddSample(mockSample).subscribe((event: HttpClientTestingModule) => {
-              switch (event) {
-                case HttpEventType.Response:
-                  expect(event).toEqual(mockSample);
-              }
-            });
+      // it(
+      //   'should add sample',
+      //   inject(
+      //     [HttpTestingController, SampleService],
+      //     (httpMock: HttpTestingController, sampleService: SampleService) => {
+      //       const mockSample = { name: 'Sample1' };
+      //       sampleService.AddSample(mockSample).subscribe((event: HttpClientTestingModule) => {
+      //         switch (event) {
+      //           case HttpEventType.Response:
+      //             expect(event).toEqual(mockSample);
+      //         }
+      //       });
     
-            const mockReq = httpMock.expectOne(sampleService.url);
+      //       const mockReq = httpMock.expectOne(sampleService.url);
     
-            expect(mockReq.cancelled).toBeFalsy();
-            expect(mockReq.request.responseType).toEqual('json');
-            mockReq.flush(mockSample);
+      //       expect(mockReq.cancelled).toBeFalsy();
+      //       expect(mockReq.request.responseType).toEqual('json');
+      //       mockReq.flush(mockSample);
     
-            httpMock.verify();
-          }
-        ));
+      //       httpMock.verify();
+      //     }
+      //   ));
 });

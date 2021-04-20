@@ -9,6 +9,7 @@ import { SampleSetService } from './sample-set.service';
 import { UserProject } from '../Models/UserProject';
 import { UploadMusic } from '../Models/UploadMusic';
 import { PlayList } from '../Models/PlayList';
+import { Comments } from '../Models/Comments';
 
 describe('SampleSetService', () => {
   let service: SampleSetService;
@@ -52,7 +53,7 @@ describe('SampleSetService', () => {
   
       userProjects: [] as UserProject[],
       sample: [] as Sample[],
-      comments: [] as Comment[],
+      comments: [] as Comments[],
       uploadMusics: [] as UploadMusic[],
       playlists: [] as PlayList[]};
 
