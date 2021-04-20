@@ -193,7 +193,6 @@ export class InstrumentComponent implements OnInit {
               this.userProjectRestService.GetUserProjects().subscribe(
                 userProjects => {
                   userProjects.forEach(project => {
-                    console.log(project)
                     if (project.userId === foundUser.id) {
                       this.userProjects.push(project.savedProject)
                     }
@@ -202,15 +201,14 @@ export class InstrumentComponent implements OnInit {
               )
             }
           )
-
     )
-    // this.userProjects.push({
-    //   name: 'Test Project',
-    //   sampleIds: '1,2,3',
-    //   pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
-    //   userId: '1',
-    //   bpm: '100'
-    // })
+    this.userProjects.push({
+      name: 'Test Project',
+      sampleIds: '1,2,3',
+      pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
+      userId: '1',
+      bpm: '100'
+    })
     //push on the sample sets to array
     // get the arrays from services
 
