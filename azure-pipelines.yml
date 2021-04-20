@@ -30,6 +30,12 @@ steps:
     extraProperties: |
       sonar.coverage.exclusions=**/*.spec.ts
       sonar.typescript.lcov.reportPaths= **/coverage/AngularTone/lcov.info
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+    checkLatest: true
+
     
 - task: Npm@1
   displayName: 'npm install'
