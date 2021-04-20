@@ -1,18 +1,14 @@
-apiVersion: cert-manager.io/v1
+apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt
+  name: letsencrypt-production
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: douglas.richardson@revature.net
+    email: your@revmixer.com
     privateKeySecretRef:
-      name: letsencrypt
+      name: letsencrypt-production
     solvers:
-    - http01:
-        ingress:
-          class: nginx
-          podTemplate:
-            spec:
-              nodeSelector:
-                "kubernetes.io/os": linux
+      - http01:
+          ingress:
+            class: nginx

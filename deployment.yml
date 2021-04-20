@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: angular
-        image: wyspar123/revmixerfrontend:787
+        image: wyspar123/revmixerfrontend:#{Build.BuildId}#
         ports:
         - containerPort: 80
 # kind: Service
