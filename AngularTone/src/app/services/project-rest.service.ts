@@ -32,7 +32,7 @@ export class ProjectRestService {
         id: 0,
         userName: '',
         email: 'coolguy@something.com',
-        isAdmin: false,
+        role: '',
         
         userProjects: [],
         sample: [],
