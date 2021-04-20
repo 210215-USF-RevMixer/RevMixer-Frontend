@@ -31,8 +31,8 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/AngularTone'),
       subdir: '.',
       reporters: [
-        { type: 'cobertura' },
-        { file: 'frontendtests.xml' }
+        { type: 'html' },
+        { file: 'text-summary' }
       ]
     },
     coverageIstanbulReporter: {
