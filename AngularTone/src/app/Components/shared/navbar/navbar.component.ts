@@ -12,7 +12,6 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 export class NavbarComponent implements OnInit {
   userBackend: User;
   userName: string;
-  isAdmin: string;
   BooLMAO: boolean;
 
   constructor(public auth: AuthService, private userService: UserRestService) {
@@ -29,7 +28,6 @@ export class NavbarComponent implements OnInit {
       playlists: []
     }
     this.userName = '',
-    this.isAdmin = '',
     this.BooLMAO = false
   }
 
@@ -41,11 +39,12 @@ export class NavbarComponent implements OnInit {
       (
         foundUser =>
         {
+          debugger;
           this.userBackend = foundUser;
-          this.userBackend.role = this.isAdmin;
-          if (this.isAdmin == "Admin"){
+          if (this.userBackend.role == "Admin"){
             this.BooLMAO = true;
           }
+          console.log(this.BooLMAO)
         }
       )
     )
