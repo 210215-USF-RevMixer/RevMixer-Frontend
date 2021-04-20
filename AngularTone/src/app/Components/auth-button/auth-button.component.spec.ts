@@ -9,20 +9,41 @@ describe('AuthButtonComponent', () => {
   let fixture: ComponentFixture<AuthButtonComponent>;
   let auth: AuthService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AuthButtonComponent ]
-    })
-    .compileComponents();
-  });
+
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AuthButtonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    const authMock = {
+      user$: { client: { email: 'someValue' } },
+      auth0Client: {},
+      configFactory: {},
+      location: null,
+      navigator: {},
+      isLoadingSubject$: {},
+      errorSubject$: {},
+      refreshState$: {},
+      ngUnsubscribe$: {},
+      isLoading$: false,
+      isAuthenticatedTrigger$: {},
+      isAuthenticated$: {},
+      idTokenClaims$: {},
+      error$: {},
+      ngOnDestroy: {},
+      loginWithRedirect: {},
+      loginWithPopup: {},
+      logout: {},
+      getAccessTokenSilently: {},
+      getAccessTokenWithPopup: {},
+      shouldHandleCallback: {},
+      handleRedirectCallback: {}
+
+
+    };
+    let userService: { GetUserByEmail: jasmine.Spy }
+    userService = jasmine.createSpyObj('UserRestService', ['GetUserByEmail']);
+    component = new AuthButtonComponent(authMock as any, new Document());
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+   it('should create', () => {
+     expect(component).toBeTruthy();
+   });
 });

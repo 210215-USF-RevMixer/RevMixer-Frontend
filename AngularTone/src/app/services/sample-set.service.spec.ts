@@ -32,9 +32,16 @@ describe('SampleSetService', () => {
   });
 
   it('GetAllSampleSets should return any observable', () => {
+
+    let sampleSet = [{
+      id: 1,
+      name: 'string'
+    }, {id:2,name:"mads"}];
+    httpClientSpy.get.and.returnValue(asyncData(sampleSet));
     service.GetAllSampleSets().subscribe(result => {
       expect(result instanceof Object).toBeTruthy();
     });
+    expect(httpClientSpy.get.calls.count()).toBe(1);
   });
 
   it('AddSampleSet should return any Observable', () => {
@@ -51,18 +58,21 @@ describe('SampleSetService', () => {
 
     let sampleSet : SampleSets={
       id: 1,
+
       name: 'string',
     };
-    service.AddSampleSet(sampleSet).subscribe (result =>{
+    httpClientSpy.post.and.returnValue(asyncData(sampleSet));
+    service.AddSampleSet(sampleSet as any).subscribe (result =>{
       expect (result).toBeTruthy();
     });
+    expect(httpClientSpy.post.calls.count()).toBe(1);
   });
 
   let testID = 1;
   it('should return the proper sample set when given the id', () => {
     httpClientSpy.get.and.returnValue(asyncData(sampleset));
     service.GetSampleSet(testID).subscribe(
-      ss => expect(ss).toEqual([sampleset]), fail
+      ss => expect(ss).toEqual(sampleset), fail
     );
 
     expect(httpClientSpy.get.calls.count()).toBe(1);
@@ -72,7 +82,7 @@ describe('SampleSetService', () => {
   it('should return the proper sample-set when given the UserID', () => {
     httpClientSpy.get.and.returnValue(asyncData(sampleset));
     service.GetSampleSet(testUserID).subscribe(
-      ss => expect(ss).toEqual([sampleset]), fail
+      ss => expect(ss).toEqual(sampleset), fail
     );
 
     expect(httpClientSpy.get.calls.count()).toBe(1);

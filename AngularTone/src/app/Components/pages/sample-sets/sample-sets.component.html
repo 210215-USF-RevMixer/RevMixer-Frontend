@@ -5,7 +5,7 @@
 </div>
 
 <div class="jumbotron">
-    <h1 class="display-4">Sample Hub</h1>
+    <h1 class="display-4">Sample Set Hub</h1>
     <p class="lead">Browse samples other users have uploaded to RevMixer, and add them to your library for personal use!</p>
 </div>
 
@@ -19,21 +19,15 @@
             <th>
                 Sample Set Name
             </th>
-            <th>
-                Sample Playback
-            </th>
-            <th>
-                Creator
-            </th>
+           <!-- creator line -->
             <th>
                 Add Sample to Personal Library
             </th>
         </thead>
         <tbody>
-            <tr *ngFor="let set of allSampleSets">
+            <tr *ngFor="let set of allSampleSets"  (click)= GetSamples(set.id) >
                 <td>{{set.name}}</td>
-                <td>ToDo</td>
-                <td>TODO</td>
+                <!-- Add creator functionality add -->
                 <td><button (click)="AddSampleSetToUserSampleSetsButtonClick(set.id)">Add to Library</button></td>
             </tr>
         </tbody>

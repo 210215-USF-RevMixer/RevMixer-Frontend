@@ -29,10 +29,10 @@ export class AudioPlayerComponent implements OnInit {
   msaapDisplayVolumeControls = true;
   msaapDisplayRepeatControls = true;
   msaapDisplayArtist = true;
-  msaapDisplayDuration = false;
-  msaapDisablePositionSlider = true;
+  msaapDisplayDuration = true;
+  msaapDisablePositionSlider = false;
 
-  constructor (private hubService: HubRestService)
+  constructor (private hubService: HubRestService, private authService: AuthService, private userService: UserRestService)
 
   {
 
@@ -90,22 +90,28 @@ export class AudioPlayerComponent implements OnInit {
 }
 
 ngOnInit(): void {
+
+
   this.hubService.GetAllUpload().subscribe
     (
       foundsongs =>
       {
+        debugger;
         this.userMusic = foundsongs;
+        //this.PopulateCreatorList();
         this.PopulateAudioPlayer(foundsongs);
       }
     )
 }
+
+//PopulateCreatorList(uploadMusic: UploadMusic)
 
 PopulateAudioPlayer(foundDbMusic: UploadMusic[])
   {
     let counter = 0;
     foundDbMusic.forEach(songFound => {
       if(counter == 0){
-        this.playlist[counter].artist = songFound.user.userName;
+        //this.playlist[counter].artist = songFound;
         this.playlist[counter].link = this.S3Bucket + "/" + songFound.musicFilePath;
         this.playlist[counter].title = songFound.name;
         counter++;

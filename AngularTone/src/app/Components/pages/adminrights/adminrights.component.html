@@ -3,8 +3,18 @@
 yes daddy
     </div>
 </div>
-    <h1>YES DADDY</h1>
+    <h1>Edit songs</h1>
 <div>
+</div>
+<h1>Admin Page</h1>
+<p>
+    Edit sample needed to flag/lock sample, delete sample.
+    Delete public project/ upload file.
+</p>
+<div>
+<div>
+    Show all the samples. And then, have a toggle to flag them/lock them.
+    There should be a thing that lets you delete the jawn as well.
 </div>
 <h1>Edit samples</h1>
 <div>
@@ -16,16 +26,14 @@ yes daddy
                 <th>Privacy</th>
             </thead>
             <tbody>
-                <tr *ngFor="let sample2edit of samples2edit;">
+                <tr *ngFor="let sample of samples2admin;">
                     <td>
-                        <input type="text" [(ngModel)]="sample2edit.sampleName" name="name"
-                        #name="ngModel" class="form-control" placeholder="Enter New Name Here">
-                        {{sample2edit.sampleName}}
+                        {{sample.sampleName}}
                     </td>
                     <td>
                         <label class="switch">
-                        <input type="checkbox" [(ngModel)]="sample2edit.isPrivate" (change)="changePrivacy(sample2edit.isPrivate?'1':'0')"
-                        name="isPrivate" #name="ngModel" value="sample2edit.isPrivate">
+                        <input type="checkbox" [(ngModel)]="sample.isPrivate" (change)="changePrivacy(sample.isPrivate?'1':'0')"
+                        name="isPrivate" #name="ngModel" value="sample.isPrivate">
                         <span class="slider round"></span>
                         </label>
                     </td>

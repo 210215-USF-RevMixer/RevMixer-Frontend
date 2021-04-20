@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UploadComponent implements OnInit {
   //NEED TO ADD: NO ENDPOINT AVAILABLE YET IN README
-  url: string = environment.PROJECTSERVICE_MUSICBLOBUPLOAD;
+  url: string = environment.PROJECTSERVICE_SAMPLESBLOBUPLOAD;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();
@@ -22,7 +22,7 @@ export class UploadComponent implements OnInit {
   user: any;
   uploadedSong: any;
   songName: string = '';
-  isPrivate: string = '0';
+  isPrivate: Boolean = true;
 
   constructor(private http: HttpClient, private authService: AuthService, private userService: UserRestService, private uploadmusicService: UploadedMusicRestService) {
     this.progress = 0,
@@ -53,7 +53,9 @@ export class UploadComponent implements OnInit {
       likes: 0,
       plays: 0,
       musicPlaylists: [],
-      comments: [],
+      comments: [
+        //might need to add a body to comments
+      ],
       isPrivate: false,
       isApproved: true,
       isLocked: false
@@ -79,11 +81,14 @@ export class UploadComponent implements OnInit {
     if (files.length === 0) {
       return;
     }
+    //debugger;
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
-    formData.append('songName', this.songName);
-    formData.append('isPrivate', this.isPrivate);
+    formData.append('isSong', "true");
+    //formData.append('songName', this.songName);
+    //formData.append('isPrivate', this.isPrivate);
+
     //console.log(fileToUpload.type.substring(0,5));
     if(fileToUpload.type.substring(0,5) != 'audio')
     {
@@ -95,8 +100,9 @@ export class UploadComponent implements OnInit {
       this.message = 'Please enter in a name for your track!';
     }
     else {
-    //https://revmixerapi.azurewebsites.net/api/AzureBlob
-    this.http.post(this.url, formData, {reportProgress: true, observe: 'events'})
+    //http://localhost:52824/api/UploadMusicBlob
+    // https://localhost:44301/api/SampleBlob
+    this.http.post(`${this.url}`, formData, {reportProgress: true, observe: 'events'})
     .subscribe((event) => {
       if (event.type === HttpEventType.UploadProgress){
         if(event.total){
@@ -109,7 +115,7 @@ export class UploadComponent implements OnInit {
         {
         this.onUploadFinished.emit(event.body);
         //console.log(event.body);
-        debugger;
+        //debugger;
         this.name = event.body; 
         this.uploadedSong.musicFilePath = this.name.name;
         this.uploadedSong.userId = this.user.id;
@@ -117,11 +123,12 @@ export class UploadComponent implements OnInit {
         this.uploadedSong.isPrivate = this.isPrivate;
         this.uploadedSong.isApproved = true;
         this.uploadedSong.isLocked = false;
-        //console.log(JSON.stringify(this.uploadedSong));
+        this.uploadedSong.musicPlaylists = [];
+        this.uploadedSong.comments = [];
+        this.uploadedSong.uploadDate = Date.now;
+        console.log(JSON.stringify(this.uploadedSong));
         
         this.uploadmusicService.PostSong(this.uploadedSong).subscribe()
-
-
         }
         
       }

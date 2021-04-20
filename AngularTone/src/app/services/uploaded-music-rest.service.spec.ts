@@ -1,3 +1,4 @@
+
 import { TestBed, inject } from '@angular/core/testing';
 
 import { UploadedMusicRestService } from './uploaded-music-rest.service';
@@ -6,12 +7,16 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { HttpClientModule } from '@angular/common/http';
 describe('UploadedMusicRestService', () => {
+  let service: UploadedMusicRestService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [UploadedMusicRestService]
+      imports: [HttpClientModule, HttpClientTestingModule]
     });
+    service = TestBed.inject(UploadedMusicRestService);
+
   });
   it(
     'should get uploaded music',
