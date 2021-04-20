@@ -51,6 +51,7 @@ describe('SampleSetService', () => {
 
     let sampleSet : SampleSets={
       id: 1,
+
       name: 'string',
     };
     service.AddSampleSet(sampleSet).subscribe (result =>{
