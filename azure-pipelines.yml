@@ -28,9 +28,8 @@ steps:
     cliProjectName: 'RevMixer-Frontend'
     cliSources: 'AngularTone'
     extraProperties: |
-    # Additional properties that will be passed to the scanner, 
-    # Put one key=value per line, example:
-    # sonar.exclusions=**/*.bin
+      sonar.coverage.exclusions=**/*.spec.ts
+      sonar.typescript.lcov.reportPaths= coverage/AngularTone/lcov.info
     
 - task: Npm@1
   displayName: 'npm install'
@@ -49,11 +48,31 @@ steps:
   displayName: ng test
   workingDirectory: 'AngularTone'
   continueOnError: true 
+# - task: CmdLine@2
+#   inputs:
+#     script: |
+#       echo "Structure of work folder of this pipeline:"
+#       tree $(Agent.WorkFolder)\1 /f
+      
+#       echo "Build.ArtifactStagingDirectory:" 
+      
+#       echo "$(Build.ArtifactStagingDirectory)"
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(Build.SourcesDirectory)/jacoco/**/*.cobertura-coverage.xml'
+#       echo "Agent.TempDirectory" 
+      
+#       echo "$(Agent.TempDirectory)"
+
+#       echo "Build.BinariesDirectory:" 
+      
+#       echo "$(Build.BinariesDirectory)"
+      
+#       echo "Build.SourcesDirectory:"
+      
+#       echo "$(Build.SourcesDirectory)"
+# - task: PublishCodeCoverageResults@1
+#   inputs:
+#     codeCoverageTool: 'cobertura'
+#     summaryFileLocation: '**/coverage/AngularTone/cobertura-coverage.xml'
 
 - task: SonarCloudAnalyze@1
 
