@@ -43,16 +43,16 @@ describe('ProjectRestService', () => {
     expect(httpClientSpy.get.calls.count()).toBe(1);
 
   });
-  it('should PostUserProject', () => {
-    const postedProject :any = { Id: 0, userId: 0, projectId: 0, owner: true, savedProject: {} };
-    httpClientSpy.post.and.returnValue(asyncData(postedProject));
-    service.PostUserProject(postedProject).subscribe(
-      projs =>
-        expect(projs).toEqual(postedProject),
-      fail);
+  // it('should PostUserProject', () => {
+  //   const postedProject :any = { Id: 0, userId: 0, projectId: 0, owner: true, savedProject: {} };
+  //   httpClientSpy.post.and.returnValue(asyncData(postedProject));
+  //   service.PostUserProject(postedProject).subscribe(
+  //     projs =>
+  //       expect(projs).toEqual(postedProject),
+  //     fail);
 
-    expect(httpClientSpy.post.calls.count()).toBe(1);
-  });
+  //   expect(httpClientSpy.post.calls.count()).toBe(1);
+  // });
 
   it('should EditUserProject', () => {
     const expectedProjects = { Id: 0, userId: 0, projectId: 0, owner: true, savedProject: {} };
