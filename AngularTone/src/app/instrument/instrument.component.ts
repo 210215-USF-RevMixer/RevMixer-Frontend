@@ -201,7 +201,6 @@ export class InstrumentComponent implements OnInit {
               )
             }
           )
-
     )
     // this.userProjects.push({
     //   name: 'Test Project',
