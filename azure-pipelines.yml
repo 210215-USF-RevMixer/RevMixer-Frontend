@@ -6,7 +6,7 @@
 trigger:
   branches:
     include:
-    - devops
+    - main
   paths:
     include:
     - AngularTone
