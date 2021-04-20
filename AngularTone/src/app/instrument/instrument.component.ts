@@ -193,7 +193,6 @@ export class InstrumentComponent implements OnInit {
               this.userProjectRestService.GetUserProjects().subscribe(
                 userProjects => {
                   userProjects.forEach(project => {
-                    console.log(project)
                     if (project.userId === foundUser.id) {
                       this.userProjects.push(project.savedProject)
                     }
