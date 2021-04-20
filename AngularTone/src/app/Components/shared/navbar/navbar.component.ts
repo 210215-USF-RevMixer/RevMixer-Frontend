@@ -12,7 +12,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 export class NavbarComponent implements OnInit {
   userBackend: User;
   userName: string;
-  BooLMAO: boolean;
+  BooLMAO: boolean = false;
 
   constructor(public auth: AuthService, private userService: UserRestService) {
     this.userBackend = 
@@ -27,8 +27,7 @@ export class NavbarComponent implements OnInit {
       uploadMusics: [],
       playlists: []
     }
-    this.userName = '',
-    this.BooLMAO = false
+    this.userName = ''
   }
 
   ngOnInit(): void {
