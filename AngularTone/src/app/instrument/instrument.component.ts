@@ -218,6 +218,7 @@ export class InstrumentComponent implements OnInit {
 
     //populate each block with 32 note positions
     //change to get base track set from DB
+    this.tracks = []
     for (let j = 0; j < this.baseSamples.length; j++) {
       let tempSample = {
         id: [23 + j],
@@ -237,7 +238,7 @@ export class InstrumentComponent implements OnInit {
     this.audio = document.querySelector('audio');
     this.autoWah.Q.value = 6
     this.autoWah.Q.value = 8
-    this.filter.rolloff = -48 
+    this.filter.rolloff = -48
   }
 
   //Record songs to audio component and allows song to be downloaded
@@ -348,12 +349,7 @@ export class InstrumentComponent implements OnInit {
     this.pitchshift.pitch = event.value;
   }
   changeCheby(event: any) {
-    // if(event.value == 1) {
-    //   try{this.disconnectEffect(this.cheby)}catch{}
-    // }else{
-    //   try{this.connectEffect(this.cheby)}catch{}
       this.cheby.order = event.value;
-    // }
   }
 
   changeBitCrush(event: any) {
