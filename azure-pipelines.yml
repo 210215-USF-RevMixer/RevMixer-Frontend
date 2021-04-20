@@ -52,7 +52,7 @@ steps:
 
 - task: PublishCodeCoverageResults@1
   inputs:
-    codeCoverageTool: 'JaCoCo'
+    codeCoverageTool: 'cobertura'
     summaryFileLocation: '$(Agent.TempDirectory)/AngularTone/coverage/cobertura-coverage.xml'
 
 - task: SonarCloudAnalyze@1
