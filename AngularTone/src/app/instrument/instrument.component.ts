@@ -685,7 +685,7 @@ export class InstrumentComponent implements OnInit, OnDestroy {
 
   createNewProject() {
     const formData = new FormData();
-
+    
     this.savedProjectPattern = []
     let tempArray = []
     let tempPattern = []
@@ -704,6 +704,17 @@ export class InstrumentComponent implements OnInit, OnDestroy {
     formData.append('sampleIds', tempSampleIds.join())
     formData.append('pattern', tempPattern.join())
     formData.append('bPM', this.tempo.toString())
+
+    let tempProj=({
+      projectName: this.newSavedProject.name,
+      sampleIds: tempSampleIds.join(),
+      pattern: tempPattern.join(),
+      userId: this.newSavedProject.userId,
+      bpm: this.tempo.toString()
+    })
+
+    this.userProjects.push(tempProj)
+
 
     this.projectRestService.AddSavedProject(formData).subscribe();
 
