@@ -4,25 +4,22 @@ RevMixer provides a platform for musicians to create, upload, and share music wi
 # Contributors
 - Weston Davidson
     - Team Lead
-- Jack Long
-    - Full-Stack
-- Michael Tate
-    - Front-End, UI/UX
+- Jacob Gaughan
+    - Front-End 
+- Kevin Murphy
+    - Front-End
 - David Spence
-    - Front-End, Sequencer Architect
-- Warren Hunt
-    - Back-End, Unit Testing
+    - Front-End
+- Juaquin Bolivar
+    - Front-End
 
 # Technologies
-* C#
-* PostgreSql
 * Angular
-* Sonar Cloud
 * Tone.JS API
-* Moq/Xunit
-* Serilog
 * GCP - APIs and Services
 * Azure Blob Storage
+* Bootstrap JS
+* CSS
 
 # Project Links
 
