@@ -43,7 +43,7 @@ export class ViewSampleSetComponent implements OnInit {
     }
     this.samplePlaylist=
     {
-      Id: 0,
+      id: 0,
       sampleId: 0,
       sampleSetId: 0
     }
@@ -52,7 +52,7 @@ export class ViewSampleSetComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      isAdmin: false,
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],
@@ -129,7 +129,7 @@ export class ViewSampleSetComponent implements OnInit {
   //method to get all the samples from the playlist
   GetAllSamplesFromPlaylist(){
     this.currentPlaylist.forEach((list)=>{
-      this.sampleService.GetSampleByID(list.Id).subscribe((result)=>{
+      this.sampleService.GetSampleByID(list.id).subscribe((result)=>{
         result.forEach((element: Sample) => {
           if(element.isPrivate==false && element.isLocked == false){
           this.allSamples.push(element);
@@ -144,7 +144,7 @@ export class ViewSampleSetComponent implements OnInit {
   
 
   AddSampleToSamplePlaylist(sampleId: number, sampleSetId: number){
-    this.samplePlaylist.Id = 0;
+    this.samplePlaylist.id = 0;
     this.samplePlaylist.sampleId = sampleId;
     this.samplePlaylist.sampleSetId = sampleSetId;
     this.samplePlaylistService.AddSamplePlaylist(this.samplePlaylist);

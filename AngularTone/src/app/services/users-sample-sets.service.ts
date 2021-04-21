@@ -35,4 +35,8 @@ export class UsersSampleSetsService {
   AddUsersSampleSet(sampleset2add: any): Observable<any> {
     return this.http.post<any>(this.url, sampleset2add, this.httpOptions);
   }
+
+  DeleteSampleSet(id: number):Observable<any>{
+    return this.http.delete<any>(`${this.url}/${id}`, this.httpOptions);
+  }
 }
