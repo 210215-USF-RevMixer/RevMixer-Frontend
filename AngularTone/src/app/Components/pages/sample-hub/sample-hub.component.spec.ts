@@ -16,7 +16,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { SampleHubComponent } from './sample-hub.component';
 
 describe('SampleHubComponent', () => {
-  let component: SampleHubComponent;
+  let component: SampleHubComponent
   let fixture: ComponentFixture<SampleHubComponent>;
 
   beforeEach(async () => {
@@ -27,33 +27,10 @@ describe('SampleHubComponent', () => {
   });
 
   beforeEach(() => {
-    const authMock = {
-      user$: { client: { email: 'someValue' } },
-      auth0Client: {},
-      configFactory: {},
-      location: null,
-      navigator: {},
-      isLoadingSubject$: {},
-      errorSubject$: {},
-      refreshState$: {},
-      ngUnsubscribe$: {},
-      isLoading$: false,
-      isAuthenticatedTrigger$: {},
-      isAuthenticated$: {},
-      idTokenClaims$: {},
-      error$: {},
-      ngOnDestroy: {},
-      loginWithRedirect: {},
-      loginWithPopup: {},
-      logout: {},
-      getAccessTokenSilently: {},
-      getAccessTokenWithPopup: {},
-      shouldHandleCallback: {},
-      handleRedirectCallback: {}
-    };
     let httpClient: { GetUserByEmail: jasmine.Spy }
     httpClient = jasmine.createSpyObj('HttpClient', ['get']);
-    component = new SampleHubComponent(httpClient as any, authMock as any, UsersSampleSetsService as any, SamplePlaylistService as any, ActivatedRoute as any, UserRestService as any, SampleService as any, UsersSampleService as any, AuthService as any, SampleSetService as any);
+    component = new SampleHubComponent(UsersSampleSetsService as any, SamplePlaylistService as any, ActivatedRoute as any, UserRestService as any, SampleService as any, UserssampleService as any, AuthService as any,
+      Router as any, PlaylistServiceService as any, SampleSetService as any);
   
   });
 
