@@ -27,7 +27,7 @@ export class CreateSampleSetComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      isAdmin: false,
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],
@@ -39,7 +39,7 @@ export class CreateSampleSetComponent implements OnInit {
       name:''
     }
     this.newUsersSampleSet ={
-      Id: 0,
+      id: 0,
       userId:0,
       sampleSetsId : 0,
       isOwner: false
@@ -78,7 +78,6 @@ export class CreateSampleSetComponent implements OnInit {
   
     
   onSubmit(): void { 
-    debugger;
     const formData = new FormData();
     formData.append('userId',(this.newUsersSampleSet.userId).toString());
     formData.append('name', this.newSampleSet.name);

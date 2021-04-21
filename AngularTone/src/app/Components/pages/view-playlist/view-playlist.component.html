@@ -1,51 +1,56 @@
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <style>
-        .container{
-            display: flex;
-            justify-content: center;
-        }
-    </style>
-</head>
-<body>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<div class="container top-of-page">
     <div class="container">
-        <h2>{{selectedPlaylist.name}} Playlist</h2>
-    </div>
-    <div class="container">
-        <table class="table">
-            <tr *ngFor="let song of playlistMusic">
-                <td>{{song.name}}</td>
-                <td><audio src="{{songlink}}/{{song.musicFilePath}}" controls></audio></td>
-            </tr>
-        </table>
-    </div>
-    <div class="container">
-        <h2>All Songs</h2>
-    </div>
-    <div class="container">
+        <h1>
+            Your Playlist
+        </h1>
         <table class="table table-striped">
             <thead>
                 <th>
                     Song Name
                 </th>
                 <th>
-                    Artist
+                    Song Playback
                 </th>
                 <th>
-                    Add
+                    
                 </th>
             </thead>
             <tbody>
-                <tr *ngFor="let song of allMusic;">
+                <tr *ngFor="let song of playlist">
                     <td>{{song.name}}</td>
-                    <td>{{song.user.email}}</td>
-                    <td><button (click)="AddSongToPlaylist(song.id)">Add to Playlist</button></td>
-                 </tr>
+                    <td><audio src="{{musicStorage}}/{{song.musicFilePath}}" controls></audio></td>
+                    <td (click)="RemoveSongFromPlaylist(song)" style="cursor: pointer;"><img src="../../../../assets/images/tiny-trash-can.png" style="width: 30px; height: 30px;"></td>
+                </tr>
             </tbody>
         </table>
     </div>
-</body>
 
+
+    <div class="container top-of-page">
+        <h1>
+            All Songs
+        </h1>
+        <table class="table table-striped">
+            <thead>
+                <th>
+                    Song Name
+                </th>
+                <th>
+                    Song Playback
+                </th>
+                <th>
+                    
+                </th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let song of allMusic">
+                    <td>{{song.name}}</td>
+                    <td><audio src="{{musicStorage}}/{{song.musicFilePath}}" controls></audio></td>
+                    <td><button (click)="AddSongToPlaylist(song)">Add to Playlist</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

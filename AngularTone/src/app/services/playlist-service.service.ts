@@ -32,4 +32,9 @@ export class PlaylistServiceService {
   AddPlaylist(playList2Add: PlayList): Observable<PlayList> {
     return this.http.post<PlayList>(this.url, playList2Add, this.httpOptions);
   }
+
+  DeletePlaylistById(id: number) : Observable<PlayList>
+  {
+    return this.http.delete<PlayList>(`${this.url}/${id}`, this.httpOptions);
+  }
 }

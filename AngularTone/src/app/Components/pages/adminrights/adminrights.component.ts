@@ -6,6 +6,7 @@ import { User } from 'src/app/Models/User';
 import { SampleService } from 'src/app/services/sample.service';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-adminrights',
@@ -17,6 +18,7 @@ export class AdminrightsComponent implements OnInit {
   user: User;
   samples2admin: Sample[];
   music2admin: UploadMusic[];
+  sampleStorage: string = environment.SAMPLE_STORAGE;
   constructor(private authService: AuthService, private userService: UserRestService,
     private musicService: UploadedMusicRestService, private sampleService: SampleService) {
       this.music2admin = 
@@ -34,7 +36,7 @@ export class AdminrightsComponent implements OnInit {
         id: 0,
         userName: '',
         email: '',
-        isAdmin: false,
+        role: '',
 
         userProjects: [],
         sample: [],
@@ -60,7 +62,7 @@ export class AdminrightsComponent implements OnInit {
         userName: '',
         id: 0,
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],
@@ -70,29 +72,23 @@ export class AdminrightsComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(
-      au =>
-      this.authUser = au
-    )
-    this.authService.user$.subscribe(
-      authUser =>
-      this.userService.GetUserByEmail(authUser.email).subscribe
-      (foundUser =>
-        {
-          this.user = foundUser;
           this.sampleService.GetSamples().subscribe
           (foundsamples =>
             {
               this.samples2admin = foundsamples;
-              console.log(this.samples2admin)
             })
-          this.musicService.GetUploadedSongs().subscribe
-          (foundmusic =>
-            {
-              this.music2admin = foundmusic;
-              console.log(this.music2admin)
-            })
-          }))
-  }
+          }
+
+  onSubmit(): void{
+    
+}
+
+deleteSample(id: number): void{
+  this.sampleService.DeleteSampleByID(id).subscribe(
+    (sub) => {
+      alert(`The selected sample was deleted.`);
+    }
+  );
+}
 
 }

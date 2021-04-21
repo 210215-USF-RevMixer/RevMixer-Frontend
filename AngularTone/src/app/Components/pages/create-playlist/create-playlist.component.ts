@@ -23,7 +23,7 @@ export class CreatePlaylistComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      isAdmin: false,
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],
@@ -39,14 +39,14 @@ export class CreatePlaylistComponent implements OnInit {
         userName: '',
         id: 0,
         email: '',
-        isAdmin: false,
+        role: '',
         userProjects: [],
         sample: [],
         comments: [],
         uploadMusics: [],
         playlists: []
       },
-      musicPlaylists: [],
+      musicPlaylist: [],
     }
   }
 

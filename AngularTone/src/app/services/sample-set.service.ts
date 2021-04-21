@@ -20,7 +20,8 @@ export class SampleSetService {
     )
   }
 
-  url : string = "https://localhost:44301/api/SampleSets";
+  url: string = environment.PROJECTSERVICE_SAMPLESETS;
+  // url : string = "https://localhost:44301/api/SampleSets";
 
   constructor(private http:HttpClient) { }
   
@@ -41,6 +42,10 @@ export class SampleSetService {
   }
   EditSampleSet(id: number):Observable<any>{
     return this.http.put<any>(`${this.url}/${id}`, this.httpOptions);
+  }
+
+  DeleteSampleSet(id: number):Observable<any>{
+    return this.http.delete<any>(`${this.url}/${id}`, this.httpOptions);
   }
 
   //Get preset sampleset for testing

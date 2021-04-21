@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: tls-secret-prd
+  namespace: default
+spec:
+  secretName: tls-secret-prd
+  dnsNames:
+    - revmixer.com
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - revmixer.com
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
