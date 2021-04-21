@@ -1,9 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewSampleSetComponent } from './view-sample-set.component';
+import { SamplePlaylistService } from './../../../services/sample-playlist.service';
+import { SampleService } from './../../../services/sample.service';
+import { ActivatedRoute } from '@angular/router';
+import { SampleSetService } from 'src/app/services/sample-set.service';
+import { UserRestService } from 'src/app/services/user-rest.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 describe('ViewSampleSetComponent', () => {
-  let component: ViewSampleSetComponent;
+  let component: ViewSampleSetComponent
   let fixture: ComponentFixture<ViewSampleSetComponent>;
 
   beforeEach(async () => {
@@ -14,46 +20,13 @@ describe('ViewSampleSetComponent', () => {
   });
 
   beforeEach(() => {
-    const authMock = {
-      user$: { client: { email: 'someValue' } },
-      auth0Client: {},
-      configFactory: {},
-      location: null,
-      navigator: {},
-      isLoadingSubject$: {},
-      errorSubject$: {},
-      refreshState$: {},
-      ngUnsubscribe$: {},
-      isLoading$: false,
-      isAuthenticatedTrigger$: {},
-      isAuthenticated$: {},
-      idTokenClaims$: {},
-      error$: {},
-      ngOnDestroy: {},
-      loginWithRedirect: {},
-      loginWithPopup: {},
-      logout: {},
-      getAccessTokenSilently: {},
-      getAccessTokenWithPopup: {},
-      shouldHandleCallback: {},
-      handleRedirectCallback: {}
-    };
-    let userService: { GetUserByEmail: jasmine.Spy }
-    userService = jasmine.createSpyObj('UserRestService', ['get']);
-    let sampleSetService: { GetUserByEmail: jasmine.Spy }
-    sampleSetService = jasmine.createSpyObj('SampleSetService', ['get']);
-    let sampleService: { GetUserByEmail: jasmine.Spy }
-   sampleService = jasmine.createSpyObj('SampleService', ['get']);
-    let activeRoute: { GetUserByEmail: jasmine.Spy }
-    activeRoute = jasmine.createSpyObj('ActivedRouter', ['get']);
-    let samplePlaylistService: { GetUserByEmail: jasmine.Spy }
-    samplePlaylistService = jasmine.createSpyObj('SamplePlaylistService', ['get']);
-
-    component = new ViewSampleSetComponent(authMock as any, userService as any, sampleSetService as any, sampleService as any, activeRoute as any, samplePlaylistService as any);
+    let httpClient: { GetUserByEmail: jasmine.Spy }
+    httpClient = jasmine.createSpyObj('HttpClient', ['get']);
+    component = new ViewSampleSetComponent(AuthService as any, UserRestService as any, SampleSetService as any, SampleService as any, ActivatedRoute as any, SamplePlaylistService as any)
   
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

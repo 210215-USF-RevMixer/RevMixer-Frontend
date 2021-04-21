@@ -2,8 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditSongsComponent } from './edit-songs.component';
 
-describe('EditSongsComponent', () => {
-  let component: EditSongsComponent;
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
+import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
+import { UserRestService } from 'src/app/services/user-rest.service';
+
+describe('EditSongsComponment', () => {
+  let component: EditSongsComponent
   let fixture: ComponentFixture<EditSongsComponent>;
 
   beforeEach(async () => {
@@ -14,45 +19,14 @@ describe('EditSongsComponent', () => {
   });
 
   beforeEach(() => {
-    const authMock = {
-      user$: { client: { email: 'someValue' } },
-      auth0Client: {},
-      configFactory: {},
-      location: null,
-      navigator: {},
-      isLoadingSubject$: {},
-      errorSubject$: {},
-      refreshState$: {},
-      ngUnsubscribe$: {},
-      isLoading$: false,
-      isAuthenticatedTrigger$: {},
-      isAuthenticated$: {},
-      idTokenClaims$: {},
-      error$: {},
-      ngOnDestroy: {},
-      loginWithRedirect: {},
-      loginWithPopup: {},
-      logout: {},
-      getAccessTokenSilently: {},
-      getAccessTokenWithPopup: {},
-      shouldHandleCallback: {},
-      handleRedirectCallback: {}
-    };
-    let userService: { GetUserByEmail: jasmine.Spy }
-    userService = jasmine.createSpyObj('UserRestService', ['get']);
-    let sampleSetService: { GetUserByEmail: jasmine.Spy }
-    sampleSetService = jasmine.createSpyObj('SampleSetService', ['get']);
-    let musicService: { GetUserByEmail: jasmine.Spy }
-    musicService = jasmine.createSpyObj('UploadedMusicRestService', ['get']);
-    let activeRoute: { GetUserByEmail: jasmine.Spy }
-    activeRoute = jasmine.createSpyObj('Router', ['get']);
-    
-    component = new EditSongsComponent(activeRoute as any, musicService as any,
-       authMock as any, userService as any);
-   
+    let httpClient: { GetUserByEmail: jasmine.Spy }
+    httpClient = jasmine.createSpyObj('HttpClient', ['get']);
+    component = new EditSongsComponent(Router as any, UploadedMusicRestService as any,
+      AuthService as any, UserRestService as any);
+  
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

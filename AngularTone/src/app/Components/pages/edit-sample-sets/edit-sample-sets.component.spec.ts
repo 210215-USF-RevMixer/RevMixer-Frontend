@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditSampleSetsComponent } from './edit-sample-sets.component';
-
-describe('EditSampleSetsComponent', () => {
-  let component: EditSampleSetsComponent;
+import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
+import { SampleSetService } from 'src/app/services/sample-set.service';
+import { UserRestService } from 'src/app/services/user-rest.service';
+describe('EditSampleSetsComponment', () => {
+  let component: EditSampleSetsComponent
   let fixture: ComponentFixture<EditSampleSetsComponent>;
 
   beforeEach(async () => {
@@ -14,49 +17,14 @@ describe('EditSampleSetsComponent', () => {
   });
 
   beforeEach(() => {
-    const authMock = {
-      user$: { client: { email: 'someValue' } },
-      auth0Client: {},
-      configFactory: {},
-      location: null,
-      navigator: {},
-      isLoadingSubject$: {},
-      errorSubject$: {},
-      refreshState$: {},
-      ngUnsubscribe$: {},
-      isLoading$: false,
-      isAuthenticatedTrigger$: {},
-      isAuthenticated$: {},
-      idTokenClaims$: {},
-      error$: {},
-      ngOnDestroy: {},
-      loginWithRedirect: {},
-      loginWithPopup: {},
-      logout: {},
-      getAccessTokenSilently: {},
-      getAccessTokenWithPopup: {},
-      shouldHandleCallback: {},
-      handleRedirectCallback: {}
-    };
-
-   
-    let userService: { GetUserByEmail: jasmine.Spy }
-    userService = jasmine.createSpyObj('UserRestService', ['get']);
-    let sampleSetService: { GetUserByEmail: jasmine.Spy }
-    sampleSetService = jasmine.createSpyObj('SampleSetService', ['get']);
-    let sampleService: { GetUserByEmail: jasmine.Spy }
-    sampleService = jasmine.createSpyObj('SampleService', ['get']);
-    let activeRoute: { GetUserByEmail: jasmine.Spy }
-    activeRoute = jasmine.createSpyObj('Router', ['get']);
-   
-    component = new EditSampleSetsComponent(activeRoute as any, sampleSetService as any, authMock as any, userService as any);
-
-   // constructor(private router: Router, private sampleSetService: SampleSetService,
-    //  private authService: AuthService, private userService: UserRestService)
+    let httpClient: { GetUserByEmail: jasmine.Spy }
+    httpClient = jasmine.createSpyObj('HttpClient', ['get']);
+    component = new EditSampleSetsComponent(Router as any, SampleSetService as any,
+      AuthService as any, UserRestService as any);
   
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
