@@ -54,7 +54,7 @@ export class CreateSampleSetComponent implements OnInit {
     )
     this.authService.user$.subscribe
     (
-      authUser => this.userService.GetUserByEmail(authUser.email).subscribe
+      authUser => this.userService.GetUserByEmail(authUser!.email!).subscribe
       (
         foundUser =>
         {

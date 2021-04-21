@@ -67,7 +67,7 @@ export class EditSongsComponent implements OnInit {
       )
       this.authService.user$.subscribe(
         authUser =>
-        this.userService.GetUserByEmail(authUser.email).subscribe
+        this.userService.GetUserByEmail(authUser!.email!).subscribe
         (foundUser =>
           {
             this.user = foundUser;

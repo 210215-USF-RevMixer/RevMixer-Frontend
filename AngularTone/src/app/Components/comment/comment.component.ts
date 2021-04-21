@@ -116,7 +116,7 @@ export class CommentComponent implements OnInit {
     (
       authUser =>
 
-      this.userService.GetUserByEmail(authUser.email).subscribe
+      this.userService.GetUserByEmail(authUser!.email!).subscribe
       (
         foundUser =>
         {

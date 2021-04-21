@@ -118,7 +118,7 @@ export class ProfileComponent implements OnInit {
     this.authService.user$.subscribe(
       authUser =>
 
-        this.userService.GetUserByEmail(authUser.email).subscribe
+        this.userService.GetUserByEmail(authUser!.email!).subscribe
           (
             foundUser => {
               this.user.email = foundUser.email;
@@ -220,7 +220,7 @@ export class ProfileComponent implements OnInit {
   deleteSampleSet(setId: number, userId: any) {
     this.authService.user$.subscribe(
       au => {
-        this.userService.GetUserByEmail(au.email).subscribe(
+        this.userService.GetUserByEmail(au!.email!).subscribe(
           user => {
             this.userSampleSetsService.GetUsersSampleSetByUserId(user.id).subscribe(
               results => {

@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
     this.auth.user$.subscribe (
       user =>
 
-      this.userService.GetUserByEmail(user.email).subscribe
+      this.userService.GetUserByEmail(user!.email!).subscribe
       (
         foundUser =>
         {

@@ -135,7 +135,7 @@ export class InstrumentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authService.user$.subscribe(
       authUser =>
-        this.userService.GetUserByEmail(authUser.email).subscribe
+        this.userService.GetUserByEmail(authUser!.email!).subscribe
           (
             foundUser => {
               //ASSIGN USER ID FOR SAVING PROJECTS

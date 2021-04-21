@@ -61,7 +61,7 @@ export class UploadSampleComponent implements OnInit {
     this.authService.user$.subscribe(
       authUser =>
 
-    this.userService.GetUserByEmail(authUser.email).subscribe
+    this.userService.GetUserByEmail(authUser!.email!).subscribe
     (
       foundUser =>
       {
