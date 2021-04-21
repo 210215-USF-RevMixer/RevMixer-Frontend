@@ -7,6 +7,9 @@ import { HubRestService } from './hub-rest.service';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { UploadMusic } from '../Models/UploadMusic';
+import { User } from '../Models/User';
+ 
 
 describe('HubRestService', () => {
   let service: HubRestService;
@@ -14,11 +17,50 @@ describe('HubRestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpTestingController]
+      imports : [HttpClientTestingModule]
     });
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'delete']);
-    service = new HubRestService(httpClientSpy as any)
+    service = TestBed.inject(HubRestService);
   });
+
+  it('GetAllUpload should return any Observable ', () => {
+    service.GetAllUpload().subscribe(result => {
+          expect(result instanceof Object).toBeTruthy();
+    } );
+ });
+
+ 
+ it('AddLike should return comment ', () => {
+  let user: User = {id: 1,
+    userName: 'string',
+    email: 'string',
+    role: '',
+    userProjects: [],
+    sample: [],
+    comments: [],
+    uploadMusics: [],
+    playlists: []};
+   let uploadMusic: UploadMusic =
+   {
+     user : user,
+     id: 1,
+    userId: 1,
+    musicFilePath: 'string',
+    name: '',
+    uploadDate: new Date(),
+    likes : 1,
+    plays : 1,
+    isPrivate: false,
+    musicPlaylists : [], 
+    comments : []
+  };
+
+   service.AddLike(uploadMusic).subscribe(result => {
+     expect (result instanceof (Object )). toBeTruthy();
+     expect(result.musicFilePath).toEqual(uploadMusic.musicFilePath);
+   });
+ }); 
+
   // it(
   //   'should get uploaded music',
   //   inject(
