@@ -21,31 +21,13 @@ RevMixer provides a platform for musicians to create, upload, and share music wi
 * Bootstrap JS
 * CSS
 
-# Project Links
-
-- [SonarCloud](https://sonarcloud.io/dashboard?id=210215-USF-NET_Sequencer-By-TeamTemp)
-
-- [Web Application](https://revmixer.azurewebsites.net/)
-
-- [Proposal](https://github.com/210215-USF-NET/Sequencer-By-TeamTemp/blob/main/project_proposal.md)
-
-- [Presentation](https://docs.google.com/presentation/d/1b7K_x92kA8Oxm5kve1Mz59IqpFVJnVbjrCYZ1MB8w8M/edit?ts=60662c15#slide=id.p)
-
 # Requirements
-- [X] At least 6 tables
-- [X] DB that is not SQL Server
-- [X] Pipeline should be set up
-- [X] Angular Frontend
-- [X] ASP.NET REST API Backend
-- [X] 50% code coverage in sonar cloud API
-- [X] Deployed to an app service(frontend and backend)
-- [X] One repo for each project
-- [X] Authorization should be set up using IDaaS of choosing
-- [X] ProjectName-By-TeamName (add project name in readme)
-- [x] Create a project proposal
-- [X] 3rd Party API
-- [X] Logging, testing, ect
-- [X] Implmented SCRUM, have a project board (trello)
+- [Node.js](https://nodejs.org/en/)
+- [Git CLI](https://git-scm.com/)
+- [Angular CLI](https://angular.io/)
 
-# ERD
-![ER Diagram](ER.jpg)
+# Setup
+1. Run the command `git clone https://github.com/210215-USF-RevMixer/RevMixer-Frontend.git` in your desired directory to clone the necessary files to your system.
+1. Once the files have been cloned, run `npm install` to install required dependencies
+1. Run `ng serve -o` to build the program, and open in your default web browser
+1. If the application does not open in a web browser on it's own, please navigate to the specified localhost port provided in your console window.
