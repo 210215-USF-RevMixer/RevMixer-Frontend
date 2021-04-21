@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<testsuite name="Chrome 90.0.4427.0 (Windows 10)" package="" timestamp="2021-04-20T19:17:02" id="0" hostname="DESKTOP-OQUFA6N" tests="11" errors="0" failures="0" time="0.066">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4427.0 Safari/537.36"/>
+  </properties>
+  <testcase name="SampleSetService GetAllSampleSets should return any observable" time="0.018" classname="Chrome_90_0_4427_0_(Windows_10).SampleSetService"/>
+  <testcase name="AppComponent should have as title 'AngularTone'" time="0.029" classname="Chrome_90_0_4427_0_(Windows_10).AppComponent"/>
+  <testcase name="AppComponent should create the app" time="0.006" classname="Chrome_90_0_4427_0_(Windows_10).AppComponent"/>
+  <testcase name="CommentRestService SubmitComment should return comment " time="0.004" classname="Chrome_90_0_4427_0_(Windows_10).CommentRestService"/>
+  <testcase name="CommentRestService GetAllComment should return observable comments " time="0.004" classname="Chrome_90_0_4427_0_(Windows_10).CommentRestService"/>
+  <testcase name="ProjectRestService should EditUserProject" time="0.003" classname="Chrome_90_0_4427_0_(Windows_10).ProjectRestService"/>
+  <testcase name="ProjectRestService should GetUserProjectsByUserID" time="0" classname="Chrome_90_0_4427_0_(Windows_10).ProjectRestService"/>
+  <testcase name="ProjectRestService should GetUserProjectsByUserID" time="0" classname="Chrome_90_0_4427_0_(Windows_10).ProjectRestService"/>
+  <testcase name="PlaylistServiceService should AddPlaylist " time="0.001" classname="Chrome_90_0_4427_0_(Windows_10).PlaylistServiceService"/>
+  <testcase name="PlaylistServiceService should GetPlaylist by id" time="0.001" classname="Chrome_90_0_4427_0_(Windows_10).PlaylistServiceService"/>
+  <testcase name="PlaylistServiceService should GetAllPlaylists" time="0" classname="Chrome_90_0_4427_0_(Windows_10).PlaylistServiceService"/>
+  <system-out>
+    <![CDATA[Chrome 90.0.4427.0 (Windows 10) LOG: '%c * Tone.js v14.7.77 * ', 'background: #000; color: #fff'
+,Chrome 90.0.4427.0 (Windows 10) WARN: 'Spec 'SampleSetService GetAllSampleSets should return any observable' has no expectations.'
+,Chrome 90.0.4427.0 (Windows 10) ERROR: 'NG0304: 'app-navbar' is not a known element:
+1. If 'app-navbar' is an Angular component, then verify that it is part of this module.
+2. If 'app-navbar' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 90.0.4427.0 (Windows 10) ERROR: 'NG0304: 'app-navbar' is not a known element:
+1. If 'app-navbar' is an Angular component, then verify that it is part of this module.
+2. If 'app-navbar' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.'
+,Chrome 90.0.4427.0 (Windows 10) WARN: 'Spec 'CommentRestService SubmitComment should return comment ' has no expectations.'
+,Chrome 90.0.4427.0 (Windows 10) WARN: 'Spec 'CommentRestService GetAllComment should return observable comments ' has no expectations.'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>

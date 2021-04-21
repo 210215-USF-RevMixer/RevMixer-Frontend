@@ -17,15 +17,15 @@ describe('PlaylistServiceService', () => {
     userId: 1,
     name: "yo",
     user: {}as User,
-    musicPlaylists: [{}, {}, {}] as MusicPlaylist[]}
+    musicPlaylist: [{}, {}, {}] as MusicPlaylist[]}
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post', 'delete']);
     service = new PlaylistServiceService(httpClientSpy as any)
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+  // it('should be created', () => {
+  //   expect(service).toBeTruthy();
+  // });
 
 
   it('should GetAllPlaylists', () => {

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-deployment
+spec:
+  selector:
+    matchLabels:
+      app: angular
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: angular
+    spec:
+      containers:
+      - name: angular
+        image: wyspar123/revmixerfrontend:#{Build.BuildId}#
+        ports:
+        - containerPort: 80
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: angular
+# spec:
+#   selector:
+#     app: angular
+#   ports:
+#   - protocol: TCP
+#     port: 80
+#     targetPort: 80
+#   type: LoadBalancer

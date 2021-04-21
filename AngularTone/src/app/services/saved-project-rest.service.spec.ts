@@ -22,7 +22,7 @@ describe('SavedProjectRestService', () => {
         id: 1,
         userName: "mads",
         email: "x@x.com",
-        isAdmin: true,
+        role: "user",
         userProjects: [],
         sample: [],
         comments: [],
@@ -44,7 +44,7 @@ describe('SavedProjectRestService', () => {
 
   it('should PostUserProject', () => {
     httpClientSpy.post.and.returnValue(asyncData(savedProject));
-    service.AddSavedProject(savedProject).subscribe(
+    service.AddSavedProject(savedProject as any).subscribe(
       projs =>
         expect(projs).toEqual(savedProject),
       fail);

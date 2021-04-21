@@ -6,7 +6,7 @@ import { asyncData } from '../../testHelpers/observables';
 describe('ToneRESTService', () => {
   let service: ToneRESTService;
   let httpClientSpy: { get: jasmine.Spy }
-  let user: User[]= [{ id: 0, userName: "mads", email:"x@x.com", isAdmin: true, userProjects: [],sample:[],comments:[], uploadMusics:[],playlists:[]}];
+  let user: User[]= [{ id: 0, userName: "mads", email:"x@x.com", role: "user", userProjects: [],sample:[],comments:[], uploadMusics:[],playlists:[]}];
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     service = new ToneRESTService(httpClientSpy as any);

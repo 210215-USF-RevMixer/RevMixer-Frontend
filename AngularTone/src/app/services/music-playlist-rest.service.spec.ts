@@ -47,7 +47,7 @@ describe('MusicPlaylistRestService', () => {
     expect(httpClientSpy.post.calls.count()).toBe(1);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+  // it('should be created', () => {
+  //   expect(service).toBeTruthy();
+  // });
 });

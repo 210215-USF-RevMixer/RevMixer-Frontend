@@ -67,8 +67,7 @@
         <button class="playButton" mat-stroked-button color="primary"
           (click)="disconnectEffect(this.filter);">Off</button>
         <label class="pr-2">Frequency:</label>
-        <mat-slider (input)="changeFilterFreq($event)" [value]="filter.frequency" step="1" min="50" max="10000">
-        </mat-slider>
+        <mat-slider (input)="changeFilterFreq($event)" [value]="filter.frequency.value" step="1" min="50" max="10000"></mat-slider>
       </div>
 
       <div *ngIf="delay32 && showDelay">

@@ -64,7 +64,7 @@ describe('UserRestService', () => {
       id: 0,
       userName: "name",
       email: "x@x.com",
-      isAdmin: false,
+      role: "User",
       userProjects: [],
       sample: [],
       comments: [],
