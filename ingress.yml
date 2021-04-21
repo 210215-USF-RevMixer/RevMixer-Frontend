@@ -22,7 +22,7 @@ spec:
       - backend:
           serviceName: project-service
           servicePort: 80
-        path: /(api/)(UserProject|SavedProject|Track|Pattern|Sample)(/|$)(.*)
+        path: /(api/)(UserProject|SavedProject|Track|Pattern|Sample|SamplePlaylist|SampleSets|UsersSample|UsersSampleSets|SampleBlob|UploadMusicBlob)(/|$)(.*)
       - backend:
           serviceName: music-service
           servicePort: 80
