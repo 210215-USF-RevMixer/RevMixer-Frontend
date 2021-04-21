@@ -49,7 +49,7 @@ describe('SampleSetService', () => {
     let user: User = {id: 1,
       userName: 'string',
       email: 'string',
-      isAdmin: false,
+      role: "user",
   
       userProjects: [] as UserProject[],
       sample: [] as Sample[],
