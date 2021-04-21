@@ -71,7 +71,7 @@ export class InstrumentComponent implements OnInit {
   delay32: any = new Tone.FeedbackDelay("32n", 0.7)
   delay16: any = new Tone.FeedbackDelay("16n", 0.5)
   delay8: any = new Tone.FeedbackDelay("8t", 0.5)
-  filter = new Tone.Filter(50, "lowpass")
+  filter = new Tone.Filter(10000, "lowpass")
   loadingSampleError: string = ''
   failedSamples: string[] = []
   effects: any[] = []
@@ -207,15 +207,14 @@ export class InstrumentComponent implements OnInit {
     this.userProjects.push({
       name: 'Test Project',
       sampleIds: '1,2,3',
-      pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
+      pattern: '10000000000000000000000000000000,10010011110000001001001111000000,00001000000100100000100000010010',
       userId: '1',
       bpm: '100'
     })
     //push on the sample sets to array
     // get the arrays from services
 
-    //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
-
+ 
     //populate each block with 32 note positions
     //change to get base track set from DB
     this.tracks = []
@@ -236,8 +235,8 @@ export class InstrumentComponent implements OnInit {
     Tone.Transport.setLoopPoints(0, "4m")
     Tone.Transport.loop = true
     this.audio = document.querySelector('audio');
-    this.autoWah.Q.value = 6
-    this.autoWah.Q.value = 8
+    this.autoWah.Q.value = 4
+    this.filter.Q.value = 4
     this.filter.rolloff = -48
   }
 
@@ -391,7 +390,7 @@ export class InstrumentComponent implements OnInit {
     }
   }
   connectEffect(effect: any) {
-    if(effect === this.reverb) {
+    if(effect === this.reverb || effect === this.delay32 || effect === this.delay16 || effect === this.delay8) {
         this.tracks.forEach(track => {
         try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
       })
@@ -426,7 +425,7 @@ export class InstrumentComponent implements OnInit {
   }
 
   connectTrackEffect(effect: any, track: any) {
-    if(effect === this.reverb) {
+    if(effect === this.reverb || effect === this.delay32 || effect === this.delay16 || effect === this.delay8) {
     try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
     }else {
       try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
