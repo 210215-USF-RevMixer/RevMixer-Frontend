@@ -29,6 +29,11 @@ steps:
     cliSources: 'AngularTone/src'
     extraProperties: |
       sonar.coverage.exclusions=**/*.spec.ts
+      # sonar.coverage.exclusions=**/*.html
+      # sonar.coverage.exclusions=**/main.ts
+      # sonar.coverage.exclusions=**/*.scss
+      # sonar.coverage.exclusions=**/app-routing.module.ts
+      # sonar.coverage.exclusions=**/environment.prod.ts
       sonar.javascript.lcov.reportPaths= AngularTone/coverage/AngularTone/lcov.info
 
 - task: NodeTool@0
