@@ -30,7 +30,7 @@
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
                     <!-- <td>TODO</td> -->
-                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample.id)">Add to Library</button></td>
+                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample)">Add to Library</button></td>
                 </tr>
             </tbody>
         </table>
@@ -66,7 +66,7 @@
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
                     <!-- <td>TODO</td> -->
-                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample.id)">Add to Library</button></td>
+                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample)">Add to Library</button></td>
                     <td *ngIf = 'ownerFlag' (click)="removeSampleFromSampleSet(sample.id)"><img src="../../../../assets/images/tiny-trash-can.png" style="width: 30px; height: 30px; cursor: pointer;"></td>
                 </tr>
             </tbody>
