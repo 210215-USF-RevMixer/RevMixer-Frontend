@@ -30,7 +30,7 @@
                     <td>{{sample.sampleName}}</td>
                     <td><audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio></td>
                     <!-- <td>TODO</td> -->
-                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample)">Add to Library</button></td>
+                    <td><button (click)="AddSampleToUserSamplesButtonClick(sample.id)">Add to Library</button></td>
                 </tr>
             </tbody>
         </table>
