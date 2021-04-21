@@ -5,7 +5,7 @@ import { SamplePlaylistService } from './sample-playlist.service';
 describe('SamplePlaylistService', () => {
   let service: SamplePlaylistService;
   let httpClientSpy: { get: jasmine.Spy, post: jasmine.Spy }
-  let set = [{ Id: 0, sampleId: 1, sampleSetId: 1 }, { Id: 0, sampleId: 1, sampleSetId: 1 }];
+  let set = [{ id: 1, sampleId: 1, sampleSetId: 1 }, { id: 2, sampleId: 1, sampleSetId: 1 }];
   beforeEach(() => {
     TestBed.configureTestingModule({});
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post']);
@@ -42,7 +42,7 @@ describe('SamplePlaylistService', () => {
   });
   it('should add sample playlist', () => {
     httpClientSpy.post.and.returnValue(asyncData(set[0]));
-    service.AddSamplePlaylist(set[0]).subscribe(
+    service.AddSamplePlaylist(set[0] as any).subscribe(
       projs =>
         expect(projs).toEqual(set[0]),
       fail);
