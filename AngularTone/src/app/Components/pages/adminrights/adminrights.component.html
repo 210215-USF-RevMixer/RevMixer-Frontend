@@ -16,6 +16,7 @@
                 <table class="table">
                     <thead class="h4">
                         <th>Name</th>
+                        <th>Audio Source</th>
                         <th>Manage</th>
                     </thead>
                     <tbody>
@@ -23,7 +24,10 @@
                             <td>
                                 {{sample.sampleName}}
                             </td>
-                            <td (click)="deleteSample(music.id)" style="cursor: pointer;">
+                            <td>
+                                <audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio>
+                            </td>
+                            <td (click)="deleteSample(sample.id)" style="cursor: pointer;">
                                 <img style="height: 30px; width: 30px;" src="../../assets/images/tiny-trash-can.png">
                             </td>
                         </tr>

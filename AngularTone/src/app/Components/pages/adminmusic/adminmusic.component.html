@@ -11,12 +11,16 @@
                 <table class="table">
                     <thead class="h4">
                         <th>Name</th>
+                        <th>Audio File</th>
                         <th>Manage</th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let music of music2admin;" class="h5">
                             <td>
                                 {{music.name}}
+                            </td>
+                            <td>
+                                <audio src="{{musicStorage}}/{{music.musicFilePath}}" controls></audio>
                             </td>
                             <td (click)="deleteSong(music.id)" style="cursor: pointer;">
                                 <img style="height: 30px; width: 30px;" src="../../assets/images/tiny-trash-can.png">
