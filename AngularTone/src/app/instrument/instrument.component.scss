@@ -167,8 +167,9 @@
   left: 50%; 
   transform: translate(-50%, -50%);
   border: 1px solid #000000;
-  border-radius: 2em;
   box-shadow: 10px 10px 10px 10px rgb(0, 0, 0);
+  overflow-y: scroll;
+  max-height: 80%;
 }
 
 .close-pop-out
