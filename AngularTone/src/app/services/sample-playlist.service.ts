@@ -32,4 +32,8 @@ GetSamplePlaylistById(id: number): Observable<any> {
   AddSamplePlaylist(samplePlaylist2Add: SamplePlaylist): Observable<SamplePlaylist> {
     return this.http.post<SamplePlaylist>(`${this.url}`, samplePlaylist2Add, this.httpOptions);
   }
+
+  DeleteSamplePlaylist(id: number):Observable<any>{
+    return this.http.delete<any>(`${this.url}/${id}`, this.httpOptions);
+  }
 }

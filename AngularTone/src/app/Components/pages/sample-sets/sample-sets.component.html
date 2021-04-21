@@ -6,29 +6,33 @@
 
 <div class="jumbotron">
     <h1 class="display-4">Sample Set Hub</h1>
-    <p class="lead">Browse samples other users have uploaded to RevMixer, and add them to your library for personal use!</p>
+    <p class="lead">Browse samples other users have uploaded to RevMixer, and add them to your library for personal use!
+    </p>
 </div>
 
 <div class="container">
-    <h1>All SampleSets</h1>
+    <h1>All Sample Sets</h1>
+
+    <input class="input-group my-1 p-1" type="text" id="searchInput" (keyup)="searchTable($event)" placeholder="Search by sample set name...">
 </div>
 
 <div class="container">
-    <table class="table table-striped">
+    <table class="table table-striped" id="sampleSetTable">
         <thead>
             <th>
                 Sample Set Name
             </th>
-        <!-- creator line -->
+            <!-- creator line -->
             <th>
                 Add Sample to Personal Library
             </th>
         </thead>
         <tbody>
-            <tr *ngFor="let set of allSampleSets"  (click)= GetSamples(set.id) >
+            <tr *ngFor="let set of allSampleSets" (click)=GetSamples(set.id)>
                 <td>{{set.name}}</td>
                 <!-- Add creator functionality add -->
-                <td><button (click)="AddSampleSetToUserSampleSetsButtonClick(set.id)">Add to Library</button></td>
+                <td><button class="button-to-top" (click)="AddSampleSetToUserSampleSetsButtonClick(set.id)">Add to
+                        Sample Set Library</button></td>
             </tr>
         </tbody>
     </table>

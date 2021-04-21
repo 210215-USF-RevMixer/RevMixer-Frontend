@@ -5,6 +5,7 @@ import { UploadMusic } from 'src/app/Models/UploadMusic';
 import { User } from 'src/app/Models/User';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-adminmusic',
@@ -14,6 +15,7 @@ import { UserRestService } from 'src/app/services/user-rest.service';
 export class AdminmusicComponent implements OnInit {
   authUser: any;
   music2admin: UploadMusic[];
+  musicStorage: string = environment.MUSIC_STORAGE;
   //music: UploadMusic;
   // name: string;
 
@@ -52,7 +54,6 @@ export class AdminmusicComponent implements OnInit {
           (foundmusic =>
             {
               this.music2admin = foundmusic;
-              console.log(this.music2admin)
             })
           
   }

@@ -10,8 +10,7 @@ import { UserProject } from '../Models/UserProject';
 })
 export class ProjectRestService {
 
-  url: string = environment.PROJECTSERVICE_SAVEDPROJECT;
-  userProject: UserProject;
+  url: string = environment.PROJECTSERVICE_USERPROJECT;
 
   httpOptions = {
     headers: new HttpHeaders(
@@ -21,63 +20,9 @@ export class ProjectRestService {
     )
   }
 
-  constructor(private http:HttpClient) {
-    this.userProject = {
-      id: 0,
-      userId: 0,
-      projectId: 0,
-      owner: true,
-      
-      user: {
-        id: 0,
-        userName: '',
-        email: 'coolguy@something.com',
-        role: '',
-        
-        userProjects: [],
-        sample: [],
-        comments: [],
-        uploadMusics: [],
-        playlists: []
-      },
-      savedProject: {
-        id: 0,
-        projectName: 'epic project',
-        BPM: 140,
-        userProjects: [],
-        tracks: [{
-          id: 0,
-          projectId: 0,
-          sampleId: 0,
-          patternId: 0,
-      
-          savedProject: {
-            id: 0,
-            projectName: '',
-            BPM: 0,
-            userProjects: [],
-            tracks: []
-          },
-          sample: {
-            id: 0,
-            sampleName: '',
-            sampleLink: '',
-            isPrivate:false,
-            isApproved:false,
-            isLocked:false,
-            tracks: []
-          },
-          pattern: {
-            id: 0,
-            patternData: '0100011100010101010100101010101',
-            track: []
-          }
-        }]
-      }
-    }
-  }
+  constructor(private http:HttpClient) { }
 
-  GetProjects() : Observable<any[]>
+  GetUserProjects() : Observable<any[]>
   {
     return this.http.get<any>(`${this.url}`, this.httpOptions);
   }
@@ -101,13 +46,4 @@ export class ProjectRestService {
   {
     return this.http.put<any>(`${this.url}/${project.id}`, project, this.httpOptions);
   }
-
-  //this method simulates what sort of format we might get back for a specified project from our
-  //getprojectbyid function
-  LoadProjectTest() : UserProject
-  {
-    //in the real world, we would need to retrun a more populated object than this
-    return this.userProject;
-  }
-  
 }

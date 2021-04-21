@@ -74,7 +74,7 @@ export class CommentComponent implements OnInit {
     comment: '',
     commentData: new Date,
     userId: 0,
-    uploadMusicId: 4
+    uploadMusicId: 5
   }
 
   this.getUser =

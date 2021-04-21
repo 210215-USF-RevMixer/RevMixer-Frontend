@@ -44,6 +44,10 @@ export class SampleSetService {
     return this.http.put<any>(`${this.url}/${id}`, this.httpOptions);
   }
 
+  DeleteSampleSet(id: number):Observable<any>{
+    return this.http.delete<any>(`${this.url}/${id}`, this.httpOptions);
+  }
+
   //Get preset sampleset for testing
   Get909Set(): string[]{
     this.sample909set.push('../../assets/909/Kick.wav');

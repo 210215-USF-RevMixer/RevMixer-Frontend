@@ -53,7 +53,7 @@ export class SampleHubComponent implements OnInit {
       userName: '',
       id: 0,
       email: '',
-      role: "",
+      role: '',
       userProjects: [],
       sample: [],
       comments: [],
@@ -69,7 +69,7 @@ export class SampleHubComponent implements OnInit {
       isOwner: true
     }
     this.samplePlaylist2Add = {
-      Id: 0,
+      id: 0,
       sampleId: 0,
       sampleSetId: 0
 
@@ -136,7 +136,7 @@ export class SampleHubComponent implements OnInit {
                               playListExist = true
                             }
                           }
-                          if(!playListExist)
+                          if(!playListExist && !this.ownerFlag)
                           {
                             {
                               alert('This Sample Set is a work in progress try coming back in a bit!');
@@ -221,7 +221,10 @@ export class SampleHubComponent implements OnInit {
         this.samplePlaylist2Add.sampleSetId = params.id;
       });
     this.samplePlaylistService.AddSamplePlaylist(this.samplePlaylist2Add).subscribe();
-    alert('You have added a sample to your sample set');
+    this.sampleService.GetSampleByID(sampleid).subscribe(
+      sample => {
+        this.neededSamples.push(sample)
+      })
   }
 
   // PopulateAudioPlayer(foundDbMusic: UploadMusic[])
@@ -247,8 +250,46 @@ export class SampleHubComponent implements OnInit {
   //   });
   // }
 
-  reloadPage() {
-    console.log('reload page')
+  searchTable(event : any) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = event.target.value.toUpperCase()
+    table = document.getElementById("sampleTable");
+    tr = document.getElementsByTagName("tr")
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i]?.getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
   }
 
+  removeSampleFromSampleSet(sampleId: number){
+    this.activeRoute.queryParams
+      .subscribe(
+        params => {
+          this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+            allSamplePlaylists => {
+              allSamplePlaylists.forEach(playlist => {
+                if(playlist.sampleSetId == params.id && playlist.sampleId == sampleId){
+                  for(let i = 0; i < this.neededSamples.length; i++)
+                  {
+                    if(sampleId === this.neededSamples[i].id)
+                    {
+                      this.neededSamples.splice(i, 1)
+                    }
+                  }
+                  this.samplePlaylistService.DeleteSamplePlaylist(playlist.id).subscribe()
+                }
+              })
+            }
+          )
+        });
+  }
 }

@@ -6,6 +6,7 @@ import { User } from 'src/app/Models/User';
 import { SampleService } from 'src/app/services/sample.service';
 import { UploadedMusicRestService } from 'src/app/services/uploaded-music-rest.service';
 import { UserRestService } from 'src/app/services/user-rest.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-adminrights',
@@ -17,6 +18,7 @@ export class AdminrightsComponent implements OnInit {
   user: User;
   samples2admin: Sample[];
   music2admin: UploadMusic[];
+  sampleStorage: string = environment.SAMPLE_STORAGE;
   constructor(private authService: AuthService, private userService: UserRestService,
     private musicService: UploadedMusicRestService, private sampleService: SampleService) {
       this.music2admin = 
@@ -74,7 +76,6 @@ export class AdminrightsComponent implements OnInit {
           (foundsamples =>
             {
               this.samples2admin = foundsamples;
-              console.log(this.samples2admin)
             })
           }
 

@@ -6,7 +6,7 @@
 //-Timer that shows how long you've been recording for
 //-change note of drum samples, they sound cool repitched
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import * as Tone from 'tone';
 import { UserRestService } from '../services/user-rest.service';
@@ -25,7 +25,7 @@ import { SamplePlaylist } from '../Models/SamplePlaylist';
   styleUrls: ['./instrument.component.scss']
 })
 
-export class InstrumentComponent implements OnInit {
+export class InstrumentComponent implements OnInit, OnDestroy {
   mouseIsClicked: boolean = false
   paddingForTopBar: string = '70px'
   popOutDisplay: string = 'none'
@@ -71,7 +71,7 @@ export class InstrumentComponent implements OnInit {
   delay32: any = new Tone.FeedbackDelay("32n", 0.7)
   delay16: any = new Tone.FeedbackDelay("16n", 0.5)
   delay8: any = new Tone.FeedbackDelay("8t", 0.5)
-  filter = new Tone.Filter(50, "lowpass")
+  filter = new Tone.Filter(10000, "lowpass")
   loadingSampleError: string = ''
   failedSamples: string[] = []
   effects: any[] = []
@@ -93,7 +93,7 @@ export class InstrumentComponent implements OnInit {
   showCheby: boolean = false
 
   constructor(private usersSampleService: UsersSampleService, private sampleService: SampleService, private userSampleSetService: UsersSampleSetsService, private authService: AuthService, private userService: UserRestService, private projectRestService: SavedProjectRestService, private sampleSetService: SampleSetService,
-    private samplePlaylistService: SamplePlaylistService) {
+    private samplePlaylistService: SamplePlaylistService, private userProjectRestService: ProjectRestService) {
     this.tracks = [
       {
         sample: {},
@@ -190,32 +190,29 @@ export class InstrumentComponent implements OnInit {
               )
 
               // GET USER SAVED PROJECTS
-              this.projectRestService.GetProjects().subscribe(
+              this.userProjectRestService.GetUserProjects().subscribe(
                 userProjects => {
                   userProjects.forEach(project => {
                     if (project.userId === foundUser.id) {
-                      this.userProjects.push(project)
+                      this.userProjects.push(project.savedProject)
                     }
                   })
-
                 }
               )
             }
           )
-
     )
     this.userProjects.push({
       name: 'Test Project',
       sampleIds: '1,2,3',
-      pattern: '01010101010101010101010101010101,01010101010101010101010101010101,01010101010101010101010101010101',
+      pattern: '10000000000000000000000000000000,10010011110000001001001111000000,00001000000100100000100000010010',
       userId: '1',
       bpm: '100'
     })
     //push on the sample sets to array
     // get the arrays from services
 
-    //Creates the HTML grid, Each horizontal line holds one sample instrument, horizontal position = time position = index
-
+ 
     //populate each block with 32 note positions
     //change to get base track set from DB
     this.tracks = []
@@ -236,9 +233,13 @@ export class InstrumentComponent implements OnInit {
     Tone.Transport.setLoopPoints(0, "4m")
     Tone.Transport.loop = true
     this.audio = document.querySelector('audio');
-    this.autoWah.Q.value = 6
-    this.autoWah.Q.value = 8
+    this.autoWah.Q.value = 4
+    this.filter.Q.value = 4
     this.filter.rolloff = -48
+  }
+
+  ngOnDestroy(){
+    this.clear()
   }
 
   //Record songs to audio component and allows song to be downloaded
@@ -263,38 +264,38 @@ export class InstrumentComponent implements OnInit {
   }
 
   changeDelayTime(event: any) {
-    if(event.value == 0) {
+    if (event.value == 0) {
       this.time = 0
       this.tracks.forEach(track => {
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}       
+        try { track.sample.sample.disconnect(this.delay32) } catch { }
+        try { track.sample.sample.disconnect(this.delay16) } catch { }
+        try { track.sample.sample.disconnect(this.delay8) } catch { }
       })
-    }else
-    if(event.value == 1) {
-      this.time = 1
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{} 
-      })
-    }else
-    if(event.value == 2) {
-      this.time = 2
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}
-      })
-    }else
-    if(event.value == 3) {
-      this.time = 3
-      this.tracks.forEach(track => {
-        track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-      })
-    }
+    } else
+      if (event.value == 1) {
+        this.time = 1
+        this.tracks.forEach(track => {
+          track.sample.sample.chain(this.delay32, this.dist, this.comp, Tone.Destination)
+          try { track.sample.sample.disconnect(this.delay16) } catch { }
+          try { track.sample.sample.disconnect(this.delay8) } catch { }
+        })
+      } else
+        if (event.value == 2) {
+          this.time = 2
+          this.tracks.forEach(track => {
+            track.sample.sample.chain(this.delay16, this.dist, this.comp, Tone.Destination)
+            try { track.sample.sample.disconnect(this.delay32) } catch { }
+            try { track.sample.sample.disconnect(this.delay8) } catch { }
+          })
+        } else
+          if (event.value == 3) {
+            this.time = 3
+            this.tracks.forEach(track => {
+              track.sample.sample.chain(this.delay8, this.dist, this.comp, Tone.Destination)
+              try { track.sample.sample.disconnect(this.delay16) } catch { }
+              try { track.sample.sample.disconnect(this.delay32) } catch { }
+            })
+          }
   }
 
   //From  HTML sliders
@@ -333,7 +334,7 @@ export class InstrumentComponent implements OnInit {
     //   try{this.disconnectEffect(this.reverb)}catch{} 
     // }else {
     //   try{this.connectEffect(this.reverb)}catch{}
-      this.reverb.decay = event.value;
+    this.reverb.decay = event.value;
     // }
   }
   changeFilterFreq(event: any) {
@@ -349,84 +350,84 @@ export class InstrumentComponent implements OnInit {
     this.pitchshift.pitch = event.value;
   }
   changeCheby(event: any) {
-      this.cheby.order = event.value;
+    this.cheby.order = event.value;
   }
 
   changeBitCrush(event: any) {
-    if(event.value == 0) {
+    if (event.value == 0) {
       this.bits = 0
       this.tracks.forEach(track => {
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-        try{track.sample.sample.chain(this.dist, this.comp, Tone.Destination)}catch{}  
+        try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+        try { track.sample.sample.chain(this.dist, this.comp, Tone.Destination) } catch { }
       })
-    }else
-    if(event.value == 1) {
-      this.bits = 1
-      this.tracks.forEach(track => {
-        try{track.sample.sample.chain(this.bitcrush2, this.dist, this.comp, Tone.Destination)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{} 
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-      })
-    }else
-    if(event.value == 2) {
-      this.bits = 2
-      this.tracks.forEach(track => {
-        try{track.sample.sample.chain(this.bitcrush1_5, this.dist, this.comp, Tone.Destination)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{} 
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-      })
-    }else
-    if(event.value == 3) {
-      this.bits = 3
-      this.tracks.forEach(track => {
-        try{track.sample.sample.chain(this.bitcrush1, this.dist, this.comp, Tone.Destination)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{} 
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-      })
-    }
+    } else
+      if (event.value == 1) {
+        this.bits = 1
+        this.tracks.forEach(track => {
+          try { track.sample.sample.chain(this.bitcrush2, this.dist, this.comp, Tone.Destination) } catch { }
+          try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+          try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+          try { track.sample.sample.disconnect(this.dist) } catch { }
+        })
+      } else
+        if (event.value == 2) {
+          this.bits = 2
+          this.tracks.forEach(track => {
+            try { track.sample.sample.chain(this.bitcrush1_5, this.dist, this.comp, Tone.Destination) } catch { }
+            try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+            try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+            try { track.sample.sample.disconnect(this.dist) } catch { }
+          })
+        } else
+          if (event.value == 3) {
+            this.bits = 3
+            this.tracks.forEach(track => {
+              try { track.sample.sample.chain(this.bitcrush1, this.dist, this.comp, Tone.Destination) } catch { }
+              try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+              try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+              try { track.sample.sample.disconnect(this.dist) } catch { }
+            })
+          }
   }
   connectEffect(effect: any) {
-    if(effect === this.reverb) {
+    if(effect === this.reverb || effect === this.delay32 || effect === this.delay16 || effect === this.delay8) {
         this.tracks.forEach(track => {
         try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
       })
-    }else {
+    } else {
       this.tracks.forEach(track => {
-        try{track.sample.sample.disconnect(this.dist)}catch{}
-        try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
+        try { track.sample.sample.disconnect(this.dist) } catch { }
+        try { track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination) } catch { }
       })
     }
   }
   disconnectEffect(effect: any) {
-    if(effect == "bitcrush") {
-      this.tracks.forEach(track => { 
-        try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-        try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-        try{track.sample.sample.connect(this.dist)}catch{}
+    if (effect == "bitcrush") {
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+        try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+        try { track.sample.sample.connect(this.dist) } catch { }
       })
-    } else if(effect == "delay") {
-      this.tracks.forEach(track => { 
-        try{track.sample.sample.disconnect(this.delay32)}catch{}
-        try{track.sample.sample.disconnect(this.delay16)}catch{}
-        try{track.sample.sample.disconnect(this.delay8)}catch{}
-        try{track.sample.sample.connect(this.dist)}catch{}
+    } else if (effect == "delay") {
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(this.delay32) } catch { }
+        try { track.sample.sample.disconnect(this.delay16) } catch { }
+        try { track.sample.sample.disconnect(this.delay8) } catch { }
+        try { track.sample.sample.connect(this.dist) } catch { }
       })
     } else {
-      this.tracks.forEach(track => { 
-        try{track.sample.sample.disconnect(effect)}catch{}
-        try{track.sample.sample.connect(this.dist)}catch{}
+      this.tracks.forEach(track => {
+        try { track.sample.sample.disconnect(effect) } catch { }
+        try { track.sample.sample.connect(this.dist) } catch { }
       })
     }
   }
 
   connectTrackEffect(effect: any, track: any) {
-    if(effect === this.reverb) {
+    if(effect === this.reverb || effect === this.delay32 || effect === this.delay16 || effect === this.delay8) {
     try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
     }else {
       try{track.sample.sample.chain(effect, this.dist, this.comp, Tone.Destination)}catch{}
@@ -434,22 +435,22 @@ export class InstrumentComponent implements OnInit {
     }
   }
   disconnectTrackEffect(effect: any, track: any) {
-    try{track.sample.sample.disconnect(effect)}catch{}
-    try{track.sample.sample.connect(this.dist)}catch{}
+    try { track.sample.sample.disconnect(effect) } catch { }
+    try { track.sample.sample.connect(this.dist) } catch { }
   }
   disconnectAllEffects() {
-    this.tracks.forEach(track => { 
-      try{track.sample.sample.disconnect(this.autoWah)}catch{}
-      try{track.sample.sample.disconnect(this.bitcrush2)}catch{}
-      try{track.sample.sample.disconnect(this.bitcrush1_5)}catch{}
-      try{track.sample.sample.disconnect(this.bitcrush1)}catch{}
-      try{track.sample.sample.disconnect(this.cheby)}catch{}
-      try{track.sample.sample.disconnect(this.pitchshift)}catch{}
-      try{track.sample.sample.disconnect(this.reverb)}catch{}
-      try{track.sample.sample.disconnect(this.delay32)}catch{}
-      try{track.sample.sample.disconnect(this.delay16)}catch{}
-      try{track.sample.sample.disconnect(this.delay8)}catch{}
-      try{track.sample.sample.connect(this.dist)}catch{}
+    this.tracks.forEach(track => {
+      try { track.sample.sample.disconnect(this.autoWah) } catch { }
+      try { track.sample.sample.disconnect(this.bitcrush2) } catch { }
+      try { track.sample.sample.disconnect(this.bitcrush1_5) } catch { }
+      try { track.sample.sample.disconnect(this.bitcrush1) } catch { }
+      try { track.sample.sample.disconnect(this.cheby) } catch { }
+      try { track.sample.sample.disconnect(this.pitchshift) } catch { }
+      try { track.sample.sample.disconnect(this.reverb) } catch { }
+      try { track.sample.sample.disconnect(this.delay32) } catch { }
+      try { track.sample.sample.disconnect(this.delay16) } catch { }
+      try { track.sample.sample.disconnect(this.delay8) } catch { }
+      try { track.sample.sample.connect(this.dist) } catch { }
     })
   }
 
@@ -473,7 +474,7 @@ export class InstrumentComponent implements OnInit {
     this.tracks.forEach(track => {
       track.note.forEach(note => {
         note.onOff = 0,
-        note.color = 'grey'
+          note.color = 'grey'
       })
       for (let i = 0; i < this.times.length; i++) {
         track.part.remove(this.times[i]);
@@ -486,29 +487,27 @@ export class InstrumentComponent implements OnInit {
 
   //Erases all sampler instruments and recreates them from samples in assets folder
   changeSampleSet(sample2Select: any) {
-    for (let i = 0; i < sample2Select.length; i++) {
-      const proxyUrl = "https://cors.bridged.cc/"
-      this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
-        (currentSamplePlaylist) => {
-          for (let j = 0; j < currentSamplePlaylist.length; j++) {
-            if (currentSamplePlaylist[j].sampleSetId === sample2Select.id) {
-              this.sampleService.GetSampleByID(currentSamplePlaylist[j].sampleId).subscribe(
-                currentSample => {
-                  let tempSample = {
-                    id: currentSample.id,
-                    sampleName: currentSample.sampleName,
-                    sample: new Tone.Sampler({
-                      C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
-                    }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
-                  }
-                  this.addTrack(tempSample)
+    const proxyUrl = "https://cors.bridged.cc/"
+    this.samplePlaylistService.GetAllSamplePlaylists().subscribe(
+      (currentSamplePlaylist) => {
+        for (let j = 0; j < currentSamplePlaylist.length; j++) {
+          if (currentSamplePlaylist[j].sampleSetId === sample2Select.id) {
+            this.sampleService.GetSampleByID(currentSamplePlaylist[j].sampleId).subscribe(
+              currentSample => {
+                let tempSample = {
+                  id: currentSample.id,
+                  sampleName: currentSample.sampleName,
+                  sample: new Tone.Sampler({
+                    C3: `${proxyUrl}${environment.SAMPLE_STORAGE}/${currentSample.sampleLink}`
+                  }).chain(this.dist, this.comp, Tone.Destination, this.recorder)
                 }
-              )
-            }
+                this.addTrack(tempSample)
+              }
+            )
           }
         }
-      )
-    }
+      }
+    )
   }
   muteTrack(track2Mute: any) {
     track2Mute.part.mute = !track2Mute.part.mute
@@ -749,4 +748,24 @@ export class InstrumentComponent implements OnInit {
       )
     }
   }
+
+  searchTable(event : any) {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = event.target.value.toUpperCase()
+    table = document.getElementById("sampleTable");
+    tr = document.getElementsByTagName("tr")
+
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i]?.getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
 }
