@@ -10,5 +10,5 @@ export interface PlayList
 
     user: User,
 
-    musicPlaylists: MusicPlaylist[]
+    musicPlaylist: MusicPlaylist[]
 }

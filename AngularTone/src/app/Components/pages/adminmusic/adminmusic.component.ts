@@ -52,7 +52,6 @@ export class AdminmusicComponent implements OnInit {
           (foundmusic =>
             {
               this.music2admin = foundmusic;
-              console.log(this.music2admin)
             })
           
   }

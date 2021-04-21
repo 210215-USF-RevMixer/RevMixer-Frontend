@@ -1,40 +1,35 @@
-<div class="row h-24">
-    <div class="col-12">
-yes daddy
+<div class="top-of-page container">
+    <h1 style="font-size: 30px;">Admin Page</h1>
+    <p style="font-size: 15px;">
+        Edit sample needed to flag/lock sample, delete sample.
+        Delete public project/ upload file.
+    </p>
+
+    <p style="font-size: 15px;">
+        Show all the samples. And then, have a toggle to flag them/lock them.
+        There should be a thing that lets you delete the jawn as well.
+    </p>
+    <div>
+        <h3 style="font-size: 20px;">Edit songs</h3>
+        <div>
+            <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+                <table class="table">
+                    <thead class="h4">
+                        <th>Name</th>
+                        <th>Manage</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let sample of samples2admin;" class="h5">
+                            <td>
+                                {{sample.sampleName}}
+                            </td>
+                            <td (click)="deleteSample(music.id)" style="cursor: pointer;">
+                                <img style="height: 30px; width: 30px;" src="../../assets/images/tiny-trash-can.png">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
     </div>
-</div>
-    <h1>Edit songs</h1>
-<div>
-</div>
-<h1>Admin Page</h1>
-<p>
-    Edit sample needed to flag/lock sample, delete sample.
-    Delete public project/ upload file.
-</p>
-<div>
-<div>
-    Show all the samples. And then, have a toggle to flag them/lock them.
-    There should be a thing that lets you delete the jawn as well.
-</div>
-<h1>Edit samples</h1>
-<div>
-    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
-        <table class="table">
-            <thead>
-                <th>Name</th>
-                <th>Manage</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let sample of samples2admin;">
-                    <td>
-                        {{sample.sampleName}}
-                    </td>
-                    <td>
-                        <div (click)="deleteSample(sample.id)"><img  style="height: 3%; width: 3%;" src="../../assets/images/tiny-trash-can.png"></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-secondary">Update info</button>
-    </form>
 </div>

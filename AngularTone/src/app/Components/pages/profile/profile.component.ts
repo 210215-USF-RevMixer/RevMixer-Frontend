@@ -262,4 +262,9 @@ export class ProfileComponent implements OnInit {
       }
     )
   }
+
+  deletePlaylist(playlist: any){
+    this.userPlayLists.splice(this.userPlayLists.indexOf(playlist), 1)
+    this.playlistService.DeletePlaylistById(playlist.id).subscribe()
+  }
 }

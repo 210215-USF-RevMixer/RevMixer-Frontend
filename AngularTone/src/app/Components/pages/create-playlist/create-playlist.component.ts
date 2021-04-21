@@ -47,7 +47,7 @@ export class CreatePlaylistComponent implements OnInit {
         uploadMusics: [],
         playlists: []
       },
-      musicPlaylists: [],
+      musicPlaylist: [],
     }
   }
 

@@ -17,7 +17,7 @@ export class MusicPlaylistRestService {
     )
   }
 
-  url: string = environment.MUSICSERVICE_PLAYLIST;
+  url: string = environment.MUSICSERVICE_MUSICPLAYLIST;
 
   constructor(private http: HttpClient) { }
 
@@ -29,5 +29,14 @@ export class MusicPlaylistRestService {
   //Add a music playlist
   AddMusicPlaylist(musicPlaylist2Add: MusicPlaylist): Observable<MusicPlaylist> {
     return this.http.post<MusicPlaylist>(this.url, musicPlaylist2Add, this.httpOptions);
+  }
+
+  GetMusicPlaylistById(id: number): Observable<MusicPlaylist> {
+    return this.http.get<MusicPlaylist>(`${this.url}/${id}`, this.httpOptions);
+  }
+
+  DeleteMusicPlaylistById(id: number) : Observable<MusicPlaylist>
+  {
+    return this.http.delete<MusicPlaylist>(`${this.url}/${id}`, this.httpOptions);
   }
 }
