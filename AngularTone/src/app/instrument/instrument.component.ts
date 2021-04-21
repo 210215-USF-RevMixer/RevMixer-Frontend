@@ -202,13 +202,13 @@ export class InstrumentComponent implements OnInit, OnDestroy {
             }
           )
     )
-    this.userProjects.push({
-      name: 'Test Project',
-      sampleIds: '1,2,3',
-      pattern: '10000000000000000000000000000000,10010011110000001001001111000000,00001000000100100000100000010010',
-      userId: '1',
-      bpm: '100'
-    })
+    // this.userProjects.push({
+    //   projectName: 'Test Project',
+    //   sampleIds: '1,2,3',
+    //   pattern: '10000000000000000000000000000000,10010011110000001001001111000000,00001000000100100000100000010010',
+    //   userId: '1',
+    //   bpm: '100'
+    // })
     //push on the sample sets to array
     // get the arrays from services
 
@@ -685,7 +685,7 @@ export class InstrumentComponent implements OnInit, OnDestroy {
 
   createNewProject() {
     const formData = new FormData();
-
+    
     this.savedProjectPattern = []
     let tempArray = []
     let tempPattern = []
@@ -704,6 +704,17 @@ export class InstrumentComponent implements OnInit, OnDestroy {
     formData.append('sampleIds', tempSampleIds.join())
     formData.append('pattern', tempPattern.join())
     formData.append('bPM', this.tempo.toString())
+
+    let tempProj=({
+      projectName: this.newSavedProject.name,
+      sampleIds: tempSampleIds.join(),
+      pattern: tempPattern.join(),
+      userId: this.newSavedProject.userId,
+      bpm: this.tempo.toString()
+    })
+
+    this.userProjects.push(tempProj)
+
 
     this.projectRestService.AddSavedProject(formData).subscribe();
 
