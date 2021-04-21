@@ -14,7 +14,7 @@ describe('NavbarComponent', () => {
   let user: User = {
     id: 0, userName: "mads",
     email:"x@x.com",
-    isAdmin: false,
+    role: "user",
     userProjects:[],
     sample: [],
     comments: [],
