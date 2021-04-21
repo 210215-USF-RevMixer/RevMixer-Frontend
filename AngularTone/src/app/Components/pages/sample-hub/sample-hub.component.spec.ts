@@ -53,12 +53,6 @@ describe('SampleHubComponent', () => {
     };
     let httpClient: { GetUserByEmail: jasmine.Spy }
     httpClient = jasmine.createSpyObj('HttpClient', ['get']);
-    let userService: { GetUserByEmail: jasmine.Spy }
-    userService = jasmine.createSpyObj('UserService', ['get']);
-    let uploadmusicService: { GetUserByEmail: jasmine.Spy }
-    uploadmusicService = jasmine.createSpyObj('UploadmusicService', ['get']);
-    let usersSampleService:{ GetUserByEmail: jasmine.Spy }
-    usersSampleService = jasmine.createSpyObj('SampleSetsService', ['get']);
     component = new SampleHubComponent(httpClient as any, authMock as any, UsersSampleSetsService as any, SamplePlaylistService as any, ActivatedRoute as any, UserRestService as any, SampleService as any, UsersSampleService as any, AuthService as any, SampleSetService as any);
   
   });
@@ -66,16 +60,4 @@ describe('SampleHubComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  /*
-  it('should update the message if file upload is successful', () => {
-    let testFile: any;
-    testFile = [];
-    expect(component.message).toBe('');
-
-    component.uploadFile(testFile);
-
-    expect(component.message).toBe('Upload success.');
-  });
-  */
 });
