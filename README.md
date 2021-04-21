@@ -10,7 +10,7 @@ RevMixer provides a platform for musicians to create, upload, and share music wi
     - Front-End
 - David Spence
     - Front-End
-- Juaquin Bolivar
+- Juaquin Olivar
     - Front-End
 
 # Technologies
