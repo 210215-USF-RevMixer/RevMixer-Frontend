@@ -76,7 +76,6 @@ export class AdminrightsComponent implements OnInit {
           (foundsamples =>
             {
               this.samples2admin = foundsamples;
-              console.log(this.samples2admin)
             })
           }
 
