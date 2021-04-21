@@ -202,13 +202,13 @@ export class InstrumentComponent implements OnInit, OnDestroy {
             }
           )
     )
-    this.userProjects.push({
-      name: 'Test Project',
-      sampleIds: '1,2,3',
-      pattern: '10000000000000000000000000000000,10010011110000001001001111000000,00001000000100100000100000010010',
-      userId: '1',
-      bpm: '100'
-    })
+    // this.userProjects.push({
+    //   projectName: 'Test Project',
+    //   sampleIds: '1,2,3',
+    //   pattern: '10000000000000000000000000000000,10010011110000001001001111000000,00001000000100100000100000010010',
+    //   userId: '1',
+    //   bpm: '100'
+    // })
     //push on the sample sets to array
     // get the arrays from services
 
