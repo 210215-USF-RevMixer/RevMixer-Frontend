@@ -16,12 +16,16 @@
                 <table class="table">
                     <thead class="h4">
                         <th>Name</th>
+                        <th>Audio Source</th>
                         <th>Manage</th>
                     </thead>
                     <tbody>
                         <tr *ngFor="let sample of samples2admin;" class="h5">
                             <td>
                                 {{sample.sampleName}}
+                            </td>
+                            <td>
+                                <audio src="{{sampleStorage}}/{{sample.sampleLink}}" controls></audio>
                             </td>
                             <td (click)="deleteSample(music.id)" style="cursor: pointer;">
                                 <img style="height: 30px; width: 30px;" src="../../assets/images/tiny-trash-can.png">
