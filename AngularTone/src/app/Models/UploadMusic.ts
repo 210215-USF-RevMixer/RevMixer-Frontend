@@ -14,7 +14,6 @@ export interface UploadMusic
     likes: number,
     plays: number,
     isPrivate: boolean,
-
     user: User,
 
     musicPlaylists: MusicPlaylist[],
