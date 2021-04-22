@@ -31,3 +31,9 @@ RevMixer provides a platform for musicians to create, upload, and share music wi
 1. Once the files have been cloned, run `npm install` to install required dependencies
 1. Run `ng serve -o` to build the program, and open in your default web browser
 1. If the application does not open in a web browser on it's own, please navigate to the specified localhost port provided in your console window.
+
+# Getting to the Marielle Sample Set
+1. Go to the sample set page.
+2. Find the sample set named "Marielle." You should be able to download it.
+3. Go back to the instrument, and upload the sample set.
+4. Have fun!
